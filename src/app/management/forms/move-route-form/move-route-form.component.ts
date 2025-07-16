@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -25,10 +25,10 @@ export interface MoveRouteFormComponentData {
   styleUrls: ['./move-route-form.component.scss'],
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
-  form = new FormGroup({
-    targetSector: new FormControl(null, Validators.required),
-    targetRoute: new FormControl(null),
-    primarySelection: new FormControl(null),
+  form = new UntypedFormGroup({
+    targetSector: new UntypedFormControl(null, Validators.required),
+    targetRoute: new UntypedFormControl(null),
+    primarySelection: new UntypedFormControl(null),
   });
   crag: Crag;
   saving = false;

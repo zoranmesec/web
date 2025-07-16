@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -13,8 +13,8 @@ import { UpdateClubGQL, CreateClubGQL } from 'src/generated/graphql';
 })
 export class ClubFormComponent implements OnInit {
   title: string;
-  clubForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+  clubForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required]),
   });
 
   constructor(

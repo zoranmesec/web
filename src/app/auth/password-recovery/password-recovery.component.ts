@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo, gql } from 'apollo-angular';
 
@@ -14,8 +14,8 @@ export class PasswordRecoveryComponent implements OnInit {
 
   constructor(private apollo: Apollo, private snackbar: MatSnackBar) {}
 
-  passwordForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+  passwordForm = new UntypedFormGroup({
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
   });
 
   ngOnInit(): void {}

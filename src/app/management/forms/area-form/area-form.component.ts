@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
@@ -23,8 +23,8 @@ interface AresFormComponentData {
 export class AreaFormComponent implements OnInit {
   saving = false;
 
-  form = new FormGroup({
-    name: new FormControl(''),
+  form = new UntypedFormGroup({
+    name: new UntypedFormControl(''),
   });
 
   constructor(

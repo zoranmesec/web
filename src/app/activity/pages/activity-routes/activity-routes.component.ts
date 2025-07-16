@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -53,13 +53,13 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-  filters = new FormGroup({
-    dateFrom: new FormControl(),
-    dateTo: new FormControl(),
-    ascentType: new FormControl(),
-    publish: new FormControl(),
-    cragId: new FormControl(),
-    routeId: new FormControl(),
+  filters = new UntypedFormGroup({
+    dateFrom: new UntypedFormControl(),
+    dateTo: new UntypedFormControl(),
+    ascentType: new UntypedFormControl(),
+    publish: new UntypedFormControl(),
+    cragId: new UntypedFormControl(),
+    routeId: new UntypedFormControl(),
   });
 
   forCrag: ActivityFiltersCragQuery['crag'];

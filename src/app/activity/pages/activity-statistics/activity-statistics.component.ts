@@ -1,6 +1,6 @@
 import { EChartsOption, SeriesOption } from 'echarts';
 import { StatsRoutes, MyRoutesStatsGQL, StatsActivities, MyActivitiesStatisticsGQL } from 'src/generated/graphql';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   Component,
   EventEmitter,
@@ -51,9 +51,9 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
   };
   currentYear = null;
 
-  filters = new FormGroup({
-    year: new FormControl(),
-    ascentType: new FormControl(),
+  filters = new UntypedFormGroup({
+    year: new UntypedFormControl(),
+    ascentType: new UntypedFormControl(),
   });
 
   ascentTypes = ASCENT_TYPES;

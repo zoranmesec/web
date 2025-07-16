@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
@@ -26,10 +26,10 @@ export interface SectorFormComponentData {
 export class SectorFormComponent implements OnInit {
   saving = false;
 
-  form = new FormGroup({
-    label: new FormControl(''),
-    name: new FormControl(''),
-    publishStatus: new FormControl('draft'),
+  form = new UntypedFormGroup({
+    label: new UntypedFormControl(''),
+    name: new UntypedFormControl(''),
+    publishStatus: new UntypedFormControl('draft'),
   });
 
   constructor(

@@ -141,7 +141,6 @@
       }
     }
   },
-  "defaultProject": "plezanje-net",
   "cli": {
     "analytics": false
   }

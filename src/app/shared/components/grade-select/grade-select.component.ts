@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { GradingSystemsQuery } from 'src/generated/graphql';
 import { GradingSystemsService } from '../../services/grading-systems.service';
@@ -18,14 +18,14 @@ import { GradingSystemsService } from '../../services/grading-systems.service';
 export class GradeSelectComponent implements OnInit, OnChanges {
   @Input() label: string;
   @Input() emptyText: string = 'Brez ocene';
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
   @Input() gradingSystemId: string;
   @Input() noHint = false;
   @Input() focusDifficulty = null;
 
   allGrades: GradingSystemsQuery['gradingSystems'][0]['grades'];
   filteredGrades: GradingSystemsQuery['gradingSystems'][0]['grades'];
-  gradeFilterControl: FormControl = new FormControl();
+  gradeFilterControl: UntypedFormControl = new UntypedFormControl();
 
   onDestroySubject = new Subject<void>();
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { RawEditorSettings } from 'tinymce';
 
 @Component({
@@ -9,7 +9,7 @@ import { RawEditorSettings } from 'tinymce';
 })
 export class EditorComponent implements OnInit {
   @Input() placeholder: string;
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
   @Input() label: string = '';
 
   focus: boolean = false;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   Activity,
@@ -48,22 +48,22 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   loadingActivity: boolean = false;
 
-  routes = new FormArray([]);
+  routes = new UntypedFormArray([]);
 
   typeOptions = ACTIVITY_TYPES.filter(
     (a) => a.value != 'peak' && a.value != 'iceFall'
   );
 
-  activityForm = new FormGroup({
-    type: new FormControl(null, Validators.required),
-    name: new FormControl(''),
-    cragId: new FormControl(null),
-    peakId: new FormControl(null),
-    iceFallId: new FormControl(null),
-    duration: new FormControl(null),
-    date: new FormControl(),
-    partners: new FormControl(),
-    notes: new FormControl(),
+  activityForm = new UntypedFormGroup({
+    type: new UntypedFormControl(null, Validators.required),
+    name: new UntypedFormControl(''),
+    cragId: new UntypedFormControl(null),
+    peakId: new UntypedFormControl(null),
+    iceFallId: new UntypedFormControl(null),
+    duration: new UntypedFormControl(null),
+    date: new UntypedFormControl(),
+    partners: new UntypedFormControl(),
+    notes: new UntypedFormControl(),
     routes: this.routes,
   });
 
@@ -281,26 +281,26 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
 
   addRoute(route: any): void {
     this.routes.push(
-      new FormGroup({
-        routeId: new FormControl(route.id),
-        name: new FormControl(route.name),
-        slug: new FormControl(route.slug),
-        difficulty: new FormControl(route.difficulty),
-        defaultGradingSystemId: new FormControl(route.defaultGradingSystem.id),
-        isProject: new FormControl(route.isProject),
-        ascentType: new FormControl({ value: null, disabled: true }, [
+      new UntypedFormGroup({
+        routeId: new UntypedFormControl(route.id),
+        name: new UntypedFormControl(route.name),
+        slug: new UntypedFormControl(route.slug),
+        difficulty: new UntypedFormControl(route.difficulty),
+        defaultGradingSystemId: new UntypedFormControl(route.defaultGradingSystem.id),
+        isProject: new UntypedFormControl(route.isProject),
+        ascentType: new UntypedFormControl({ value: null, disabled: true }, [
           Validators.required,
         ]),
-        date: new FormControl(),
-        partner: new FormControl(),
-        publish: new FormControl('public'),
-        notes: new FormControl(),
-        votedStarRating: new FormControl(),
-        votedDifficulty: new FormControl(),
-        ticked: new FormControl(route.ticked),
-        tried: new FormControl(route.tried),
-        trTicked: new FormControl(route.trTicked),
-        type: new FormControl(route.routeType.id),
+        date: new UntypedFormControl(),
+        partner: new UntypedFormControl(),
+        publish: new UntypedFormControl('public'),
+        notes: new UntypedFormControl(),
+        votedStarRating: new UntypedFormControl(),
+        votedDifficulty: new UntypedFormControl(),
+        ticked: new UntypedFormControl(route.ticked),
+        tried: new UntypedFormControl(route.tried),
+        trTicked: new UntypedFormControl(route.trTicked),
+        type: new UntypedFormControl(route.routeType.id),
       })
     );
   }

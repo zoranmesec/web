@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Subscription } from 'rxjs';
@@ -32,8 +32,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private searchAutoCompleteGQL: SearchAutoCompleteGQL
   ) {}
 
-  searchForm = new FormGroup({
-    searchControl: new FormControl(''),
+  searchForm = new UntypedFormGroup({
+    searchControl: new UntypedFormControl(''),
   });
   @ViewChild(MatAutocompleteTrigger)
   autocompleteTrigger: MatAutocompleteTrigger;

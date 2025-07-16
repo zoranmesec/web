@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/services/layout.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterGQL } from 'src/generated/graphql';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -16,15 +16,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
   loading = false;
   success = false;
 
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
+  form = new UntypedFormGroup({
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    password: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(8),
     ]),
-    firstname: new FormControl('', [Validators.required]),
-    lastname: new FormControl('', [Validators.required]),
-    gender: new FormControl(''),
+    firstname: new UntypedFormControl('', [Validators.required]),
+    lastname: new UntypedFormControl('', [Validators.required]),
+    gender: new UntypedFormControl(''),
     // conditions: new FormControl(false, [Validators.requiredTrue]),
   });
 

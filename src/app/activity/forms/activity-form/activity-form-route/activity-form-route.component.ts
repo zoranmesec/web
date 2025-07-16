@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import {
   ASCENT_TYPES,
   PUBLISH_OPTIONS,
@@ -18,7 +18,7 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
 
   @Input() myIndex: number;
   activity = true;
-  @Input() route: FormGroup;
+  @Input() route: UntypedFormGroup;
   @Input() first: boolean;
   @Input() last: boolean;
   @Input() crag: Crag;

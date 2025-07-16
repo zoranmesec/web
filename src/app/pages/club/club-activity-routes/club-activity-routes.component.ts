@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { QueryRef } from 'apollo-angular';
 import { Subject, Subscription } from 'rxjs';
@@ -50,13 +50,13 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
     ]
   );
 
-  filters = new FormGroup({
-    dateFrom: new FormControl(),
-    dateTo: new FormControl(),
-    ascentType: new FormControl(),
-    userId: new FormControl(),
-    routeId: new FormControl(),
-    cragId: new FormControl(),
+  filters = new UntypedFormGroup({
+    dateFrom: new UntypedFormControl(),
+    dateTo: new UntypedFormControl(),
+    ascentType: new UntypedFormControl(),
+    userId: new UntypedFormControl(),
+    routeId: new UntypedFormControl(),
+    cragId: new UntypedFormControl(),
   });
 
   ascentTypes = ASCENT_TYPES;

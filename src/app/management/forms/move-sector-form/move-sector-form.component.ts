@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -30,10 +30,10 @@ export class MoveSectorFormComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   filteredCrags: Observable<Crag[]>;
-  findCragControl = new FormControl('');
+  findCragControl = new UntypedFormControl('');
 
-  form = new FormGroup({
-    crag: new FormControl(null, Validators.required),
+  form = new UntypedFormGroup({
+    crag: new UntypedFormControl(null, Validators.required),
   });
 
   constructor(

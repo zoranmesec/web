@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { CragsQuery, CragsGQL } from '../../../generated/graphql';
 import { GraphQLError } from 'graphql';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '@sentry/angular';
@@ -29,7 +29,7 @@ export class CragsComponent implements OnInit, OnDestroy {
 
   map: any;
 
-  search = new FormControl();
+  search = new UntypedFormControl();
 
   filteredCrags: CragsQuery['countryBySlug']['crags'] = [];
 

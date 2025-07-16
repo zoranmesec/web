@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,12 +15,12 @@ import { User } from 'src/generated/graphql';
 export class ImageUploadComponent {
   fileToUpload: File;
   loading = false;
-  form = new FormGroup({
-    image: new FormControl(),
-    title: new FormControl(),
-    userIsAuthor: new FormControl(true),
+  form = new UntypedFormGroup({
+    image: new UntypedFormControl(),
+    title: new UntypedFormControl(),
+    userIsAuthor: new UntypedFormControl(true),
   });
-  authorFC = new FormControl(null, Validators.required);
+  authorFC = new UntypedFormControl(null, Validators.required);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

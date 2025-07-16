@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -48,11 +48,11 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-  filters = new FormGroup({
-    dateFrom: new FormControl(),
-    dateTo: new FormControl(),
-    type: new FormControl(),
-    cragId: new FormControl(),
+  filters = new UntypedFormGroup({
+    dateFrom: new UntypedFormControl(),
+    dateTo: new UntypedFormControl(),
+    type: new UntypedFormControl(),
+    cragId: new UntypedFormControl(),
   });
 
   forCrag: ActivityFiltersCragQuery['crag'];

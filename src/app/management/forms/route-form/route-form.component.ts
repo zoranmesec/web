@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
@@ -38,18 +38,18 @@ export class RouteFormComponent implements OnInit, OnDestroy {
 
   editing = false;
 
-  form = new FormGroup({
-    id: new FormControl(),
-    name: new FormControl(null, Validators.required),
-    routeTypeId: new FormControl('sport', Validators.required),
-    length: new FormControl(),
-    defaultGradingSystemId: new FormControl('french', Validators.required),
-    isProject: new FormControl(false),
-    baseDifficulty: new FormControl(null, Validators.required),
-    position: new FormControl(),
-    sectorId: new FormControl(),
-    addAnother: new FormControl(false),
-    publishStatus: new FormControl('draft'),
+  form = new UntypedFormGroup({
+    id: new UntypedFormControl(),
+    name: new UntypedFormControl(null, Validators.required),
+    routeTypeId: new UntypedFormControl('sport', Validators.required),
+    length: new UntypedFormControl(),
+    defaultGradingSystemId: new UntypedFormControl('french', Validators.required),
+    isProject: new UntypedFormControl(false),
+    baseDifficulty: new UntypedFormControl(null, Validators.required),
+    position: new UntypedFormControl(),
+    sectorId: new UntypedFormControl(),
+    addAnother: new UntypedFormControl(false),
+    publishStatus: new UntypedFormControl('draft'),
   });
 
   gradingSystems: GradingSystem[];

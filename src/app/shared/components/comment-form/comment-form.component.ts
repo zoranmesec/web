@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import dayjs from 'dayjs';
@@ -33,9 +33,9 @@ export class CommentFormComponent implements OnInit {
 
   loading = false;
 
-  commentForm = new FormGroup({
-    type: new FormControl(),
-    content: new FormControl(null, [Validators.required]),
+  commentForm = new UntypedFormGroup({
+    type: new UntypedFormControl(),
+    content: new UntypedFormControl(null, [Validators.required]),
   });
 
   minDate = new Date();
@@ -95,7 +95,7 @@ export class CommentFormComponent implements OnInit {
   }
 
   addExposedUntilField() {
-    this.commentForm.addControl('exposedUntil', new FormControl(null));
+    this.commentForm.addControl('exposedUntil', new UntypedFormControl(null));
     this.maxDate = new Date();
     this.maxDate.setMonth(this.maxDate.getMonth() + 1); // let user choose max 1 month validity of warning exposure
   }

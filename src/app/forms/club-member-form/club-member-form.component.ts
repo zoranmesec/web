@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MutationResult } from 'apollo-angular';
@@ -16,9 +16,9 @@ import {
   styleUrls: ['./club-member-form.component.scss'],
 })
 export class ClubMemberFormComponent implements OnInit {
-  addMemberForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    admin: new FormControl(false),
+  addMemberForm = new UntypedFormGroup({
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    admin: new UntypedFormControl(false),
   });
 
   loading = false;

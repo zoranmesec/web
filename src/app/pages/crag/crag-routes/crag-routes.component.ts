@@ -17,7 +17,7 @@ import ActivitySelection from 'src/app/types/activity-selection.interface';
 import { Crag, MyCragSummaryGQL, Route, Sector } from 'src/generated/graphql';
 import { KeyValue } from '@angular/common';
 import { MatSelectChange } from '@angular/material/select';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/shared/services/search.service';
 import { CragActivityRouteComponent } from 'src/app/pages/crag/crag-route-activity/crag-activity-route.component';
@@ -121,7 +121,7 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
   tableWidth: number;
   availableWidth: number = 0;
   sortAll = ['position', 1];
-  search = new FormControl();
+  search = new UntypedFormControl();
   searchSub: Subscription;
 
   selectedRoutes: Route[] = [];

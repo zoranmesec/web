@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -16,13 +16,13 @@ export class SelectPasswordComponent implements OnInit, OnDestroy {
   loading = false;
   success = false;
 
-  form = new FormGroup({
-    id: new FormControl(''),
-    password: new FormControl('', [
+  form = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    password: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(8),
     ]),
-    token: new FormControl(''),
+    token: new UntypedFormControl(''),
   });
 
   subscription: Subscription;

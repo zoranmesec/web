@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ASCENT_TYPES,
   PublishOptionsEnum,
@@ -21,14 +21,14 @@ export class ActivityFormService {
     ASCENT_TYPES.filter((at) => at.topRopeTick).map((at) => at.value)
   );
 
-  routesBeingLoggedFormArray: FormArray;
+  routesBeingLoggedFormArray: UntypedFormArray;
   routesPossibleAscentTypes = []; // This is an array of sets of possible ascentTypes for each route that is being logged. Each element (that is a set) of the array belongs to a route at the same index as it appears on the log form. Each set holds all of the currently possible ascent types for this route.
 
   starRatingVotesForRoutes: {}; // This is an object of routeId=>stars pairs, that is user's possible previous star rating vote on each route.
 
   constructor() {}
 
-  initialize(routes: FormArray) {
+  initialize(routes: UntypedFormArray) {
     this.routesBeingLoggedFormArray = routes;
     this.distinctRouteIds = new Set(
       routes.controls.map(
@@ -139,7 +139,7 @@ export class ActivityFormService {
   }
 
   duplicateRoute(routeIndex: number) {
-    const routeFormGroupOriginal = <FormGroup>(
+    const routeFormGroupOriginal = <UntypedFormGroup>(
       this.routesBeingLoggedFormArray.at(routeIndex)
     );
     const routeFormGroupCopy = this.copyFormGroup(routeFormGroupOriginal);
@@ -181,10 +181,10 @@ export class ActivityFormService {
     this.conditionallyDisableVotedStarRatingInputs();
   }
 
-  private copyFormGroup(formGroupOriginal: FormGroup) {
+  private copyFormGroup(formGroupOriginal: UntypedFormGroup) {
     const formGroupData = Object.keys(formGroupOriginal.controls).reduce(
       (fgData, key) => {
-        fgData[key] = new FormControl(
+        fgData[key] = new UntypedFormControl(
           formGroupOriginal.get(key).value,
           formGroupOriginal.get(key).validator
         );
@@ -192,7 +192,7 @@ export class ActivityFormService {
       },
       {}
     );
-    return new FormGroup(formGroupData);
+    return new UntypedFormGroup(formGroupData);
   }
 
   /**

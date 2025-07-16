@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,19 +29,19 @@ import { ContributionService } from '../../pages/contributions/contribution/cont
 export class CragFormComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;
 
-  cragForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    type: new FormControl('sport', [Validators.required]),
-    lat: new FormControl(),
-    lon: new FormControl(),
-    orientation: new FormControl(),
-    access: new FormControl(),
-    description: new FormControl(),
-    areaId: new FormControl(),
-    countryId: new FormControl(null, Validators.required),
-    isHidden: new FormControl(false),
-    defaultGradingSystemId: new FormControl(null, Validators.required),
-    publishStatus: new FormControl('draft'),
+  cragForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required]),
+    type: new UntypedFormControl('sport', [Validators.required]),
+    lat: new UntypedFormControl(),
+    lon: new UntypedFormControl(),
+    orientation: new UntypedFormControl(),
+    access: new UntypedFormControl(),
+    description: new UntypedFormControl(),
+    areaId: new UntypedFormControl(),
+    countryId: new UntypedFormControl(null, Validators.required),
+    isHidden: new UntypedFormControl(false),
+    defaultGradingSystemId: new UntypedFormControl(null, Validators.required),
+    publishStatus: new UntypedFormControl('draft'),
   });
 
   loading: boolean = false;
