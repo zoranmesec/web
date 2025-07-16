@@ -110,11 +110,8 @@ const formFieldAppearance: MatFormFieldDefaultOptions = {
 };
 
 class CustomDateAdapter extends NativeDateAdapter {
-  constructor(
-    @Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: string,
-    platform: Platform
-  ) {
-    super(matDateLocale, platform);
+  constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: string) {
+    super(matDateLocale);
   }
 
   getFirstDayOfWeek = () => 1;

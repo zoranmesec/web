@@ -72,7 +72,7 @@ export class AreasComponent implements OnInit, OnDestroy {
       ['Slapovi', iceFalls.length],
       ['Vrhovi', peaks.length],
     ]
-      .filter(([_, len]) => len > 0)
+      .filter(([_, len]) => (len as number) > 0)
       .map(([label, len]) => `${label}: ${len}`)
       .join(', ');
   }
