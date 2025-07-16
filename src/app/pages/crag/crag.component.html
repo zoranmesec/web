@@ -51,7 +51,7 @@
     fxLayout.lt-md="column"
   >
     <div fxFlex="0 0 calc(33.33% - 8px)" fxFlex.lt-md *ngIf="crag">
-      <nav mat-tab-nav-bar fxHide.lt-md>
+      <nav mat-tab-nav-bar fxHide.lt-md [tabPanel]="tabPanel">
         <a mat-tab-link disabled>Info</a>
       </nav>
 
@@ -71,7 +71,7 @@
       fxLayoutGap="0px"
       fxLayoutGap.lt-md="16px"
     >
-      <nav mat-tab-nav-bar fxHide.lt-md>
+      <nav mat-tab-nav-bar fxHide.lt-md [tabPanel]="tabPanel">
         <ng-container *ngFor="let tab of tabs">
           <a
             mat-tab-link
@@ -121,3 +121,4 @@
     </div>
   </div>
 </div>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

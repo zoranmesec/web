@@ -1,11 +1,7 @@
 <mat-card *ngIf="!loading">
   <mat-card-title>{{ title }}</mat-card-title>
   <mat-card-content>
-    <div
-      *ngIf="popularCrags.length"
-      class="table-wrapper"
-      ngClass.gt-sm="scrollable"
-    >
+    <div *ngIf="popularCrags.length" class="table-wrapper">
       <table class="stats-card-table">
         <thead>
           <tr>

@@ -5,7 +5,7 @@ import { EditorComponent } from './editor/editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AscentTypePipe } from './pipes/ascent-type.pipe';
 import { GenderizeVerbPipe } from './pipes/genderize-verb.pipe';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SnackBarButtonsComponent } from './snack-bar-buttons/snack-bar-buttons.component';

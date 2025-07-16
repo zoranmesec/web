@@ -1,4 +1,4 @@
-import { BREAKPOINT } from '@angular/flex-layout';
+import { BREAKPOINT } from 'ng-flex-layout';
 
 const CUSTOM_BREAKPOINTS = [
   {

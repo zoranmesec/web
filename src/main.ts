@@ -10,12 +10,7 @@ import { BrowserTracing } from '@sentry/tracing';
 if (environment.production) {
   Sentry.init({
     dsn: environment.sentryDsn,
-    integrations: [
-      new BrowserTracing({
-        tracingOrigins: [environment.sentryTracingUrl],
-        routingInstrumentation: Sentry.routingInstrumentation,
-      }),
-    ],
+    integrations: [],
     tracesSampleRate: 0.2,
   });
 

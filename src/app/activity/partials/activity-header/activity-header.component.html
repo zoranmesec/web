@@ -1,5 +1,5 @@
 <div class="container mt-16">
-  <nav mat-tab-nav-bar>
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
     <a
       mat-tab-link
       [active]="active == 'vzponi'"
@@ -20,3 +20,4 @@
     >
   </nav>
 </div>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

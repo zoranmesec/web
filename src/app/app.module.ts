@@ -5,8 +5,9 @@ import {
   NgModule,
   Inject,
   Optional,
+  CUSTOM_ELEMENTS_SCHEMA,
 } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -182,8 +183,9 @@ class CustomDateAdapter extends NativeDateAdapter {
     LatestCommentsComponent,
     LatestAscentsComponent,
     CragActivityRouteComponent,
-    CragActivityRouteRowComponent
+    CragActivityRouteRowComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
