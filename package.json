@@ -27,7 +27,7 @@
     "@sentry/angular": "^6.19.2",
     "@sentry/tracing": "^6.19.2",
     "@tinymce/tinymce-angular": "^4.2.4",
-    "apollo-angular": "^3.0.0-alpha.2",
+    "apollo-angular": "^4.2.1",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "dayjs": "^1.11.0",
