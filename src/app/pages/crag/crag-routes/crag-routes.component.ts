@@ -17,7 +17,13 @@ import ActivitySelection from 'src/app/types/activity-selection.interface';
 import { Crag, MyCragSummaryGQL, Route, Sector } from 'src/generated/graphql';
 import { CommonModule, KeyValue } from '@angular/common';
 import { MatSelectChange } from '@angular/material/select';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/shared/services/search.service';
 import { CragActivityRouteComponent } from 'src/app/pages/crag/crag-route-activity/crag-activity-route.component';
@@ -27,7 +33,7 @@ import { CragActivityRouteComponent } from 'src/app/pages/crag/crag-route-activi
   templateUrl: './crag-routes.component.html',
   styleUrls: ['./crag-routes.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class CragRoutesComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;
@@ -123,6 +129,11 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
   tableWidth: number;
   availableWidth: number = 0;
   sortAll = ['position', 1];
+
+  selectForm = new FormGroup({
+    sortAll: new FormControl('', [Validators.required]),
+  });
+
   search = new UntypedFormControl();
   searchSub: Subscription;
 

@@ -12,7 +12,7 @@
   <div *ngIf="data.newStatus === 'draft'" class="mt-16">
     <mat-form-field class="no-hint">
       <mat-label>Razlog za zavrnitev prispevka</mat-label>
-      <textarea matInput [(ngModel)]="rejectionMessage" required></textarea>
+      <textarea matInput formControlName="rejectionMessage" required></textarea>
     </mat-form-field>
     <p class="footnote">
       Razlog za zavrnitev prispevka bo posredovan uporabniku_ci, ki je
@@ -24,7 +24,7 @@
   <p class="mt-16">
     <mat-checkbox
       *ngIf="data.cascadeMessage"
-      [(ngModel)]="cascade"
+      formControlName="cascade"
       [disabled]="data.forceCascade"
       >{{ data.cascadeMessage }}</mat-checkbox
     >
@@ -36,8 +36,13 @@
   <button
     mat-button
     color="primary"
-    [mat-dialog-close]="{rejectionMessage, cascade}"
-    [disabled]="data.newStatus === 'draft' && !rejectionMessage"
+    [mat-dialog-close]="{
+      rejectionMessage: publishForm.value.rejectionMessage,
+      cascade: publishForm.value.cascade
+    }"
+    [disabled]="
+      data.newStatus === 'draft' && !publishForm.value.rejectionMessage
+    "
   >
     Potrdi
   </button>

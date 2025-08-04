@@ -1,5 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
   MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogContent,
@@ -10,12 +16,19 @@ import {
   selector: 'app-publish-status-change-dialog',
   templateUrl: './publish-status-change-dialog.component.html',
   styleUrls: ['./publish-status-change-dialog.component.scss'],
-  imports: [MatDialogActions, MatDialogContent, MatDialogModule],
+  imports: [
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogModule,
+    ReactiveFormsModule,
+  ],
   standalone: true,
 })
 export class PublishStatusChangeDialogComponent implements OnInit {
-  rejectionMessage: string;
-  cascade = false;
+  publishForm = new FormGroup({
+    rejectionMessage: new FormControl('', [Validators.required]),
+    cascade: new FormControl(this.data.forceCascade ?? false, []),
+  });
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -24,9 +37,7 @@ export class PublishStatusChangeDialogComponent implements OnInit {
       newStatus: string;
       forceCascade: boolean;
     }
-  ) {
-    this.cascade = this.data.forceCascade;
-  }
+  ) {}
 
   ngOnInit(): void {}
 }

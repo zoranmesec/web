@@ -14,7 +14,7 @@
           </span>
         </mat-select-trigger>
         <mat-option
-          *ngFor="let column of allColumns | keyvalue: originalOrder"
+          *ngFor="let column of allColumns | keyvalue : originalOrder"
           [value]="column.value.field"
           [id]="column.value.field"
           ><span *ngIf="column.value.field === 'starRating'"
@@ -45,7 +45,7 @@
     >
       <mat-label>Uredi smeri</mat-label>
       <mat-select
-        [(ngModel)]="sortAll"
+        formControlName="sortAll"
         (selectionChange)="sortAllRoutes($event)"
       >
         <mat-option [value]="['position', 1]">Od leve proti desni</mat-option>
@@ -530,7 +530,7 @@
 
                 <div class="info-row-third">
                   <span *ngIf="shownColumns.includes('nrTicks')"
-                    >{{ route.nrTicks | pluralizeNoun: "uspešen vzpon"
+                    >{{ route.nrTicks | pluralizeNoun : "uspešen vzpon"
                     }}<ng-container
                       *ngIf="
                         shownColumns.includes('nrTries') ||
@@ -540,13 +540,13 @@
                     </ng-container></span
                   >
                   <span *ngIf="shownColumns.includes('nrTries')"
-                    >{{ route.nrTries | pluralizeNoun: "poskus"
+                    >{{ route.nrTries | pluralizeNoun : "poskus"
                     }}<ng-container *ngIf="shownColumns.includes('nrClimbers')"
                       >,
                     </ng-container></span
                   >
                   <span *ngIf="shownColumns.includes('nrClimbers')">{{
-                    route.nrClimbers | pluralizeNoun: "plezalec"
+                    route.nrClimbers | pluralizeNoun : "plezalec"
                   }}</span>
                 </div>
               </div>

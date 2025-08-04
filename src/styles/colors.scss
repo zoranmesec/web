@@ -1,13 +1,13 @@
 @use "@angular/material" as mat;
-$app-primary: mat.define-palette(mat.$indigo-palette, 500);
-$app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-$app-warn: mat.define-palette(mat.$red-palette);
-$app-success: mat.define-palette(mat.$green-palette);
+$app-primary: mat.m2-define-palette(mat.$m2-indigo-palette, 500);
+$app-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$app-warn: mat.m2-define-palette(mat.$m2-red-palette);
+$app-success: mat.m2-define-palette(mat.$m2-green-palette);
 
-$primary: mat.get-color-from-palette($app-primary, 500);
-$accent: mat.get-color-from-palette($app-accent, A200);
-$warn: mat.get-color-from-palette($app-warn, 500);
-$success: mat.get-color-from-palette($app-success, 500);
+$primary: mat.m2-get-color-from-palette($app-primary, 500);
+$accent: mat.m2-get-color-from-palette($app-accent, A200);
+$warn: mat.m2-get-color-from-palette($app-warn, 500);
+$success: mat.m2-get-color-from-palette($app-success, 500);
 
 $colors-red: #fb2c2c;
 $colors-green: #4dc700;
