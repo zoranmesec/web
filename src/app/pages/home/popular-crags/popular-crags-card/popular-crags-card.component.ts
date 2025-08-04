@@ -14,12 +14,14 @@ import { PopularCrag, PopularCragsGQL } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../../loading-spinner.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'app-popular-crags-card',
-    templateUrl: './popular-crags-card.component.html',
-    styleUrls: ['./popular-crags-card.component.scss'],
-    imports: [CommonModule, RouterModule]
+  selector: 'app-popular-crags-card',
+  templateUrl: './popular-crags-card.component.html',
+  styleUrls: ['./popular-crags-card.component.scss'],
+  imports: [CommonModule, RouterModule, MatCardModule, MatButtonModule],
 })
 export class PopularCragsCardComponent implements OnInit, OnDestroy {
   constructor(
