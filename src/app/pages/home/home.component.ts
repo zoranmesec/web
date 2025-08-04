@@ -4,11 +4,30 @@ import { delay } from 'rxjs/operators';
 import { LayoutService } from 'src/app/services/layout.service';
 import { DataError } from 'src/app/types/data-error';
 import { LoadingSpinnerService } from './loading-spinner.service';
+import { PendingContributionsHintsComponent } from './pending-contributions-hints/pending-contributions-hints.component';
+import { CommonModule } from '@angular/common';
+import { SearchComponent } from '../search/search.component';
+import { ExposedWarningsComponent } from './exposed-warnings/exposed-warnings.component';
+import { LatestAscentsComponent } from './latest-ascents/latest-ascents.component';
+import { LatestDifficultyVotesComponent } from './latest-difficulty-votes/latest-difficulty-votes.component';
+import { LatestCommentsComponent } from './latest-comments/latest-comments.component';
+import { PopularCragsComponent } from './popular-crags/popular-crags.component';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  imports: [
+    PendingContributionsHintsComponent,
+    CommonModule,
+    SearchComponent,
+    ExposedWarningsComponent,
+    LatestAscentsComponent,
+    LatestDifficultyVotesComponent,
+    LatestCommentsComponent,
+    PopularCragsComponent,
+  ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   error: DataError;
@@ -21,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('Home component initialized');
     this.subscription = this.loadingSpinnerService.showLoader$
       .pipe(delay(0))
       .subscribe((isLoading) => (this.loading = isLoading));
@@ -35,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleError(error: DataError) {
+    console.log('Error in home component:', error);
     this.error = error;
   }
 

@@ -24,7 +24,7 @@
       fxLayoutAlign="start end"
       fxLayout.gt-sm="row"
       fxLayoutAlign.gt-sm="center center"
-      [fxHide]="!naviOpen"
+      ([fxHide])="(!naviOpen)"
       fxShow.gt-sm
     >
       <a mat-button [routerLink]="['/']">Domov</a>

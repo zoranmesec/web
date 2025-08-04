@@ -1,6 +1,16 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
@@ -23,6 +33,8 @@ export interface MoveRouteFormComponentData {
   selector: 'app-move-route-form',
   templateUrl: './move-route-form.component.html',
   styleUrls: ['./move-route-form.component.scss'],
+  standalone: true,
+  imports: [MatDialogActions, FormsModule, ReactiveFormsModule],
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
   form = new UntypedFormGroup({

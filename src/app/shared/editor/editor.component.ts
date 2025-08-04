@@ -1,20 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { RawEditorSettings } from 'tinymce';
-
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 @Component({
-  selector: 'app-editor',
+  selector: 'app-my-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, EditorComponent],
 })
-export class EditorComponent implements OnInit {
+export class MyEditorComponent implements OnInit {
   @Input() placeholder: string;
   @Input() control: UntypedFormControl;
   @Input() label: string = '';
 
   focus: boolean = false;
 
-  settings: RawEditorSettings = {
+  init: EditorComponent['init'] = {
     height: 250,
     menubar: false,
     entity_encoding: 'raw',

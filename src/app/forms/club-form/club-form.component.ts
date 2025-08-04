@@ -1,15 +1,37 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialog,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { GraphQLError } from 'graphql';
 import { UpdateClubGQL, CreateClubGQL } from 'src/generated/graphql';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-club-form',
   templateUrl: './club-form.component.html',
   styleUrls: ['./club-form.component.scss'],
+  standalone: true,
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatDialogActions,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ClubFormComponent implements OnInit {
   title: string;

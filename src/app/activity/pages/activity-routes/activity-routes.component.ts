@@ -44,6 +44,7 @@ export interface RowAction {
   selector: 'app-activity-routes',
   templateUrl: './activity-routes.component.html',
   styleUrls: ['./activity-routes.component.scss'],
+  standalone: true,
 })
 export class ActivityRoutesComponent implements OnInit, OnDestroy {
   error: DataError = null;

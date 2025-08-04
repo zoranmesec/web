@@ -9,11 +9,11 @@
 
 <form [formGroup]="commentForm" (submit)="save()">
   <div fxLayout="row">
-    <app-editor
+    <app-my-editor
       fxFlex="100"
       placeholder="Komentar"
-      [control]="commentForm.controls.content"
-    ></app-editor>
+      ([control])="(commentForm.controls.content)"
+    ></app-my-editor>
   </div>
 
   <div

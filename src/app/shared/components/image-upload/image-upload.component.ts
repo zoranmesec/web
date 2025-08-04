@@ -1,8 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+} from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/generated/graphql';
@@ -11,6 +24,17 @@ import { User } from 'src/generated/graphql';
   selector: 'app-image-upload',
   templateUrl: './image-upload.component.html',
   styleUrls: ['./image-upload.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogActions,
+    MatCheckbox,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogContent,
+  ],
 })
 export class ImageUploadComponent {
   fileToUpload: File;

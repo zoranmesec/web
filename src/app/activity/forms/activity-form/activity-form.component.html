@@ -55,7 +55,7 @@
           <input
             matInput
             formControlName="date"
-            [matDatepicker]="picker"
+            ([matDatepicker])="(picker)"
             [max]="maxDate"
           />
           <mat-datepicker-toggle

@@ -7,11 +7,16 @@ import {
   ActivityRouteChangePublishGQL,
 } from 'src/generated/graphql';
 import { RowAction } from '../../pages/activity-log/activity-log.component';
+import { Router, RouterLink } from '@angular/router';
+import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
+import { AscentPublishOptionComponent } from 'src/app/shared/components/ascent-publish-option/ascent-publish-option.component';
 
 @Component({
   selector: '[app-activity-route-row]',
   templateUrl: './activity-route-row.component.html',
   styleUrls: ['./activity-route-row.component.scss'],
+  standalone: true,
+  imports: [RouterLink, AscentTypeComponent, AscentPublishOptionComponent],
 })
 export class ActivityRouteRowComponent implements OnInit {
   @Input() route: ActivityRoute;

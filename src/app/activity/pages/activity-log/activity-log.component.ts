@@ -1,9 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   concatMap,
   filter,
@@ -29,6 +34,9 @@ import {
   MyActivitiesQuery,
   namedOperations,
 } from 'src/generated/graphql';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 
 export interface RowAction {
   item: Activity;
@@ -39,6 +47,15 @@ export interface RowAction {
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
   styleUrls: ['./activity-log.component.scss'],
+  standalone: true,
+  imports: [
+    RouterLink,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    ActivityHeaderComponent,
+  ],
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {
   error: DataError = null;

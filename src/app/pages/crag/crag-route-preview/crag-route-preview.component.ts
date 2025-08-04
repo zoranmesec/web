@@ -15,11 +15,13 @@ import {
   RouteDifficultyVotesQuery,
 } from 'src/generated/graphql';
 import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
+import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
 
 @Component({
   selector: 'app-crag-route-preview',
   templateUrl: './crag-route-preview.component.html',
   styleUrls: ['./crag-route-preview.component.scss'],
+  imports: [PublishStatusHintComponent],
 })
 export class CragRoutePreviewComponent implements OnChanges {
   gradeDistribution: IDistribution[] = [];

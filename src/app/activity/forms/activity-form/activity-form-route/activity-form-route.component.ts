@@ -1,5 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ASCENT_TYPES,
   PUBLISH_OPTIONS,
@@ -7,11 +12,28 @@ import {
 import { Crag } from 'src/generated/graphql';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivityFormService } from '../activity-form.service';
+import { GradeSelectComponent } from 'src/app/shared/components/grade-select/grade-select.component';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatSelectTrigger } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-activity-form-route',
   templateUrl: './activity-form-route.component.html',
   styleUrls: ['./activity-form-route.component.scss'],
+  imports: [
+    GradeSelectComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatSelectTrigger,
+    MatOptionModule,
+    MatIcon,
+    MatHint,
+  ],
+  standalone: true,
 })
 export class ActivityFormRouteComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

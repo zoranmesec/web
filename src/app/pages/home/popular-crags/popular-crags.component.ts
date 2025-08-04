@@ -1,11 +1,15 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import dayjs from 'dayjs';
 import { DataError } from 'src/app/types/data-error';
+import { PopularCragsCardComponent } from './popular-crags-card/popular-crags-card.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-popular-crags',
+  standalone: true,
   templateUrl: './popular-crags.component.html',
   styleUrls: ['./popular-crags.component.scss'],
+  imports: [PopularCragsCardComponent, CommonModule],
 })
 export class PopularCragsComponent implements OnInit {
   constructor() {}

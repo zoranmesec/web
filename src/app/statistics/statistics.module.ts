@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SharedModule } from '../shared/shared.module';
 import { StatisticsHomeComponent } from './pages/statistics-home/statistics-home.component';
 import { AscentsHistoryComponent } from './pages/ascents-history/ascents-history.component';
 import { CommentsHistoryComponent } from './pages/comments-history/comments-history.component';
@@ -33,7 +32,6 @@ import { CommentsHistoryComponent } from './pages/comments-history/comments-hist
     MatIconModule,
     MatTooltipModule,
     MatPaginatorModule,
-    SharedModule,
     StatisticsRoutingModule,
   ],
 })

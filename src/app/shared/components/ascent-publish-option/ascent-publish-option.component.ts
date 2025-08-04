@@ -6,6 +6,7 @@ import { PUBLISH_OPTIONS } from '../../../common/activity.constants';
   selector: 'app-ascent-publish-option',
   templateUrl: './ascent-publish-option.component.html',
   styleUrls: ['./ascent-publish-option.component.scss'],
+  standalone: true,
 })
 export class AscentPublishOptionComponent implements OnInit {
   @Input() value: string;

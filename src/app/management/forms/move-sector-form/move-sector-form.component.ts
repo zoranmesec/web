@@ -1,6 +1,16 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
@@ -11,6 +21,8 @@ import {
   ManagementMoveSectorToCragGQL,
   Sector,
 } from 'src/generated/graphql';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 export interface MoveSectorFormComponentData {
   crag: Crag;
@@ -22,6 +34,15 @@ export interface MoveSectorFormComponentData {
   selector: 'app-move-sector-form',
   templateUrl: './move-sector-form.component.html',
   styleUrls: ['./move-sector-form.component.scss'],
+  imports: [
+    MatAutocomplete,
+    MatFormField,
+    FormsModule,
+    ReactiveFormsModule,
+    MatLabel,
+    MatDialogActions,
+  ],
+  standalone: true,
 })
 export class MoveSectorFormComponent implements OnInit, OnDestroy {
   crags: Crag[];

@@ -1,6 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MutationResult } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
@@ -9,11 +20,22 @@ import {
   CreateClubMemberByEmailGQL,
   CreateClubMemberByEmailMutation,
 } from '../../../generated/graphql';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-club-member-form',
   templateUrl: './club-member-form.component.html',
   styleUrls: ['./club-member-form.component.scss'],
+  imports: [
+    MatFormField,
+    MatCheckbox,
+    MatLabel,
+    MatDialogContent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  standalone: true,
 })
 export class ClubMemberFormComponent implements OnInit {
   addMemberForm = new UntypedFormGroup({

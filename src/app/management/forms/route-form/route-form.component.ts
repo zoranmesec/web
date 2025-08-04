@@ -1,6 +1,16 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
 import { filter, Subscription } from 'rxjs';
@@ -13,6 +23,8 @@ import {
   Route,
 } from 'src/generated/graphql';
 import { GradingSystemsService } from '../../../shared/services/grading-systems.service';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { GradeSelectComponent } from 'src/app/shared/components/grade-select/grade-select.component';
 
 export interface RouteFormComponentData {
   route?: Route;
@@ -32,6 +44,15 @@ export interface RouteFormValues {
   selector: 'app-route-form',
   templateUrl: './route-form.component.html',
   styleUrls: ['./route-form.component.scss'],
+  standalone: true,
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatDialogActions,
+    FormsModule,
+    ReactiveFormsModule,
+    GradeSelectComponent,
+  ],
 })
 export class RouteFormComponent implements OnInit, OnDestroy {
   saving = false;
@@ -43,7 +64,10 @@ export class RouteFormComponent implements OnInit, OnDestroy {
     name: new UntypedFormControl(null, Validators.required),
     routeTypeId: new UntypedFormControl('sport', Validators.required),
     length: new UntypedFormControl(),
-    defaultGradingSystemId: new UntypedFormControl('french', Validators.required),
+    defaultGradingSystemId: new UntypedFormControl(
+      'french',
+      Validators.required
+    ),
     isProject: new UntypedFormControl(false),
     baseDifficulty: new UntypedFormControl(null, Validators.required),
     position: new UntypedFormControl(),

@@ -1,5 +1,10 @@
 import { EChartsOption, SeriesOption } from 'echarts';
-import { StatsRoutes, MyRoutesStatsGQL, StatsActivities, MyActivitiesStatisticsGQL } from 'src/generated/graphql';
+import {
+  StatsRoutes,
+  MyRoutesStatsGQL,
+  StatsActivities,
+  MyActivitiesStatisticsGQL,
+} from 'src/generated/graphql';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   Component,
@@ -12,17 +17,21 @@ import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { DataError } from 'src/app/types/data-error';
-import {
-  GradingSystemsService,
-} from '../../../shared/services/grading-systems.service';
+import { GradingSystemsService } from '../../../shared/services/grading-systems.service';
 import { LoadingSpinnerService } from '../../../pages/home/loading-spinner.service';
-import { ACTIVITY_TYPES, ASCENT_TYPES } from 'src/app/common/activity.constants';
+import {
+  ACTIVITY_TYPES,
+  ASCENT_TYPES,
+} from 'src/app/common/activity.constants';
 import { AscentType } from 'src/app/types/ascent-type';
+import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 
 @Component({
   selector: 'app-activity-statistics',
   templateUrl: './activity-statistics.component.html',
   styleUrls: ['./activity-statistics.component.scss'],
+  imports: [ActivityHeaderComponent],
+  standalone: true,
 })
 export class ActivityStatisticsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
@@ -39,7 +48,7 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
     {
       value: null,
       label: 'Vse',
-      ascents: []
+      ascents: [],
     },
   ];
   data = [];
@@ -66,7 +75,7 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
     (ascentType) => !ascentType.topRope
   );
   defaultAscentTypes = ['onsight', 'redpoint', 'flash'];
-  selectedAscentTypes:AscentType[] = [];
+  selectedAscentTypes: AscentType[] = [];
   subscriptions: Subscription[] = [];
   constructor(
     private myRouteStatsGQL: MyRoutesStatsGQL,
@@ -80,15 +89,16 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const filtersSub = this.filters.valueChanges.subscribe(async (values) => {
-      
-      this.selectedAscentTypes = this.ascentTypes.filter((x)=> values.ascentType.includes(x.value)).sort((a,b)=> {
-        if (a.order < b.order) {
-          return -1;
-        } else if (a.order > b.order) {
-          return 1;
-        }
-        return 0;
-      });
+      this.selectedAscentTypes = this.ascentTypes
+        .filter((x) => values.ascentType.includes(x.value))
+        .sort((a, b) => {
+          if (a.order < b.order) {
+            return -1;
+          } else if (a.order > b.order) {
+            return 1;
+          }
+          return 0;
+        });
       this.currentYear = values.year;
       await this.querySuccess(values.year);
       this.buildOptionsByYear();
@@ -112,7 +122,7 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.myRouteStats = <StatsRoutes[]>result.data.myRoutesStatistics;
           await this.querySuccess(null);
-          this.calcRoutesByYear()
+          this.calcRoutesByYear();
           this.buildOptionsByYear();
         },
         error: (error) => {
@@ -121,7 +131,7 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
         },
       });
 
-      this.subscriptionActivity = this.authService.currentUser
+    this.subscriptionActivity = this.authService.currentUser
       .pipe(
         switchMap((user) => {
           this.loadingSpinnerService.pushLoader();
@@ -135,8 +145,10 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: async (result) => {
           this.loading = false;
-          this.myActivityStats = <StatsActivities[]>result.data.myActivitiesStatistics;
-  
+          this.myActivityStats = <StatsActivities[]>(
+            result.data.myActivitiesStatistics
+          );
+
           this.buildOptionsActivitiesByYear();
         },
         error: (error) => {
@@ -145,13 +157,15 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
         },
       });
 
-      this.subscriptions.push(this.subscription);
+    this.subscriptions.push(this.subscription);
   }
 
   calcRoutesByYear() {
     for (let element of this.myRouteStats[Symbol.iterator]()) {
-      const ind = this.activityYears.findIndex((el) => el.value === element.year);
-      if ( ind === -1 ) {
+      const ind = this.activityYears.findIndex(
+        (el) => el.value === element.year
+      );
+      if (ind === -1) {
         this.activityYears.push({
           value: element.year,
           label: element.year.toString(),
@@ -159,8 +173,8 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
         });
       }
 
-      this.activityYears.forEach(el => {
-        if(el.value == element.year) {
+      this.activityYears.forEach((el) => {
+        if (el.value == element.year) {
           if (!el.ascents[element.ascent_type]) {
             el.ascents[element.ascent_type] = 0;
           }
@@ -191,17 +205,21 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
             'french',
             false
           );
-          if (this.selectedAscentTypes.find((x) => x.value === element.ascent_type)) {
+          if (
+            this.selectedAscentTypes.find(
+              (x) => x.value === element.ascent_type
+            )
+          ) {
             if (!tempData[this.sumLabel]) {
               tempData[this.sumLabel] = [];
               tempData[this.sumLabel]['sum'] = 0;
             }
 
-            if (!tempData[grade.name] ) {
+            if (!tempData[grade.name]) {
               tempData[grade.name] = [];
               tempData[grade.name]['sum'] = 0;
             }
-  
+
             if (!tempData[grade.name][element.ascent_type]) {
               tempData[grade.name][element.ascent_type] = 0;
             }
@@ -211,7 +229,6 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
               tempData[this.sumLabel][element.ascent_type] = 0;
             }
 
-            
             tempData[this.sumLabel][element.ascent_type] += element.nr_routes;
             tempData[grade.name]['sum'] += element.nr_routes;
             tempData[this.sumLabel]['sum'] += element.nr_routes;
@@ -221,11 +238,11 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
         }
       }
     }
-    
+
     let sort = Object.keys(tempData).sort().reverse();
     this.xAxisData = sort;
-    sort.forEach(element => {
-      this.data.push({ grade: element, data: tempData[element]});
+    sort.forEach((element) => {
+      this.data.push({ grade: element, data: tempData[element] });
     });
     let first = this.data.shift();
     if (first) {
@@ -237,9 +254,9 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
   buildOptions() {
     let series = this.selectedAscentTypes.map((x) => {
       let sums = [];
-      this.data.forEach(element => {
+      this.data.forEach((element) => {
         if (element.grade !== this.sumLabel) {
-          if (element.data[x.value] ) {
+          if (element.data[x.value]) {
             sums.unshift(element.data[x.value]);
           } else {
             sums.unshift(0);
@@ -248,22 +265,23 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
       });
 
       return {
-        name: ((x.topRope) ? '(T) ': '') + x.label,
+        name: (x.topRope ? '(T) ' : '') + x.label,
         type: 'bar',
         stack: 'one',
 
         emphasis: this.emphasisStyle,
         data: sums,
-      } as SeriesOption
-    }
-    );
+      } as SeriesOption;
+    });
 
     this.options = {
       title: {
         text: this.currentYear,
       },
       legend: {
-        data: this.selectedAscentTypes.map((x) => ((x.topRope) ? '(T) ': '') + x.label),
+        data: this.selectedAscentTypes.map(
+          (x) => (x.topRope ? '(T) ' : '') + x.label
+        ),
         left: '35%',
       },
       // brush: {
@@ -300,13 +318,12 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
     };
   }
 
-
   buildOptionsByYear() {
-    let series = this.selectedAscentTypes.map((x)=> {
+    let series = this.selectedAscentTypes.map((x) => {
       let sums = [];
-      this.activityYears.forEach(element => {
+      this.activityYears.forEach((element) => {
         if (element.value) {
-          if (element.ascents[x.value] ) {
+          if (element.ascents[x.value]) {
             sums.unshift(element.ascents[x.value]);
           } else {
             sums.unshift(0);
@@ -315,12 +332,11 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
       });
 
       return {
-        name: ((x.topRope) ? '(T) ': '') + x.label,
+        name: (x.topRope ? '(T) ' : '') + x.label,
         type: 'line',
         data: sums,
-      } as SeriesOption
+      } as SeriesOption;
     });
-
 
     this.optionsByYear = {
       tooltip: {
@@ -328,7 +344,9 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
       },
       color: this.selectedAscentTypes.map((x) => x.color),
       legend: {
-        data: this.selectedAscentTypes.map((x) => ((x.topRope) ? '(T) ': '') + x.label),
+        data: this.selectedAscentTypes.map(
+          (x) => (x.topRope ? '(T) ' : '') + x.label
+        ),
       },
       grid: {
         left: '3%',
@@ -344,35 +362,38 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: this.activityYears.map((x)=> x.label).slice(1).reverse(),
+        data: this.activityYears
+          .map((x) => x.label)
+          .slice(1)
+          .reverse(),
       },
       yAxis: {
         type: 'value',
       },
-      series: series
-      ,
+      series: series,
     };
   }
 
   buildOptionsActivitiesByYear() {
-
     const years = [...new Set(this.myActivityStats.map((x) => x.year))];
 
-    let series = this.activityTypes.map((x)=> {
-      let sums = []
-        years.forEach((element, index) => {
-          const el = this.myActivityStats.find((s)=>s.type === x.value && s.year == element);
-          if (el) {
-            sums[index] = el.nr_activities;
-          } else {
-            sums[index] = 0;
-          }
-        });
+    let series = this.activityTypes.map((x) => {
+      let sums = [];
+      years.forEach((element, index) => {
+        const el = this.myActivityStats.find(
+          (s) => s.type === x.value && s.year == element
+        );
+        if (el) {
+          sums[index] = el.nr_activities;
+        } else {
+          sums[index] = 0;
+        }
+      });
       return {
         name: x.label,
         type: 'line',
         data: sums,
-      } as SeriesOption
+      } as SeriesOption;
     });
 
     this.activitiesByYear = {
@@ -402,10 +423,8 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
       yAxis: {
         type: 'value',
       },
-      series: series
-      ,
+      series: series,
     };
-
   }
 
   queryError() {

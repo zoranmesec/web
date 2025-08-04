@@ -13,9 +13,12 @@ import {
   LatestDifficultyVotesGQL,
 } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-latest-difficulty-votes',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './latest-difficulty-votes.component.html',
   styleUrls: ['./latest-difficulty-votes.component.scss'],
 })

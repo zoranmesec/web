@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'orientation',
+  standalone: true,
 })
 export class OrientationPipe implements PipeTransform {
   transform(value: string, display = 'full'): string {

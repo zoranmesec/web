@@ -11,11 +11,16 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '@sentry/angular';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { SearchService } from 'src/app/shared/services/search.service';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 
 @Component({
   selector: 'app-crags',
   templateUrl: './crags.component.html',
   styleUrls: ['./crags.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatMenuModule, OrientationPipe],
 })
 export class CragsComponent implements OnInit, OnDestroy {
   loading: boolean = true;

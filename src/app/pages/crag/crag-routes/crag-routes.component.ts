@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatDialog,} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SnackBarButtonsComponent } from 'src/app/shared/snack-bar-buttons/snack-bar-buttons.component';
@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import dayjs from 'dayjs';
 import ActivitySelection from 'src/app/types/activity-selection.interface';
 import { Crag, MyCragSummaryGQL, Route, Sector } from 'src/generated/graphql';
-import { KeyValue } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import { MatSelectChange } from '@angular/material/select';
 import { UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -26,6 +26,8 @@ import { CragActivityRouteComponent } from 'src/app/pages/crag/crag-route-activi
   selector: 'app-crag-routes',
   templateUrl: './crag-routes.component.html',
   styleUrls: ['./crag-routes.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class CragRoutesComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;
@@ -149,11 +151,11 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
   openDialog(event: Event, routeId: string, routeName: string) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(CragActivityRouteComponent, {
-      data: { routeId: routeId, routeName: routeName},
+      data: { routeId: routeId, routeName: routeName },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
         this.router.navigate([
           '/plezalni-dnevnik/vzponi',
           { routeId: routeId },

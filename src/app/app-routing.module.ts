@@ -21,10 +21,13 @@ import { AboutComponent } from './pages/about/about.component';
 import { ChangelogComponent } from './pages/changelog/changelog.component';
 import { HowToContributeComponent } from './pages/help/how-to-contribute/how-to-contribute.component';
 
-const routes: Routes = [
+export const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
-    path: '',
-    component: HomeComponent,
+    path: 'home',
+    title: 'Plezanje.net',
+    loadComponent: async () =>
+      import('./pages/home/home.component').then((mod) => mod.HomeComponent),
   },
   {
     path: 'registracija',

@@ -6,7 +6,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FlexLayoutModule } from 'ng-flex-layout';
 
-import { SharedModule } from '../shared/shared.module';
 import { PeaksRoutingModule } from './peaks-routing.module';
 import { PeaksCountriesComponent } from './peaks-countries/peaks-countries.component';
 import { PeaksCountryComponent } from './peaks-country/peaks-country.component';
@@ -20,7 +19,6 @@ import { PeakCragsComponent } from './peak-crags/peak-crags.component';
   ],
   imports: [
     CommonModule,
-    SharedModule,
     PeaksRoutingModule,
     MatCardModule,
     MatSelectModule,

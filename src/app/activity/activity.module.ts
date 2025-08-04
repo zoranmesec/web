@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ActivityRoutingModule } from './activity-routing.module';
 
-import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,20 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
-  declarations: [
-    ActivityLogComponent,
-    ActivityRoutesComponent,
-    ActivityStatisticsComponent,
-    ActivityEntryComponent,
-    ActivityInputComponent,
-    ActivityHeaderComponent,
-    ActivityRouteRowComponent,
-    ActivityRowComponent,
-    ActivityFormComponent,
-    ActivityFormRouteComponent,
-    ActivityEntryRoutesComponent,
-    DryRunActivityDialogComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -68,7 +54,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     ReactiveFormsModule,
-    SharedModule,
     ReactiveFormsModule,
     ActivityRoutingModule,
     MatDialogModule,
@@ -76,6 +61,18 @@ import { NgxEchartsModule } from 'ngx-echarts';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    ActivityLogComponent,
+    ActivityRoutesComponent,
+    ActivityStatisticsComponent,
+    ActivityEntryComponent,
+    ActivityInputComponent,
+    ActivityHeaderComponent,
+    ActivityRouteRowComponent,
+    ActivityRowComponent,
+    ActivityFormComponent,
+    ActivityFormRouteComponent,
+    ActivityEntryRoutesComponent,
+    DryRunActivityDialogComponent,
   ],
   providers: [
     {

@@ -18,11 +18,17 @@ import { User } from '@sentry/angular';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 import { QueryRef } from 'apollo-angular';
+import { MatTabNavPanel } from '@angular/material/tabs';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { CragRoutesComponent } from './crag-routes/crag-routes.component';
 
 @Component({
   selector: 'app-crag',
   templateUrl: './crag.component.html',
   styleUrls: ['./crag.component.scss'],
+  imports: [MatTabNavPanel, CommonModule, MatMenuModule, CragRoutesComponent],
+  standalone: true,
 })
 export class CragComponent implements OnInit, OnDestroy {
   loading: boolean = true;

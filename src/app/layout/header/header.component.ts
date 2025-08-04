@@ -1,14 +1,26 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../../../generated/graphql';
-
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import { FlexModule } from 'ng-flex-layout';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-header',
+  standalone: true,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  imports: [
+    MatMenu,
+    MatIcon,
+    RouterLink,
+    MatMenuTrigger,
+    FlexModule,
+    CommonModule,
+  ],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public naviOpen: boolean = false;

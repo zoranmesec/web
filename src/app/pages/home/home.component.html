@@ -2,8 +2,7 @@
 <app-loader *ngIf="loading && !error"></app-loader>
 
 <app-pending-contributions-hints></app-pending-contributions-hints>
-
-<div *ngIf="!error" [class.not-visible]="loading">
+<div>
   <div class="container mt-16">
     <!-- <mat-card class="announcement-card mt-16 mb-32">
       <div class="date">16. 10. 2022</div>
@@ -40,6 +39,8 @@
         (errorEvent)="handleError($event)"
       ></app-latest-difficulty-votes>
     </div>
-    <app-latest-comments (errorEvent)="handleError($event)"></app-latest-comments>
+    <app-latest-comments
+      (errorEvent)="handleError($event)"
+    ></app-latest-comments>
   </div>
 </div>

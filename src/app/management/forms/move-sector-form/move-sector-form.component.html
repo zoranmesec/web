@@ -12,7 +12,7 @@
       placeholder="Izberi plezališče"
       matInput
       formControlName="crag"
-      [matAutocomplete]="auto"
+      ([matAutocomplete])="(auto)"
     />
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       <mat-option *ngFor="let crag of filteredCrags | async" [value]="crag">

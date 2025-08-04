@@ -4,11 +4,17 @@ import { Activity } from 'src/generated/graphql';
 
 import { ACTIVITY_TYPES } from '../../../common/activity.constants';
 import { RowAction } from '../../pages/activity-log/activity-log.component';
+import { RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: '[app-activity-row]',
   templateUrl: './activity-row.component.html',
   styleUrls: ['./activity-row.component.scss'],
+  standalone: true,
+  imports: [RouterLink, MatMenuModule, MatIconModule, DatePipe],
 })
 export class ActivityRowComponent implements OnInit {
   @Input() activity: Activity;

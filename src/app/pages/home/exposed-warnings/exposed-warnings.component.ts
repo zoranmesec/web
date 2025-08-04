@@ -12,15 +12,18 @@ import { Comment, ExposedWarningsGQL } from '../../../../generated/graphql';
 import { DataError } from '../../../types/data-error';
 import { LoadingSpinnerService } from '../loading-spinner.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
-import { SwiperComponent } from 'swiper/angular';
+import { SwiperComponent, SwiperModule } from 'swiper/angular';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CommonModule, NgIf } from '@angular/common';
 
 SwiperCore.use([Pagination, Autoplay]);
 
 @Component({
   selector: 'app-exposed-warnings',
+  standalone: true,
   templateUrl: './exposed-warnings.component.html',
   styleUrls: ['./exposed-warnings.component.scss'],
+  imports: [SwiperModule, NgIf, CommonModule],
 })
 export class ExposedWarningsComponent
   implements OnInit, AfterViewInit, OnDestroy

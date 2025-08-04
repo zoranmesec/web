@@ -1,11 +1,20 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
+import { ApplicationConfig, enableProdMode, inject } from '@angular/core';
 import { environment } from './environments/environment';
 
 import * as Sentry from '@sentry/angular';
-import { BrowserTracing } from '@sentry/tracing';
+import { routes } from './app/app-routing.module';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { setContext } from '@apollo/client/link/context';
+import { ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { provideRouter } from '@angular/router';
 
 if (environment.production) {
   Sentry.init({
@@ -16,7 +25,36 @@ if (environment.production) {
 
   enableProdMode();
 }
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(withFetch()),
+    provideRouter(routes), // <-- added back
+    provideApollo(() => {
+      const httpLink = inject(HttpLink);
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch((err) => console.error(err));
+      const auth = setContext((operation, context) => {
+        const token = localStorage.getItem('token');
+
+        return {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZTQzNzliZi02MWM5LTQ1MmQtOTlhZi1jMWQ4OTU1ZWZiYmQiLCJlbWFpbCI6InpvcmFuLm1lc2VjQGdtYWlsLmNvbSIsImxhc3RQYXNzd29yZENoYW5nZSI6IjIwMjQtMDgtMzBUMDk6MDQ6MjMuMDQwWiIsInJvbGVzIjpbXSwiaWF0IjoxNzMzMjIyNzIyfQ.kRQkgHriBMCgZ5dsU-i_U-wr5d0ZkAfLKX4CRIBFNfI`,
+          },
+        };
+      });
+
+      return {
+        link: ApolloLink.from([
+          auth,
+          httpLink.create({ uri: 'http://localhost:3000/graphql' }),
+        ]),
+        cache: new InMemoryCache(),
+        // other options...
+      };
+    }),
+  ],
+};
+provideHttpClient(withInterceptorsFromDi());
+
+bootstrapApplication(AppComponent, appConfig).catch((err) =>
+  console.error(err)
+);

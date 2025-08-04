@@ -1,6 +1,16 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import dayjs from 'dayjs';
 import {
@@ -13,6 +23,8 @@ import {
   Peak,
   Route,
 } from 'src/generated/graphql';
+import { MyEditorComponent } from '../../editor/editor.component';
+import { MatIcon } from '@angular/material/icon';
 
 export interface DialogData {
   comment?: Comment;
@@ -27,6 +39,14 @@ export interface DialogData {
   selector: 'app-comment-form',
   templateUrl: './comment-form.component.html',
   styleUrls: ['./comment-form.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIcon,
+    MyEditorComponent,
+  ],
 })
 export class CommentFormComponent implements OnInit {
   title: string;

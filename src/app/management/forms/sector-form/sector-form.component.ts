@@ -1,6 +1,16 @@
 import { Component, Inject, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
 import { take } from 'rxjs';
@@ -11,6 +21,7 @@ import {
   ManagementUpdateSectorGQL,
   Sector,
 } from '../../../../generated/graphql';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
 
 export interface SectorFormComponentData {
   sector?: Sector;
@@ -22,6 +33,15 @@ export interface SectorFormComponentData {
   selector: 'app-sector-form',
   templateUrl: './sector-form.component.html',
   styleUrls: ['./sector-form.component.scss'],
+  standalone: true,
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatHint,
+    MatDialogActions,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class SectorFormComponent implements OnInit {
   saving = false;

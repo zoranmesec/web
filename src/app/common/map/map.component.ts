@@ -23,11 +23,14 @@ import { circular } from 'ol/geom/Polygon';
 import VectorSource from 'ol/source/Vector';
 import { BehaviorSubject, Subject } from 'rxjs';
 import Control from 'ol/control/Control';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
+  standalone: true,
+  imports: [RouterLink],
 })
 export class MapComponent implements OnInit, AfterViewInit {
   @Input() crags: BehaviorSubject<any[]>;

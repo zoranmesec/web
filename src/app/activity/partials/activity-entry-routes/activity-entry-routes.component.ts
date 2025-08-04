@@ -17,6 +17,7 @@ import {
   selector: 'app-activity-entry-routes',
   templateUrl: './activity-entry-routes.component.html',
   styleUrls: ['./activity-entry-routes.component.scss'],
+  standalone: true,
 })
 export class ActivityEntryRoutesComponent implements OnInit {
   @Input() routes: ActivityRoute[];

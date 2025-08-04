@@ -1,16 +1,39 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MatDialog,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
 import { PasswordRecoveryComponent } from '../password-recovery/password-recovery.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoginGQL, LoginResponse } from '../../../generated/graphql';
+import { MatLabel, MatFormField, MatHint } from '@angular/material/form-field';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  imports: [
+    MatLabel,
+    MatFormField,
+    MatHint,
+    MatDialogContent,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
+  standalone: true,
 })
 export class LoginComponent implements OnInit {
   loading = false;

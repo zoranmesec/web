@@ -13,6 +13,7 @@ import { ACTIVITY_TYPES } from '../../../common/activity.constants';
   selector: 'app-activity-entry',
   templateUrl: './activity-entry.component.html',
   styleUrls: ['./activity-entry.component.scss'],
+  standalone: true,
 })
 export class ActivityEntryComponent implements OnInit, OnDestroy {
   loading = false;

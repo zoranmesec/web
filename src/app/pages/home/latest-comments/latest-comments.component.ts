@@ -10,9 +10,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DataError } from 'src/app/types/data-error';
 import { LatestCommentsGQL, LatestCommentsQuery } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-latest-comments',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './latest-comments.component.html',
   styleUrls: ['./latest-comments.component.scss'],
 })

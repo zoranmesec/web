@@ -1,6 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -19,6 +29,14 @@ interface AresFormComponentData {
   selector: 'app-area-form',
   templateUrl: './area-form.component.html',
   styleUrls: ['./area-form.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    MatLabel,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+  ],
 })
 export class AreaFormComponent implements OnInit {
   saving = false;

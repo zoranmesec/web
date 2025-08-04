@@ -1,5 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   Activity,
@@ -26,11 +33,15 @@ import { ACTIVITY_TYPES } from 'src/app/common/activity.constants';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DryRunActivityDialogComponent } from './dry-run-activity-dialog/dry-run-activity-dialog.component';
+import { MatLabel, MatFormField } from '@angular/material/form-field';
+import { MatDatepickerToggle, MatDatepicker } from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-activity-form',
   templateUrl: './activity-form.component.html',
   styleUrls: ['./activity-form.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, MatLabel, MatFormField, MatDatepickerToggle, MatDatepicker],
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
   @Input() selectedRoutes: Route[];
@@ -286,7 +297,9 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         name: new UntypedFormControl(route.name),
         slug: new UntypedFormControl(route.slug),
         difficulty: new UntypedFormControl(route.difficulty),
-        defaultGradingSystemId: new UntypedFormControl(route.defaultGradingSystem.id),
+        defaultGradingSystemId: new UntypedFormControl(
+          route.defaultGradingSystem.id
+        ),
         isProject: new UntypedFormControl(route.isProject),
         ascentType: new UntypedFormControl({ value: null, disabled: true }, [
           Validators.required,

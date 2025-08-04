@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import {
+  MatAutocompleteTrigger,
+  MatAutocompleteModule,
+} from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Subscription } from 'rxjs';
 import {
@@ -19,11 +27,23 @@ import {
   Sector,
   User,
 } from 'src/generated/graphql';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-search',
+  standalone: true,
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  imports: [
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    NgIf,
+  ],
 })
 export class SearchComponent implements OnInit, OnDestroy {
   constructor(

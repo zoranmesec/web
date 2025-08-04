@@ -1,9 +1,9 @@
-<mat-card [ngStyle]="{ 'margin-left.px': depth * 16 }">
+<mat-card [style]="{ 'margin-left.px': depth * 16 }">
   <!-- Entity type label || Publish status -->
   <div fxLayout="row" fxLayoutAlign="space-between">
     <div>{{ entityTypeLabel[contribution.entity] }}</div>
     <div
-      [ngClass]="{
+      [class]="{
         warn: contribution.publishStatus === 'draft',
         notice: contribution.publishStatus === 'in_review'
       }"
@@ -25,7 +25,7 @@
   >
     <!-- Info block -->
     <div>
-      <div [ngStyle.gt-xs]="{ display: 'inline-block' }">
+      <div [style.gt-xs]="{ display: 'inline-block' }">
         <a [routerLink]="link">{{ contribution[contribution.entity].name }}</a>
       </div>
 

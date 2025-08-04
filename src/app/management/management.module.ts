@@ -16,7 +16,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CragFormComponent } from './forms/crag-form/crag-form.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SharedModule } from '../shared/shared.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CragSectorsComponent } from './pages/crag-sectors/crag-sectors.component';
@@ -38,22 +37,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
-  declarations: [
-    CragComponent,
-    CragFormComponent,
-    SectorFormComponent,
-    RouteFormComponent,
-    CragSectorsComponent,
-    CragSectorRoutesComponent,
-    ContributionsComponent,
-    PublishStatusChangeDialogComponent,
-    ContributionComponent,
-    CountriesComponent,
-    AreasComponent,
-    AreaFormComponent,
-    MoveSectorFormComponent,
-    MoveRouteFormComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -72,7 +56,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatCheckboxModule,
     MatDialogModule,
     NgxMaskModule.forRoot(),
-    SharedModule,
     DragDropModule,
     ReactiveFormsModule,
     FormsModule,

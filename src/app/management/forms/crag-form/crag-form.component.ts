@@ -1,7 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@sentry/angular';
 import { Apollo, MutationResult } from 'apollo-angular';
@@ -20,11 +26,24 @@ import {
 } from 'src/generated/graphql';
 import { GradingSystemsService } from '../../../shared/services/grading-systems.service';
 import { ContributionService } from '../../pages/contributions/contribution/contribution.service';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MyEditorComponent } from 'src/app/shared/editor/editor.component';
 
 @Component({
   selector: 'app-crag-form',
   templateUrl: './crag-form.component.html',
   styleUrls: ['./crag-form.component.scss'],
+  standalone: true,
+  imports: [
+    MatCheckbox,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MyEditorComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class CragFormComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;

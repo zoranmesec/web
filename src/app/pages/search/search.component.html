@@ -1,8 +1,9 @@
 <div fxLayout="row">
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" fxFlex="100">
+  <!-- <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" fxFlex="100">
     <mat-form-field
       fxFlex="100"
       floatLabel="never"
+      formControlName="searchControl"
       style="margin-bottom: -1.34375em"
     >
       <mat-icon matPrefix class="my-icon">search</mat-icon>
@@ -17,7 +18,6 @@
       />
       <mat-autocomplete
         #auto="matAutocomplete"
-        [displayWith]="displayFn"
         (optionSelected)="onOptionSelected($event.option.value)"
       >
         <mat-option disabled *ngIf="error"
@@ -60,5 +60,5 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-  </form>
+  </form> -->
 </div>

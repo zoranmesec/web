@@ -6,6 +6,7 @@ import { ASCENT_TYPES } from '../../../common/activity.constants';
   selector: 'app-ascent-type',
   templateUrl: './ascent-type.component.html',
   styleUrls: ['./ascent-type.component.scss'],
+  standalone: true,
 })
 export class AscentTypeComponent implements OnInit {
   @Input() value: string;

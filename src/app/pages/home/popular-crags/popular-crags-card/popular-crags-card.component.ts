@@ -12,11 +12,15 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DataError } from 'src/app/types/data-error';
 import { PopularCrag, PopularCragsGQL } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../../loading-spinner.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-popular-crags-card',
   templateUrl: './popular-crags-card.component.html',
   styleUrls: ['./popular-crags-card.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
 })
 export class PopularCragsCardComponent implements OnInit, OnDestroy {
   constructor(

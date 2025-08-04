@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import {
   MatSnackBarRef,
   MAT_SNACK_BAR_DATA,
@@ -12,6 +13,8 @@ export interface SnackBarData {
   selector: 'app-snack-bar-buttons',
   templateUrl: './snack-bar-buttons.component.html',
   styleUrls: ['./snack-bar-buttons.component.scss'],
+  standalone: true,
+  imports: [MatIcon],
 })
 export class SnackBarButtonsComponent implements OnInit {
   constructor(

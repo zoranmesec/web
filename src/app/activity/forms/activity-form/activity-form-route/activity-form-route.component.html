@@ -153,7 +153,7 @@
 
     <mat-form-field
       fxFlex="50"
-      [ngClass]="{'no-hint':activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == null}"
+      [class]="{'no-hint':activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == null}"
     >
       <mat-label>Lepota smeri</mat-label>
       <mat-select formControlName="votedStarRating" class="star-rating">

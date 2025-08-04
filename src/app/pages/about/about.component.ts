@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/services/layout.service';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
+  imports: [MatCard],
+  standalone: true,
 })
 export class AboutComponent implements OnInit {
   constructor(private layoutService: LayoutService) {}

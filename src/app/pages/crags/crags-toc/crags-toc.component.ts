@@ -1,16 +1,29 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   CountriesTocGQL,
   CountriesTocQuery,
   Country,
 } from '../../../../generated/graphql';
 import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
+import { MatIcon } from '@angular/material/icon';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-crags-toc',
   templateUrl: './crags-toc.component.html',
   styleUrls: ['./crags-toc.component.scss'],
+  standalone: true,
+  imports: [
+    RouterLink,
+    MatIcon,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOptionModule,
+  ],
 })
 export class CragsTocComponent implements OnInit {
   @Input() country: Country;

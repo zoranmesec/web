@@ -15,11 +15,16 @@ import {
   FindActivityRoutesInput,
 } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
+import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-latest-ascents',
+  standalone: true,
   templateUrl: './latest-ascents.component.html',
   styleUrls: ['./latest-ascents.component.scss'],
+  imports: [MatCardModule, RouterModule, CommonModule],
 })
 export class LatestAscentsComponent implements OnInit, OnDestroy {
   @Output() errorEvent = new EventEmitter<DataError>();
