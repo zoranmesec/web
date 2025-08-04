@@ -13,16 +13,15 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-publish-status-change-dialog',
-  templateUrl: './publish-status-change-dialog.component.html',
-  styleUrls: ['./publish-status-change-dialog.component.scss'],
-  imports: [
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogModule,
-    ReactiveFormsModule,
-  ],
-  standalone: true,
+    selector: 'app-publish-status-change-dialog',
+    templateUrl: './publish-status-change-dialog.component.html',
+    styleUrls: ['./publish-status-change-dialog.component.scss'],
+    imports: [
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogModule,
+        ReactiveFormsModule,
+    ]
 })
 export class PublishStatusChangeDialogComponent implements OnInit {
   publishForm = new FormGroup({

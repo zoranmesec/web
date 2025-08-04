@@ -3,11 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { SideEffect } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-dry-run-activity-dialog',
-  templateUrl: './dry-run-activity-dialog.component.html',
-  styleUrls: ['./dry-run-activity-dialog.component.scss'],
-  standalone: true,
-  imports: [MatDialogModule],
+    selector: 'app-dry-run-activity-dialog',
+    templateUrl: './dry-run-activity-dialog.component.html',
+    styleUrls: ['./dry-run-activity-dialog.component.scss'],
+    imports: [MatDialogModule]
 })
 export class DryRunActivityDialogComponent implements OnInit {
   constructor(

@@ -14,9 +14,10 @@ import { ClubService } from '../club.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-club-members',
-  templateUrl: './club-members.component.html',
-  styleUrls: ['./club-members.component.scss'],
+    selector: 'app-club-members',
+    templateUrl: './club-members.component.html',
+    styleUrls: ['./club-members.component.scss'],
+    standalone: false
 })
 export class ClubMembersComponent implements OnInit, OnDestroy {
   loading = true;

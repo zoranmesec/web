@@ -1,19 +1,11 @@
 .nr {
   white-space: nowrap;
 }
-@import "../../../../styles/colors.scss";
 
 a.row {
   text-decoration: none;
   color: #000;
-  &:hover {
-    color: $primary;
-  }
-  &.active {
-    color: $primary;
-    cursor: default;
-    background: #f6f9ff;
-  }
+
   &.disabled {
     color: #0000008a;
     &:hover {

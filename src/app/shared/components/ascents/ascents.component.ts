@@ -3,9 +3,10 @@ import { ASCENT_TYPES } from 'src/app/common/activity.constants';
 import { Activity } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-ascents',
-  templateUrl: './ascents.component.html',
-  styleUrls: ['./ascents.component.scss'],
+    selector: 'app-ascents',
+    templateUrl: './ascents.component.html',
+    styleUrls: ['./ascents.component.scss'],
+    standalone: false
 })
 export class AscentsComponent implements OnInit {
   @Input() activities: Activity[];

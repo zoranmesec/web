@@ -20,11 +20,10 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-latest-ascents',
-  standalone: true,
-  templateUrl: './latest-ascents.component.html',
-  styleUrls: ['./latest-ascents.component.scss'],
-  imports: [MatCardModule, RouterModule, CommonModule],
+    selector: 'app-latest-ascents',
+    templateUrl: './latest-ascents.component.html',
+    styleUrls: ['./latest-ascents.component.scss'],
+    imports: [MatCardModule, RouterModule, CommonModule]
 })
 export class LatestAscentsComponent implements OnInit, OnDestroy {
   @Output() errorEvent = new EventEmitter<DataError>();

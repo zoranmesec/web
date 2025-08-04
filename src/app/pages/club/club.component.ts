@@ -14,10 +14,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteClubGQL } from '../../../generated/graphql';
 
 @Component({
-  selector: 'app-club',
-  templateUrl: './club.component.html',
-  styleUrls: ['./club.component.scss'],
-  providers: [ClubService],
+    selector: 'app-club',
+    templateUrl: './club.component.html',
+    styleUrls: ['./club.component.scss'],
+    providers: [ClubService],
+    standalone: false
 })
 export class ClubComponent implements OnInit, OnDestroy {
   loading = true;

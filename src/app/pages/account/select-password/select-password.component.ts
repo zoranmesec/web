@@ -8,9 +8,10 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { SetPasswordGQL } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-select-password',
-  templateUrl: './select-password.component.html',
-  styleUrls: ['./select-password.component.scss'],
+    selector: 'app-select-password',
+    templateUrl: './select-password.component.html',
+    styleUrls: ['./select-password.component.scss'],
+    standalone: false
 })
 export class SelectPasswordComponent implements OnInit, OnDestroy {
   loading = false;

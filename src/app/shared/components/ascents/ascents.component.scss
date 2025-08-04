@@ -1,5 +1,3 @@
-@import "../../../../styles/variables.scss";
-
 .card-table {
   tr {
     td.button {
@@ -18,7 +16,6 @@
 
       td {
         border-top: 0px solid white;
-        transition: all $cubic-bezier;
 
         padding: 0;
 
@@ -27,7 +24,6 @@
           min-height: 0;
           opacity: 0;
           padding: 0 12px;
-          transition: all $cubic-bezier;
 
           overflow: hidden;
           display: flex;
@@ -38,9 +34,6 @@
 
     &.expanded-row {
       td {
-        &.w-border {
-          border-top: 1px solid $gray-lighter;
-        }
         &.fake-border {
           border-top: 1px solid white;
         }
@@ -65,12 +58,7 @@
     color: $gray;
   }
 
-  div:hover {
-    background: $blue-very-light;
-  }
-
   .activity {
-    border-top: 1px solid $gray-lighter;
     &:first-child {
       border-top: none;
     }
@@ -100,7 +88,6 @@
     overflow: hidden;
 
     .activity-route {
-      border-top: 1px solid $gray-lighter;
       padding-top: 0;
       padding-bottom: 0;
     }
@@ -108,7 +95,6 @@
     min-height: 0;
     max-height: 0;
     opacity: 0;
-    transition: all $cubic-bezier;
   }
 
   .expanded-row {
@@ -120,9 +106,5 @@
     min-height: 37px;
     max-height: 96px;
     opacity: 1;
-  }
-
-  .main-activity-route {
-    transition: padding-top $cubic-bezier;
   }
 }

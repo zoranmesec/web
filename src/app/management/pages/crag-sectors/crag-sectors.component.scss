@@ -1,23 +1,8 @@
-@import "../../../../styles/colors.scss";
-@import "../../../../styles/variables.scss";
-
 .sector {
   background: #fff;
   box-shadow: 0 2px 6px 0 #6494ff26;
   padding: 4px 12px;
   min-height: 52px;
-
-  border-left: 1px solid $blue;
-  &.warn {
-    border-left: 1px solid $red;
-  }
-  &.notice {
-    border-left: 1px solid $orange;
-  }
-
-  &.disabled {
-    color: $gray;
-  }
 
   .name {
     font-weight: 500;

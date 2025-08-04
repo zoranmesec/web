@@ -5,9 +5,10 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { PeakBySlugGQL, PeakBySlugQuery } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-peak-crags',
-  templateUrl: './peak-crags.component.html',
-  styleUrls: ['./peak-crags.component.scss'],
+    selector: 'app-peak-crags',
+    templateUrl: './peak-crags.component.html',
+    styleUrls: ['./peak-crags.component.scss'],
+    standalone: false
 })
 export class PeakCragsComponent implements OnInit, OnDestroy {
   loading = true;

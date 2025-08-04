@@ -1,5 +1,3 @@
-@import "../../../../../styles/variables.scss";
-
 mat-card {
   border-radius: 0;
   margin-bottom: 4px;
@@ -7,18 +5,6 @@ mat-card {
 
 .publish-status {
   white-space: nowrap;
-}
-
-.warn {
-  color: $red;
-}
-
-.notice {
-  color: $orange;
-}
-
-.contributor {
-  color: $gray-dark;
 }
 
 .actions {

@@ -7,11 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ActivityFormComponent } from '../../forms/activity-form/activity-form.component';
 
 @Component({
-  selector: 'app-activity-input',
-  templateUrl: './activity-input.component.html',
-  styleUrls: ['./activity-input.component.scss'],
-  standalone: true,
-  imports: [ActivityFormComponent],
+    selector: 'app-activity-input',
+    templateUrl: './activity-input.component.html',
+    styleUrls: ['./activity-input.component.scss'],
+    imports: [ActivityFormComponent]
 })
 export class ActivityInputComponent implements OnInit {
   type: string = null;

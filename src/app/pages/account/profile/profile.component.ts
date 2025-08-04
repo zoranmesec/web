@@ -7,11 +7,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent } from '@angular/material/card';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
-  imports: [MatIcon, MatCard, MatCardContent, RouterLink],
-  standalone: true,
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    imports: [MatIcon, MatCard, MatCardContent, RouterLink]
 })
 export class ProfileComponent implements OnInit {
   constructor(

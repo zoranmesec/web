@@ -18,9 +18,10 @@ import { ImageUploadComponent } from 'src/app/shared/components/image-upload/ima
 import { QueryRef } from 'apollo-angular';
 
 @Component({
-  selector: 'app-route',
-  templateUrl: './route.component.html',
-  styleUrls: ['./route.component.scss'],
+    selector: 'app-route',
+    templateUrl: './route.component.html',
+    styleUrls: ['./route.component.scss'],
+    standalone: false
 })
 export class RouteComponent implements OnInit, OnDestroy {
   loading: boolean = true;

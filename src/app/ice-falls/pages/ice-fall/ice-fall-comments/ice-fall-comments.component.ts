@@ -12,9 +12,10 @@ interface IComment {
 }
 
 @Component({
-  selector: 'app-ice-fall-comments',
-  templateUrl: './ice-fall-comments.component.html',
-  styleUrls: ['./ice-fall-comments.component.scss'],
+    selector: 'app-ice-fall-comments',
+    templateUrl: './ice-fall-comments.component.html',
+    styleUrls: ['./ice-fall-comments.component.scss'],
+    standalone: false
 })
 export class IceFallCommentsComponent {
   allComments: IComment[];

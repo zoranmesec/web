@@ -37,11 +37,10 @@ import { MatLabel, MatFormField } from '@angular/material/form-field';
 import { MatDatepickerToggle, MatDatepicker } from "@angular/material/datepicker";
 
 @Component({
-  selector: 'app-activity-form',
-  templateUrl: './activity-form.component.html',
-  styleUrls: ['./activity-form.component.scss'],
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatLabel, MatFormField, MatDatepickerToggle, MatDatepicker],
+    selector: 'app-activity-form',
+    templateUrl: './activity-form.component.html',
+    styleUrls: ['./activity-form.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, MatLabel, MatFormField, MatDatepickerToggle, MatDatepicker]
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
   @Input() selectedRoutes: Route[];

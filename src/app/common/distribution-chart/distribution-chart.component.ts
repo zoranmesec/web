@@ -13,9 +13,10 @@ export interface IDistribution {
 }
 
 @Component({
-  selector: 'app-distribution-chart',
-  templateUrl: './distribution-chart.component.html',
-  styleUrls: ['./distribution-chart.component.scss'],
+    selector: 'app-distribution-chart',
+    templateUrl: './distribution-chart.component.html',
+    styleUrls: ['./distribution-chart.component.scss'],
+    standalone: false
 })
 export class DistributionChartComponent implements OnChanges, AfterViewInit {
   @Input() distribution: IDistribution[] = [];

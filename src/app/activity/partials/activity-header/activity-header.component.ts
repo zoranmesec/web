@@ -3,11 +3,10 @@ import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-activity-header',
-  templateUrl: './activity-header.component.html',
-  styleUrls: ['./activity-header.component.scss'],
-  imports: [MatTabsModule, RouterLink],
-  standalone: true,
+    selector: 'app-activity-header',
+    templateUrl: './activity-header.component.html',
+    styleUrls: ['./activity-header.component.scss'],
+    imports: [MatTabsModule, RouterLink]
 })
 export class ActivityHeaderComponent implements OnInit {
   @Input() active: string;

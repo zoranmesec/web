@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
-  name: 'genderizeVerb',
+    name: 'genderizeVerb',
+    standalone: false
 })
 export class GenderizeVerbPipe implements PipeTransform {
   transform(verb: string, gender: string) {

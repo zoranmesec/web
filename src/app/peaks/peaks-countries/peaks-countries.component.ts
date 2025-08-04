@@ -4,9 +4,10 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { PeaksCountriesGQL, PeaksCountriesQuery } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-peaks-countries',
-  templateUrl: './peaks-countries.component.html',
-  styleUrls: ['./peaks-countries.component.scss'],
+    selector: 'app-peaks-countries',
+    templateUrl: './peaks-countries.component.html',
+    styleUrls: ['./peaks-countries.component.scss'],
+    standalone: false
 })
 export class PeaksCountriesComponent implements OnInit, OnDestroy {
   constructor(

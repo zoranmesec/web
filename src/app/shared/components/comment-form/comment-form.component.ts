@@ -36,17 +36,16 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-comment-form',
-  templateUrl: './comment-form.component.html',
-  styleUrls: ['./comment-form.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIcon,
-    MyEditorComponent,
-  ],
+    selector: 'app-comment-form',
+    templateUrl: './comment-form.component.html',
+    styleUrls: ['./comment-form.component.scss'],
+    imports: [
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatIcon,
+        MyEditorComponent,
+    ]
 })
 export class CommentFormComponent implements OnInit {
   title: string;

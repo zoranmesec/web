@@ -4,11 +4,10 @@ import { DataError } from 'src/app/types/data-error';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 
 @Component({
-  selector: 'app-not-found',
-  standalone: true,
-  templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss'],
-  imports: [DataErrorComponent],
+    selector: 'app-not-found',
+    templateUrl: './not-found.component.html',
+    styleUrls: ['./not-found.component.scss'],
+    imports: [DataErrorComponent]
 })
 export class NotFoundComponent implements OnInit {
   error: DataError = {

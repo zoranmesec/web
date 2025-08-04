@@ -10,11 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: '[app-activity-row]',
-  templateUrl: './activity-row.component.html',
-  styleUrls: ['./activity-row.component.scss'],
-  standalone: true,
-  imports: [RouterLink, MatMenuModule, MatIconModule, DatePipe],
+    selector: '[app-activity-row]',
+    templateUrl: './activity-row.component.html',
+    styleUrls: ['./activity-row.component.scss'],
+    imports: [RouterLink, MatMenuModule, MatIconModule, DatePipe]
 })
 export class ActivityRowComponent implements OnInit {
   @Input() activity: Activity;

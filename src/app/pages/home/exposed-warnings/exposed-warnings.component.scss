@@ -1,8 +1,3 @@
-@import "../../../../styles/colors.scss";
-.warning {
-  border-left: 2px solid $warn;
-}
-
 .mat-card {
   border-radius: 0;
   .mat-card-title {
@@ -26,7 +21,6 @@
 }
 
 h2 {
-  color: $primary;
   background-color: transparent;
   font-size: 24px;
   font-weight: 400;

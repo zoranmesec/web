@@ -32,9 +32,10 @@ interface TmpRoute {
 }
 
 @Component({
-  selector: 'app-crag-sector-routes',
-  templateUrl: './crag-sector-routes.component.html',
-  styleUrls: ['./crag-sector-routes.component.scss'],
+    selector: 'app-crag-sector-routes',
+    templateUrl: './crag-sector-routes.component.html',
+    styleUrls: ['./crag-sector-routes.component.scss'],
+    standalone: false
 })
 export class CragSectorRoutesComponent implements OnInit, OnDestroy {
   loading: boolean = true;

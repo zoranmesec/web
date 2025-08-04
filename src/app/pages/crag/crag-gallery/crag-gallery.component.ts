@@ -3,9 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ImageFullComponent } from 'src/app/common/image-full/image-full.component';
 
 @Component({
-  selector: 'app-crag-gallery',
-  templateUrl: './crag-gallery.component.html',
-  styleUrls: ['./crag-gallery.component.scss'],
+    selector: 'app-crag-gallery',
+    templateUrl: './crag-gallery.component.html',
+    styleUrls: ['./crag-gallery.component.scss'],
+    standalone: false
 })
 export class CragGalleryComponent {
   @Input() images: string;

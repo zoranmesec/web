@@ -5,11 +5,10 @@ import { PopularCragsCardComponent } from './popular-crags-card/popular-crags-ca
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-popular-crags',
-  standalone: true,
-  templateUrl: './popular-crags.component.html',
-  styleUrls: ['./popular-crags.component.scss'],
-  imports: [PopularCragsCardComponent, CommonModule],
+    selector: 'app-popular-crags',
+    templateUrl: './popular-crags.component.html',
+    styleUrls: ['./popular-crags.component.scss'],
+    imports: [PopularCragsCardComponent, CommonModule]
 })
 export class PopularCragsComponent implements OnInit {
   constructor() {}

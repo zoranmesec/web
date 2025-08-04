@@ -30,11 +30,10 @@ export interface MoveRouteFormComponentData {
 }
 
 @Component({
-  selector: 'app-move-route-form',
-  templateUrl: './move-route-form.component.html',
-  styleUrls: ['./move-route-form.component.scss'],
-  standalone: true,
-  imports: [MatDialogActions, FormsModule, ReactiveFormsModule],
+    selector: 'app-move-route-form',
+    templateUrl: './move-route-form.component.html',
+    styleUrls: ['./move-route-form.component.scss'],
+    imports: [MatDialogActions, FormsModule, ReactiveFormsModule]
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
   form = new UntypedFormGroup({

@@ -41,18 +41,17 @@ export interface RouteFormValues {
 }
 
 @Component({
-  selector: 'app-route-form',
-  templateUrl: './route-form.component.html',
-  styleUrls: ['./route-form.component.scss'],
-  standalone: true,
-  imports: [
-    MatFormField,
-    MatLabel,
-    MatDialogActions,
-    FormsModule,
-    ReactiveFormsModule,
-    GradeSelectComponent,
-  ],
+    selector: 'app-route-form',
+    templateUrl: './route-form.component.html',
+    styleUrls: ['./route-form.component.scss'],
+    imports: [
+        MatFormField,
+        MatLabel,
+        MatDialogActions,
+        FormsModule,
+        ReactiveFormsModule,
+        GradeSelectComponent,
+    ]
 })
 export class RouteFormComponent implements OnInit, OnDestroy {
   saving = false;

@@ -19,9 +19,10 @@ interface FlatArea {
 }
 
 @Component({
-  selector: 'app-areas',
-  templateUrl: './country.component.html',
-  styleUrls: ['./country.component.scss'],
+    selector: 'app-areas',
+    templateUrl: './country.component.html',
+    styleUrls: ['./country.component.scss'],
+    standalone: false
 })
 export class CountryComponent implements OnInit {
   loading: boolean = true;

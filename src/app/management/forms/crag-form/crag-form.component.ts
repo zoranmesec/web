@@ -31,19 +31,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MyEditorComponent } from 'src/app/shared/editor/editor.component';
 
 @Component({
-  selector: 'app-crag-form',
-  templateUrl: './crag-form.component.html',
-  styleUrls: ['./crag-form.component.scss'],
-  standalone: true,
-  imports: [
-    MatCheckbox,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    MyEditorComponent,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+    selector: 'app-crag-form',
+    templateUrl: './crag-form.component.html',
+    styleUrls: ['./crag-form.component.scss'],
+    imports: [
+        MatCheckbox,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatSelectModule,
+        MyEditorComponent,
+        FormsModule,
+        ReactiveFormsModule,
+    ]
 })
 export class CragFormComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;

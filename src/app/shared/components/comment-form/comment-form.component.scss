@@ -1,5 +1,3 @@
-@import "../../../../styles/colors.scss";
-
 form {
   max-width: 100%;
   width: 600px;
@@ -7,9 +5,6 @@ form {
 .mat-dialog-title {
   font-size: 15px;
   margin: -12px 0 12px 0;
-  .title {
-    color: $primary;
-  }
 }
 .mat-dialog-content {
   box-shadow: inset 0 2px 6px 0 #6494ff26;

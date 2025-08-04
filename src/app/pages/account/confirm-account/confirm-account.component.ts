@@ -5,9 +5,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { ConfirmGQL } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-confirm-account',
-  templateUrl: './confirm-account.component.html',
-  styleUrls: ['./confirm-account.component.scss'],
+    selector: 'app-confirm-account',
+    templateUrl: './confirm-account.component.html',
+    styleUrls: ['./confirm-account.component.scss'],
+    standalone: false
 })
 export class ConfirmAccountComponent implements OnInit, OnDestroy {
   loading = true;

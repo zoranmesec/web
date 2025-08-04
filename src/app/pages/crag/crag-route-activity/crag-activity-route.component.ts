@@ -22,9 +22,10 @@ import {
 import { FilteredTable } from '../../../common/filtered-table';
 
 @Component({
-  selector: 'crag-activity-route',
-  templateUrl: './crag-activity-route.component.html',
-  styleUrls: ['./crag-activity-route.component.scss'],
+    selector: 'crag-activity-route',
+    templateUrl: './crag-activity-route.component.html',
+    styleUrls: ['./crag-activity-route.component.scss'],
+    standalone: false
 })
 export class CragActivityRouteComponent {
   routeId: string;

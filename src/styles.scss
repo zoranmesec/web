@@ -2,7 +2,12 @@
 @include mat.core();
 
 $plezanje-net-primary: mat.m2-define-palette(mat.$m2-indigo-palette, 500);
-$plezanje-net-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$plezanje-net-accent: mat.m2-define-palette(
+  mat.$m2-pink-palette,
+  A200,
+  A100,
+  A400
+);
 
 $plezanje-net-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
@@ -27,5 +32,3 @@ $plezanje-net-theme: mat.m2-define-light-theme(
 @include mat.button-theme($plezanje-net-theme);
 @include mat.all-component-themes($plezanje-net-theme);
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
-
-@import "styles/global.scss";

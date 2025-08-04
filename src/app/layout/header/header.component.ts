@@ -9,18 +9,17 @@ import { MatIcon } from '@angular/material/icon';
 import { FlexModule } from 'ng-flex-layout';
 import { CommonModule } from '@angular/common';
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  imports: [
-    MatMenu,
-    MatIcon,
-    RouterLink,
-    MatMenuTrigger,
-    FlexModule,
-    CommonModule,
-  ],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    imports: [
+        MatMenu,
+        MatIcon,
+        RouterLink,
+        MatMenuTrigger,
+        FlexModule,
+        CommonModule,
+    ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public naviOpen: boolean = false;

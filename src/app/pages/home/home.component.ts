@@ -14,20 +14,19 @@ import { LatestCommentsComponent } from './latest-comments/latest-comments.compo
 import { PopularCragsComponent } from './popular-crags/popular-crags.component';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  imports: [
-    PendingContributionsHintsComponent,
-    CommonModule,
-    SearchComponent,
-    ExposedWarningsComponent,
-    LatestAscentsComponent,
-    LatestDifficultyVotesComponent,
-    LatestCommentsComponent,
-    PopularCragsComponent,
-  ],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    imports: [
+        PendingContributionsHintsComponent,
+        CommonModule,
+        SearchComponent,
+        ExposedWarningsComponent,
+        LatestAscentsComponent,
+        LatestDifficultyVotesComponent,
+        LatestCommentsComponent,
+        PopularCragsComponent,
+    ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   error: DataError;

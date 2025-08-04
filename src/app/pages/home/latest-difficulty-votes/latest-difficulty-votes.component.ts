@@ -16,11 +16,10 @@ import { LoadingSpinnerService } from '../loading-spinner.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-latest-difficulty-votes',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './latest-difficulty-votes.component.html',
-  styleUrls: ['./latest-difficulty-votes.component.scss'],
+    selector: 'app-latest-difficulty-votes',
+    imports: [CommonModule],
+    templateUrl: './latest-difficulty-votes.component.html',
+    styleUrls: ['./latest-difficulty-votes.component.scss']
 })
 export class LatestDifficultyVotesComponent implements OnInit, OnDestroy {
   @Output() errorEvent = new EventEmitter<DataError>();

@@ -6,11 +6,10 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-breadcrumbs',
-  templateUrl: './breadcrumbs.component.html',
-  styleUrls: ['./breadcrumbs.component.scss'],
-  standalone: true,
-  imports: [RouterLink, CommonModule],
+    selector: 'app-breadcrumbs',
+    templateUrl: './breadcrumbs.component.html',
+    styleUrls: ['./breadcrumbs.component.scss'],
+    imports: [RouterLink, CommonModule]
 })
 export class BreadcrumbsComponent implements OnInit {
   constructor(private layoutService: LayoutService) {}

@@ -4,9 +4,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Comment } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss'],
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss'],
+    standalone: false
 })
 export class CommentComponent implements OnInit, OnDestroy {
   @Input() comment: Comment;

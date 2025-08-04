@@ -1,5 +1,3 @@
-@import "../../../styles/colors.scss";
-
 $almost-black: rgba(0, 0, 0, 0.87);
 
 .grade-modifier {
@@ -7,14 +5,6 @@ $almost-black: rgba(0, 0, 0, 0.87);
   top: 7px;
   height: 20px;
   line-height: 5px;
-
-  &.hard {
-    color: $colors-red;
-  }
-
-  &.soft {
-    color: $colors-green;
-  }
 }
 
 h2,

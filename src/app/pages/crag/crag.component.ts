@@ -24,11 +24,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CragRoutesComponent } from './crag-routes/crag-routes.component';
 
 @Component({
-  selector: 'app-crag',
-  templateUrl: './crag.component.html',
-  styleUrls: ['./crag.component.scss'],
-  imports: [MatTabNavPanel, CommonModule, MatMenuModule, CragRoutesComponent],
-  standalone: true,
+    selector: 'app-crag',
+    templateUrl: './crag.component.html',
+    styleUrls: ['./crag.component.scss'],
+    imports: [MatTabNavPanel, CommonModule, MatMenuModule, CragRoutesComponent]
 })
 export class CragComponent implements OnInit, OnDestroy {
   loading: boolean = true;

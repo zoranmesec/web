@@ -12,9 +12,10 @@ import { environment } from 'src/environments/environment';
 import { DeleteImageGQL, Image, User } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-image-full',
-  templateUrl: './image-full.component.html',
-  styleUrls: ['./image-full.component.scss'],
+    selector: 'app-image-full',
+    templateUrl: './image-full.component.html',
+    styleUrls: ['./image-full.component.scss'],
+    standalone: false
 })
 export class ImageFullComponent implements OnInit {
   storageUrl = environment.storageUrl;

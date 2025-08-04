@@ -19,21 +19,20 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-activity-form-route',
-  templateUrl: './activity-form-route.component.html',
-  styleUrls: ['./activity-form-route.component.scss'],
-  imports: [
-    GradeSelectComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatSelectTrigger,
-    MatOptionModule,
-    MatIcon,
-    MatHint,
-  ],
-  standalone: true,
+    selector: 'app-activity-form-route',
+    templateUrl: './activity-form-route.component.html',
+    styleUrls: ['./activity-form-route.component.scss'],
+    imports: [
+        GradeSelectComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatSelectTrigger,
+        MatOptionModule,
+        MatIcon,
+        MatHint,
+    ]
 })
 export class ActivityFormRouteComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

@@ -26,11 +26,10 @@ import Control from 'ol/control/Control';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
-  standalone: true,
-  imports: [RouterLink],
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
+    imports: [RouterLink]
 })
 export class MapComponent implements OnInit, AfterViewInit {
   @Input() crags: BehaviorSubject<any[]>;

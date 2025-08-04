@@ -16,9 +16,10 @@ type Area = {
 type Areas = Array<Area>;
 
 @Component({
-  selector: 'app-peaks-country',
-  templateUrl: './peaks-country.component.html',
-  styleUrls: ['./peaks-country.component.scss'],
+    selector: 'app-peaks-country',
+    templateUrl: './peaks-country.component.html',
+    styleUrls: ['./peaks-country.component.scss'],
+    standalone: false
 })
 export class PeaksCountryComponent implements OnInit, OnDestroy {
   loading = true;

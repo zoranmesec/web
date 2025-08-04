@@ -12,11 +12,10 @@ import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascen
 import { AscentPublishOptionComponent } from 'src/app/shared/components/ascent-publish-option/ascent-publish-option.component';
 
 @Component({
-  selector: '[app-activity-route-row]',
-  templateUrl: './activity-route-row.component.html',
-  styleUrls: ['./activity-route-row.component.scss'],
-  standalone: true,
-  imports: [RouterLink, AscentTypeComponent, AscentPublishOptionComponent],
+    selector: '[app-activity-route-row]',
+    templateUrl: './activity-route-row.component.html',
+    styleUrls: ['./activity-route-row.component.scss'],
+    imports: [RouterLink, AscentTypeComponent, AscentPublishOptionComponent]
 })
 export class ActivityRouteRowComponent implements OnInit {
   @Input() route: ActivityRoute;

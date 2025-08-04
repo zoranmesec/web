@@ -33,7 +33,6 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-search',
-  standalone: true,
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   imports: [
@@ -42,7 +41,6 @@ import { NgIf } from '@angular/common';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatAutocompleteModule,
-    NgIf,
   ],
 })
 export class SearchComponent implements OnInit, OnDestroy {

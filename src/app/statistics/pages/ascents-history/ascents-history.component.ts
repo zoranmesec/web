@@ -13,9 +13,10 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-ascents-history',
-  templateUrl: './ascents-history.component.html',
-  styleUrls: ['./ascents-history.component.scss'],
+    selector: 'app-ascents-history',
+    templateUrl: './ascents-history.component.html',
+    styleUrls: ['./ascents-history.component.scss'],
+    standalone: false
 })
 export class AscentsHistoryComponent implements OnInit, OnDestroy {
   activities: Activity[];

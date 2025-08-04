@@ -20,6 +20,7 @@ import { MatSelectChange } from '@angular/material/select';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   UntypedFormControl,
   Validators,
@@ -32,8 +33,7 @@ import { CragActivityRouteComponent } from 'src/app/pages/crag/crag-route-activi
   selector: 'app-crag-routes',
   templateUrl: './crag-routes.component.html',
   styleUrls: ['./crag-routes.component.scss'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
 export class CragRoutesComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;

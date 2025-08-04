@@ -6,9 +6,10 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 
 @Component({
-  selector: 'app-comments-history',
-  templateUrl: './comments-history.component.html',
-  styleUrls: ['./comments-history.component.scss'],
+    selector: 'app-comments-history',
+    templateUrl: './comments-history.component.html',
+    styleUrls: ['./comments-history.component.scss'],
+    standalone: false
 })
 export class CommentsHistoryComponent implements OnInit {
   loading: boolean;

@@ -6,9 +6,10 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-confirm-club-membership',
-  templateUrl: './confirm-club-membership.component.html',
-  styleUrls: ['./confirm-club-membership.component.scss'],
+    selector: 'app-confirm-club-membership',
+    templateUrl: './confirm-club-membership.component.html',
+    styleUrls: ['./confirm-club-membership.component.scss'],
+    standalone: false
 })
 export class ConfirmClubMembershipComponent implements OnInit {
   loading = true;

@@ -17,9 +17,10 @@ export interface ContributionsTree {
 }
 
 @Component({
-  selector: 'app-contributions',
-  templateUrl: './contributions.component.html',
-  styleUrls: ['./contributions.component.scss'],
+    selector: 'app-contributions',
+    templateUrl: './contributions.component.html',
+    styleUrls: ['./contributions.component.scss'],
+    standalone: false
 })
 export class ContributionsComponent implements OnInit, OnDestroy {
   loading = true;

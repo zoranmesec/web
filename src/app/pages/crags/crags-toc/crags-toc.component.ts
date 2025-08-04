@@ -12,18 +12,17 @@ import { MatSelect } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 
 @Component({
-  selector: 'app-crags-toc',
-  templateUrl: './crags-toc.component.html',
-  styleUrls: ['./crags-toc.component.scss'],
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatIcon,
-    MatFormField,
-    MatLabel,
-    MatSelect,
-    MatOptionModule,
-  ],
+    selector: 'app-crags-toc',
+    templateUrl: './crags-toc.component.html',
+    styleUrls: ['./crags-toc.component.scss'],
+    imports: [
+        RouterLink,
+        MatIcon,
+        MatFormField,
+        MatLabel,
+        MatSelect,
+        MatOptionModule,
+    ]
 })
 export class CragsTocComponent implements OnInit {
   @Input() country: Country;

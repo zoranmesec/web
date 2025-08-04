@@ -29,9 +29,10 @@ interface TmpSector {
 }
 
 @Component({
-  selector: 'app-crag-sectors',
-  templateUrl: './crag-sectors.component.html',
-  styleUrls: ['./crag-sectors.component.scss'],
+    selector: 'app-crag-sectors',
+    templateUrl: './crag-sectors.component.html',
+    styleUrls: ['./crag-sectors.component.scss'],
+    standalone: false
 })
 export class CragSectorsComponent implements OnInit, OnDestroy {
   loading: boolean = true;

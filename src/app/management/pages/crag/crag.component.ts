@@ -7,9 +7,10 @@ import { Crag, ManagementGetCragGQL } from 'src/generated/graphql';
 import { CragAdminBreadcrumbs } from '../../utils/crag-admin-breadcrumbs';
 
 @Component({
-  selector: 'app-crag',
-  templateUrl: './crag.component.html',
-  styleUrls: ['./crag.component.scss'],
+    selector: 'app-crag',
+    templateUrl: './crag.component.html',
+    styleUrls: ['./crag.component.scss'],
+    standalone: false
 })
 export class CragComponent implements OnInit, OnDestroy {
   loading: boolean = true;

@@ -4,9 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo, gql } from 'apollo-angular';
 
 @Component({
-  selector: 'app-password-recovery',
-  templateUrl: './password-recovery.component.html',
-  styleUrls: ['../login/login.component.scss'],
+    selector: 'app-password-recovery',
+    templateUrl: './password-recovery.component.html',
+    styleUrls: ['../login/login.component.scss'],
+    standalone: false
 })
 export class PasswordRecoveryComponent implements OnInit {
   loading = false;

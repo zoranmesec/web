@@ -22,7 +22,7 @@
 </ng-template>
 
 <ng-template #date let-vote="vote">
-  <span>{{ vote.created | date: "d. M. yyyy" }}</span>
+  <span>{{ vote.created | date : "d. M. yyyy" }}</span>
 </ng-template>
 
 <ng-template #user let-vote="vote">
@@ -56,59 +56,3 @@
       : "east"
   }}</mat-icon>
 </ng-template>
-
-<mat-card *ngIf="!loading">
-  <mat-card-content>
-    <div class="row" *ngFor="let vote of difficultyVotes">
-      <div class="date">
-        <ng-container
-          *ngTemplateOutlet="date; context: { vote: vote }"
-        ></ng-container>
-      </div>
-      <div>
-        <ng-container
-          *ngTemplateOutlet="user; context: { vote: vote }"
-        ></ng-container>
-      </div>
-      <div
-        fxLayout="row"
-        fxLayoutAlign="space-between center"
-        fxLayoutGap="8px"
-      >
-        <div>
-          <ng-container
-            *ngTemplateOutlet="crag; context: { vote: vote }"
-          ></ng-container
-          >,
-          <ng-container
-            *ngTemplateOutlet="route; context: { vote: this.vote }"
-          ></ng-container>
-        </div>
-        <div>
-          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="8px">
-            <div class="grade">
-              <ng-container
-                *ngTemplateOutlet="avgGrade; context: { vote: vote }"
-              ></ng-container>
-            </div>
-            <div class="direction">
-              <ng-container
-                *ngTemplateOutlet="directionIndicator; context: { vote: vote }"
-              ></ng-container>
-            </div>
-            <div class="grade">
-              <ng-container
-                *ngTemplateOutlet="proposedGrade; context: { vote: vote }"
-              ></ng-container>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button [routerLink]="['/pregledi/ocene']">
-      Prikaži več predlogov
-    </button>
-  </mat-card-actions>
-</mat-card>

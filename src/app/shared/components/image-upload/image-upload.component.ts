@@ -21,20 +21,19 @@ import { environment } from 'src/environments/environment';
 import { User } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogActions,
-    MatCheckbox,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogContent,
-  ],
+    selector: 'app-image-upload',
+    templateUrl: './image-upload.component.html',
+    styleUrls: ['./image-upload.component.scss'],
+    imports: [
+        MatDialogActions,
+        MatCheckbox,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogContent,
+    ]
 })
 export class ImageUploadComponent {
   fileToUpload: File;

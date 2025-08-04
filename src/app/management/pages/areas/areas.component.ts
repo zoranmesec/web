@@ -16,9 +16,10 @@ import {
 import { AreaFormComponent } from '../../forms/area-form/area-form.component';
 
 @Component({
-  selector: 'app-areas',
-  templateUrl: './areas.component.html',
-  styleUrls: ['./areas.component.scss'],
+    selector: 'app-areas',
+    templateUrl: './areas.component.html',
+    styleUrls: ['./areas.component.scss'],
+    standalone: false
 })
 export class AreasComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];

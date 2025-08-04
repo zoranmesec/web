@@ -6,11 +6,10 @@ import { LoadingSpinnerService } from '../loading-spinner.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-pending-contributions-hints',
-  templateUrl: './pending-contributions-hints.component.html',
-  styleUrls: ['./pending-contributions-hints.component.scss'],
-  standalone: true,
-  imports: [CommonModule],
+    selector: 'app-pending-contributions-hints',
+    templateUrl: './pending-contributions-hints.component.html',
+    styleUrls: ['./pending-contributions-hints.component.scss'],
+    imports: [CommonModule]
 })
 export class PendingContributionsHintsComponent implements OnInit, OnDestroy {
   isAdmin = false;

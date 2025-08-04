@@ -1,7 +1,4 @@
-@import "../../../../styles/colors.scss";
-
 h2 {
-  color: $primary;
   background-color: transparent;
   font-size: 24px;
   font-weight: 400;
@@ -26,11 +23,5 @@ h2 {
 
   .mat-card-content {
     margin-bottom: 0;
-  }
-
-  .mat-card-actions {
-    button {
-      color: $primary;
-    }
   }
 }

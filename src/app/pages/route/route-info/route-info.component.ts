@@ -5,9 +5,10 @@ import { Route, User } from 'src/generated/graphql';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-route-info',
-  templateUrl: './route-info.component.html',
-  styleUrls: ['./route-info.component.scss'],
+    selector: 'app-route-info',
+    templateUrl: './route-info.component.html',
+    styleUrls: ['./route-info.component.scss'],
+    standalone: false
 })
 export class RouteInfoComponent implements OnInit, OnDestroy {
   @Input() route: Route;

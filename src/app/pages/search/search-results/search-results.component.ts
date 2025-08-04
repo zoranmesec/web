@@ -6,9 +6,10 @@ import { SearchService } from 'src/app/shared/services/search.service';
 import { SearchGQL, SearchQuery } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-search-results',
-  templateUrl: './search-results.component.html',
-  styleUrls: ['./search-results.component.scss'],
+    selector: 'app-search-results',
+    templateUrl: './search-results.component.html',
+    styleUrls: ['./search-results.component.scss'],
+    standalone: false
 })
 export class SearchResultsComponent implements OnInit {
   searchString = '';

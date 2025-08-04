@@ -5,9 +5,10 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-  selector: '[app-crag-activity-route-row]',
-  templateUrl: './crag-activity-route-row.component.html',
-  styleUrls: ['./crag-activity-route-row.component.scss'],
+    selector: '[app-crag-activity-route-row]',
+    templateUrl: './crag-activity-route-row.component.html',
+    styleUrls: ['./crag-activity-route-row.component.scss'],
+    standalone: false
 })
 export class CragActivityRouteRowComponent implements OnInit {
   @Input() route: ActivityRoute;

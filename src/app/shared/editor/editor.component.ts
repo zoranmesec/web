@@ -6,11 +6,10 @@ import {
 } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 @Component({
-  selector: 'app-my-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss'],
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, EditorComponent],
+    selector: 'app-my-editor',
+    templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, EditorComponent]
 })
 export class MyEditorComponent implements OnInit {
   @Input() placeholder: string;

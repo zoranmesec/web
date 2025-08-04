@@ -12,9 +12,10 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-difficulty-votes',
-  templateUrl: './difficulty-votes.component.html',
-  styleUrls: ['./difficulty-votes.component.scss'],
+    selector: 'app-difficulty-votes',
+    templateUrl: './difficulty-votes.component.html',
+    styleUrls: ['./difficulty-votes.component.scss'],
+    standalone: false
 })
 export class DifficultyVotesComponent implements OnInit, OnDestroy {
   loading = false;

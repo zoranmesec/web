@@ -106,35 +106,34 @@ class CustomDateAdapter extends NativeDateAdapter {
 }
 
 @Component({
-  standalone: true,
-  selector: 'app-root',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './app.component.html',
-  imports: [
-    RouterLink,
-    HeaderComponent,
-    BreadcrumbsComponent,
-    CommonModule,
-    RouterModule,
-  ],
-  providers: [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: formFieldAppearance,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-    { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
-    {
-      provide: DateAdapter,
-      useClass: CustomDateAdapter,
-      deps: [MAT_DATE_LOCALE, Platform],
-    },
-  ],
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    templateUrl: './app.component.html',
+    imports: [
+        RouterLink,
+        HeaderComponent,
+        BreadcrumbsComponent,
+        CommonModule,
+        RouterModule,
+    ],
+    providers: [
+        {
+            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+            useValue: formFieldAppearance,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
+        { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
+        {
+            provide: DateAdapter,
+            useClass: CustomDateAdapter,
+            deps: [MAT_DATE_LOCALE, Platform],
+        },
+    ],
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'plezanje-net';

@@ -11,9 +11,10 @@ interface IGrade {
 }
 
 @Component({
-  selector: 'app-route-grades',
-  templateUrl: './route-grades.component.html',
-  styleUrls: ['./route-grades.component.scss'],
+    selector: 'app-route-grades',
+    templateUrl: './route-grades.component.html',
+    styleUrls: ['./route-grades.component.scss'],
+    standalone: false
 })
 export class RouteGradesComponent {
   @Input() grades: IGrade[] = [];

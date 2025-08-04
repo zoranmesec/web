@@ -24,18 +24,17 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'app-club-member-form',
-  templateUrl: './club-member-form.component.html',
-  styleUrls: ['./club-member-form.component.scss'],
-  imports: [
-    MatFormField,
-    MatCheckbox,
-    MatLabel,
-    MatDialogContent,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  standalone: true,
+    selector: 'app-club-member-form',
+    templateUrl: './club-member-form.component.html',
+    styleUrls: ['./club-member-form.component.scss'],
+    imports: [
+        MatFormField,
+        MatCheckbox,
+        MatLabel,
+        MatDialogContent,
+        FormsModule,
+        ReactiveFormsModule,
+    ]
 })
 export class ClubMemberFormComponent implements OnInit {
   addMemberForm = new UntypedFormGroup({

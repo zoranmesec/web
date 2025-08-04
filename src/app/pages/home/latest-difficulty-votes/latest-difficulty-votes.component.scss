@@ -1,8 +1,4 @@
-@import "../../../../styles/colors.scss";
-@import "../../../../styles/variables.scss";
-
 h2 {
-  color: $primary;
   background-color: transparent;
   font-size: 24px;
   font-weight: 400;
@@ -11,9 +7,6 @@ h2 {
   margin-bottom: 16x;
   padding: 0;
   box-shadow: none;
-}
-.date {
-  color: $gray;
 }
 .grade {
   white-space: nowrap;
@@ -35,11 +28,6 @@ h2 {
 
 .mat-card {
   border-radius: 0;
-  .mat-card-actions {
-    button {
-      color: $primary;
-    }
-  }
   .mat-card-content {
     margin-bottom: 0;
   }

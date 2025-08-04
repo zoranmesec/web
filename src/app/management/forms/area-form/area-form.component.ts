@@ -26,17 +26,16 @@ interface AresFormComponentData {
 }
 
 @Component({
-  selector: 'app-area-form',
-  templateUrl: './area-form.component.html',
-  styleUrls: ['./area-form.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatLabel,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormField,
-  ],
+    selector: 'app-area-form',
+    templateUrl: './area-form.component.html',
+    styleUrls: ['./area-form.component.scss'],
+    imports: [
+        MatDialogModule,
+        MatLabel,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+    ]
 })
 export class AreaFormComponent implements OnInit {
   saving = false;

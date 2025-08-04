@@ -16,11 +16,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 
 @Component({
-  selector: 'app-crags',
-  templateUrl: './crags.component.html',
-  styleUrls: ['./crags.component.scss'],
-  standalone: true,
-  imports: [CommonModule, MatMenuModule, OrientationPipe],
+    selector: 'app-crags',
+    templateUrl: './crags.component.html',
+    styleUrls: ['./crags.component.scss'],
+    imports: [CommonModule, MatMenuModule, OrientationPipe]
 })
 export class CragsComponent implements OnInit, OnDestroy {
   loading: boolean = true;

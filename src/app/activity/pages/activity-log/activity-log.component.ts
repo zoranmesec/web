@@ -44,18 +44,17 @@ export interface RowAction {
 }
 
 @Component({
-  selector: 'app-activity-log',
-  templateUrl: './activity-log.component.html',
-  styleUrls: ['./activity-log.component.scss'],
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    ActivityHeaderComponent,
-  ],
+    selector: 'app-activity-log',
+    templateUrl: './activity-log.component.html',
+    styleUrls: ['./activity-log.component.scss'],
+    imports: [
+        RouterLink,
+        MatSelectModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        ActivityHeaderComponent,
+    ]
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {
   error: DataError = null;

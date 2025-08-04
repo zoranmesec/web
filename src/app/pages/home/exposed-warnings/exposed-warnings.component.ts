@@ -19,11 +19,10 @@ import { CommonModule, NgIf } from '@angular/common';
 SwiperCore.use([Pagination, Autoplay]);
 
 @Component({
-  selector: 'app-exposed-warnings',
-  standalone: true,
-  templateUrl: './exposed-warnings.component.html',
-  styleUrls: ['./exposed-warnings.component.scss'],
-  imports: [SwiperModule, NgIf, CommonModule],
+    selector: 'app-exposed-warnings',
+    templateUrl: './exposed-warnings.component.html',
+    styleUrls: ['./exposed-warnings.component.scss'],
+    imports: [SwiperModule, NgIf, CommonModule]
 })
 export class ExposedWarningsComponent
   implements OnInit, AfterViewInit, OnDestroy

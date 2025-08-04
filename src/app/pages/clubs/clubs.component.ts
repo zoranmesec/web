@@ -8,10 +8,11 @@ import { DataError } from 'src/app/types/data-error';
 import { Club, MyClubsGQL } from '../../../generated/graphql';
 
 @Component({
-  selector: 'app-clubs',
-  templateUrl: './clubs.component.html',
-  styleUrls: ['./clubs.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-clubs',
+    templateUrl: './clubs.component.html',
+    styleUrls: ['./clubs.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ClubsComponent implements OnInit, OnDestroy {
   myClubs: Club[] = [];

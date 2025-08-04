@@ -16,9 +16,10 @@ import { DataError } from '../../../types/data-error';
 import { IceFallsBreadcrumbs } from '../../utils/ice-falls-breadcrumbs';
 
 @Component({
-  selector: 'app-ice-fall',
-  templateUrl: './ice-fall.component.html',
-  styleUrls: ['./ice-fall.component.scss'],
+    selector: 'app-ice-fall',
+    templateUrl: './ice-fall.component.html',
+    styleUrls: ['./ice-fall.component.scss'],
+    standalone: false
 })
 export class IceFallComponent implements OnInit {
   loading: boolean = true;

@@ -18,9 +18,10 @@ interface IComment {
 }
 
 @Component({
-  selector: 'app-route-comments',
-  templateUrl: './route-comments.component.html',
-  styleUrls: ['./route-comments.component.scss'],
+    selector: 'app-route-comments',
+    templateUrl: './route-comments.component.html',
+    styleUrls: ['./route-comments.component.scss'],
+    standalone: false
 })
 export class RouteCommentsComponent implements AfterViewInit {
   allComments: IComment[];

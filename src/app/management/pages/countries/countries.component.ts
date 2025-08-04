@@ -4,9 +4,10 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { CountriesGQL, Country } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-countries',
-  templateUrl: './countries.component.html',
-  styleUrls: ['./countries.component.scss'],
+    selector: 'app-countries',
+    templateUrl: './countries.component.html',
+    styleUrls: ['./countries.component.scss'],
+    standalone: false
 })
 export class CountriesComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];

@@ -21,19 +21,18 @@ import { MatLabel, MatFormField, MatHint } from '@angular/material/form-field';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  imports: [
-    MatLabel,
-    MatFormField,
-    MatHint,
-    MatDialogContent,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterLink,
-  ],
-  standalone: true,
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    imports: [
+        MatLabel,
+        MatFormField,
+        MatHint,
+        MatDialogContent,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterLink,
+    ]
 })
 export class LoginComponent implements OnInit {
   loading = false;

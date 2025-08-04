@@ -1,5 +1,3 @@
-@import "../../../../styles/colors.scss";
-
 .only-routes-checkbox {
   padding: 14px 16px;
 }
@@ -19,7 +17,6 @@ button {
 .mat-radio-group {
   span {
     display: block;
-    color: $text-gray;
     font-size: 13px;
     margin: 8px 28px;
   }

@@ -18,18 +18,17 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 
 @Component({
-  selector: 'app-grade-select',
-  templateUrl: './grade-select.component.html',
-  styleUrls: ['./grade-select.component.scss'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatOption,
-    MatSelect,
-    MatFormField,
-    MatLabel,
-  ],
+    selector: 'app-grade-select',
+    templateUrl: './grade-select.component.html',
+    styleUrls: ['./grade-select.component.scss'],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatOption,
+        MatSelect,
+        MatFormField,
+        MatLabel,
+    ]
 })
 export class GradeSelectComponent implements OnInit, OnChanges {
   @Input() label: string;

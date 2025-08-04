@@ -31,18 +31,17 @@ export interface MoveSectorFormComponentData {
 }
 
 @Component({
-  selector: 'app-move-sector-form',
-  templateUrl: './move-sector-form.component.html',
-  styleUrls: ['./move-sector-form.component.scss'],
-  imports: [
-    MatAutocomplete,
-    MatFormField,
-    FormsModule,
-    ReactiveFormsModule,
-    MatLabel,
-    MatDialogActions,
-  ],
-  standalone: true,
+    selector: 'app-move-sector-form',
+    templateUrl: './move-sector-form.component.html',
+    styleUrls: ['./move-sector-form.component.scss'],
+    imports: [
+        MatAutocomplete,
+        MatFormField,
+        FormsModule,
+        ReactiveFormsModule,
+        MatLabel,
+        MatDialogActions,
+    ]
 })
 export class MoveSectorFormComponent implements OnInit, OnDestroy {
   crags: Crag[];

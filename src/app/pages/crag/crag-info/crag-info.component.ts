@@ -5,9 +5,10 @@ import { Crag, User } from 'src/generated/graphql';
 import { IDistribution } from '../../../common/distribution-chart/distribution-chart.component';
 
 @Component({
-  selector: 'app-crag-info',
-  templateUrl: './crag-info.component.html',
-  styleUrls: ['./crag-info.component.scss'],
+    selector: 'app-crag-info',
+    templateUrl: './crag-info.component.html',
+    styleUrls: ['./crag-info.component.scss'],
+    standalone: false
 })
 export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() crag: Crag;

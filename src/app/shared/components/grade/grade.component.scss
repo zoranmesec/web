@@ -1,16 +1,4 @@
-@import "../../../../styles/colors.scss";
-@import "../../../../styles/variables.scss";
-
 .grade-modifier {
-  &.hard {
-    color: $colors-red;
-  }
-  &.soft {
-    color: $colors-green;
-  }
-  &.disabled {
-    color: $gray;
-  }
   position: relative;
   width: 10px;
   padding-right: 10px;

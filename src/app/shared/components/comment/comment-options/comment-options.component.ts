@@ -13,9 +13,10 @@ import { CommentFormComponent } from '../../comment-form/comment-form.component'
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
-  selector: 'app-comment-options',
-  templateUrl: './comment-options.component.html',
-  styleUrls: ['./comment-options.component.scss'],
+    selector: 'app-comment-options',
+    templateUrl: './comment-options.component.html',
+    styleUrls: ['./comment-options.component.scss'],
+    standalone: false
 })
 export class CommentOptionsComponent implements OnInit {
   @Input() comment: Comment;

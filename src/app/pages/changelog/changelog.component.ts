@@ -5,11 +5,10 @@ import { MatIcon } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-changelog',
-  standalone: true,
-  templateUrl: './changelog.component.html',
-  styleUrls: ['./changelog.component.scss'],
-  imports: [MatCard, MatIcon, RouterLink],
+    selector: 'app-changelog',
+    templateUrl: './changelog.component.html',
+    styleUrls: ['./changelog.component.scss'],
+    imports: [MatCard, MatIcon, RouterLink]
 })
 export class ChangelogComponent implements OnInit {
   constructor(private layoutService: LayoutService) {}

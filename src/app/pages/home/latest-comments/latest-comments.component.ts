@@ -13,11 +13,10 @@ import { LoadingSpinnerService } from '../loading-spinner.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-latest-comments',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './latest-comments.component.html',
-  styleUrls: ['./latest-comments.component.scss'],
+    selector: 'app-latest-comments',
+    imports: [CommonModule],
+    templateUrl: './latest-comments.component.html',
+    styleUrls: ['./latest-comments.component.scss']
 })
 export class LatestCommentsComponent implements OnInit, OnDestroy {
   @Output() errorEvent = new EventEmitter<DataError>();

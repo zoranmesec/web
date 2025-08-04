@@ -18,9 +18,10 @@ import {
 import { ClubService } from '../club.service';
 
 @Component({
-  selector: 'app-club-activity-routes',
-  templateUrl: './club-activity-routes.component.html',
-  styleUrls: ['./club-activity-routes.component.scss'],
+    selector: 'app-club-activity-routes',
+    templateUrl: './club-activity-routes.component.html',
+    styleUrls: ['./club-activity-routes.component.scss'],
+    standalone: false
 })
 export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
   loading = true;

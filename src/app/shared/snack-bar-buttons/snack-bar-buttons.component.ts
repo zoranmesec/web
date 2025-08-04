@@ -10,11 +10,10 @@ export interface SnackBarData {
 }
 
 @Component({
-  selector: 'app-snack-bar-buttons',
-  templateUrl: './snack-bar-buttons.component.html',
-  styleUrls: ['./snack-bar-buttons.component.scss'],
-  standalone: true,
-  imports: [MatIcon],
+    selector: 'app-snack-bar-buttons',
+    templateUrl: './snack-bar-buttons.component.html',
+    styleUrls: ['./snack-bar-buttons.component.scss'],
+    imports: [MatIcon]
 })
 export class SnackBarButtonsComponent implements OnInit {
   constructor(

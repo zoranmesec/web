@@ -6,9 +6,10 @@ import {
 } from '../../services/grading-systems.service';
 
 @Component({
-  selector: 'app-grade',
-  templateUrl: './grade.component.html',
-  styleUrls: ['./grade.component.scss'],
+    selector: 'app-grade',
+    templateUrl: './grade.component.html',
+    styleUrls: ['./grade.component.scss'],
+    standalone: false
 })
 export class GradeComponent implements OnInit {
   @Input() difficulty: number;

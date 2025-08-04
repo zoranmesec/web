@@ -4,9 +4,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Comment, User } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-warnings',
-  templateUrl: './warnings.component.html',
-  styleUrls: ['./warnings.component.scss'],
+    selector: 'app-warnings',
+    templateUrl: './warnings.component.html',
+    styleUrls: ['./warnings.component.scss'],
+    standalone: false
 })
 export class WarningsComponent implements OnInit, OnDestroy {
   @Input() warnings: Comment[] = [];

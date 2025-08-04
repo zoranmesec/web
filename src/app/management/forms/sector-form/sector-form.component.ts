@@ -30,18 +30,17 @@ export interface SectorFormComponentData {
 }
 
 @Component({
-  selector: 'app-sector-form',
-  templateUrl: './sector-form.component.html',
-  styleUrls: ['./sector-form.component.scss'],
-  standalone: true,
-  imports: [
-    MatFormField,
-    MatLabel,
-    MatHint,
-    MatDialogActions,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+    selector: 'app-sector-form',
+    templateUrl: './sector-form.component.html',
+    styleUrls: ['./sector-form.component.scss'],
+    imports: [
+        MatFormField,
+        MatLabel,
+        MatHint,
+        MatDialogActions,
+        FormsModule,
+        ReactiveFormsModule,
+    ]
 })
 export class SectorFormComponent implements OnInit {
   saving = false;

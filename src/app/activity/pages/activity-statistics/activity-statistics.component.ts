@@ -27,11 +27,10 @@ import { AscentType } from 'src/app/types/ascent-type';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 
 @Component({
-  selector: 'app-activity-statistics',
-  templateUrl: './activity-statistics.component.html',
-  styleUrls: ['./activity-statistics.component.scss'],
-  imports: [ActivityHeaderComponent],
-  standalone: true,
+    selector: 'app-activity-statistics',
+    templateUrl: './activity-statistics.component.html',
+    styleUrls: ['./activity-statistics.component.scss'],
+    imports: [ActivityHeaderComponent]
 })
 export class ActivityStatisticsComponent implements OnInit, OnDestroy {
   subscription: Subscription;

@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-publish-status-hint',
-  templateUrl: './publish-status-hint.component.html',
-  styleUrls: ['./publish-status-hint.component.scss'],
+    selector: 'app-publish-status-hint',
+    templateUrl: './publish-status-hint.component.html',
+    styleUrls: ['./publish-status-hint.component.scss'],
+    standalone: false
 })
 export class PublishStatusHintComponent implements OnInit, OnDestroy {
   @Input() entityType: string;

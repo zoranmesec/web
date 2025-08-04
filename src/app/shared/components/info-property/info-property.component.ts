@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RouteProperty } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-info-property',
-  templateUrl: './info-property.component.html',
-  styleUrls: ['./info-property.component.scss'],
+    selector: 'app-info-property',
+    templateUrl: './info-property.component.html',
+    styleUrls: ['./info-property.component.scss'],
+    standalone: false
 })
 export class InfoPropertyComponent implements OnInit {
   @Input() property: RouteProperty;
