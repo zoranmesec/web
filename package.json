@@ -36,7 +36,7 @@
     "ng-flex-layout": "^18.2.1",
     "ngx-echarts": "^8.0.1",
     "ngx-mask": "^13.1.1",
-    "ngx-mat-select-search": "^7.0.6",
+    "ngx-mat-select-search": "^8.0.2",
     "ol": "^6.5.0",
     "rxjs": "~7.4.0",
     "swiper": "^7.4.1",
