@@ -15,6 +15,8 @@ import { HttpLink } from 'apollo-angular/http';
 import { setContext } from '@apollo/client/link/context';
 import { ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { provideRouter } from '@angular/router';
+import { DataErrorComponent } from './app/shared/components/data-error/data-error.component';
+import { AuthGuard } from './app/auth/auth.guard';
 
 if (environment.production) {
   Sentry.init({
@@ -27,6 +29,8 @@ if (environment.production) {
 }
 export const appConfig: ApplicationConfig = {
   providers: [
+    DataErrorComponent,
+    AuthGuard,
     provideHttpClient(withFetch()),
     provideRouter(routes), // <-- added back
     provideApollo(() => {

@@ -118,23 +118,6 @@ class CustomDateAdapter extends NativeDateAdapter {
     RouterModule,
   ],
   providers: [
-    CommonModule,
-    DataErrorComponent,
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler(),
-    },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
-    AuthGuard,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: formFieldAppearance,
