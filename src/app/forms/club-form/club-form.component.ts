@@ -15,22 +15,22 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { GraphQLError } from 'graphql';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { UpdateClubGQL, CreateClubGQL } from 'src/generated/graphql';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-club-form',
-    templateUrl: './club-form.component.html',
-    styleUrls: ['./club-form.component.scss'],
-    imports: [
-        MatFormField,
-        MatLabel,
-        MatDialogActions,
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ]
+  selector: 'app-club-form',
+  templateUrl: './club-form.component.html',
+  styleUrls: ['./club-form.component.scss'],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatDialogActions,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ClubFormComponent implements OnInit {
   title: string;
@@ -101,7 +101,7 @@ export class ClubFormComponent implements OnInit {
     });
   }
 
-  queryError(errors: readonly GraphQLError[]) {
+  queryError(errors: readonly GraphQLFormattedError<Record<string, any>>[]) {
     if (
       errors.length > 0 &&
       errors[0].message.startsWith('Could not find any entity of type')

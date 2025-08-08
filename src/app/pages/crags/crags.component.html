@@ -1,65 +1,100 @@
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
+@if (!error) {
+<section class="title">
+  <h1>
+    Plezališča<ng-container *ngIf="country"> - {{ country.name }}</ng-container>
+  </h1>
+</section>
 
-<div *ngIf="!error">
-  <div class="white-back mt-16">
-    <div
-      class="container py-8"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
+<app-loader *ngIf="loading"></app-loader>
+
+@if (!loading && country.code == 'SI' && showMap) {
+<section class="crag-map-container mt-16">
+  <div class="crag-map">
+    <app-map [crags]="crags$"></app-map>
+  </div>
+</section>
+}
+
+<div
+  class="container mt-16"
+  fxLayout="row"
+  fxLayoutGap="12px"
+  *ngIf="!loading"
+  fxLayout.lt-md="column"
+>
+  @if (showFilters) {
+  <div fxFlex="320px" fxFlex.lt-md>
+    <app-crags-toc [country]="country"></app-crags-toc>
+  </div>
+  }
+  <div fxFlex="100" fxFlex.lt-md>
+    <app-loader *ngIf="cragsLoading"></app-loader>
+
+    <section
+      *ngIf="!cragsLoading"
+      class="options p-16 flex flex-row flex-start"
     >
-      <h1>
-        Plezališča<ng-container *ngIf="country">
-          - {{ country.name }}</ng-container
-        >
-      </h1>
-
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon color="primary">more_vert</mat-icon>
-      </button>
-
-      <mat-menu #menu="matMenu">
-        <button
-          mat-menu-item
-          [routerLink]="[
-            '/urejanje/dodaj-plezalisce',
-            { country: country?.id }
-          ]"
-        >
-          <mat-icon>add</mat-icon>
-          <span>Dodaj plezališče</span>
+      <div class="flex flex-row flex-align-center flex-center">
+        <button type="button" mat-stroked-button (click)="location.back()">
+          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
+            >map</mat-icon
+          >
+          <span class="p-l-8">Pokaži zemljevid</span>
         </button>
-      </mat-menu>
-    </div>
-  </div>
+      </div>
+      <div class="flex flex-row flex-align-center flex-center">
+        <button type="button" mat-stroked-button (click)="location.back()">
+          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
+            >filter</mat-icon
+          >
+          <span class="p-l-8">Pokaži filtre</span>
+        </button>
+      </div>
+      <div class="flex flex-row flex-align-center flex-center">
+        <button type="button" mat-stroked-button (click)="location.back()">
+          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
+            >column</mat-icon
+          >
+          <span class="p-l-8">Izberi stolpce</span>
+        </button>
+      </div>
+      <div class="flex flex-row flex-align-center flex-center">
+        <button type="button" mat-stroked-button (click)="location.back()">
+          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
+            >sort</mat-icon
+          >
+          <span class="p-l-8">Uredi</span>
+        </button>
+      </div>
 
-  <app-loader *ngIf="loading"></app-loader>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon color="primary">more_vert</mat-icon>
+        </button>
 
-  <div
-    class="crag-map-container mt-16"
-    *ngIf="!loading && country.code == 'SI'"
-  >
-    <div class="crag-map">
-      <app-map [crags]="crags$"></app-map>
-    </div>
-  </div>
-
-  <div
-    class="container mt-16"
-    fxLayout="row"
-    fxLayoutGap="12px"
-    *ngIf="!loading"
-    fxLayout.lt-md="column"
-  >
-    <div fxFlex="320px" fxFlex.lt-md>
-      <app-crags-toc [country]="country"></app-crags-toc>
-    </div>
-
-    <div fxFlex="100" fxFlex.lt-md>
-      <app-loader *ngIf="cragsLoading"></app-loader>
-
-      <div *ngIf="!cragsLoading" fxLayout="row">
-        <mat-form-field fxFlex="100">
-          <mat-label>Išči po seznamu</mat-label>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            [routerLink]="[
+              '/urejanje/dodaj-plezalisce',
+              { country: country?.id }
+            ]"
+          >
+            <mat-icon>add</mat-icon>
+            <span>Dodaj plezališče</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div>
+        <mat-form-field
+          class="custom-height"
+          appearance="outline"
+          [subscriptSizing]="fixed"
+        >
+          <mat-label>
+            <mat-icon class="map-icon">search</mat-icon>
+            <span>Išči po seznamu</span></mat-label
+          >
           <input
             matInput
             autofocus
@@ -67,7 +102,7 @@
             autocomplete="off"
             (keydown)="searchKeyDown($event)"
           />
-          <mat-hint
+          <!-- <mat-hint
             >Ne najdeš plezališča, ki ga iščeš?
             <a
               [routerLink]="[
@@ -77,57 +112,60 @@
               >Dodaj plezališče</a
             >
             in ga pošlji v potrditev uredništvu.</mat-hint
-          >
+          > -->
         </mat-form-field>
       </div>
+    </section>
 
-      <div class="card mt-16" *ngIf="!cragsLoading">
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="8px"
-          fxHide.lt-md
-          class="row header"
-        >
-          <div fxFlex="40" fxFlex.lt-md="100">Plezališče</div>
-          <div fxFlex="20" fxFlex.lt-md>Število smeri</div>
-          <div fxFlex="20" fxFlex.lt-md>Usmerjenost</div>
-          <div fxFlex="20" class="routes" fxFlex.lt-md>Težavnost</div>
+    <div class="card mt-16" *ngIf="!cragsLoading">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="8px"
+        fxHide.lt-md
+        class="row header"
+      >
+        <div fxFlex="40" fxFlex.lt-md="100">Plezališče</div>
+        <div fxFlex="20" fxFlex.lt-md>Število smeri</div>
+        <div fxFlex="20" fxFlex.lt-md>Usmerjenost</div>
+        <div fxFlex="20" class="routes" fxFlex.lt-md>Težavnost</div>
+      </div>
+      <div
+        *ngFor="let crag of filteredCrags"
+        [routerLink]="['/plezalisce/', crag.slug]"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="8px"
+        class="row"
+      >
+        <div fxFlex="40" fxFlex.lt-md="100">
+          <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
         </div>
-        <div
-          *ngFor="let crag of filteredCrags"
-          [routerLink]="['/plezalisce/', crag.slug]"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="8px"
-          class="row"
-        >
-          <div fxFlex="40" fxFlex.lt-md="100">
-            <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
-          </div>
-          <div fxFlex="20" fxFlex.lt-md fxHide.lt-md>{{ crag.nrRoutes }}</div>
-          <div fxFlex="20" fxFlex.lt-md fxHide.lt-md>
-            {{ crag.orientation | orientation }}
-          </div>
-          <div fxFlex="20" fxFlex.lt-md class="routes">
-            <span fxHide.gt-sm>{{ crag.nrRoutes }} smeri<br /></span>
-            <ng-container *ngIf="crag.nrRoutes > 0">
-              <app-grade
-                [difficulty]="crag.minDifficulty"
-                [gradingSystemId]="crag.defaultGradingSystem.id"
-              ></app-grade>
-              {{
-                crag.minDifficulty != null && crag.maxDifficulty != null
-                  ? " do "
-                  : ""
-              }}<app-grade
-                [difficulty]="crag.maxDifficulty"
-                [gradingSystemId]="crag.defaultGradingSystem.id"
-              ></app-grade>
-            </ng-container>
-          </div>
+        <div fxFlex="20" fxFlex.lt-md fxHide.lt-md>{{ crag.nrRoutes }}</div>
+        <div fxFlex="20" fxFlex.lt-md fxHide.lt-md>
+          {{ crag.orientation | orientation }}
+        </div>
+        <div fxFlex="20" fxFlex.lt-md class="routes">
+          <span fxHide.gt-sm>{{ crag.nrRoutes }} smeri<br /></span>
+          <ng-container *ngIf="crag.nrRoutes > 0">
+            <app-grade
+              [difficulty]="crag.minDifficulty"
+              [gradingSystemId]="crag.defaultGradingSystem.id"
+            ></app-grade>
+            {{
+              crag.minDifficulty != null && crag.maxDifficulty != null
+                ? " do "
+                : ""
+            }}<app-grade
+              [difficulty]="crag.maxDifficulty"
+              [gradingSystemId]="crag.defaultGradingSystem.id"
+            ></app-grade>
+          </ng-container>
         </div>
       </div>
     </div>
   </div>
 </div>
+} @else {
+<app-data-error [error]="error"></app-data-error>
+}

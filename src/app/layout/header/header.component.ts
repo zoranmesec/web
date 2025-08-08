@@ -5,21 +5,25 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../../../generated/graphql';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
-import { MatIcon } from '@angular/material/icon';
-import { FlexModule } from 'ng-flex-layout';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { FlexLayoutModule, FlexModule } from 'ng-flex-layout';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    imports: [
-        MatMenu,
-        MatIcon,
-        RouterLink,
-        MatMenuTrigger,
-        FlexModule,
-        CommonModule,
-    ]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  imports: [
+    MatMenu,
+    MatIcon,
+    RouterLink,
+    MatMenuTrigger,
+    FlexModule,
+    FlexLayoutModule,
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public naviOpen: boolean = false;

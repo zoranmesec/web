@@ -4,12 +4,13 @@ import {
   GradingSystemsService,
   IGrade,
 } from '../../services/grading-systems.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-grade',
-    templateUrl: './grade.component.html',
-    styleUrls: ['./grade.component.scss'],
-    standalone: false
+  selector: 'app-grade',
+  templateUrl: './grade.component.html',
+  styleUrls: ['./grade.component.scss'],
+  imports: [CommonModule],
 })
 export class GradeComponent implements OnInit {
   @Input() difficulty: number;

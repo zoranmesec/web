@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GraphQLError } from 'graphql';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import {
   Club,
   DeleteClubMemberGQL,
@@ -14,10 +14,10 @@ import { ClubService } from '../club.service';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-    selector: 'app-club-members',
-    templateUrl: './club-members.component.html',
-    styleUrls: ['./club-members.component.scss'],
-    standalone: false
+  selector: 'app-club-members',
+  templateUrl: './club-members.component.html',
+  styleUrls: ['./club-members.component.scss'],
+  standalone: false,
 })
 export class ClubMembersComponent implements OnInit, OnDestroy {
   loading = true;
@@ -93,7 +93,7 @@ export class ClubMembersComponent implements OnInit, OnDestroy {
       });
   }
 
-  queryError(errors?: readonly GraphQLError[]) {
+  queryError(errors?: readonly GraphQLFormattedError<Record<string, any>>[]) {
     let errorMessage = 'Prišlo je do nepričakovane napake.'; // set default error message
     if (errors && errors.length > 0 && errors[0].message === 'Forbidden')
       errorMessage = 'Nimaš pravic za odstranjevanje članov.';

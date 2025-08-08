@@ -4,7 +4,7 @@ import { DataError } from '../../types/data-error';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { CragsQuery, CragsGQL } from '../../../generated/graphql';
-import { GraphQLError } from 'graphql';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { UntypedFormControl } from '@angular/forms';
 import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -14,17 +14,41 @@ import { SearchService } from 'src/app/shared/services/search.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MapComponent } from 'src/app/common/map/map.component';
+import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
+import { MatCardModule } from '@angular/material/card';
+import { CragsTocComponent } from './crags-toc/crags-toc.component';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-    selector: 'app-crags',
-    templateUrl: './crags.component.html',
-    styleUrls: ['./crags.component.scss'],
-    imports: [CommonModule, MatMenuModule, OrientationPipe]
+  selector: 'app-crags',
+  templateUrl: './crags.component.html',
+  styleUrls: ['./crags.component.scss'],
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    OrientationPipe,
+    MatButtonModule,
+    MatIconModule,
+    MapComponent,
+    GradeComponent,
+    MatCardModule,
+    CragsTocComponent,
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
 })
 export class CragsComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   cragsLoading: boolean = false;
   error: DataError = null;
+  showMap = false;
+  showFilters = false;
 
   countries: CragsQuery['countryBySlug'][];
   country: CragsQuery['countryBySlug'];
@@ -134,7 +158,7 @@ export class CragsComponent implements OnInit, OnDestroy {
     }
   }
 
-  queryError(errors?: readonly GraphQLError[]) {
+  queryError(errors?: readonly GraphQLFormattedError<Record<string, any>>[]) {
     if (
       errors &&
       errors.length > 0 &&

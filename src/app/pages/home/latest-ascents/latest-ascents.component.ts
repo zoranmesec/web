@@ -18,12 +18,13 @@ import { LoadingSpinnerService } from '../loading-spinner.service';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-latest-ascents',
-    templateUrl: './latest-ascents.component.html',
-    styleUrls: ['./latest-ascents.component.scss'],
-    imports: [MatCardModule, RouterModule, CommonModule]
+  selector: 'app-latest-ascents',
+  templateUrl: './latest-ascents.component.html',
+  styleUrls: ['./latest-ascents.component.scss'],
+  imports: [MatCardModule, RouterModule, CommonModule, MatButtonModule],
 })
 export class LatestAscentsComponent implements OnInit, OnDestroy {
   @Output() errorEvent = new EventEmitter<DataError>();

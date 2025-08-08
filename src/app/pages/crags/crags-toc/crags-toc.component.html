@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="12px" fxHide.lt-md>
+<section class="filter" fxLayout="column" fxLayoutGap="12px" fxHide.lt-md>
   <div class="card">
     <a
       [routerLink]="makeRoute(country.slug, { tip: null })"
@@ -72,50 +72,50 @@
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
   </div>
-</div>
 
-<div fxLayout="row" fxLayoutGap="6px" fxHide fxShow.lt-md>
-  <div fxFlex="100">
-    <mat-form-field class="no-hint infix-width-auto">
-      <mat-label>Vrsta smeri</mat-label>
-      <mat-select
-        [value]="params.tip"
-        (selectionChange)="changeType($event.value)"
-      >
-        <mat-option [value]="null">Vse vrste smeri</mat-option>
-        <mat-option *ngFor="let type of routeTypes" [value]="type.slug">{{
-          type.label
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div fxFlex="100">
-    <mat-form-field class="no-hint infix-width-auto">
-      <mat-label>Država</mat-label>
-      <mat-select
-        [value]="country.slug"
-        (selectionChange)="changeCountry($event.value)"
-      >
-        <mat-option
-          *ngFor="let listCountry of countries"
-          [value]="listCountry.slug"
-          >{{ listCountry.name }}</mat-option
+  <div fxLayout="row" fxLayoutGap="6px" fxHide fxShow.lt-md>
+    <div fxFlex="100">
+      <mat-form-field class="no-hint infix-width-auto">
+        <mat-label>Vrsta smeri</mat-label>
+        <mat-select
+          [value]="params.tip"
+          (selectionChange)="changeType($event.value)"
         >
-      </mat-select>
-    </mat-form-field>
+          <mat-option [value]="null">Vse vrste smeri</mat-option>
+          <mat-option *ngFor="let type of routeTypes" [value]="type.slug">{{
+            type.label
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="100">
+      <mat-form-field class="no-hint infix-width-auto">
+        <mat-label>Država</mat-label>
+        <mat-select
+          [value]="country.slug"
+          (selectionChange)="changeCountry($event.value)"
+        >
+          <mat-option
+            *ngFor="let listCountry of countries"
+            [value]="listCountry.slug"
+            >{{ listCountry.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="100">
+      <mat-form-field class="no-hint infix-width-auto" *ngIf="country.areas">
+        <mat-label>Regija</mat-label>
+        <mat-select
+          [value]="params.obmocje"
+          (selectionChange)="changeArea($event.value)"
+        >
+          <mat-option [value]="null">Vse regije</mat-option>
+          <mat-option *ngFor="let area of country.areas" [value]="area.slug">{{
+            area.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
-  <div fxFlex="100">
-    <mat-form-field class="no-hint infix-width-auto" *ngIf="country.areas">
-      <mat-label>Regija</mat-label>
-      <mat-select
-        [value]="params.obmocje"
-        (selectionChange)="changeArea($event.value)"
-      >
-        <mat-option [value]="null">Vse regije</mat-option>
-        <mat-option *ngFor="let area of country.areas" [value]="area.slug">{{
-          area.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
+</section>

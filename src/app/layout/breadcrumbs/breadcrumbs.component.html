@@ -1,4 +1,4 @@
-<div>
+<section class="breadcrumbs">
   <a [routerLink]="['/']">Plezanje.net</a>
 
   <ng-container *ngFor="let bc of breadcrumbs">
@@ -10,4 +10,4 @@
     </ng-container>
     <span *ngIf="!bc.path">{{ bc.name }}</span>
   </ng-container>
-</div>
+</section>

@@ -1,20 +1,55 @@
-.row {
-  cursor: pointer;
+@use "@angular/material" as mat;
+:host {
+  mat-form-field {
+    display: flex;
+    width: 360px;
+    height: 40px;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    padding: 12px 0 0;
 
-  .routes {
-    white-space: nowrap;
-    text-align: right;
+    ::ng-deep {
+      .mdc-text-field {
+        height: 40px;
+      }
+    }
   }
-  &.header {
-    cursor: default;
+
+  section.title {
+    height: 100px;
+    padding: 0 16px 16px 16px;
+    background-color: var(--mat-sys-surface);
+    align-items: center;
+    display: flex;
+    text-align: center;
   }
-}
-.crag-map-container {
-  position: relative;
-  height: 360px;
-  .crag-map {
-    position: absolute;
+  section.crag-map-container {
+    position: relative;
     height: 360px;
-    width: 100%;
+    .crag-map {
+      position: absolute;
+      height: 360px;
+      width: 100%;
+    }
+  }
+
+  section.options {
+    flex-wrap: wrap;
+    height: 40px !important;
+    > div {
+      border-right: 1px solid #e5e5e5;
+      padding: 0 4px 0 4px;
+      height: 40px !important;
+
+      > button {
+        border: 3px solid #ffffff;
+        border-radius: 8px;
+      }
+      > button:hover {
+        border: 3px solid #aaccf0;
+        border-radius: 8px;
+      }
+    }
   }
 }

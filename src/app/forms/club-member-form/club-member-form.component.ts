@@ -14,7 +14,7 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MutationResult } from 'apollo-angular';
-import { GraphQLError } from 'graphql';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import {
   Club,
   CreateClubMemberByEmailGQL,
@@ -24,17 +24,17 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-club-member-form',
-    templateUrl: './club-member-form.component.html',
-    styleUrls: ['./club-member-form.component.scss'],
-    imports: [
-        MatFormField,
-        MatCheckbox,
-        MatLabel,
-        MatDialogContent,
-        FormsModule,
-        ReactiveFormsModule,
-    ]
+  selector: 'app-club-member-form',
+  templateUrl: './club-member-form.component.html',
+  styleUrls: ['./club-member-form.component.scss'],
+  imports: [
+    MatFormField,
+    MatCheckbox,
+    MatLabel,
+    MatDialogContent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ClubMemberFormComponent implements OnInit {
   addMemberForm = new UntypedFormGroup({
@@ -97,7 +97,7 @@ export class ClubMemberFormComponent implements OnInit {
       });
   }
 
-  queryError(errors: readonly GraphQLError[]) {
+  queryError(errors: readonly GraphQLFormattedError<Record<string, any>>[]) {
     if (
       errors.length > 0 &&
       errors[0].message.startsWith('Could not find any entity of type')

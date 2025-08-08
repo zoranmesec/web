@@ -1,5 +1,7 @@
 .crag-map-container {
   position: relative;
+  height: 360px;
+  width: 100%;
 }
 .crag-map-overlay {
   position: absolute;
@@ -9,7 +11,8 @@
   height: 100%;
 }
 
-#crag-map {
+#crag-map-default {
+  height: 360px;
   width: 100%;
 }
 

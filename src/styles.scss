@@ -1,24 +1,178 @@
 @use "@angular/material" as mat;
+@use "./m3-theme" as m3-theme;
+@use "sass:string";
+// Plus imports for other components in your app.
 
-html {
-  @include mat.theme(
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+/* stylelint-disable-next-line scss/at-mixin-argumentless-call-parentheses */
+@include mat.core();
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+body {
+  @include mat.core-theme(m3-theme.$light-theme);
+
+  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include mat.system-level-colors(m3-theme.$light-theme);
+  @include mat.system-level-typography(m3-theme.$light-theme);
+
+  @debug mat.get-theme-color(m3-theme.$light-theme, neutral, 50);
+  @include mat.form-field-overrides(
     (
-      color: (
-        primary: mat.$violet-palette,
-        tertiary: mat.$orange-palette,
-        theme-type: light,
-      ),
-      typography: (
-        plain-family: Roboto,
-        brand-family: Open Sans,
-        bold-weight: 900,
-        medium-weight: 500,
-        regular-weight: 300,
-      ),
-      density: 0,
+      container-vertical-padding: 8px,
+      container-height: 40px,
+      filled-active-indicator-height: 40px,
+      filled-focus-active-indicator-height: 40px,
     )
   );
+
+  @include mat.button-overrides(
+    (
+      outlined-label-text-size: 16px,
+      outlined-hover-state-layer-opacity: 0,
+    )
+  );
+  // @include mat.theme-overrides(
+  //   (
+  //     primary: red,
+
+  //     on-primary: yellow// [!code + +],
+  //   )
+  // );
+  &.dark-theme {
+    @include mat.all-component-colors(m3-theme.$dark-theme);
+    @include mat.system-level-colors(m3-theme.$dark-theme);
+  }
+
+  & {
+    margin: 0;
+    font-family: var(--mat-sys-label-large-font) !important;
+  }
 }
-body {
-  background: var(--mat-sys-surface);
+
+a {
+  color: var(--mat-sys-primary);
+  font-family: var(--mat-sys-label-large-font);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400 !important;
+  text-decoration: none;
+  letter-spacing: 0%;
+  cursor: pointer;
+  &.secondary {
+    color: var(--mat-sys-secondary);
+  }
+}
+
+a:hover {
+  color: var(--mat-sys-primary) !important;
+  text-decoration: underline !important;
+  &.secondary {
+    color: var(--mat-sys-secondary) !important;
+  }
+}
+
+a:active {
+  color: mat.get-theme-color(m3-theme.$light-theme, primary, 50) !important;
+  text-decoration: underline;
+  &.secondary {
+    color: mat.get-theme-color(m3-theme.$light-theme, secondary, 60) !important;
+  }
+}
+
+h1 {
+  font: var(--mat-sys-headline-large);
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+}
+
+h2 {
+  color: mat.get-theme-color(m3-theme.$light-theme, neutral, 10);
+}
+
+* {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  outline: none;
+}
+
+.dense-theme {
+  @include mat.all-component-densities(-2);
+}
+
+$spaceamounts: (
+  0,
+  1,
+  2,
+  3,
+  4,
+  8,
+  16,
+  24,
+  32,
+  40,
+  48,
+  64
+); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right); // Leave this variable alone
+
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m-#{string.slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px !important;
+    }
+
+    .p-#{string.slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px !important;
+    }
+  }
+
+  .m-#{$space} {
+    margin: #{$space}px !important;
+  }
+
+  .p-#{$space} {
+    padding: #{$space}px !important;
+  }
+}
+
+.mat-mdc-menu-panel.custom-menu {
+  max-width: 90vw;
+
+  .mat-mdc-menu-content {
+    padding: 0;
+  }
+}
+
+.flex {
+  display: flex;
+}
+.flex-start {
+  justify-content: flex-start;
+}
+.flex-end {
+  justify-content: flex-end;
+}
+.flex-space-between {
+  justify-content: space-between;
+}
+.flex-space-around {
+  justify-content: space-around;
+}
+.flex-row {
+  flex-direction: row;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-align-start {
+  align-items: flex-start;
+}
+.flex-align-end {
+  align-items: flex-end;
+}
+.flex-align-center {
+  align-items: center;
 }

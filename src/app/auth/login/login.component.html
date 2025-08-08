@@ -6,13 +6,17 @@
     <p>
       <mat-form-field class="no-hint">
         <mat-label>E-naslov</mat-label>
-        <input matInput type="email" formControlName="email" />
+        <input matInput type="email" [formControl]="loginForm.controls.email" />
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <mat-label>Geslo</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <input
+          matInput
+          type="password"
+          [formControl]="loginForm.controls.password"
+        />
         <mat-hint align="end"
           ><a href="#" (click)="passwordRecovery()"
             >Pozabljeno geslo?</a
