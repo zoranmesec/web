@@ -26,7 +26,7 @@
 </ng-template>
 
 <ng-template #date let-vote="vote">
-  <span>{{ vote.created | date: "d. M. yyyy" }}</span>
+  <span>{{ vote.created | date : "d. M. yyyy" }}</span>
 </ng-template>
 
 <ng-template #user let-vote="vote">
@@ -89,7 +89,7 @@
             ></ng-container
             >,
             <ng-container
-              *ngTemplateOutlet="route; context: { vote: this.vote }"
+              *ngTemplateOutlet="route; context: { vote: undefined }"
             ></ng-container>
           </div>
           <div>

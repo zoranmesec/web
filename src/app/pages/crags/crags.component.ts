@@ -1,11 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { LayoutService } from 'src/app/services/layout.service';
 import { DataError } from '../../types/data-error';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { CragsQuery, CragsGQL } from '../../../generated/graphql';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '@sentry/angular';
@@ -15,7 +22,7 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MapComponent } from 'src/app/common/map/map.component';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +30,11 @@ import { CragsTocComponent } from './crags-toc/crags-toc.component';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RouteTypePipe } from 'src/app/shared/pipes/route-type.pipe';
+import { CragsFiltersService } from './crags-filters.service';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { CustomBreakpointsProvider } from 'src/app/shared/custom-breakpoints';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-crags',
@@ -41,14 +53,19 @@ import { MatInputModule } from '@angular/material/input';
     FlexLayoutModule,
     MatFormFieldModule,
     MatInputModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouteTypePipe,
+    LoaderComponent,
   ],
 })
-export class CragsComponent implements OnInit, OnDestroy {
+export class CragsComponent implements OnInit {
   loading: boolean = true;
   cragsLoading: boolean = false;
   error: DataError = null;
   showMap = false;
-  showFilters = false;
+  showFilters = true;
 
   countries: CragsQuery['countryBySlug'][];
   country: CragsQuery['countryBySlug'];
@@ -57,7 +74,7 @@ export class CragsComponent implements OnInit, OnDestroy {
 
   map: any;
 
-  search = new UntypedFormControl();
+  search = new FormControl();
 
   filteredCrags: CragsQuery['countryBySlug']['crags'] = [];
 
@@ -66,7 +83,19 @@ export class CragsComponent implements OnInit, OnDestroy {
   user: User;
 
   subscriptions: Subscription[] = [];
+  cragSub: Subscription;
 
+  private destroyRef = inject(DestroyRef);
+  protected typeParamValues: Array<string> = [];
+
+  protected myRouteTypes = computed(() => {
+    return this.cragsFiltersService.allRouteTypes();
+  });
+  protected selectedAreas: string[] = [];
+  protected selectedOrientations: string[] = [];
+  protected selectedMinGrade: number | null = null;
+  protected selectedMaxGrade: number | null = null;
+  params: any;
   constructor(
     private authService: AuthService,
     private layoutService: LayoutService,
@@ -74,8 +103,16 @@ export class CragsComponent implements OnInit, OnDestroy {
     private router: Router,
     private cragsGQL: CragsGQL,
     private scrollService: ScrollService,
-    private searchService: SearchService
-  ) {}
+    private searchService: SearchService,
+    private cragsFiltersService: CragsFiltersService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    const url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/orientation.svg'
+    );
+    this.matIconRegistry.addSvgIcon('orientation', url);
+  }
 
   ngOnInit(): void {
     this.layoutService.$breadcrumbs.next([
@@ -92,21 +129,62 @@ export class CragsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(authSub);
 
     const routeSub = this.activatedRoute.params.subscribe((params) => {
+      console.log(params);
       this.cragsLoading = true;
 
-      const rotueType = this.routeTypes.find((rt) => rt.slug === params['tip']);
+      this.typeParamValues = [];
+      if (params['tip']) {
+        this.typeParamValues = JSON.parse(params['tip']);
+        if (this.typeParamValues.length === 0) {
+          this.typeParamValues = [];
+        } else {
+          this.typeParamValues = this.typeParamValues.map(
+            (slug) => this.routeTypes.find((rt) => rt.slug === slug)?.id
+          );
+        }
+      } else {
+        this.typeParamValues = [];
+      }
 
-      this.cragsGQL
-        .fetch({
-          country: params.country,
-          input: {
-            areaSlug: params['obmocje'],
-            routeTypeId: rotueType?.id,
-            type: 'sport',
-            allowEmpty: true,
+      this.selectedAreas = [];
+      if (params['obmocje']) {
+        this.selectedAreas = JSON.parse(params['obmocje']);
+      }
+
+      this.selectedOrientations = [];
+      if (params['orientacija']) {
+        this.selectedOrientations = JSON.parse(params['orientacija']);
+      }
+
+      this.selectedMinGrade = null;
+      if (params['minGrade']) {
+        this.selectedMinGrade = Number(params['minGrade']);
+      }
+
+      this.selectedMaxGrade = null;
+      if (params['maxGrade']) {
+        this.selectedMaxGrade = Number(params['maxGrade']);
+      }
+
+      this.cragSub = this.cragsGQL
+        .fetch(
+          {
+            country: params.country,
+            input: {
+              areasSlugs: this.selectedAreas,
+              routeTypeId:
+                this.typeParamValues.length > 0
+                  ? this.typeParamValues
+                  : ['sport'],
+              type: 'sport',
+              orientations: this.selectedOrientations,
+              minGrade: this.selectedMinGrade,
+              maxGrade: this.selectedMaxGrade,
+              allowEmpty: true,
+            },
           },
-        })
-        .pipe(take(1))
+          { fetchPolicy: 'no-cache' }
+        )
         .subscribe({
           next: (result) => {
             this.loading = false;
@@ -125,12 +203,28 @@ export class CragsComponent implements OnInit, OnDestroy {
         });
     });
 
+    this.subscriptions.push(routeSub);
     this.subscriptions.push(authSub);
 
-    const searchSub = this.search.valueChanges.subscribe(() =>
-      this.filterCrags()
-    );
+    const searchSub = this.search.valueChanges.subscribe(() => {
+      this.filterCrags();
+    });
     this.subscriptions.push(searchSub);
+
+    this.destroyRef.onDestroy(() => {
+      this.subscriptions.forEach((sub) => sub.unsubscribe());
+    });
+  }
+
+  get nrOfFiltersApplied(): number {
+    let nr = 0;
+    if (this.typeParamValues.length > 0) {
+      nr += this.typeParamValues.length;
+    }
+    if (this.selectedAreas.length > 0) {
+      nr += this.selectedAreas.length;
+    }
+    return nr;
   }
 
   filterCrags(): void {
@@ -150,6 +244,10 @@ export class CragsComponent implements OnInit, OnDestroy {
     }
 
     this.crags$.next(this.filteredCrags);
+  }
+
+  getAreaName(areaSlug: string): string {
+    return this.country?.areas.find((a) => a.slug === areaSlug)?.name || '';
   }
 
   searchKeyDown(e: KeyboardEvent) {
@@ -195,7 +293,56 @@ export class CragsComponent implements OnInit, OnDestroy {
     this.scrollService.restoreScroll();
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  protected async removeAreaFilter() {
+    this.selectedAreas = [];
+    await this.router.navigate(
+      this.makeRoute(this.country.slug, {
+        tip: this.activatedRoute.snapshot.params['tip'] || null,
+        orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+      }),
+      { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+    );
+  }
+
+  protected async removeOrientationFilter() {
+    this.selectedOrientations = [];
+    await this.router.navigate(
+      this.makeRoute(this.country.slug, {
+        tip: this.activatedRoute.snapshot.params['tip'] || null,
+        obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+      }),
+      { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+    );
+  }
+
+  protected async removeRouteTypeFilter() {
+    this.typeParamValues = [];
+    await this.router.navigate(
+      this.makeRoute(this.country.slug, {
+        obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+        orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+      }),
+      { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+    );
+  }
+
+  makeRoute(country: string, params: any = {}) {
+    return ['/plezalisca', country, this.routeParams(params)];
+  }
+
+  routeParams(params: any): any {
+    params = { ...this.params, ...params };
+
+    Object.keys(params).forEach((key) => {
+      if (params[key] == null) {
+        delete params[key];
+      }
+    });
+
+    return params;
+  }
+
+  protected removeAllFilters() {
+    this.router.navigate(['/plezalisca']);
   }
 }

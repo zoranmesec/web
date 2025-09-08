@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './grade.component.html',
   styleUrls: ['./grade.component.scss'],
   imports: [CommonModule],
+  standalone: true,
 })
 export class GradeComponent implements OnInit {
   @Input() difficulty: number;

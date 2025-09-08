@@ -1,7 +1,12 @@
+@use "./../../../styles/global.scss" as global;
+
 .crag-map-container {
   position: relative;
-  height: 360px;
+  height: 600px;
   width: 100%;
+  @media only screen and (max-width: global.$breakpoint-xl) {
+    height: 360px !important;
+  }
 }
 .crag-map-overlay {
   position: absolute;
@@ -12,8 +17,11 @@
 }
 
 #crag-map-default {
-  height: 360px;
+  height: 600px;
   width: 100%;
+  @media only screen and (max-width: global.$breakpoint-xl) {
+    height: 360px !important;
+  }
 }
 
 .popup {

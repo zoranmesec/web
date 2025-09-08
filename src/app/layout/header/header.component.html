@@ -25,14 +25,12 @@
       fxLayout.gt-sm="row"
       fxLayoutAlign.gt-sm="center center"
       ([fxHide])="(!naviOpen)"
-      fxShow.gt-sm
+      fxHide.lt-lg
     >
       <a [routerLink]="['/']"
         ><mat-icon matPrefix class="my-icon">search</mat-icon></a
       >
-      <a [routerLink]="['/plezalisca/slovenija', { tip: 'sportne' }]"
-        >Plezališča</a
-      >
+      <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
 
       <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
 

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { FilteredTable } from 'src/app/common/filtered-table';
 import { LayoutService } from 'src/app/services/layout.service';
+import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { DataError } from 'src/app/types/data-error';
 import {
   DifficultyVote,
@@ -12,10 +13,11 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-difficulty-votes',
-    templateUrl: './difficulty-votes.component.html',
-    styleUrls: ['./difficulty-votes.component.scss'],
-    standalone: false
+  selector: 'app-difficulty-votes',
+  templateUrl: './difficulty-votes.component.html',
+  styleUrls: ['./difficulty-votes.component.scss'],
+  imports: [GradeComponent],
+  standalone: true,
 })
 export class DifficultyVotesComponent implements OnInit, OnDestroy {
   loading = false;

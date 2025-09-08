@@ -17,6 +17,8 @@ import { ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { provideRouter } from '@angular/router';
 import { DataErrorComponent } from './app/shared/components/data-error/data-error.component';
 import { AuthGuard } from './app/auth/auth.guard';
+import { C } from '@angular/cdk/focus-monitor.d-CvvJeQRc';
+import { CustomBreakpointsProvider } from './app/shared/custom-breakpoints';
 
 if (environment.production) {
   Sentry.init({
@@ -55,6 +57,7 @@ export const appConfig: ApplicationConfig = {
         // other options...
       };
     }),
+    CustomBreakpointsProvider,
   ],
 };
 provideHttpClient(withInterceptorsFromDi());

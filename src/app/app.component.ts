@@ -81,6 +81,7 @@ import { Subscription, take, filter } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { LayoutService } from './services/layout.service';
 import { DataErrorComponent } from './shared/components/data-error/data-error.component';
+import { CustomBreakpointsProvider } from './shared/custom-breakpoints';
 
 declare let gtag: Function;
 
@@ -106,34 +107,35 @@ class CustomDateAdapter extends NativeDateAdapter {
 }
 
 @Component({
-    selector: 'app-root',
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    templateUrl: './app.component.html',
-    imports: [
-        RouterLink,
-        HeaderComponent,
-        BreadcrumbsComponent,
-        CommonModule,
-        RouterModule,
-    ],
-    providers: [
-        {
-            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-            useValue: formFieldAppearance,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi: true,
-        },
-        { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
-        {
-            provide: DateAdapter,
-            useClass: CustomDateAdapter,
-            deps: [MAT_DATE_LOCALE, Platform],
-        },
-    ],
-    styleUrls: ['./app.component.scss']
+  selector: 'app-root',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  templateUrl: './app.component.html',
+  imports: [
+    RouterLink,
+    HeaderComponent,
+    BreadcrumbsComponent,
+    CommonModule,
+    RouterModule,
+  ],
+  providers: [
+    CustomBreakpointsProvider,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: formFieldAppearance,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
+    {
+      provide: DateAdapter,
+      useClass: CustomDateAdapter,
+      deps: [MAT_DATE_LOCALE, Platform],
+    },
+  ],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'plezanje-net';

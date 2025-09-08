@@ -1,121 +1,170 @@
-<section class="filter" fxLayout="column" fxLayoutGap="12px" fxHide.lt-md>
-  <div class="card">
-    <a
-      [routerLink]="makeRoute(country.slug, { tip: null })"
-      [class.active]="!params.tip"
-      class="row"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-    >
-      <div fxFlex="100">Vse vrste smeri</div>
-    </a>
-    <a
-      *ngFor="let type of routeTypes"
-      [routerLink]="makeRoute(country.slug, { tip: type.slug })"
-      [class.active]="type.slug == params.tip"
-      class="row"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      >{{ type.label }}</a
-    >
-  </div>
-
-  <div class="card">
-    <h3>{{ country.name }}</h3>
-    <a
-      [routerLink]="makeRoute(country.slug, { obmocje: null })"
-      [class.active]="!params.obmocje"
-      class="row"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-    >
-      <div fxFlex="100">Vse regije</div>
-      <mat-icon>arrow_right</mat-icon>
-    </a>
-    <a
-      *ngFor="let area of country.areas"
-      [routerLink]="makeRoute(country.slug, { obmocje: area.slug })"
-      [class.active]="area.slug == params.obmocje"
-      class="row"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-    >
-      <div fxFlex="100">{{ area.name }}</div>
-      <mat-icon>arrow_right</mat-icon>
-    </a>
-  </div>
-
-  <div class="card" *ngIf="countries">
-    <h3 *ngIf="country.slug == 'slovenija'">Tujina</h3>
-    <ng-container *ngFor="let listCountry of countries; let i = index">
-      <ng-container *ngIf="showAllCountries || i <= 5">
-        <a
-          *ngIf="listCountry.slug != country.slug"
-          [routerLink]="makeRoute(listCountry.slug, { obmocje: null })"
-          class="row"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-        >
-          <div fxFlex="100">{{ listCountry.name }}</div>
-          <span>{{ listCountry.nrCrags }}</span>
-        </a>
-      </ng-container>
-    </ng-container>
-    <div
-      *ngIf="!showAllCountries"
-      (click)="showAllCountries = true"
-      class="show-all"
-      fxLayout="row"
-      fxLayoutAlign="center center"
-    >
-      <div>Prikaži vseh {{ countries.length }}</div>
-      <mat-icon>arrow_drop_down</mat-icon>
+<section class="filter" fxLayout="column" fxLayoutGap="12px">
+  <div class="flex flex-space-between top">
+    <div class="flex flex-row flex-align-center">
+      <div>
+        <mat-icon class="p-t-4">tune</mat-icon>
+      </div>
+      <div>
+        <span class="p-l-4">Filtriraj</span>
+      </div>
+    </div>
+    <div class="close-icon" (click)="closeFilters()">
+      <mat-icon class="map-icon">close</mat-icon>
     </div>
   </div>
+  <mat-accordion multi="true" displayMode="flat" [formGroup]="cragForm">
+    <mat-expansion-panel expanded="">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Država </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        @for (country of countries; track $index) { @if ($index<5 &&
+        !showAllCountries) {
+        <li>
+          @if (country.slug === currentCountrySlug) {
+          <div class="active-country flex">
+            <div>{{ country.name }}</div>
+            <span class="p-l-4">{{ country.nrCrags }}</span>
+          </div>
+          } @else {
 
-  <div fxLayout="row" fxLayoutGap="6px" fxHide fxShow.lt-md>
-    <div fxFlex="100">
-      <mat-form-field class="no-hint infix-width-auto">
-        <mat-label>Vrsta smeri</mat-label>
-        <mat-select
-          [value]="params.tip"
-          (selectionChange)="changeType($event.value)"
-        >
-          <mat-option [value]="null">Vse vrste smeri</mat-option>
-          <mat-option *ngFor="let type of routeTypes" [value]="type.slug">{{
-            type.label
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div fxFlex="100">
-      <mat-form-field class="no-hint infix-width-auto">
-        <mat-label>Država</mat-label>
-        <mat-select
-          [value]="country.slug"
-          (selectionChange)="changeCountry($event.value)"
-        >
-          <mat-option
-            *ngFor="let listCountry of countries"
-            [value]="listCountry.slug"
-            >{{ listCountry.name }}</mat-option
+          <a
+            [class.active-country]="country.slug === currentCountrySlug"
+            (click)="changeCountry(country.slug)"
+            class="flex"
           >
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div fxFlex="100">
-      <mat-form-field class="no-hint infix-width-auto" *ngIf="country.areas">
-        <mat-label>Regija</mat-label>
-        <mat-select
-          [value]="params.obmocje"
-          (selectionChange)="changeArea($event.value)"
-        >
-          <mat-option [value]="null">Vse regije</mat-option>
-          <mat-option *ngFor="let area of country.areas" [value]="area.slug">{{
-            area.name
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+            <div>{{ country.name }}</div>
+            <span class="p-l-4">{{ country.nrCrags }}</span>
+          </a>
+          }
+        </li>
+        } @else if (showAllCountries) {
+        <li>
+          @if (country.slug === currentCountrySlug) {
+          <div>{{ country.name }}</div>
+          <span class="p-l-4">{{ country.nrCrags }}</span>
+          } @else {
+
+          <a
+            [class.show-all]="country.slug === currentCountrySlug"
+            (click)="changeCountry(country.slug)"
+            class="flex"
+          >
+            <div>{{ country.name }}</div>
+            <span class="p-l-4">{{ country.nrCrags }}</span>
+          </a>
+          }
+        </li>
+        } }
+      </ul>
+      <div
+        *ngIf="!showAllCountries"
+        (click)="showAllCountries = true"
+        class="show-all"
+        fxLayout="row wrap"
+        fxLayoutAlign="left flex-start"
+      >
+        Prikaži vse
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="activatedAreas.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Območje </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul formArrayName="areas">
+        @for (area of country.areas; track $index) {
+        <li>
+          <label class="checkbox-container"
+            >{{ area.name }}
+            <input
+              type="checkbox"
+              [checked]="cragForm.controls['areas'].controls[area.slug].value"
+              [formControlName]="area.slug"
+              (change)="changeArea(area.slug)"
+            />
+            <span class="checkmark"></span>
+          </label>
+        </li>
+        }
+      </ul>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="activatedRouteTypes.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Tip smeri </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        @for (routeType of routeTypes; track $index) {
+        <li>
+          <label class="checkbox-container"
+            >{{ routeType.label }}
+            <input
+              type="checkbox"
+              [checked]="cragForm.controls[routeType.id].value"
+              [formControlName]="routeType.id"
+              (change)="changeType(routeType.slug)"
+            />
+            <span class="checkmark"></span>
+          </label>
+        </li>
+        }
+      </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Orientacija</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        @for (orientation of orientations; track $index) {
+        <li>
+          <label class="checkbox-container"
+            >{{ orientation.label }}
+            <input
+              type="checkbox"
+              [checked]="cragForm.controls[orientation.value].value"
+              [formControlName]="orientation.value"
+              (change)="changeOrientation(orientation.value)"
+            />
+            <span class="checkmark"></span>
+          </label>
+        </li>
+        }
+      </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Težavnost</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      med
+      <app-grade-select
+        [control]="cragForm.controls['minGrade']"
+        emptyText="Brez"
+        gradingSystemId="french"
+        [noHint]="true"
+        [focusDifficulty]="null"
+      ></app-grade-select>
+      in
+      <app-grade-select
+        [control]="cragForm.controls['maxGrade']"
+        emptyText="Brez"
+        gradingSystemId="french"
+        [noHint]="true"
+        [focusDifficulty]="null"
+      ></app-grade-select>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div
+    class="flex flex-space-between bottom show-all"
+    (click)="removeAllFilters()"
+  >
+    <div class="flex flex-row flex-align-center">
+      <div class="close-icon">
+        <mat-icon class="map-icon">refresh</mat-icon>
+      </div>
+      <div>
+        <span class="p-l-4">Ponastavi vse</span>
+      </div>
     </div>
   </div>
 </section>

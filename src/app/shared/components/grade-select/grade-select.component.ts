@@ -5,42 +5,42 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { GradingSystemsQuery } from 'src/generated/graphql';
 import { GradingSystemsService } from '../../services/grading-systems.service';
 import { MatOption } from '@angular/material/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @Component({
-    selector: 'app-grade-select',
-    templateUrl: './grade-select.component.html',
-    styleUrls: ['./grade-select.component.scss'],
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatOption,
-        MatSelect,
-        MatFormField,
-        MatLabel,
-    ]
+  selector: 'app-grade-select',
+  templateUrl: './grade-select.component.html',
+  styleUrls: ['./grade-select.component.scss'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatOption,
+    MatSelect,
+    MatFormField,
+    MatLabel,
+    CommonModule,
+    NgxMatSelectSearchModule,
+  ],
 })
 export class GradeSelectComponent implements OnInit, OnChanges {
   @Input() label: string;
   @Input() emptyText: string = 'Brez ocene';
-  @Input() control: UntypedFormControl;
+  @Input() control: FormControl;
   @Input() gradingSystemId: string;
   @Input() noHint = false;
   @Input() focusDifficulty = null;
 
   allGrades: GradingSystemsQuery['gradingSystems'][0]['grades'];
   filteredGrades: GradingSystemsQuery['gradingSystems'][0]['grades'];
-  gradeFilterControl: UntypedFormControl = new UntypedFormControl();
+  gradeFilterControl: FormControl = new FormControl();
 
   onDestroySubject = new Subject<void>();
 

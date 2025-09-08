@@ -17,7 +17,6 @@ import { CommentsHistoryComponent } from './pages/comments-history/comments-hist
 
 @NgModule({
   declarations: [
-    DifficultyVotesComponent,
     StatisticsHomeComponent,
     AscentsHistoryComponent,
     CommentsHistoryComponent,

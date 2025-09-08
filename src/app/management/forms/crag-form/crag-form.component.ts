@@ -29,20 +29,21 @@ import { ContributionService } from '../../pages/contributions/contribution/cont
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MyEditorComponent } from 'src/app/shared/editor/editor.component';
+import { ORIENTATIONS } from 'src/app/common/orientation.constants';
 
 @Component({
-    selector: 'app-crag-form',
-    templateUrl: './crag-form.component.html',
-    styleUrls: ['./crag-form.component.scss'],
-    imports: [
-        MatCheckbox,
-        MatDialogModule,
-        MatSnackBarModule,
-        MatSelectModule,
-        MyEditorComponent,
-        FormsModule,
-        ReactiveFormsModule,
-    ]
+  selector: 'app-crag-form',
+  templateUrl: './crag-form.component.html',
+  styleUrls: ['./crag-form.component.scss'],
+  imports: [
+    MatCheckbox,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MyEditorComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class CragFormComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;
@@ -83,40 +84,7 @@ export class CragFormComponent implements OnInit, OnDestroy {
     },
   ];
 
-  orientations: Registry[] = [
-    {
-      value: 'N',
-      label: 'Sever',
-    },
-    {
-      value: 'NE',
-      label: 'Severovzhod',
-    },
-    {
-      value: 'E',
-      label: 'Vzhod',
-    },
-    {
-      value: 'SE',
-      label: 'Jugovzhod',
-    },
-    {
-      value: 'S',
-      label: 'Jug',
-    },
-    {
-      value: 'SW',
-      label: 'Jugozahod',
-    },
-    {
-      value: 'W',
-      label: 'Zahod',
-    },
-    {
-      value: 'NW',
-      label: 'Severozahod',
-    },
-  ];
+  orientations: Registry[] = ORIENTATIONS;
 
   constructor(
     private authService: AuthService,

@@ -1,74 +1,88 @@
 @if (!error) {
 <section class="title">
-  <h1>
-    Plezališča<ng-container *ngIf="country"> - {{ country.name }}</ng-container>
-  </h1>
+  <h1>Plezališča</h1>
 </section>
 
-<app-loader *ngIf="loading"></app-loader>
-
-@if (!loading && country.code == 'SI' && showMap) {
+@if (!loading && showMap && country.code==='SI') {
 <section class="crag-map-container mt-16">
   <div class="crag-map">
+    @defer (on immediate) {
     <app-map [crags]="crags$"></app-map>
+    } @placeholder {
+    <p class="fallback">Zemljevid</p>
+    }
   </div>
 </section>
 }
 
-<div
-  class="container mt-16"
-  fxLayout="row"
-  fxLayoutGap="12px"
-  *ngIf="!loading"
-  fxLayout.lt-md="column"
->
-  @if (showFilters) {
-  <div fxFlex="320px" fxFlex.lt-md>
-    <app-crags-toc [country]="country"></app-crags-toc>
-  </div>
-  }
-  <div fxFlex="100" fxFlex.lt-md>
-    <app-loader *ngIf="cragsLoading"></app-loader>
+<app-loader class="m-16" *ngIf="loading"></app-loader>
 
-    <section
-      *ngIf="!cragsLoading"
-      class="options p-16 flex flex-row flex-start"
-    >
-      <div class="flex flex-row flex-align-center flex-center">
-        <button type="button" mat-stroked-button (click)="location.back()">
-          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
-            >map</mat-icon
-          >
-          <span class="p-l-8">Pokaži zemljevid</span>
+<div
+  class="container mt-16 p-r-16 p-l-16"
+  fxFlex
+  fxLayout="column"
+  *ngIf="!loading"
+>
+  <section
+    class="options"
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+  >
+    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+      @if(country.code==='SI') {
+
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        #map
+      >
+        <button type="button" mat-stroked-button (click)="showMap = !showMap">
+          <mat-icon class="filter-icon">map</mat-icon>
+          <span fxHide.lt-lg class="p-l-8">Pokaži zemljevid</span>
         </button>
       </div>
-      <div class="flex flex-row flex-align-center flex-center">
-        <button type="button" mat-stroked-button (click)="location.back()">
-          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
-            >filter</mat-icon
-          >
-          <span class="p-l-8">Pokaži filtre</span>
+      }
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
+      >
+        <button
+          type="button"
+          mat-stroked-button
+          (click)="showFilters = !showFilters"
+        >
+          <mat-icon class="filter-icon">tune</mat-icon>
+          <span fxHide.lt-lg class="p-l-8">Pokaži filtre</span>
+          @if(nrOfFiltersApplied > 0) {
+
+          <span fxHide.gt-md>({{ nrOfFiltersApplied }})</span>
+          }
         </button>
       </div>
-      <div class="flex flex-row flex-align-center flex-center">
-        <button type="button" mat-stroked-button (click)="location.back()">
-          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
-            >column</mat-icon
-          >
+      <!-- <div class="border-right flex flex-row flex-align-center flex-center">
+        <button type="button" mat-stroked-button>
+          <mat-icon class="map-icon">add_column_right</mat-icon>
           <span class="p-l-8">Izberi stolpce</span>
         </button>
-      </div>
-      <div class="flex flex-row flex-align-center flex-center">
-        <button type="button" mat-stroked-button (click)="location.back()">
-          <mat-icon *ngIf="!showMap" (click)="showMap = true" class="map-icon"
-            >sort</mat-icon
-          >
-          <span class="p-l-8">Uredi</span>
+      </div> -->
+      <!-- <div class="border-right flex flex-row flex-align-center flex-center">
+        <button type="button" mat-stroked-button>
+          <mat-icon class="filter-icon">sort</mat-icon>
+          <span fxHide.lt-lg class="p-l-8">Uredi</span>
+        </button>
+      </div> -->
+
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        fxHide.gt-sm
+      >
+        <button type="button" mat-stroked-button>
+          <mat-icon class="filter-icon">search</mat-icon>
+          <span fxHide.lt-lg class="p-l-8">Išči</span>
         </button>
       </div>
 
       <div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="dots">
           <mat-icon color="primary">more_vert</mat-icon>
         </button>
 
@@ -85,86 +99,233 @@
           </button>
         </mat-menu>
       </div>
-      <div>
-        <mat-form-field
-          class="custom-height"
-          appearance="outline"
-          [subscriptSizing]="fixed"
+    </div>
+    <div fxHide.lt-sm>
+      <mat-form-field
+        class="custom-height"
+        appearance="outline"
+        [subscriptSizing]="fixed"
+      >
+        <mat-label>
+          <mat-icon class="search-icon">search</mat-icon>
+          <span>Poišči po imenu</span></mat-label
         >
-          <mat-label>
-            <mat-icon class="map-icon">search</mat-icon>
-            <span>Išči po seznamu</span></mat-label
-          >
-          <input
-            matInput
-            autofocus
-            [formControl]="search"
-            autocomplete="off"
-            (keydown)="searchKeyDown($event)"
-          />
-          <!-- <mat-hint
-            >Ne najdeš plezališča, ki ga iščeš?
-            <a
-              [routerLink]="[
-                '/urejanje/dodaj-plezalisce',
-                { country: country?.id }
-              ]"
-              >Dodaj plezališče</a
-            >
-            in ga pošlji v potrditev uredništvu.</mat-hint
-          > -->
-        </mat-form-field>
-      </div>
+        <input
+          matInput
+          autofocus
+          [formControl]="search"
+          autocomplete="off"
+          (keydown)="searchKeyDown($event)"
+        />
+      </mat-form-field>
+    </div>
+  </section>
+
+  <div
+    fxHide.gt-sm
+    fxFlex
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    class="w-100"
+  >
+    <mat-form-field
+      class="custom-height"
+      appearance="outline"
+      [subscriptSizing]="fixed"
+    >
+      <mat-label>
+        <mat-icon class="search-icon">search</mat-icon>
+        <span>Poišči po imenu</span></mat-label
+      >
+      <input
+        matInput
+        autofocus
+        [formControl]="search"
+        autocomplete="off"
+        (keydown)="searchKeyDown($event)"
+      />
+    </mat-form-field>
+  </div>
+
+  <main fxFlex fxLayout="row" class="mt-8">
+    <section fxHide.lt-md class="m-t-4">
+      @if (showFilters) {
+      <app-crags-toc
+        [country]="country"
+        (close)="showFilters = !showFilters"
+      ></app-crags-toc>
+      }
     </section>
 
-    <div class="card mt-16" *ngIf="!cragsLoading">
+    <section fxHide.gt-sm class="m-t-4">
+      @if (!showFilters) {
+      <app-crags-toc
+        [country]="country"
+        (close)="showFilters = !showFilters"
+      ></app-crags-toc>
+      }
+    </section>
+    <div fxFlex="100" fxFlex.lt-md fxLayout="column">
+      <app-loader class="m-32" *ngIf="cragsLoading"></app-loader>
       <div
-        fxLayout="row"
+        *ngIf="!cragsLoading"
+        fxFlex="0 0 0"
+        fxHide.lt-lg
+        fxFlexLayout="row"
         fxLayoutAlign="start center"
-        fxLayoutGap="8px"
-        fxHide.lt-md
-        class="row header"
       >
-        <div fxFlex="40" fxFlex.lt-md="100">Plezališče</div>
-        <div fxFlex="20" fxFlex.lt-md>Število smeri</div>
-        <div fxFlex="20" fxFlex.lt-md>Usmerjenost</div>
-        <div fxFlex="20" class="routes" fxFlex.lt-md>Težavnost</div>
+        @if (selectedAreas.length > 0) {
+        <div class="filter-chip flex" (click)="removeAreaFilter()">
+          Območje: @for (area of selectedAreas; track $index; let last = $last)
+          { @if (last) {
+          <span class="p-l-4">{{ getAreaName(area) }}</span>
+          } @else {
+
+          <span class="p-l-4">{{ getAreaName(area) }},</span>
+          } }
+          <mat-icon>close</mat-icon>
+        </div>
+        } @if (typeParamValues.length > 0) {
+        <div class="filter-chip flex" (click)="removeRouteTypeFilter()">
+          Tip smeri: @for (type of typeParamValues; track $index; let last =
+          $last) { @if (last) {
+          <span class="p-l-4">{{ type | routeType }}</span>
+          } @else {
+
+          <span class="p-l-4">{{ type | routeType }},</span>
+          } }
+          <mat-icon>close</mat-icon>
+        </div>
+        } @if (selectedOrientations.length > 0) {
+        <div class="filter-chip flex" (click)="removeOrientationFilter()">
+          Orientacija: @for (orientation of selectedOrientations; track $index;
+          let last = $last) { @if (last) {
+          <span class="p-l-4">{{ orientation | orientation : "short" }}</span>
+          } @else {
+
+          <span class="p-l-4">{{ orientation | orientation : "short" }},</span>
+          } }
+          <mat-icon>close</mat-icon>
+        </div>
+        } @if(typeParamValues.length > 0 || selectedAreas.length > 0 ||
+        selectedOrientations.length > 0) {
+
+        <div class="remove-all p-t-4" (click)="removeAllFilters()">
+          Odstrani vse filtre
+        </div>
+        }
       </div>
-      <div
-        *ngFor="let crag of filteredCrags"
-        [routerLink]="['/plezalisce/', crag.slug]"
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="8px"
-        class="row"
-      >
-        <div fxFlex="40" fxFlex.lt-md="100">
-          <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
+
+      <div class="card" fxFlex flexLayout="row" *ngIf="!cragsLoading">
+        <div
+          class="row header"
+          fxLayout="row"
+          fxHide.lt-lg
+          fxLayoutAlign="start center"
+        >
+          <div fxFlex="40">Ime</div>
+          <div fxFlex="20">Število smeri</div>
+          <div fxFlex="20" fxHide.lt-xl>Orientacija</div>
+          <div fxFlex="20">Težavnost</div>
         </div>
-        <div fxFlex="20" fxFlex.lt-md fxHide.lt-md>{{ crag.nrRoutes }}</div>
-        <div fxFlex="20" fxFlex.lt-md fxHide.lt-md>
-          {{ crag.orientation | orientation }}
+        <div
+          *ngFor="let crag of filteredCrags"
+          class="row"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <div fxFlex="40" fxFlex.lt-md fxHide.lt-lg>
+            <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
+          </div>
+          <div fxFlex="20" fxFlex.lt-md fxHide.lt-lg>{{ crag.nrRoutes }}</div>
+          <div fxFlex="20" fxHide.lt-xl>
+            {{ crag.orientation | orientation : "short" }}
+          </div>
+          <div fxFlex="20" fxFlex.lt-md fxHide.lt-lg class="routes">
+            <ng-container *ngIf="crag.nrRoutes > 0">
+              {{
+                crag.minDifficulty != null && crag.maxDifficulty != null
+                  ? "od "
+                  : ""
+              }}
+              <app-grade
+                [difficulty]="crag.minDifficulty"
+                [gradingSystemId]="crag.defaultGradingSystem.id"
+              ></app-grade>
+              {{
+                crag.minDifficulty != null && crag.maxDifficulty != null
+                  ? " do "
+                  : ""
+              }}<app-grade
+                [difficulty]="crag.maxDifficulty"
+                [gradingSystemId]="crag.defaultGradingSystem.id"
+              ></app-grade>
+            </ng-container>
+          </div>
+
+          <!-- Less than large -->
+
+          <div
+            fxFlex="100"
+            fxHide.gt-md
+            fxLayout="column"
+            fxLayoutAlign="start center"
+          >
+            <div
+              fxLayout="row wrap"
+              fxLayoutAlign="space-between"
+              class="w-100"
+            >
+              <div>
+                <a
+                  [routerLink]="['/plezalisce/', crag.slug]"
+                  class="crag-link"
+                  >{{ crag.name }}</a
+                >
+              </div>
+              @if ( crag.orientation != null && crag.orientation !== 'none' ) {
+              <div fxFlex="0 0 0" fxLayout="row">
+                <div>
+                  <mat-icon svgIcon="orientation" class="map-icon"></mat-icon>
+                </div>
+                <div>
+                  <span>{{ crag.orientation | orientation : "short" }}</span>
+                </div>
+              </div>
+              }
+            </div>
+            <div fxFlex="20" fxHide.gt-md class="routes w-100">
+              <span>{{ crag.nrRoutes }} smeri od </span>
+              <ng-container *ngIf="crag.nrRoutes > 0">
+                <app-grade
+                  [difficulty]="crag.minDifficulty"
+                  [gradingSystemId]="crag.defaultGradingSystem.id"
+                ></app-grade>
+                {{
+                  crag.minDifficulty != null && crag.maxDifficulty != null
+                    ? " do "
+                    : ""
+                }}<app-grade
+                  [difficulty]="crag.maxDifficulty"
+                  [gradingSystemId]="crag.defaultGradingSystem.id"
+                ></app-grade>
+              </ng-container>
+            </div>
+          </div>
         </div>
-        <div fxFlex="20" fxFlex.lt-md class="routes">
-          <span fxHide.gt-sm>{{ crag.nrRoutes }} smeri<br /></span>
-          <ng-container *ngIf="crag.nrRoutes > 0">
-            <app-grade
-              [difficulty]="crag.minDifficulty"
-              [gradingSystemId]="crag.defaultGradingSystem.id"
-            ></app-grade>
-            {{
-              crag.minDifficulty != null && crag.maxDifficulty != null
-                ? " do "
-                : ""
-            }}<app-grade
-              [difficulty]="crag.maxDifficulty"
-              [gradingSystemId]="crag.defaultGradingSystem.id"
-            ></app-grade>
-          </ng-container>
+        <div class="no-results">
+          Plezališča, ki ga iščeš ni na seznamu?
+          <a
+            [routerLink]="[
+              '/urejanje/dodaj-plezalisce',
+              { country: country?.id }
+            ]"
+            >Dodaj plezališče.</a
+          >
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </div>
 } @else {
 <app-data-error [error]="error"></app-data-error>

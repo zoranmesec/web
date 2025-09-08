@@ -1,5 +1,7 @@
-<mat-form-field class="w-100" [class.no-hint]="noHint">
+<mat-form-field class="w-100" [class.no-hint]="noHint" appearance="outline">
+  @if (label) {
   <mat-label>{{ label }}</mat-label>
+  }
   <mat-select [formControl]="control" (opened)="onOpened()">
     <mat-option>
       <ngx-mat-select-search
