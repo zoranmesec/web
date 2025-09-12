@@ -1,5 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+export enum Orientation {
+  north = 'sever',
+  northeast = 'severovzhod',
+  east = 'vzhod',
+  southeast = 'jugovzhod',
+  south = 'jug',
+  southwest = 'jugozahod',
+  west = 'zahod',
+  northwest = 'severozahod',
+}
+
 @Pipe({
   name: 'orientation',
   standalone: true,
@@ -31,6 +42,10 @@ export class OrientationPipe implements PipeTransform {
         (display === 'full' ? 'o' : '') +
         sides[value[1]][display]
       );
+    }
+
+    if (value.length > 3) {
+      return Orientation[value as keyof typeof Orientation] || '';
     }
 
     return '';

@@ -32,15 +32,16 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     }
   }
 
-  section.title {
+  section#title {
     height: 100px;
     padding: 0 16px 16px 16px;
     background-color: var(--mat-sys-surface);
     align-items: center;
     display: flex;
     text-align: center;
+    border-bottom: 1px solid #e5e5e5;
   }
-  section.crag-map-container {
+  section#crag-map-container {
     position: relative;
     height: 600px;
     @media only screen and (max-width: global.$breakpoint-xl) {
@@ -54,7 +55,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     }
   }
 
-  section.options {
+  section#options {
     height: 40px !important;
     margin-left: -16px !important;
     flex-wrap: wrap;
@@ -103,16 +104,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
   .search-icon {
     margin-right: 8px;
     color: var(--mat-sys-primary);
-  }
-
-  .row {
-    align-items: center;
-    padding: 16px;
-    border-top: 1px solid $grey;
-
-    @media only screen and (max-width: global.$breakpoint-md) {
-      padding: 8px !important;
-    }
   }
 
   .header {

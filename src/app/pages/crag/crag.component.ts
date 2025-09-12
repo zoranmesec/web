@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataError } from 'src/app/types/data-error';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LayoutService } from 'src/app/services/layout.service';
 import { Subject, Subscription } from 'rxjs';
 import { Tab } from '../../types/tab';
@@ -22,12 +22,34 @@ import { MatTabNavPanel } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { CragRoutesComponent } from './crag-routes/crag-routes.component';
+import { MatFormField } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import {
+  MatIcon,
+  MatIconModule,
+  MatIconRegistry,
+} from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { CragInfoComponent } from './crag-info/crag-info.component';
+import { CragCommentsComponent } from './crag-comments/crag-comments.component';
+import { CragGalleryComponent } from './crag-gallery/crag-gallery.component';
 
 @Component({
-    selector: 'app-crag',
-    templateUrl: './crag.component.html',
-    styleUrls: ['./crag.component.scss'],
-    imports: [MatTabNavPanel, CommonModule, MatMenuModule, CragRoutesComponent]
+  selector: 'app-crag',
+  templateUrl: './crag.component.html',
+  styleUrls: ['./crag.component.scss'],
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    CragInfoComponent,
+    CragCommentsComponent,
+    CragRoutesComponent,
+    CragGalleryComponent,
+    MatMenuModule,
+
+    MatIconModule,
+    RouterModule,
+  ],
 })
 export class CragComponent implements OnInit, OnDestroy {
   loading: boolean = true;
@@ -46,20 +68,24 @@ export class CragComponent implements OnInit, OnDestroy {
 
   tabs: Array<Tab> = [
     {
-      slug: 'info',
-      label: 'Info',
-    },
-    {
       slug: 'smeri',
       label: 'Smeri',
+      icon: 'route',
+    },
+    {
+      slug: 'info',
+      label: 'Info',
+      icon: 'info',
     },
     {
       slug: 'komentarji',
       label: 'Komentarji',
+      icon: 'comment',
     },
     {
       slug: 'galerija',
       label: 'Galerija',
+      icon: 'image',
     },
   ];
 
@@ -78,8 +104,27 @@ export class CragComponent implements OnInit, OnDestroy {
     private router: Router,
     private cragBySlugGQL: CragBySlugGQL,
     private breakpointObserver: BreakpointObserver,
-    private scrollService: ScrollService
-  ) {}
+    private scrollService: ScrollService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    let url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/info.svg'
+    );
+    this.matIconRegistry.addSvgIcon('info', url);
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/image.svg'
+    );
+    this.matIconRegistry.addSvgIcon('image', url);
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/route.svg'
+    );
+    this.matIconRegistry.addSvgIcon('route', url);
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/comment.svg'
+    );
+    this.matIconRegistry.addSvgIcon('comment', url);
+  }
 
   ngOnInit(): void {
     const userSub = this.authService.currentUser.subscribe(
@@ -124,18 +169,19 @@ export class CragComponent implements OnInit, OnDestroy {
           this.querySuccess(result.data.cragBySlug);
 
           if (
-            params.tab == 'info' &&
+            params.tab == 'smeri' &&
             !this.breakpointObserver.isMatched([
               Breakpoints.Small,
               Breakpoints.XSmall,
             ])
           ) {
-            this.setActiveTab(this.tabs[1]);
+            this.setActiveTab(this.tabs[0]);
           } else if (params.tab != null) {
             this.activeTab = params.tab;
           } else {
             this.activeTab = 'smeri';
           }
+          console.log(this.activeTab);
         },
         error: (error) => {
           this.loading = false;
@@ -269,6 +315,7 @@ export class CragComponent implements OnInit, OnDestroy {
             this.setActiveTab({
               slug: 'galerija',
               label: 'Galerija',
+              icon: 'photo',
             });
           }
         });
@@ -293,6 +340,7 @@ export class CragComponent implements OnInit, OnDestroy {
     this.setActiveTab({
       slug: 'galerija',
       label: 'Galerija',
+      icon: 'photo',
     });
   }
 }

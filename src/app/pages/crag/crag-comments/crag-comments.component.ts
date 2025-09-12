@@ -4,10 +4,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Comment, Crag, User } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-crag-comments',
-    templateUrl: './crag-comments.component.html',
-    styleUrls: ['./crag-comments.component.scss'],
-    standalone: false
+  selector: 'app-crag-comments',
+  templateUrl: './crag-comments.component.html',
+  styleUrls: ['./crag-comments.component.scss'],
+  standalone: true,
 })
 export class CragCommentsComponent implements OnInit, OnChanges {
   @Input() crag: Crag;

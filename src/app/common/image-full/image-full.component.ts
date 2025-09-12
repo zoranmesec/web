@@ -4,18 +4,21 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ResponsiveImageComponent } from 'src/app/shared/components/responsive-image/responsive-image.component';
 import { environment } from 'src/environments/environment';
 import { DeleteImageGQL, Image, User } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-image-full',
-    templateUrl: './image-full.component.html',
-    styleUrls: ['./image-full.component.scss'],
-    standalone: false
+  selector: 'app-image-full',
+  templateUrl: './image-full.component.html',
+  styleUrls: ['./image-full.component.scss'],
+  imports: [ResponsiveImageComponent, MatIconModule],
+  standalone: true,
 })
 export class ImageFullComponent implements OnInit {
   storageUrl = environment.storageUrl;

@@ -1,5 +1,54 @@
-.map {
-  padding: 12px 6px;
+:host {
+  section#info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 6px 0 6px;
+
+    mat-icon {
+      height: 40px !important;
+      width: 40px !important;
+      margin: 4px;
+    }
+
+    div:not(:first-child) {
+      border-left: 1px solid var(--mat-sys-on-surface-variant);
+      padding-left: 16px;
+    }
+  }
+
+  #description {
+    div {
+      width: 50%;
+    }
+  }
+
+  section#charts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0 6px 0 6px;
+
+    div {
+      height: 400px;
+    }
+  }
+
+  section#approach {
+    height: 600px !important;
+    width: 100% !important;
+    position: relative;
+    margin-top: 16px;
+
+    .crag-map {
+      height: 600px;
+      width: 100%;
+    }
+
+    div.access {
+      flex-shrink: 3;
+    }
+  }
 }
 
 .card {

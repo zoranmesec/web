@@ -1,11 +1,15 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   EventEmitter,
+  input,
   Input,
   OnChanges,
   Output,
 } from '@angular/core';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { BarColorPipe } from 'src/app/shared/pipes/bar-color.pipe';
 
 export interface IDistribution {
   label: string;
@@ -13,13 +17,16 @@ export interface IDistribution {
 }
 
 @Component({
-    selector: 'app-distribution-chart',
-    templateUrl: './distribution-chart.component.html',
-    styleUrls: ['./distribution-chart.component.scss'],
-    standalone: false
+  selector: 'app-distribution-chart',
+  templateUrl: './distribution-chart.component.html',
+  styleUrls: ['./distribution-chart.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, BarColorPipe],
 })
 export class DistributionChartComponent implements OnChanges, AfterViewInit {
-  @Input() distribution: IDistribution[] = [];
+  // @Input() distribution: IDistribution[] = [];
+  distribution = input.required<IDistribution[]>();
+  direction = input<'horizontal' | 'vertical'>('horizontal');
   @Output() onViewInit = new EventEmitter<void>();
 
   maxValue: number;
@@ -27,18 +34,19 @@ export class DistributionChartComponent implements OnChanges, AfterViewInit {
   constructor() {}
 
   ngOnChanges(): void {
-    if (!this.distribution) {
+    if (!this.distribution()) {
       return;
     }
 
     let maxValue: number = 0;
-
-    this.distribution.forEach((element) => {
+    console.log('distribution', this.distribution());
+    this.distribution().forEach((element) => {
       if (element.value > maxValue) {
         maxValue = element.value;
       }
     });
 
+    console.log('maxValue', maxValue);
     this.maxValue = maxValue;
   }
 

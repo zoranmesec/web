@@ -1,10 +1,10 @@
 @if (!error) {
-<section class="title">
+<section id="title">
   <h1>Plezališča</h1>
 </section>
 
 @if (!loading && showMap && country.code==='SI') {
-<section class="crag-map-container mt-16">
+<section id="crag-map-container mt-16">
   <div class="crag-map">
     @defer (on immediate) {
     <app-map [crags]="crags$"></app-map>
@@ -24,7 +24,7 @@
   *ngIf="!loading"
 >
   <section
-    class="options"
+    id="options"
     fxLayout="row wrap"
     fxLayoutAlign="space-between center"
   >

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
   selector: 'app-responsive-image',
   templateUrl: './responsive-image.component.html',
   styleUrls: ['./responsive-image.component.scss'],
+  standalone: true,
 })
 export class ResponsiveImageComponent implements OnChanges {
   @Input() imageWidths: number[];

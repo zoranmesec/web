@@ -1,19 +1,65 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Crag, User } from 'src/generated/graphql';
-import { IDistribution } from '../../../common/distribution-chart/distribution-chart.component';
+import {
+  DistributionChartComponent,
+  IDistribution,
+} from '../../../common/distribution-chart/distribution-chart.component';
+import { CommonModule } from '@angular/common';
+import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SeasonPipe } from 'src/app/shared/pipes/season.pipe';
+import { WallAnglePipe } from 'src/app/shared/pipes/wall-angle.pipe';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { CragImageComponent } from '../crag-image/crag-image.component';
+import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
+import { MapComponent } from 'src/app/common/map/map.component';
+
+interface GradeSlot {
+  label: string;
+  grades: string[];
+  value: number;
+  colorClass: string;
+}
+
+interface GradeSlots {
+  gradingSystemId: string;
+  regularSlots: GradeSlot[];
+  compactSlots: GradeSlot[];
+}
 
 @Component({
-    selector: 'app-crag-info',
-    templateUrl: './crag-info.component.html',
-    styleUrls: ['./crag-info.component.scss'],
-    standalone: false
+  selector: 'app-crag-info',
+  templateUrl: './crag-info.component.html',
+  styleUrls: ['./crag-info.component.scss'],
+  imports: [
+    CommonModule,
+    OrientationPipe,
+    DistributionChartComponent,
+    MatIconModule,
+    MatTooltipModule,
+    OrientationPipe,
+    SeasonPipe,
+    WallAnglePipe,
+    FlexLayoutModule,
+    CragImageComponent,
+    MapComponent,
+  ],
+  standalone: true,
 })
 export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() crag: Crag;
-
-  @Input() id: string = 'default';
+  crag = input.required<Crag>();
 
   attendanceDistribution: IDistribution[] = [];
 
@@ -21,10 +67,324 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
   user: User;
   subscriptions = [];
 
-  constructor(private authService: AuthService) {}
+  gradeSlotsBySystem: GradeSlots[] = [
+    {
+      gradingSystemId: 'french',
+      regularSlots: [
+        {
+          label: '..4c',
+          grades: ['1', '2', '3', '4a', '4a+', '4b', '4c'],
+          value: 0,
+          colorClass: 'bg-blue-100',
+        },
+        {
+          label: '5a',
+          grades: ['5a', '5a+'],
+          value: 0,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: '5b',
+          grades: ['5b', '5b+'],
+          value: 0,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: '5c',
+          grades: ['5c', '5c+'],
+          value: 0,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: '6a',
+          grades: ['6a', '6a+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: '6b',
+          grades: ['6b', '6b+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: '6c',
+          grades: ['6c', '6c+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: '7a',
+          grades: ['7a', '7a+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: '7b',
+          grades: ['7b', '7b+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: '7c',
+          grades: ['7c', '7c+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: '8a',
+          grades: ['8a', '8a+'],
+          value: 0,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: '8b',
+          grades: ['8b', '8b+'],
+          value: 0,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: '8c',
+          grades: ['8c', '8c+'],
+          value: 0,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: '9a..',
+          grades: ['9a', '9a+', '9b', '9b+', '9c'],
+          value: 0,
+          colorClass: 'bg-neutral-700',
+        },
+      ],
+      compactSlots: [
+        {
+          label: '..5a',
+          grades: ['1', '2', '3', '4a', '4a+', '4b', '4c', '5a', '5a+'],
+          value: 0,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: '5b',
+          grades: ['5b', '5b+'],
+          value: 0,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: '5c',
+          grades: ['5c', '5c+'],
+          value: 0,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: '6a',
+          grades: ['6a', '6a+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: '6b',
+          grades: ['6b', '6b+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: '6c',
+          grades: ['6c', '6c+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: '7a',
+          grades: ['7a', '7a+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: '7b',
+          grades: ['7b', '7b+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: '7c',
+          grades: ['7c', '7c+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: '8a',
+          grades: ['8a', '8a+'],
+          value: 0,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: '8b',
+          grades: ['8b', '8b+'],
+          value: 0,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: '8c..',
+          grades: ['8c', '8c+', '9a', '9a+', '9b', '9b+', '9c'],
+          value: 0,
+          colorClass: 'bg-blue-500',
+        },
+      ],
+    },
+    {
+      gradingSystemId: 'uiaa',
+      compactSlots: [],
+      regularSlots: [
+        {
+          label: '..III',
+          grades: ['I', 'II', 'III'],
+          value: 6,
+          colorClass: 'bg-blue-100',
+        },
+        {
+          label: 'IV',
+          grades: ['IV', 'IV+'],
+          value: 3,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: 'V',
+          grades: ['V-', 'V', 'V+'],
+          value: 4,
+          colorClass: 'bg-neutral-300',
+        },
+        {
+          label: 'VI',
+          grades: ['VI-', 'VI', 'VI+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: 'VII',
+          grades: ['VII-', 'VII', 'VII+'],
+          value: 0,
+          colorClass: 'bg-blue-300',
+        },
+        {
+          label: 'VIII',
+          grades: ['VIII-', 'VIII', 'VIII+'],
+          value: 0,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: 'IX',
+          grades: ['IX-', 'IX', 'IX+'],
+          value: 2,
+          colorClass: 'bg-neutral-500',
+        },
+        {
+          label: 'X',
+          grades: ['X-', 'X', 'X+'],
+          value: 4,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: 'XI',
+          grades: ['XI-', 'XI', 'XI+'],
+          value: 1,
+          colorClass: 'bg-blue-500',
+        },
+        {
+          label: 'XII',
+          grades: ['XII-', 'XII', 'XII+'],
+          value: 2,
+          colorClass: 'bg-neutral-700',
+        },
+      ],
+    },
+  ];
+  protected gradeSlots: GradeSlots = {
+    regularSlots: [],
+    compactSlots: [],
+    gradingSystemId: '',
+  };
 
-  ngOnInit(): void {
-    this.init();
+  constructor(
+    private authService: AuthService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer,
+    private gradingSystemsService: GradingSystemsService
+  ) {
+    let url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/rainproof.svg'
+    );
+    this.matIconRegistry.addSvgIcon('rainproof', url);
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/winter.svg'
+    );
+    this.matIconRegistry.addSvgIcon('winter', url);
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/autumn.svg'
+    );
+    this.matIconRegistry.addSvgIcon('autumn', url);
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/summer.svg'
+    );
+    this.matIconRegistry.addSvgIcon('summer', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/spring.svg'
+    );
+    this.matIconRegistry.addSvgIcon('spring', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/roof.svg'
+    );
+    this.matIconRegistry.addSvgIcon('roof', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/overhang.svg'
+    );
+    this.matIconRegistry.addSvgIcon('overhang', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/vertical.svg'
+    );
+    this.matIconRegistry.addSvgIcon('vertical', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/slab.svg'
+    );
+    this.matIconRegistry.addSvgIcon('slab', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/height.svg'
+    );
+    this.matIconRegistry.addSvgIcon('height', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/walk.svg'
+    );
+    this.matIconRegistry.addSvgIcon('walk', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/north.svg'
+    );
+    this.matIconRegistry.addSvgIcon('north', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/north.svg'
+    );
+    this.matIconRegistry.addSvgIcon('south', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/wall.svg'
+    );
+    this.matIconRegistry.addSvgIcon('wall', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/parking.svg'
+    );
+    this.matIconRegistry.addSvgIcon('parking', url);
+  }
+
+  async ngOnInit(): Promise<void> {
+    // await this.init();
 
     const userSub = this.authService.currentUser.subscribe(
       (user) => (this.user = user)
@@ -32,16 +392,58 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     this.subscriptions.push(userSub);
   }
 
-  ngOnChanges(): void {
-    this.init();
+  async ngOnChanges(): Promise<void> {
+    await this.init();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  init() {
-    this.crags$.next([this.crag]);
+  async init() {
+    console.log('CragInfoComponent init', this.crag());
+
+    const gradingSystemId = this.crag().defaultGradingSystem?.id || 'french';
+    let routes = [];
+    this.crag().sectors.forEach((sector) => {
+      routes = routes.concat(sector.routes);
+    });
+
+    // pick the slots that are relevant for the current crag
+    const gradeSlots = this.gradeSlotsBySystem.find(
+      (gradeSlotsBy) => gradeSlotsBy.gradingSystemId === gradingSystemId
+    );
+
+    for (const route of routes) {
+      if (route.difficulty) {
+        const grade = await this.gradingSystemsService.diffToGrade(
+          route.difficulty,
+          gradingSystemId
+        );
+
+        if (grade) {
+          // fill in regular slots
+          const slot = gradeSlots?.regularSlots.find((slot) =>
+            slot.grades.includes(grade.name)
+          );
+          if (slot) {
+            slot.value++;
+          }
+
+          // fill in compact slots
+          if (gradeSlots?.compactSlots) {
+            const slotCompact = gradeSlots?.compactSlots.find((slot) =>
+              slot.grades.includes(grade.name)
+            );
+            if (slotCompact) {
+              slotCompact.value++;
+            }
+          }
+        }
+      }
+    }
+    this.gradeSlots = { ...gradeSlots };
+    console.log('gradeSlots', this.gradeSlots);
 
     const months = [
       'Jan',
@@ -57,12 +459,13 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
       'Nov',
       'Dec',
     ];
-
-    this.attendanceDistribution = this.crag.activityByMonth.find((a) => a > 20)
-      ? this.crag.activityByMonth.map((value, m) => ({
+    this.attendanceDistribution = this.crag().activityByMonth.find((a) => a > 1)
+      ? this.crag().activityByMonth.map((value, m) => ({
           label: months[m],
           value: value,
         }))
       : [];
+
+    this.crags$.next([this.crag()]);
   }
 }

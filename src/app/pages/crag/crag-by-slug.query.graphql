@@ -6,12 +6,17 @@ query CragBySlug($crag: String!) {
     name
     type
     orientation
+    orientations
+    wallAngles
+    seasons
+    approachTime
     lat
     lon
     access
     description
     activityByMonth
     publishStatus
+    rainproof
     peak {
       name
       slug
