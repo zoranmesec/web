@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 export enum WallAngle {
-  slab = 'plata',
-  vertical = 'navpično',
+  slab = 'položna plošča',
+  vertical = 'navpična stena',
   overhang = 'previs',
   roof = 'streha',
 }

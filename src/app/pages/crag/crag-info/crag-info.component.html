@@ -1,4 +1,4 @@
-<main fxFlex fxLayout="column">
+<main fxFlex fxLayout="column" class="w-100">
   <section id="info">
     @if (crag().orientations && crag().orientations.length > 0) {
     <div>
@@ -10,7 +10,10 @@
     </div>
     } @else if (crag().orientation) {
     <div>
-      {{ crag().orientation }}
+      <mat-icon
+        svgIcon="north"
+        [matTooltip]="crag().orientation | orientation"
+      ></mat-icon>
     </div>
     } @if (crag().approachTime) {
     <div fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="center center">
@@ -42,26 +45,93 @@
     </div>
     }
   </section>
+
+  @if (missingInfo.length > 0) {
+  <section
+    id="notification"
+    fxFlex="0 0 auto"
+    fxLayout="row nowrap"
+    fxLayoutGap="8px"
+    class="w-100 p-8"
+  >
+    <div>
+      <mat-icon svgIcon="question"></mat-icon>
+    </div>
+    <div>
+      Plezališče je brez podatka o @for (info of missingInfo; let isLast =
+      $last; let isFirst = $first; track $index) {
+      <span *ngIf="!isFirst && $index !== missingInfo.length - 1">, </span
+      ><span *ngIf="isLast && !isFirst"> in </span>
+      <span>{{ info }}</span>
+      }.
+      <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag().id]"
+        >Dodaj manjkajoče podatke.</a
+      >
+    </div>
+  </section>
+  }
   <section id="description" fxFlex="0 1 auto" fxLayout="row" fxLayoutGap="16px">
     @if (crag().images && crag().images.length > 0) {
     <div><app-crag-image [crag]="crag()"></app-crag-image></div>
+    } @else {
+    <div
+      id="crag-image"
+      fxFlex
+      fxLayout="row nowrap"
+      fxLayoutGap="8px"
+      class="w-100"
+    >
+      <div>
+        <mat-icon svgIcon="question"></mat-icon>
+      </div>
+      <div>
+        Plezališče je brez naslovne fotografije.
+        <a
+          mat-menu-item
+          [routerLink]="['/urejanje/uredi-plezalisce', crag().id]"
+          >Dodaj fotografijo.</a
+        >
+      </div>
+    </div>
     } @if (crag().description) {
     <div>
       <h2>Opis plezališča</h2>
       {{ crag().description }}
     </div>
+    } @else {
+    <div fxFlex fxLayout="column no-wrap" class="w-100">
+      <div>
+        <h2>Opis plezališča</h2>
+      </div>
+      <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
+        <div>
+          <mat-icon svgIcon="question"></mat-icon>
+        </div>
+        <div>
+          Plezališče je brez opisa.
+          <a
+            mat-menu-item
+            [routerLink]="['/urejanje/uredi-plezalisce', crag().id]"
+            >Dodaj opis.</a
+          >
+        </div>
+      </div>
+    </div>
     }
   </section>
-  <section id="charts">
+  <section id="charts" class="w-100">
     <div fxFlex="2 0 auto">
       <h2>Distribucija težavnosti</h2>
       @if (gradeSlots && gradeSlots.regularSlots &&
       gradeSlots.regularSlots.length > 0) {
 
       <app-distribution-chart
-        [distribution]="gradeSlots.regularSlots"
+        [distribution]="
+          needsCompactSlots ? gradeSlots.compactSlots : gradeSlots.regularSlots
+        "
         direction="vertical"
         fxFlexAlign="stretch"
+        class="w-100"
       ></app-distribution-chart>
       }
     </div>
@@ -73,22 +143,63 @@
       ></app-distribution-chart>
     </div>
   </section>
-  <section id="approach" fxFlex="0 1 auto" fxLayout="row" fxLayoutGap="16px">
+  <section
+    id="approach"
+    fxFlex="0 1 auto"
+    fxLayout.gt-md="row"
+    fxLayout.lt-lg="column"
+    fxLayoutGap="16px"
+  >
     <div class="access">
       <h2>Dostop</h2>
       <div>
+        @if (crag().access) {
         {{ crag().access }}
+
+        } @else {
+        <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
+          <div>
+            <mat-icon svgIcon="question"></mat-icon>
+          </div>
+          <div>
+            Plezališče je brez opisa dostopa.
+            <a
+              mat-menu-item
+              [routerLink]="['/urejanje/uredi-plezalisce', crag().id]"
+              >Dodaj opis dostopa.</a
+            >
+          </div>
+        </div>
+        }
       </div>
       <div
-        *ngIf="crag().lat && crag().lon"
         fxLayout="row"
         fxLayoutAlign="start center"
         fxLayoutGap="8px"
         class="m-t-8"
       >
-        <mat-icon svgIcon="parking" matTooltip="Parkirišče"></mat-icon>
-        {{ crag().lat | number : "1.5-5" }}
-        {{ crag().lon | number : "1.5-5" }}
+        <mat-icon svgIcon="wall" matTooltip="Lokacija plezališča"></mat-icon>
+        <div>
+          @if(!crag().lat || !crag().lon) {
+          <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
+            <div>
+              <mat-icon svgIcon="question"></mat-icon>
+            </div>
+            <div>
+              Plezališče je brez koordinat stene.
+              <a
+                mat-menu-item
+                [routerLink]="['/urejanje/uredi-plezalisce', crag().id]"
+                >Dodaj koordinate stene.</a
+              >
+            </div>
+          </div>
+          } @else {
+
+          {{ crag().lat | number : "1.5-5" }}
+          {{ crag().lon | number : "1.5-5" }}
+          }
+        </div>
       </div>
     </div>
     <div *ngIf="crag().lat && crag().lon" class="crag-map">

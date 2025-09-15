@@ -12,7 +12,7 @@
   @for (tab of tabs; track $index) {
   <div [class.active]="tab.slug == activeTab" (click)="setActiveTab(tab)">
     <mat-icon svgIcon="{{ tab.icon }}" class="map-icon"></mat-icon>
-    <span>
+    <span fxHide.lt-md>
       {{ tab.label }}
     </span>
   </div>

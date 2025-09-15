@@ -6,15 +6,16 @@
     align-items: center;
     background-color: var(--mat-sys-surface);
     border-radius: 8px;
-    padding: 16px;
 
     .distribution-bar-label {
       text-align: right;
+      padding: 8px;
     }
 
     .distribution-bar {
       height: 20px;
       background-color: transparent;
+      padding-right: 16px;
     }
 
     .distribution-bar-inner {
@@ -28,15 +29,15 @@
     flex-direction: column;
     gap: 8px;
     align-items: stretch;
-    height: 300px;
+    height: 350px;
     background-color: var(--mat-sys-surface);
     border-radius: 8px;
-    padding: 16px;
+    padding: 16px 0 0 0;
 
     .distribution-bar-label {
       text-align: center;
       width: 40px;
-      margin: 8px;
+      margin-top: 8px;
     }
 
     .distribution-bars {
@@ -48,7 +49,7 @@
     }
 
     .distribution-bars-labels {
-      flex-flow: wrap;
+      flex-flow: nowrap;
       box-sizing: border-box;
       display: flex;
       align-items: flex-start;
@@ -61,8 +62,9 @@
       width: 40px;
       display: inline-block;
       background-color: transparent;
-      margin: 8px;
+      margin: 8px 0 8px 0;
       text-align: center;
+      padding-top: 8px;
     }
 
     .distribution-bar-inner {

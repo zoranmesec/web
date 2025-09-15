@@ -25,6 +25,8 @@ import { FlexLayoutModule } from 'ng-flex-layout';
 import { CragImageComponent } from '../crag-image/crag-image.component';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { MapComponent } from 'src/app/common/map/map.component';
+import { RouterModule } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 interface GradeSlot {
   label: string;
@@ -55,6 +57,7 @@ interface GradeSlots {
     FlexLayoutModule,
     CragImageComponent,
     MapComponent,
+    RouterModule,
   ],
   standalone: true,
 })
@@ -304,83 +307,58 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     gradingSystemId: '',
   };
 
+  get missingInfo(): string[] {
+    const missing: string[] = [];
+    if (!this.crag().approachTime) {
+      missing.push('času dostopa');
+    }
+    if (!this.crag().seasons || this.crag().seasons.length === 0) {
+      missing.push('sezoni');
+    }
+    if (!this.crag().wallAngles || this.crag().wallAngles.length === 0) {
+      missing.push('naklonu sten');
+    }
+    if (!this.crag().rainproof) {
+      missing.push('primernosti za plezanje v dežju');
+    }
+    if (
+      !this.crag().orientation &&
+      this.crag().orientations &&
+      this.crag().orientations.length === 0
+    ) {
+      missing.push('usmerjenosti sten');
+    }
+    return missing;
+  }
+
+  get needsCompactSlots(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 768px)');
+  }
+
   constructor(
     private authService: AuthService,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-    private gradingSystemsService: GradingSystemsService
+    private gradingSystemsService: GradingSystemsService,
+    private breakpointObserver: BreakpointObserver
   ) {
-    let url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/rainproof.svg'
-    );
-    this.matIconRegistry.addSvgIcon('rainproof', url);
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/winter.svg'
-    );
-    this.matIconRegistry.addSvgIcon('winter', url);
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/autumn.svg'
-    );
-    this.matIconRegistry.addSvgIcon('autumn', url);
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/summer.svg'
-    );
-    this.matIconRegistry.addSvgIcon('summer', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/spring.svg'
-    );
-    this.matIconRegistry.addSvgIcon('spring', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/roof.svg'
-    );
-    this.matIconRegistry.addSvgIcon('roof', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/overhang.svg'
-    );
-    this.matIconRegistry.addSvgIcon('overhang', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/vertical.svg'
-    );
-    this.matIconRegistry.addSvgIcon('vertical', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/slab.svg'
-    );
-    this.matIconRegistry.addSvgIcon('slab', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/height.svg'
-    );
-    this.matIconRegistry.addSvgIcon('height', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/walk.svg'
-    );
-    this.matIconRegistry.addSvgIcon('walk', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/north.svg'
-    );
-    this.matIconRegistry.addSvgIcon('north', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/north.svg'
-    );
-    this.matIconRegistry.addSvgIcon('south', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/wall.svg'
-    );
-    this.matIconRegistry.addSvgIcon('wall', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/parking.svg'
-    );
-    this.matIconRegistry.addSvgIcon('parking', url);
+    this.addSvgIcon('rainproof');
+    this.addSvgIcon('winter');
+    this.addSvgIcon('autumn');
+    this.addSvgIcon('summer');
+    this.addSvgIcon('spring');
+    this.addSvgIcon('roof');
+    this.addSvgIcon('overhang');
+    this.addSvgIcon('vertical');
+    this.addSvgIcon('slab');
+    this.addSvgIcon('height');
+    this.addSvgIcon('approach');
+    this.addSvgIcon('north');
+    this.addSvgIcon('south');
+    this.addSvgIcon('wall');
+    this.addSvgIcon('walk');
+    this.addSvgIcon('parking');
+    this.addSvgIcon('question');
   }
 
   async ngOnInit(): Promise<void> {
@@ -467,5 +445,12 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
       : [];
 
     this.crags$.next([this.crag()]);
+  }
+
+  private addSvgIcon(name: string) {
+    const url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/' + name + '.svg'
+    );
+    this.matIconRegistry.addSvgIcon(name, url);
   }
 }

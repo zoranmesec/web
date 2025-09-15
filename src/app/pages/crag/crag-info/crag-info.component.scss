@@ -1,4 +1,16 @@
 :host {
+  a {
+    text-decoration: none;
+    color: var(--mat-sys-secondary);
+  }
+
+  mat-icon {
+    height: 20px !important;
+    width: 20px !important;
+    vertical-align: top;
+    padding-top: 2px;
+  }
+
   section#info {
     display: flex;
     flex-wrap: wrap;
@@ -17,10 +29,16 @@
     }
   }
 
-  #description {
-    div {
-      width: 50%;
-    }
+  section#notification {
+    display: flex;
+    align-items: flex-start;
+    justify-content: left;
+    box-sizing: content-box !important;
+  }
+
+  section#description > div:first-child {
+    min-width: 40%;
+    max-width: 40%;
   }
 
   section#charts {
@@ -29,24 +47,41 @@
     gap: 16px;
     padding: 0 6px 0 6px;
 
-    div {
-      height: 400px;
+    @media (max-width: 960px) {
+      div:first-child {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 960px) {
+      div:first-child {
+        min-width: 600px;
+        max-width: 60%;
+      }
     }
   }
 
   section#approach {
-    height: 600px !important;
     width: 100% !important;
     position: relative;
     margin-top: 16px;
 
     .crag-map {
-      height: 600px;
       width: 100%;
     }
 
-    div.access {
-      flex-shrink: 3;
+    @media (max-width: 960px) {
+      div.access {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 960px) {
+      div.access {
+        flex-shrink: 1;
+        min-width: 40%;
+        max-width: 40%;
+      }
     }
   }
 }
