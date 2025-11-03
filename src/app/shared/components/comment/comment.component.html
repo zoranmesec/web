@@ -1,10 +1,22 @@
-<div
-  class="padding comment {{ commentType }}"
-  [ngClass]="{ card: !previewMode }"
-  fxLayout="column"
-  fxLayoutGap="8px"
->
-  <div *ngIf="showRouteLink">
+<article [ngClass]="{ card: !previewMode }">
+  <div [class.condition]="comment.type === 'condition'">
+    <div class="title p-b-8 p-t-16 flex flex-row flex-justify-space-between">
+      <div>
+        {{ comment.created | date : "d. MMMM yyyy" : null : "sl-SI" }} ob
+        {{ comment.created | date : "HH:mm"
+        }}<ng-container *ngIf="comment.updated != comment.created"
+          >, zadnja sprememba: {{ comment.updated | date : "d. M. yyyy HH:mm" }}
+        </ng-container>
+      </div>
+      <div>
+        <app-comment-options
+          *ngIf="isAuthor"
+          [comment]="comment"
+          (editComment)="editComment($event)"
+        ></app-comment-options>
+      </div>
+    </div>
+    <!-- <div *ngIf="showRouteLink">
     <span *ngIf="comment.crag && comment.crag.type === 'sport'">
       <a [routerLink]="['/plezalisca', comment.crag.country.slug]">{{ comment.crag.country.name }}</a>,
       <a [routerLink]="['/plezalisce', comment.crag.slug]" [queryParams]="{ tab: 'komentarji' }">{{ comment.crag.name }}</a>
@@ -21,19 +33,16 @@
       <a [routerLink]="['/alpinizem/stena', comment.route.crag.slug]">{{ comment.route.crag.name }}</a>,
       <a [routerLink]="['/alpinizem/stena', comment.route.crag.slug, 'smer', comment.route.slug]">{{ comment.route.name }}</a>
     </span>
-  </div>
-  <div fxFlex [innerHTML]="comment.content"></div>
-  <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="author">
-    <div [class.actions]="isAuthor">
-      {{ comment.user?.fullName }},
-      {{ comment.created | date: "d. M. yyyy HH:mm"
-      }}<ng-container *ngIf="comment.updated != comment.created"
-        >, zadnja sprememba: {{ comment.updated | date: "d. M. yyyy HH:mm" }}
-      </ng-container>
-      <app-comment-options
-        *ngIf="isAuthor"
-        [comment]="comment"
-      ></app-comment-options>
+  </div> -->
+    @if (this.mode === 'view') {
+
+    <div [innerHTML]="comment.content"></div>
+    } @else {
+
+    <app-comment-form [entity]="entity" [comment]="comment"></app-comment-form>
+    }
+    <div class="author p-b-16 p-t-16" [class.actions]="isAuthor">
+      {{ comment.user?.fullName }}
     </div>
   </div>
-</div>
+</article>

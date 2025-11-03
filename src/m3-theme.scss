@@ -16,6 +16,7 @@
 // );
 
 // Note: Color palettes are generated from primary: #2B7FD9, secondary: #E5E5E5, tertiary: #F0B3AA, neutral: #E5E5E5, neutral variant: #E5E5E5, error: #D9422B
+// Note this is pure bs, most tokens are overriden in global styles
 $_palettes: (
   primary: (
     0: #000000,
@@ -128,11 +129,11 @@ $_palettes: (
     30: #900d00,
     35: #a31a07,
     40: #171717,
-    50: #d7412a,
+    50: #d9422b,
     60: #fb5a40,
     70: #ff8a75,
     80: #ffb4a6,
-    90: #ffdad4,
+    90: #fbecea,
     95: #ffede9,
     98: #fff8f6,
     99: #fffbff,

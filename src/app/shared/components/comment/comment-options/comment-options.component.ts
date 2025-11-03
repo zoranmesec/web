@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
@@ -11,15 +11,20 @@ import {
 } from 'src/generated/graphql';
 import { CommentFormComponent } from '../../comment-form/comment-form.component';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-comment-options',
-    templateUrl: './comment-options.component.html',
-    styleUrls: ['./comment-options.component.scss'],
-    standalone: false
+  selector: 'app-comment-options',
+  templateUrl: './comment-options.component.html',
+  styleUrls: ['./comment-options.component.scss'],
+  standalone: true,
+  imports: [MatMenuModule, MatButtonModule, MatIconModule],
 })
 export class CommentOptionsComponent implements OnInit {
   @Input() comment: Comment;
+  @Output() editComment = new EventEmitter<Comment>();
 
   constructor(
     private deleteCommentGQL: DeleteCommentGQL,
@@ -31,19 +36,7 @@ export class CommentOptionsComponent implements OnInit {
   ngOnInit(): void {}
 
   edit() {
-    this.authService.guardedAction({}).then((success) => {
-      if (success) {
-        this.dialog
-          .open(CommentFormComponent, {
-            data: {
-              comment: this.comment,
-            },
-            autoFocus: false,
-          })
-          .afterClosed()
-          .subscribe(() => {});
-      }
-    });
+    this.editComment.emit(this.comment);
   }
 
   remove() {

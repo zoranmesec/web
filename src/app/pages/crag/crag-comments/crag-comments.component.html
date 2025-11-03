@@ -1,23 +1,13 @@
-<h3 fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-md="column">
-  <span fxFlex="100">Komentarji o razmerah</span>
-  <div fxFlex>
-    <button mat-button color="primary" (click)="action.next('add-condition')">
-      Dodaj komentar o razmerah
-    </button>
-  </div>
-</h3>
-<ng-container *ngFor="let comment of conditions">
-  <app-comment [comment]="comment" commentType="condition"></app-comment>
-</ng-container>
-
-<h3 fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-md="column">
-  <span fxFlex="100">Komentarji uporabnikov</span>
-  <div fxFlex>
-    <button mat-button color="primary" (click)="action.next('add-comment')">
-      Dodaj komentar
-    </button>
-  </div>
-</h3>
-<ng-container *ngFor="let comment of comments">
-  <app-comment [comment]="comment"></app-comment>
-</ng-container>
+<main>
+  <section id="form" class="m-b-16">
+    <app-comment-form
+      [entity]="crag"
+      (commentSaved)="onCommentSaved($event)"
+    ></app-comment-form>
+  </section>
+  <section id="comments">
+    <ng-container *ngFor="let comment of comments">
+      <app-comment [comment]="comment"></app-comment>
+    </ng-container>
+  </section>
+</main>

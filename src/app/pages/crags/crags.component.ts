@@ -236,7 +236,7 @@ export class CragsComponent implements OnInit {
       searchTerm = this.searchService.ignoreAccents(searchTerm);
 
       const regExp = new RegExp(searchTerm);
-
+      this.country.crags[0];
       this.filteredCrags = this.country.crags.filter((crag) =>
         regExp.test(crag.name.toLowerCase())
       );

@@ -1,57 +1,42 @@
-<div mat-dialog-title fxLayout="row" fxLayoutAlign="start center">
-  <div fxFlex="100" class="title">{{ title }}</div>
-  <div fxFlex (click)="dialogRef.close()">
-    <button mat-icon-button>
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-</div>
-
-<form [formGroup]="commentForm" (submit)="save()">
-  <div fxLayout="row">
-    <app-my-editor
-      fxFlex="100"
-      placeholder="Komentar"
-      ([control])="(commentForm.controls.content)"
-    ></app-my-editor>
-  </div>
-
-  <div
-    *ngIf="type === 'warning'"
-    class="mt-16"
-    fxLayout="column"
-    fxLayout.gt-xs="row"
-    fxLayoutGap="16px"
-  >
+@if(commentForm) {
+<form [formGroup]="commentForm">
+  <div class="flex flex-column">
     <div>
-      <mat-form-field class="inputFull" [ngClass.gt-xs]="{ inputFull: false }">
-        <mat-label>Izpostavljeno do</mat-label>
-        <input
-          formControlName="exposedUntil"
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label
+          >{{ this.comment ? "Uredi" : "Vnesi" }} komentar ali
+          opozorilo.</mat-label
+        >
+        <textarea
           matInput
-          [min]="minDate"
-          [max]="maxDate"
-          [matDatepicker]="picker"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+          formControlName="content"
+          [placeholder]="`${this.comment ? 'Uredi' : 'Vnesi'} komentar ali opozorilo.`"
+        ></textarea>
+        @if (commentForm.get('content')?.hasError('minlength')) {
+        <mat-error>Komentar je prekratek.</mat-error>
+        }
       </mat-form-field>
     </div>
-    <div>Opozorilo bo do izbranega datuma izpostavljeno na prvi strani.</div>
-  </div>
-
-  <div class="mt-16">
-    <mat-dialog-actions fxLayout="row">
-      <div fxFlex></div>
-      <div *ngIf="!loading">
-        <button type="button" mat-button mat-dialog-close>Prekliči</button>
-        <button mat-flat-button color="primary" [disabled]="!commentForm.valid">
-          SHRANI
+    <div class="flex flex-row flex-justify-space-between">
+      <div>
+        <mat-radio-group class="filter-group" formControlName="commentType">
+          <mat-radio-button value="comment" color="var(--mat-sys-secondary)"
+            >komentar</mat-radio-button
+          >
+          <mat-radio-button
+            class="p-l-16"
+            value="condition"
+            color="var(--mat-sys-secondary)"
+            >opozorilo</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+      <div>
+        <button mat-flat-button (click)="save()">
+          {{ this.comment ? "Uredi" : "Objavi" }} komentar
         </button>
       </div>
-      <span *ngIf="loading" class="loading">
-        <mat-spinner diameter="30"></mat-spinner>
-      </span>
-    </mat-dialog-actions>
+    </div>
   </div>
 </form>
+}

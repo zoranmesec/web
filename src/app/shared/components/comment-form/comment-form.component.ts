@@ -1,5 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
+  FormBuilder,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormControl,
@@ -23,8 +25,11 @@ import {
   Peak,
   Route,
 } from 'src/generated/graphql';
-import { MyEditorComponent } from '../../editor/editor.component';
-import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface DialogData {
   comment?: Comment;
@@ -36,51 +41,61 @@ export interface DialogData {
 }
 
 @Component({
-    selector: 'app-comment-form',
-    templateUrl: './comment-form.component.html',
-    styleUrls: ['./comment-form.component.scss'],
-    imports: [
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatIcon,
-        MyEditorComponent,
-    ]
+  selector: 'app-comment-form',
+  templateUrl: './comment-form.component.html',
+  styleUrls: ['./comment-form.component.scss'],
+  imports: [
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
+  standalone: true,
 })
 export class CommentFormComponent implements OnInit {
+  @Input() entity: Crag | Route | IceFall | Peak;
+  @Input() comment?: Comment;
   title: string;
 
   loading = false;
 
-  commentForm = new UntypedFormGroup({
-    type: new UntypedFormControl(),
-    content: new UntypedFormControl(null, [Validators.required]),
-  });
+  protected commentForm!: FormGroup;
 
   minDate = new Date();
   maxDate?: Date;
 
   constructor(
-    public dialogRef: MatDialogRef<CommentFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private snackbar: MatSnackBar,
     private createCommentGQL: CreateCommentGQL,
-    private updateCommentGQL: UpdateCommentGQL
+    private updateCommentGQL: UpdateCommentGQL,
+    private readonly fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    if (this.data.type) {
+    this.commentForm = this.fb.group({
+      content: this.fb.control('', {
+        validators: [Validators.required, Validators.minLength(3)],
+      }),
+      commentType: this.fb.control<string>('comment', {
+        nonNullable: true,
+      }),
+    });
+    if (this.comment?.type) {
       this.commentForm.patchValue({
-        type: this.data.type,
+        commentType: this.comment.type,
       });
     }
 
     this.updateFormType();
 
-    if (this.data.comment != null) {
+    if (this.comment != null) {
       this.commentForm.patchValue({
-        content: this.data.comment.content,
-        type: this.data.comment.type,
+        content: this.comment.content,
+        type: this.comment.type,
       });
     }
   }
@@ -88,7 +103,7 @@ export class CommentFormComponent implements OnInit {
   updateFormType() {
     switch (this.type) {
       case 'comment':
-        if (this.data.comment != null) {
+        if (this.comment != null) {
           this.title = 'Uredi komentar';
         } else {
           this.title = 'Dodaj komentar';
@@ -97,16 +112,16 @@ export class CommentFormComponent implements OnInit {
         this.removeExposedUntilField();
         break;
       case 'warning':
-        if (this.data.comment != null) {
+        if (this.comment != null) {
           this.title = 'Uredi opozorilo';
         } else {
           this.title = 'Dodaj opozorilo';
         }
 
         this.addExposedUntilField();
-        if (this.data.comment != null) {
+        if (this.comment != null) {
           this.commentForm.patchValue({
-            exposedUntil: this.data.comment.exposedUntil,
+            exposedUntil: this.comment.exposedUntil,
           });
         }
         break;
@@ -128,7 +143,7 @@ export class CommentFormComponent implements OnInit {
     this.loading = true;
     this.commentForm.disable();
 
-    if (this.data.comment != undefined) {
+    if (this.comment != undefined) {
       this.updateComment();
     } else {
       this.createComment();
@@ -139,10 +154,10 @@ export class CommentFormComponent implements OnInit {
     const value = {
       content: this.commentForm.value.content,
       type: this.type,
-      iceFallId: this.data.iceFall ? this.data.iceFall.id : null,
-      routeId: this.data.route ? this.data.route.id : null,
-      cragId: this.data.crag ? this.data.crag.id : null,
-      peakId: this.data.peak ? this.data.peak.id : null,
+      iceFallId: this.entity.__typename === 'IceFall' ? this.entity.id : null,
+      routeId: this.entity.__typename === 'Route' ? this.entity.id : null,
+      cragId: this.entity.__typename === 'Crag' ? this.entity.id : null,
+      peakId: this.entity.__typename === 'Peak' ? this.entity.id : null,
       exposedUntil:
         this.type === 'warning' && this.commentForm.value.exposedUntil
           ? dayjs(this.commentForm.value.exposedUntil).format('YYYY-MM-DD')
@@ -164,25 +179,29 @@ export class CommentFormComponent implements OnInit {
       .subscribe({
         next: (result: any) => {
           this.loading = false;
-          this.dialogRef.close(result);
         },
         error: () => {
           this.loading = false;
-          this.commentForm.enable();
+
           this.snackbar.open('Komentarja ni bilo mogoče objaviti', null, {
             panelClass: 'error',
             duration: 3000,
           });
+        },
+        complete: () => {
+          this.commentForm.reset();
+          this.commentForm.enable();
         },
       });
   }
 
   updateComment() {
     const value = {
-      id: this.data.comment.id,
+      id: this.comment.id,
       content: this.commentForm.value.content,
+      type: this.commentForm.value.commentType,
       exposedUntil:
-        this.data.comment.type === 'warning'
+        this.comment.type === 'warning'
           ? this.commentForm.value.exposedUntil
           : null,
     };
@@ -200,7 +219,6 @@ export class CommentFormComponent implements OnInit {
       .subscribe({
         next: (result: any) => {
           this.loading = false;
-          this.dialogRef.close(result);
         },
         error: () => {
           this.loading = false;
@@ -214,6 +232,6 @@ export class CommentFormComponent implements OnInit {
   }
 
   get type(): string {
-    return this.commentForm.value.type;
+    return this.commentForm.value.commentType;
   }
 }

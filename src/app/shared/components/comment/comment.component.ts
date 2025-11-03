@@ -1,16 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Comment } from 'src/generated/graphql';
+import { Comment, Crag, IceFall, Peak, Route } from 'src/generated/graphql';
+import { CommentOptionsComponent } from './comment-options/comment-options.component';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
 
 @Component({
-    selector: 'app-comment',
-    templateUrl: './comment.component.html',
-    styleUrls: ['./comment.component.scss'],
-    standalone: false
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.scss'],
+  standalone: true,
+  imports: [CommonModule, CommentOptionsComponent, CommentFormComponent],
 })
 export class CommentComponent implements OnInit, OnDestroy {
   @Input() comment: Comment;
+  @Input() entity: Crag | Route | IceFall | Peak;
   @Input() commentType: string;
   @Input() previewMode = false;
   @Input() showRouteLink = false;
@@ -18,6 +23,8 @@ export class CommentComponent implements OnInit, OnDestroy {
   isAuthor = false;
 
   authSub: Subscription;
+
+  protected mode: 'view' | 'edit' = 'view';
 
   constructor(public authService: AuthService) {}
 
@@ -33,5 +40,10 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.authSub.unsubscribe();
+  }
+
+  protected editComment(comment: Comment) {
+    this.comment = comment;
+    this.mode = 'edit';
   }
 }
