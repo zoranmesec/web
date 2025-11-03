@@ -1,12 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-    selector: 'app-publish-status-hint',
-    templateUrl: './publish-status-hint.component.html',
-    styleUrls: ['./publish-status-hint.component.scss'],
-    standalone: false
+  selector: 'app-publish-status-hint',
+  templateUrl: './publish-status-hint.component.html',
+  styleUrls: ['./publish-status-hint.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class PublishStatusHintComponent implements OnInit, OnDestroy {
   @Input() entityType: string;

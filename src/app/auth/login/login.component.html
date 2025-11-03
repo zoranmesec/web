@@ -4,13 +4,13 @@
   </p>
   <form [formGroup]="loginForm" (submit)="login()">
     <p>
-      <mat-form-field class="no-hint">
+      <mat-form-field class="no-hint" appearance="outline">
         <mat-label>E-naslov</mat-label>
         <input matInput type="email" [formControl]="loginForm.controls.email" />
       </mat-form-field>
     </p>
     <p>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Geslo</mat-label>
         <input
           matInput

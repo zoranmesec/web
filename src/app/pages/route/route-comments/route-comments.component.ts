@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -18,10 +19,11 @@ interface IComment {
 }
 
 @Component({
-    selector: 'app-route-comments',
-    templateUrl: './route-comments.component.html',
-    styleUrls: ['./route-comments.component.scss'],
-    standalone: false
+  selector: 'app-route-comments',
+  templateUrl: './route-comments.component.html',
+  styleUrls: ['./route-comments.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class RouteCommentsComponent implements AfterViewInit {
   allComments: IComment[];

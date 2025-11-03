@@ -27,6 +27,8 @@ import { GradingSystemsService } from 'src/app/shared/services/grading-systems.s
 import { MapComponent } from 'src/app/common/map/map.component';
 import { RouterModule } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { OrientationIconComponent } from 'src/app/shared/icons/orientation/orientation.component';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 
 interface GradeSlot {
   label: string;
@@ -47,17 +49,16 @@ interface GradeSlots {
   styleUrls: ['./crag-info.component.scss'],
   imports: [
     CommonModule,
-    OrientationPipe,
     DistributionChartComponent,
     MatIconModule,
     MatTooltipModule,
-    OrientationPipe,
     SeasonPipe,
     WallAnglePipe,
     FlexLayoutModule,
     CragImageComponent,
     MapComponent,
     RouterModule,
+    OrientationIconComponent,
   ],
   standalone: true,
 })
@@ -332,7 +333,7 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get needsCompactSlots(): boolean {
-    return this.breakpointObserver.isMatched('(max-width: 768px)');
+    return this.breakpointService.ltLg();
   }
 
   constructor(
@@ -340,7 +341,7 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private gradingSystemsService: GradingSystemsService,
-    private breakpointObserver: BreakpointObserver
+    protected breakpointService: BreakpointService
   ) {
     this.addSvgIcon('rainproof');
     this.addSvgIcon('winter');

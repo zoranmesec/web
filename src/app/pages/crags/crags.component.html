@@ -17,27 +17,19 @@
 
 <app-loader class="m-16" *ngIf="loading"></app-loader>
 
-<div
-  class="container mt-16 p-r-16 p-l-16"
-  fxFlex
-  fxLayout="column"
-  *ngIf="!loading"
->
-  <section
-    id="options"
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between center"
-  >
-    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+<div class="container flex flex-column mt-16 p-r-16 p-l-16" *ngIf="!loading">
+  <section id="options">
+    <div class="flex flex-row">
       @if(country.code==='SI') {
-
       <div
         class="border-right flex flex-row flex-align-center flex-center"
         #map
       >
         <button type="button" mat-stroked-button (click)="showMap = !showMap">
           <mat-icon class="filter-icon">map</mat-icon>
-          <span fxHide.lt-lg class="p-l-8">Pokaži zemljevid</span>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
+            >Pokaži zemljevid</span
+          >
         </button>
       </div>
       }
@@ -51,10 +43,14 @@
           (click)="showFilters = !showFilters"
         >
           <mat-icon class="filter-icon">tune</mat-icon>
-          <span fxHide.lt-lg class="p-l-8">Pokaži filtre</span>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
+            >Pokaži filtre</span
+          >
           @if(nrOfFiltersApplied > 0) {
 
-          <span fxHide.gt-md>({{ nrOfFiltersApplied }})</span>
+          <span [class.hidden]="breakpointService.gtMd()">
+            {{ nrOfFiltersApplied }}</span
+          >
           }
         </button>
       </div>
@@ -73,11 +69,17 @@
 
       <div
         class="border-right flex flex-row flex-align-center flex-center"
-        fxHide.gt-sm
+        [class.hidden]="breakpointService.gtSm()"
       >
-        <button type="button" mat-stroked-button>
+        <button
+          type="button"
+          mat-stroked-button
+          (click)="searchFieldVisible = !searchFieldVisible"
+        >
           <mat-icon class="filter-icon">search</mat-icon>
-          <span fxHide.lt-lg class="p-l-8">Išči</span>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
+            >Išči</span
+          >
         </button>
       </div>
 
@@ -100,11 +102,12 @@
         </mat-menu>
       </div>
     </div>
-    <div fxHide.lt-sm>
+
+    <div [class.hidden]="breakpointService.ltSm()">
       <mat-form-field
         class="custom-height"
         appearance="outline"
-        [subscriptSizing]="fixed"
+        subscriptSizing="fixed"
       >
         <mat-label>
           <mat-icon class="search-icon">search</mat-icon>
@@ -120,13 +123,10 @@
       </mat-form-field>
     </div>
   </section>
-
+  @if(searchFieldVisible){
   <div
-    fxHide.gt-sm
-    fxFlex
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    class="w-100"
+    [class.hidden]="breakpointService.gtSm()"
+    class="w-100 flex flex-row flex-align-center flex-center"
   >
     <mat-form-field
       class="custom-height"
@@ -146,9 +146,10 @@
       />
     </mat-form-field>
   </div>
+  }
 
-  <main fxFlex fxLayout="row" class="mt-8">
-    <section fxHide.lt-md class="m-t-4">
+  <main class="mt-8 flex flex-row">
+    <section [class.hidden]="breakpointService.ltMd()" class="m-t-4">
       @if (showFilters) {
       <app-crags-toc
         [country]="country"
@@ -157,7 +158,7 @@
       }
     </section>
 
-    <section fxHide.gt-sm class="m-t-4">
+    <section [class.hidden]="breakpointService.gtSm()" class="m-t-4">
       @if (!showFilters) {
       <app-crags-toc
         [country]="country"
@@ -165,14 +166,12 @@
       ></app-crags-toc>
       }
     </section>
-    <div fxFlex="100" fxFlex.lt-md fxLayout="column">
+    <div class="flex flex-column w-100">
       <app-loader class="m-32" *ngIf="cragsLoading"></app-loader>
       <div
         *ngIf="!cragsLoading"
-        fxFlex="0 0 0"
-        fxHide.lt-lg
-        fxFlexLayout="row"
-        fxLayoutAlign="start center"
+        [class.hidden]="breakpointService.ltLg()"
+        class="flex flex-row flex-align-start flex-center"
       >
         @if (selectedAreas.length > 0) {
         <div class="filter-chip flex" (click)="removeAreaFilter()">
@@ -216,32 +215,35 @@
         }
       </div>
 
-      <div class="card" fxFlex flexLayout="row" *ngIf="!cragsLoading">
-        <div
-          class="row header"
-          fxLayout="row"
-          fxHide.lt-lg
-          fxLayoutAlign="start center"
-        >
-          <div fxFlex="40">Ime</div>
-          <div fxFlex="20">Število smeri</div>
-          <div fxFlex="20" fxHide.lt-xl>Orientacija</div>
-          <div fxFlex="20">Težavnost</div>
+      <div class="card" *ngIf="!cragsLoading">
+        <div class="row header flex" [class.hidden]="breakpointService.ltLg()">
+          <div>Ime</div>
+          <div>Število smeri</div>
+          <div [class.hidden]="breakpointService.ltXl()">Orientacija</div>
+          <div>Težavnost</div>
         </div>
-        <div
-          *ngFor="let crag of filteredCrags"
-          class="row"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-        >
-          <div fxFlex="40" fxFlex.lt-md fxHide.lt-lg>
+        @for(crag of filteredCrags; track $index) {
+        <div class="row flex flex-row flex-align-center flex-center">
+          <div
+            [class.flex]="breakpointService.ltMd()"
+            [class.hidden]="breakpointService.ltLg()"
+          >
             <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
           </div>
-          <div fxFlex="20" fxFlex.lt-md fxHide.lt-lg>{{ crag.nrRoutes }}</div>
-          <div fxFlex="20" fxHide.lt-xl>
+          <div
+            [class.flex]="breakpointService.ltMd()"
+            [class.hidden]="breakpointService.ltLg()"
+          >
+            {{ crag.nrRoutes }}
+          </div>
+          <div [class.hidden]="breakpointService.ltXl()">
             {{ crag.orientation | orientation : "short" }}
           </div>
-          <div fxFlex="20" fxFlex.lt-md fxHide.lt-lg class="routes">
+          <div
+            [class.flex]="breakpointService.ltMd()"
+            [class.hidden]="breakpointService.ltLg()"
+            class="routes"
+          >
             <ng-container *ngIf="crag.nrRoutes > 0">
               {{
                 crag.minDifficulty != null && crag.maxDifficulty != null
@@ -266,16 +268,10 @@
           <!-- Less than large -->
 
           <div
-            fxFlex="100"
-            fxHide.gt-md
-            fxLayout="column"
-            fxLayoutAlign="start center"
+            class="flex flex-column flex-justify-start w-100"
+            [class.hidden]="breakpointService.gtMd()"
           >
-            <div
-              fxLayout="row wrap"
-              fxLayoutAlign="space-between"
-              class="w-100"
-            >
+            <div class="w-100 flex flex-wrap flex-justify-space-between">
               <div>
                 <a
                   [routerLink]="['/plezalisce/', crag.slug]"
@@ -284,7 +280,7 @@
                 >
               </div>
               @if ( crag.orientation != null && crag.orientation !== 'none' ) {
-              <div fxFlex="0 0 0" fxLayout="row">
+              <div class="flex flex-row flex-justify-start">
                 <div>
                   <mat-icon svgIcon="orientation" class="map-icon"></mat-icon>
                 </div>
@@ -294,7 +290,7 @@
               </div>
               }
             </div>
-            <div fxFlex="20" fxHide.gt-md class="routes w-100">
+            <div [class.hidden]="breakpointService.gtMd()" class="routes w-100">
               <span>{{ crag.nrRoutes }} smeri od </span>
               <ng-container *ngIf="crag.nrRoutes > 0">
                 <app-grade
@@ -313,6 +309,7 @@
             </div>
           </div>
         </div>
+        }
         <div class="no-results">
           Plezališča, ki ga iščeš ni na seznamu?
           <a

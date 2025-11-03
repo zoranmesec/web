@@ -36,9 +36,15 @@
     box-sizing: content-box !important;
   }
 
-  section#description > div:first-child {
-    min-width: 40%;
-    max-width: 40%;
+  section#description {
+    padding: 8px;
+  }
+
+  section#description > app-crag-image {
+    @media (min-width: 960px) {
+      min-width: 40%;
+      max-width: 40%;
+    }
   }
 
   section#charts {
@@ -65,6 +71,8 @@
     width: 100% !important;
     position: relative;
     margin-top: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
 
     .crag-map {
       width: 100%;

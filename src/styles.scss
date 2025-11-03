@@ -47,46 +47,70 @@ body {
 
   @include mat.checkbox-overrides(
     (
-      unselected-icon-color:
-        mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30),
-      unselected-focus-state-layer-color: var(--mat-sys-secondary),
       selected-icon-color: var(--mat-sys-secondary),
-      selected-pressed-icon-color: var(--mat-sys-secondary),
-      selected-pressed-state-layer-color: var(--mat-sys-secondary),
-      selected-focus-state-layer-color: var(--mat-sys-secondary),
-      selected-focus-icon-color: var(--mat-sys-secondary),
-      selected-hover-icon-color: var(--mat-sys-secondary),
-      selected-focus-state-layer-opacity: 0,
-      selected-hover-state-layer-opacity: 0,
-      selected-pressed-state-layer-opacity: 0,
-      unselected-focus-state-layer-opacity: 0,
-      unselected-hover-state-layer-opacity: 0,
-      unselected-pressed-state-layer-opacity: 0,
-      unselected-focus-icon-color:
-        mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60),
-      state-layer-size: 20px,
+      unselected-icon-color: var(--mat-sys-secondary),
     )
   );
 
-  .mdc-checkbox__background {
-    border: 1px solid
-      mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
-    border-radius: 4px;
-    width: 16px !important;
-    height: 16px !important;
-    top: 0 !important;
-    left: 0 !important;
-  }
-  .mdc-checkbox:hover
-    > .mdc-checkbox__native-control:not(:checked)
-    ~ .mdc-checkbox__background {
-    background-color: #ffffff;
-    border: 1px solid
-      mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60) !important;
+  @include mat.radio-overrides(
+    (
+      selected-icon-color: var(--mat-sys-secondary),
+      selected-pressed-icon-color: white,
+      unselected-icon-color: var(--mat-sys-secondary),
+      unselected-focus-icon-color: var(--mat-sys-secondary),
+      selected-focus-icon-color: var(--mat-sys-secondary),
+      selected-hover-icon-color:
+        mat.get-theme-color(m3-theme.$light-theme, secondary, 60),
+    )
+  );
+
+  @include mat.slider-overrides(
+    (
+      inactive-track-color:
+        mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30),
+      handle-color: var(--mat-sys-secondary),
+      active-track-color: var(--mat-sys-secondary),
+      label-container-color: var(--mat-sys-secondary),
+      label-label-text-color: white,
+    )
+  );
+
+  .mat-mdc-select-panel {
+    background-color: white !important;
+    border: 1px solid var(--mat-sys-on-surface-variant);
+    margin-top: 8px !important;
+    border-radius: 8px !important;
+    scrollbar-color: var(--mat-sys-primary) transparent !important ;
+
+    box-shadow: none !important;
+    border-width: 1px !important;
+    overflow-y: auto !important;
   }
 
-  .mdc-checkbox {
-    padding: 0;
+  .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+    background-color: inherit !important;
+  }
+
+  .mat-mdc-radio-button .mdc-radio {
+    padding: 0 !important;
+  }
+
+  mat-slider {
+    width: 100% !important;
+  }
+
+  .mat-mdc-option:hover {
+    background-color: mat.get-theme-color(
+      m3-theme.$light-theme,
+      secondary,
+      98
+    ) !important;
+    color: var(--mat-sys-secondary) !important;
+  }
+
+  .mat-select-search-input {
+    background-color: white !important;
+    color: var(--mat-sys-on-surface-variant);
   }
 
   .mat-internal-form-field > label {
@@ -99,6 +123,15 @@ body {
     --mat-checkbox-label-text-size: --mat-sys-body-large-size;
     --mdc-filled-text-field-container-color: white;
     --mdc-outlined-text-field-container-shape: 8px;
+    --mat-select-panel-background-color: white;
+    --mat-option-selected-state-label-text-color: var(--mat-sys-secondary);
+    --mat-radio-checked-ripple-color: var(--mat-sys-secondary);
+    --mdc-radio-selected-icon-color: var(--mat-sys-secondary);
+    --mat-radio-label-text-size: var(--mat-sys-body-large-size) !important;
+    --mdc-snackbar-container-color: var(--mat-sys-surface) !important;
+    --mdc-filled-button-container-color: var(--mat-sys-secondary) !important;
+    --mdc-filled-button-container-shape: 8px !important;
+    --mdc-filled-button-label-text-color: white !important;
   }
 
   &.dark-theme {
@@ -120,6 +153,10 @@ body {
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
+
+  @media only screen and (max-width: global.$breakpoint-lg) {
+    padding-left: 0px;
+  }
 }
 
 /* Hide the browser's default checkbox */
@@ -175,7 +212,7 @@ body {
 
 /* Style the checkmark/indicator */
 .checkbox-container .checkmark:after {
-  left: 5px;
+  left: 6px;
   top: 2px;
   width: 3px;
   height: 8px;
@@ -227,6 +264,16 @@ h2 {
   color: var(--mat-sys-primary);
   font: var(--mat-sys-headline-small);
   line-height: 28px;
+}
+
+h3 {
+  color: var(--mat-sys-primary);
+  font: var(--mat-sys-headline-small);
+
+  font-weight: 400;
+  font-size: 25px;
+
+  line-height: 32px;
 }
 
 * {
@@ -292,16 +339,16 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 .flex {
   display: flex;
 }
-.flex-start {
+.flex-justify-start {
   justify-content: flex-start;
 }
-.flex-end {
+.flex-justify-end {
   justify-content: flex-end;
 }
-.flex-space-between {
+.flex-justify-space-between {
   justify-content: space-between;
 }
-.flex-space-around {
+.flex-justify-space-around {
   justify-content: space-around;
 }
 .flex-row {
@@ -319,13 +366,66 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 .flex-align-center {
   align-items: center;
 }
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 .row {
   align-items: center;
   padding: 16px;
   border-top: 1px solid $grey;
 
-  @media only screen and (max-width: global.$breakpoint-md) {
+  > div:first-child {
+    width: 40%;
+  }
+  > div:not(:first-child) {
+    width: 20%;
+  }
+
+  @media only screen and (max-width: global.$breakpoint-lg) {
     padding: 8px !important;
   }
+}
+
+.header {
+  border-top: none !important;
+  color: var(--mdc-checkbox-unselected-focus-icon-color);
+  div:first-child {
+    width: 40%;
+  }
+  div:not(:first-child) {
+    width: 20%;
+  }
+}
+
+.table-row > td {
+  padding: 8px;
+  border-top: 1px solid $grey;
+  text-align: left;
+
+  > div.expander {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: global.$breakpoint-lg) {
+    padding: 8px !important;
+  }
+}
+
+.table-header > th {
+  padding: 8px;
+  border-top: none !important;
+  color: var(--mdc-checkbox-unselected-focus-icon-color) !important;
+  text-align: left !important;
+  font-weight: var(--mat-sys-body-large-weight) !important;
+  > div.expander {
+    width: 100%;
+  }
+}
+
+.hidden {
+  display: none !important;
 }

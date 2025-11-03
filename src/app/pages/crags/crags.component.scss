@@ -60,6 +60,16 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     margin-left: -16px !important;
     flex-wrap: wrap;
 
+    flex-flow: wrap;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+
+    @media only screen and (max-width: global.$breakpoint-lg) {
+      place-content: center space-around;
+    }
+
     .border-right {
       border-right: 1px solid $grey !important;
       padding: 0 4px 0 4px;
@@ -104,11 +114,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
   .search-icon {
     margin-right: 8px;
     color: var(--mat-sys-primary);
-  }
-
-  .header {
-    border-top: none !important;
-    color: var(--mdc-checkbox-unselected-focus-icon-color);
   }
 
   .filter-chip {

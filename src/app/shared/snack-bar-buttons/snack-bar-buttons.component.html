@@ -1,10 +1,10 @@
-<div fxLayout="row" fxFlex="100" fxLayoutGap="12px">
+<div class="flex flex-row flex-align-center flex-justify-space-around">
   <ng-container *ngFor="let button of data.buttons">
-    <button mat-flat-button color="primary" fxFlex="100" (click)="snackBarRef.closeWithAction()">
+    <button mat-flat-button (click)="snackBarRef.closeWithAction()">
       {{ button.label }}
     </button>
   </ng-container>
-  <button mat-icon-button (click)="snackBarRef.dismiss()">
-    <mat-icon>close</mat-icon>
-  </button>
+  <div class="close-icon" (click)="closeDialog()">
+    <mat-icon matIcon color="red" class="map-icon">close</mat-icon>
+  </div>
 </div>

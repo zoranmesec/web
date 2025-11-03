@@ -7,7 +7,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { IDistribution } from 'src/app/common/distribution-chart/distribution-chart.component';
+import {
+  DistributionChartComponent,
+  IDistribution,
+} from 'src/app/common/distribution-chart/distribution-chart.component';
 import {
   RouteCommentsGQL,
   RouteCommentsQuery,
@@ -16,12 +19,19 @@ import {
 } from 'src/generated/graphql';
 import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
 import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
+import { CommonModule } from '@angular/common';
+import { RouteCommentsComponent } from '../../route/route-comments/route-comments.component';
 
 @Component({
   selector: 'app-crag-route-preview',
   templateUrl: './crag-route-preview.component.html',
   styleUrls: ['./crag-route-preview.component.scss'],
-  imports: [PublishStatusHintComponent],
+  imports: [
+    PublishStatusHintComponent,
+    CommonModule,
+    DistributionChartComponent,
+    RouteCommentsComponent,
+  ],
 })
 export class CragRoutePreviewComponent implements OnChanges {
   gradeDistribution: IDistribution[] = [];

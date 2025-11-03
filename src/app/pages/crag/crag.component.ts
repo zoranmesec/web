@@ -27,6 +27,7 @@ import { CragInfoComponent } from './crag-info/crag-info.component';
 import { CragCommentsComponent } from './crag-comments/crag-comments.component';
 import { CragGalleryComponent } from './crag-gallery/crag-gallery.component';
 import { DefaultShowHideDirective } from 'ng-flex-layout';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 
 @Component({
   selector: 'app-crag',
@@ -100,7 +101,8 @@ export class CragComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private scrollService: ScrollService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private breakpointService: BreakpointService
   ) {
     let url = this.domSanitizer.bypassSecurityTrustResourceUrl(
       '../../../assets/icons/info.svg'
@@ -114,10 +116,21 @@ export class CragComponent implements OnInit, OnDestroy {
       '../../../assets/icons/route.svg'
     );
     this.matIconRegistry.addSvgIcon('route', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/route_active.svg'
+    );
+    this.matIconRegistry.addSvgIcon('route_active', url);
+
     url = this.domSanitizer.bypassSecurityTrustResourceUrl(
       '../../../assets/icons/comment.svg'
     );
     this.matIconRegistry.addSvgIcon('comment', url);
+
+    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      '../../../assets/icons/columns.svg'
+    );
+    this.matIconRegistry.addSvgIcon('columns', url);
   }
 
   ngOnInit(): void {
@@ -233,6 +246,7 @@ export class CragComponent implements OnInit, OnDestroy {
     this.warnings = (this.crag as Crag).comments?.filter(
       (comment: Comment) => comment.type === 'warning'
     );
+    console.log('query success', this.section);
 
     if (this.section === 'alpinism') {
       this.layoutService.$breadcrumbs.next([

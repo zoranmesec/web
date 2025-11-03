@@ -123,11 +123,7 @@ class CustomDateAdapter extends NativeDateAdapter {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: formFieldAppearance,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+
     { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
     {
       provide: DateAdapter,

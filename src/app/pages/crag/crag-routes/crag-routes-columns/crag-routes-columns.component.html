@@ -1,0 +1,67 @@
+<section id="filter" fxLayout="column" fxLayoutGap="12px">
+  <div class="flex flex-justify-space-between top">
+    <div class="flex flex-row flex-align-center">
+      <div>
+        <mat-icon svgIcon="columns" class="map-icon"></mat-icon>
+      </div>
+      <div>
+        <span class="p-l-4">Izberi stolpce</span>
+      </div>
+    </div>
+    <div class="close-icon" (click)="closeFilters()">
+      <mat-icon class="map-icon">close</mat-icon>
+    </div>
+  </div>
+  @if (columnForm) {
+  <div class="p-16">
+    <form [formGroup]="columnForm">
+      <ul>
+        @for (column of allColumnsArray; track $index) {
+        <li>
+          <label class="checkbox-container"
+            ><span *ngIf="column.field === 'starRating'"
+              ><mat-icon>star</mat-icon>{{ column.selectLabel }}</span
+            ><span *ngIf="column.field === 'multipitch'"
+              ><mat-icon svgIcon="multipitch"></mat-icon
+              >{{ column.selectLabel }}</span
+            ><span *ngIf="column.field === 'comments'"
+              ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
+            ><span *ngIf="column.field === 'myAscents'"
+              ><mat-icon>check</mat-icon>{{ column.selectLabel }}</span
+            ><span
+              *ngIf="
+                column.field !== 'starRating' &&
+                column.field !== 'multipitch' &&
+                column.field !== 'comments' &&
+                column.field !== 'myAscents'
+              "
+              >{{ column.selectLabel }}</span
+            >
+            <input type="checkbox" [formControlName]="column.field" />
+            <span class="checkmark"></span>
+          </label>
+          <!-- 
+          <input type="checkbox" />
+          <span class="checkmark"></span>
+        </label> -->
+        </li>
+        }
+      </ul>
+    </form>
+  </div>
+  }
+
+  <div
+    class="flex flex-justify-space-between bottom show-all"
+    (click)="resetColumns()"
+  >
+    <div class="flex flex-row flex-align-center reset-all">
+      <div class="close-icon">
+        <mat-icon class="map-icon">refresh</mat-icon>
+      </div>
+      <div>
+        <span class="p-l-4">Ponastavi vse</span>
+      </div>
+    </div>
+  </div>
+</section>

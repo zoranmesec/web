@@ -5,12 +5,13 @@ import {
   IGrade,
 } from '../../services/grading-systems.service';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-grade',
   templateUrl: './grade.component.html',
   styleUrls: ['./grade.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   standalone: true,
 })
 export class GradeComponent implements OnInit {

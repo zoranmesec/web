@@ -11,7 +11,9 @@
   <div>&nbsp;</div>
   @for (tab of tabs; track $index) {
   <div [class.active]="tab.slug == activeTab" (click)="setActiveTab(tab)">
-    <mat-icon svgIcon="{{ tab.icon }}" class="map-icon"></mat-icon>
+    <mat-icon
+      svgIcon="{{ tab.slug == activeTab ? tab.icon + '_active' : tab.icon }}"
+    ></mat-icon>
     <span fxHide.lt-md>
       {{ tab.label }}
     </span>
@@ -20,7 +22,7 @@
   }
   <div>&nbsp;</div>
 </section>
-<section class="m-16">
+<section [class.m-16]="breakpointService.gtMd()">
   <app-crag-info [crag]="crag" *ngIf="activeTab == 'info'"></app-crag-info>
   <app-crag-routes [crag]="crag" *ngIf="activeTab == 'smeri'"></app-crag-routes>
 

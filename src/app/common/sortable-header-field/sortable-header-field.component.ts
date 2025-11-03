@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sortable-header-field',
   templateUrl: './sortable-header-field.component.html',
   styleUrls: ['./sortable-header-field.component.scss'],
+  imports: [CommonModule, MatIconModule],
 })
 export class SortableHeaderFieldComponent implements OnInit {
   @Input() field: string;

@@ -33,7 +33,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CragsFiltersService } from '../crags-filters.service';
 import { Subscription } from 'rxjs';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { ORIENTATIONS } from 'src/app/common/orientation.constants';

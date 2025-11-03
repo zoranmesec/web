@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CragInfoComponent } from './crag-info.component';
 
@@ -6,11 +6,11 @@ describe('CragInfoComponent', () => {
   let component: CragInfoComponent;
   let fixture: ComponentFixture<CragInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CragInfoComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CragInfoComponent);

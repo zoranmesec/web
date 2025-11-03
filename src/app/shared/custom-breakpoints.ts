@@ -1,6 +1,6 @@
 import { BREAKPOINT } from 'ng-flex-layout';
 
-const CUSTOM_BREAKPOINTS = [
+export const CUSTOM_BREAKPOINTS = [
   {
     alias: 'xs',
     mediaQuery: 'screen and (min-width: 0px) and (max-width:639px)',

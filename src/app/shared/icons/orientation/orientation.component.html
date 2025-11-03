@@ -1,0 +1,84 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 40 40"
+  width="40"
+  height="40"
+  className="fill-current"
+>
+  <g class="orientation-marker">
+    @if(orientations && orientations.includes(Orientation.North)) {
+    <path
+      d="M 20 20 
+                  l -9.89949493661166 -9.89949493661166
+                  a 14 14 0 0 1 19.7989898732233 0 
+                  z"
+    />
+    } @if (orientations && orientations.includes(Orientation.Northeast)) {
+    <path
+      d="M 20 20 
+                  l 0 -14
+                  a 14 14 0 0 1 14 14 
+                  z"
+    />
+    } @if(orientations && orientations.includes(Orientation.East)) {
+    <path
+      d="M 20 20 
+                  l 9.89949493661166 -9.89949493661166
+                  a 14 14 0 0 1 0 19.7989898732233 
+                  z"
+    />
+    } @if(orientations && orientations.includes(Orientation.Southeast)) {
+    <path
+      d="M 20 20 
+                  l 14 0
+                  a 14 14 0 0 1 -14 14 
+                  z"
+    />
+    } @if(orientations && orientations.includes(Orientation.South)) {
+    <path
+      d="M 20 20 
+                  l 9.89949493661166 9.89949493661166
+                  a 14 14 0 0 1 -19.7989898732233 0
+                  z"
+    />
+    } @if(orientations && orientations.includes(Orientation.Southwest)) {
+    <path
+      d="M 20 20 
+                  l 0 14
+                  a 14 14 0 0 1 -14 -14 
+                  z"
+    />
+
+    } @if(orientations && orientations.includes(Orientation.West)) {
+    <path
+      d="M 20 20 
+                    l -9.8994949366116 9.8994949366116
+                    a 14 14 0 0 1 0 -19.7989898732233
+                    z"
+    />
+    } @if(orientations && orientations.includes(Orientation.Northwest)) {
+    <path
+      d="M 20 20 
+                    l -14 0
+                    a 14 14 0 0 1 14 -14 
+                    z"
+    />
+    }
+  </g>
+
+  <path
+    d="M5 20 
+              a 15 15 0 0 1 30 0 
+              h -2
+              a 13 13 0 0 0 -26 0
+              h -2
+              a 15 15 0 0 0 30 0 
+              h -2
+              a 13 13 0 0 1 -26 0"
+  />
+
+  <path d="M 19 2 h2 v4 h-2 z" />
+  <path d="M 19 34 h2 v4 h-2 z" />
+  <path d="M 2 19 h4 v2 h-4 z" />
+  <path d="M 34 19 h4 v2 h-4 z" />
+</svg>

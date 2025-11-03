@@ -1,19 +1,17 @@
-<main fxFlex fxLayout="column" class="w-100">
+<main class="w-100 flex flex-column">
   <section id="info">
     @if (crag().orientations && crag().orientations.length > 0) {
-    <div>
-      <mat-icon
-        *ngFor="let o of crag().orientations"
-        [svgIcon]="o"
-        [matTooltip]="o | orientation"
-      ></mat-icon>
+    <div class="flex flex-align-center">
+      <app-orientation-icon
+        [orientations]="crag().orientations"
+        matTooltip="Usmerjenost"
+      ></app-orientation-icon>
     </div>
     } @else if (crag().orientation) {
     <div>
-      <mat-icon
-        svgIcon="north"
-        [matTooltip]="crag().orientation | orientation"
-      ></mat-icon>
+      <app-orientation-icon
+        [orientations]="crag().orientation"
+      ></app-orientation-icon>
     </div>
     } @if (crag().approachTime) {
     <div fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="center center">
@@ -47,17 +45,11 @@
   </section>
 
   @if (missingInfo.length > 0) {
-  <section
-    id="notification"
-    fxFlex="0 0 auto"
-    fxLayout="row nowrap"
-    fxLayoutGap="8px"
-    class="w-100 p-8"
-  >
+  <section id="notification" class="w-100 p-8 flex">
     <div>
       <mat-icon svgIcon="question"></mat-icon>
     </div>
-    <div>
+    <div class="p-l-8">
       Plezališče je brez podatka o @for (info of missingInfo; let isLast =
       $last; let isFirst = $first; track $index) {
       <span *ngIf="!isFirst && $index !== missingInfo.length - 1">, </span
@@ -70,17 +62,16 @@
     </div>
   </section>
   }
-  <section id="description" fxFlex="0 1 auto" fxLayout="row" fxLayoutGap="16px">
+  <section
+    id="description"
+    class="flex"
+    [class.flex-column]="breakpointService.ltLg()"
+    [class.flex-row]="breakpointService.gtMd()"
+  >
     @if (crag().images && crag().images.length > 0) {
-    <div><app-crag-image [crag]="crag()"></app-crag-image></div>
+    <app-crag-image [crag]="crag()"></app-crag-image>
     } @else {
-    <div
-      id="crag-image"
-      fxFlex
-      fxLayout="row nowrap"
-      fxLayoutGap="8px"
-      class="w-100"
-    >
+    <div id="crag-image" class="w-100 flex flex-row">
       <div>
         <mat-icon svgIcon="question"></mat-icon>
       </div>
@@ -94,7 +85,7 @@
       </div>
     </div>
     } @if (crag().description) {
-    <div>
+    <div class="p-8">
       <h2>Opis plezališča</h2>
       {{ crag().description }}
     </div>

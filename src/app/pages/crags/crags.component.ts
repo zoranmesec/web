@@ -27,14 +27,13 @@ import { MapComponent } from 'src/app/common/map/map.component';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { MatCardModule } from '@angular/material/card';
 import { CragsTocComponent } from './crags-toc/crags-toc.component';
-import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouteTypePipe } from 'src/app/shared/pipes/route-type.pipe';
 import { CragsFiltersService } from './crags-filters.service';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
-import { CustomBreakpointsProvider } from 'src/app/shared/custom-breakpoints';
 import { DomSanitizer } from '@angular/platform-browser';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 
 @Component({
   selector: 'app-crags',
@@ -50,7 +49,6 @@ import { DomSanitizer } from '@angular/platform-browser';
     GradeComponent,
     MatCardModule,
     CragsTocComponent,
-    FlexLayoutModule,
     MatFormFieldModule,
     MatInputModule,
     RouterModule,
@@ -95,6 +93,7 @@ export class CragsComponent implements OnInit {
   protected selectedOrientations: string[] = [];
   protected selectedMinGrade: number | null = null;
   protected selectedMaxGrade: number | null = null;
+  protected searchFieldVisible = true;
   params: any;
   constructor(
     private authService: AuthService,
@@ -106,7 +105,8 @@ export class CragsComponent implements OnInit {
     private searchService: SearchService,
     private cragsFiltersService: CragsFiltersService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    protected breakpointService: BreakpointService
   ) {
     const url = this.domSanitizer.bypassSecurityTrustResourceUrl(
       '../../../assets/icons/orientation.svg'
@@ -129,7 +129,6 @@ export class CragsComponent implements OnInit {
     this.subscriptions.push(authSub);
 
     const routeSub = this.activatedRoute.params.subscribe((params) => {
-      console.log(params);
       this.cragsLoading = true;
 
       this.typeParamValues = [];
@@ -275,7 +274,6 @@ export class CragsComponent implements OnInit {
 
   querySuccess(country: CragsQuery['countryBySlug']) {
     this.country = country;
-
     this.filterCrags();
 
     this.layoutService.$breadcrumbs.next([

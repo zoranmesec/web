@@ -1,22 +1,35 @@
 import {
   ChangeDetectorRef,
   Component,
+  effect,
   ElementRef,
   Input,
   OnDestroy,
   OnInit,
+  Signal,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SnackBarButtonsComponent } from 'src/app/shared/snack-bar-buttons/snack-bar-buttons.component';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import dayjs from 'dayjs';
 import ActivitySelection from 'src/app/types/activity-selection.interface';
-import { Crag, MyCragSummaryGQL, Route, Sector } from 'src/generated/graphql';
+import {
+  AscentType,
+  Crag,
+  MyCragSummaryGQL,
+  MyCragSummaryQuery,
+  Route,
+  Sector,
+} from 'src/generated/graphql';
 import { CommonModule, KeyValue } from '@angular/common';
-import { MatSelectChange } from '@angular/material/select';
+import {
+  MatFormField,
+  MatSelectChange,
+  MatSelectModule,
+} from '@angular/material/select';
 import {
   FormControl,
   FormGroup,
@@ -28,12 +41,63 @@ import {
 import { Subscription } from 'rxjs';
 import { SearchService } from 'src/app/shared/services/search.service';
 import { CragActivityRouteComponent } from 'src/app/pages/crag/crag-route-activity/crag-activity-route.component';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
+import { SortableHeaderFieldComponent } from 'src/app/common/sortable-header-field/sortable-header-field.component';
+import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
+import { CragRoutePreviewComponent } from '../crag-route-preview/crag-route-preview.component';
+import { MatIconModule } from '@angular/material/icon';
+import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { CragRoutesFiltersComponent } from './crag-routes-filters/crag-routes-filters.component';
+import {
+  allColumns,
+  CragRoutesColumnsComponent,
+} from './crag-routes-columns/crag-routes-columns.component';
+import { CragRoutesFiltersService } from './crag-routes-filters.service';
+import { consoleLoggingIntegration } from '@sentry/angular';
+
+export interface ColumnType {
+  field: string;
+  selectLabel: string;
+  tableLabel?: string;
+  defaultSortDirection: number;
+  width: number;
+}
 
 @Component({
   selector: 'app-crag-routes',
   templateUrl: './crag-routes.component.html',
   styleUrls: ['./crag-routes.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    FlexLayoutModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+
+    PublishStatusHintComponent,
+    SortableHeaderFieldComponent,
+    AscentTypeComponent,
+    CragRoutePreviewComponent,
+    MatIconModule,
+    GradeComponent,
+    MatMenuModule,
+    RouterModule,
+    MatButtonModule,
+    MatExpansionModule,
+    CragRoutesFiltersComponent,
+    CragRoutesColumnsComponent,
+  ],
 })
 export class CragRoutesComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;
@@ -44,6 +108,9 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
     someRoutesShown: boolean;
   })[] = [];
 
+  showFilters = true;
+  showColumnSelection = false;
+
   // Provide some sensible default
   shownColumns = [
     'name',
@@ -51,78 +118,12 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
     'difficulty',
     'starRating',
     'multipitch',
+    'nrTicks',
+    'nrTries',
+    'nrClimbers',
     'comments',
     'myAscents',
   ];
-
-  allColumns = {
-    name: {
-      field: 'name',
-      selectLabel: 'Ime',
-      tableLabel: 'Ime',
-      defaultSortDirection: 1,
-      width: 100,
-    },
-    length: {
-      field: 'length',
-      selectLabel: 'Dolžina',
-      tableLabel: 'Dolžina',
-      defaultSortDirection: 1,
-      width: 85,
-    },
-    difficulty: {
-      field: 'difficulty',
-      selectLabel: 'Težavnost',
-      tableLabel: 'Težavnost',
-      defaultSortDirection: 1,
-      width: 103,
-    },
-    nrTicks: {
-      field: 'nrTicks',
-      selectLabel: 'Število uspešnih vzponov',
-      tableLabel: 'Uspešnih vzponov',
-      defaultSortDirection: -1,
-      width: 160,
-    },
-    nrTries: {
-      field: 'nrTries',
-      selectLabel: 'Število poskusov',
-      tableLabel: 'Poskusov',
-      defaultSortDirection: -1,
-      width: 100,
-    },
-    nrClimbers: {
-      field: 'nrClimbers',
-      selectLabel: 'Število plezalcev',
-      tableLabel: 'Plezalcev',
-      defaultSortDirection: -1,
-      width: 99,
-    },
-    starRating: {
-      field: 'starRating',
-      selectLabel: 'Lepota smeri',
-      defaultSortDirection: -1,
-      width: 36,
-    },
-    multipitch: {
-      field: 'multipitch',
-      selectLabel: 'Večraztežajna smer',
-      defaultSortDirection: -1,
-      width: 36,
-    },
-    comments: {
-      field: 'comments',
-      selectLabel: 'Smer ima komentarje',
-      defaultSortDirection: -1,
-      width: 36,
-    },
-    myAscents: {
-      field: 'myAscents',
-      selectLabel: 'Moji vzponi',
-      defaultSortDirection: -1,
-      width: 52,
-    },
-  };
 
   hostResizeObserver: ResizeObserver;
   routeListViewStyle: 'compact' | 'table';
@@ -139,13 +140,18 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
 
   selectedRoutes: Route[] = [];
   selectedRoutesIds: string[] = [];
-  ascents: any = {};
+  ascents: MyCragSummaryQuery['myCragSummary'] = [];
   loading = false;
   expandedRowId: string;
   previousExpandedRowId: string;
   expandedRowHeight: number;
 
+  protected searchFieldVisible = true;
+
   section: string;
+  allColumns: Record<string, ColumnType> = allColumns;
+  minGrade: Signal<number>;
+  maxGrade: Signal<number>;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -156,8 +162,40 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
     private changeDetection: ChangeDetectorRef,
     private hostElement: ElementRef,
     private searchService: SearchService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    protected breakpointService: BreakpointService,
+    private cragRoutesFiltersService: CragRoutesFiltersService
+  ) {
+    this.minGrade = this.cragRoutesFiltersService.minGrade;
+    this.maxGrade = this.cragRoutesFiltersService.maxGrade;
+
+    effect(() => {
+      this.filterRoutes();
+      this.changeDetection.detectChanges();
+    });
+  }
+
+  get nrOfFiltersApplied(): number {
+    let nr = 0;
+    if (
+      this.cragRoutesFiltersService.minGrade() > 100 ||
+      this.cragRoutesFiltersService.maxGrade() < 2100
+    )
+      nr++;
+    if (!this.cragRoutesFiltersService.starRating().every((s) => s === false))
+      nr++;
+    if (this.cragRoutesFiltersService.myAscents() !== 'all') nr++;
+    return nr;
+  }
+
+  openFilterDialog(event: Event) {
+    event?.stopPropagation();
+    // const dialogRef = this.dialog.open(CragFilterRouteComponent, {});
+
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log('The dialog was closed', result);
+    // });
+  }
 
   openDialog(event: Event, routeId: string, routeName: string) {
     event.stopPropagation();
@@ -323,18 +361,71 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
   }
 
   filterRoutes(): void {
-    let searchTerm = this.search.value;
+    let searchTerm = this.search?.value ?? '';
     searchTerm = searchTerm.toLowerCase();
     searchTerm = this.searchService.escape(searchTerm);
     searchTerm = this.searchService.ignoreAccents(searchTerm);
 
     const regExp = new RegExp(searchTerm);
-
+    const myAscentsType = this.cragRoutesFiltersService.myAscents();
     this.sectors.forEach((sector) =>
-      sector.routes.forEach(
-        (route: Route & { show: boolean }) =>
-          (route.show = regExp.test(route.name.toLowerCase()))
-      )
+      sector.routes.forEach((route: Route & { show: boolean }) => {
+        let show = true;
+        if (searchTerm.length > 0) {
+          show = regExp.test(route.name.toLowerCase());
+        }
+        if (
+          route.difficulty < this.cragRoutesFiltersService.minGrade() ||
+          route.difficulty > this.cragRoutesFiltersService.maxGrade()
+        ) {
+          show = false;
+        }
+
+        const starRating = this.cragRoutesFiltersService.starRating();
+        if (route.starRating === null && !starRating.every((s) => !s)) {
+          show = false;
+        } else if (route.starRating !== null) {
+          if (!starRating.every((s) => !s) && !starRating[route.starRating]) {
+            show = false;
+          }
+        }
+
+        const myAscent = this.ascents[route.id] as AscentType;
+
+        switch (myAscentsType) {
+          case 'attempted':
+            if (
+              myAscent === undefined ||
+              myAscent === AscentType.Redpoint ||
+              myAscent === AscentType.Flash ||
+              myAscent === AscentType.Onsight
+            )
+              show = false;
+            break;
+          case 'climbed':
+            if (
+              !(
+                myAscent === AscentType.Redpoint ||
+                myAscent === AscentType.Flash ||
+                myAscent === AscentType.Onsight
+              )
+            )
+              show = false;
+            break;
+          case 'notClimbed':
+            if (
+              myAscent === AscentType.Redpoint ||
+              myAscent === AscentType.Flash ||
+              myAscent === AscentType.Onsight
+            )
+              show = false;
+            break;
+          case 'notAttempted':
+            if (myAscent !== undefined) show = false;
+            break;
+        }
+        route.show = show;
+      })
     );
 
     this.sectors.forEach(
@@ -393,6 +484,15 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
       .onAction()
       .subscribe(() => this.addActivity());
   }
+  toggleColumnSelection(): void {
+    this.showColumnSelection = !this.showColumnSelection;
+    this.showFilters = false;
+  }
+
+  toggleFilterSelection(): void {
+    this.showFilters = !this.showFilters;
+    this.showColumnSelection = false;
+  }
 
   addRoutesToLocalStorage(routes: Route[]) {
     this.localStorageService.setItem(
@@ -438,6 +538,8 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
         result.data?.myCragSummary.forEach((ascent) => {
           this.ascents[ascent.route.id] = ascent.ascentType;
         });
+        this.filterRoutes();
+        this.changeDetection.detectChanges();
       });
   }
 
@@ -469,4 +571,12 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
   originalOrder = (a: KeyValue<any, any>, b: KeyValue<any, any>): number => {
     return 0;
   };
+
+  onSelectedColumnsChange(columns: Record<string, ColumnType>): void {
+    this.shownColumns = [];
+    Object.keys(columns).map((key) => {
+      this.shownColumns.push(key);
+    });
+    this.recalculateTableWidth();
+  }
 }

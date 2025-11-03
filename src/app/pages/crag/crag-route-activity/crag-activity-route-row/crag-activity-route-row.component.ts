@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { PUBLISH_OPTIONS } from 'src/app/common/activity.constants';
-import {
-  ActivityRoute,
-} from 'src/generated/graphql';
+import { AscentPublishOptionComponent } from 'src/app/shared/components/ascent-publish-option/ascent-publish-option.component';
+import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
+import { ActivityRoute } from 'src/generated/graphql';
 
 @Component({
-    selector: '[app-crag-activity-route-row]',
-    templateUrl: './crag-activity-route-row.component.html',
-    styleUrls: ['./crag-activity-route-row.component.scss'],
-    standalone: false
+  selector: '[app-crag-activity-route-row]',
+  templateUrl: './crag-activity-route-row.component.html',
+  styleUrls: ['./crag-activity-route-row.component.scss'],
+  standalone: true,
+  imports: [AscentTypeComponent, CommonModule, AscentPublishOptionComponent],
 })
 export class CragActivityRouteRowComponent implements OnInit {
   @Input() route: ActivityRoute;
@@ -18,11 +20,7 @@ export class CragActivityRouteRowComponent implements OnInit {
 
   publishOptions = PUBLISH_OPTIONS;
 
-  constructor(
-  ) {}
+  constructor() {}
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 }

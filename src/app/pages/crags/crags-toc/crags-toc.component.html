@@ -1,5 +1,5 @@
 <section id="filter" fxLayout="column" fxLayoutGap="12px">
-  <div class="flex flex-space-between top">
+  <div class="flex flex-justify-space-between top">
     <div class="flex flex-row flex-align-center">
       <div>
         <mat-icon class="p-t-4">tune</mat-icon>
@@ -62,7 +62,7 @@
         (click)="showAllCountries = true"
         class="show-all"
         fxLayout="row wrap"
-        fxLayoutAlign="left flex-start"
+        fxLayoutAlign="left flex-justify-start"
       >
         Prikaži vse
       </div>
@@ -139,6 +139,7 @@
       med
       <app-grade-select
         [control]="cragForm.controls['minGrade']"
+        label="Izberi oceno"
         emptyText="Brez"
         gradingSystemId="french"
         [noHint]="true"
@@ -148,6 +149,7 @@
       <app-grade-select
         [control]="cragForm.controls['maxGrade']"
         emptyText="Brez"
+        label="Izberi oceno"
         gradingSystemId="french"
         [noHint]="true"
         [focusDifficulty]="null"
@@ -155,7 +157,7 @@
     </mat-expansion-panel>
   </mat-accordion>
   <div
-    class="flex flex-space-between bottom show-all"
+    class="flex flex-justify-space-between bottom show-all"
     (click)="removeAllFilters()"
   >
     <div class="flex flex-row flex-align-center">

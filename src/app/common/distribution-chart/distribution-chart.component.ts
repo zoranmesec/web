@@ -39,14 +39,12 @@ export class DistributionChartComponent implements OnChanges, AfterViewInit {
     }
 
     let maxValue: number = 0;
-    console.log('distribution', this.distribution());
     this.distribution().forEach((element) => {
       if (element.value > maxValue) {
         maxValue = element.value;
       }
     });
 
-    console.log('maxValue', maxValue);
     this.maxValue = maxValue;
   }
 

@@ -4,6 +4,7 @@ import { environment } from './environments/environment';
 import * as Sentry from '@sentry/angular';
 import { routes } from './app/app-routing.module';
 import {
+  HTTP_INTERCEPTORS,
   provideHttpClient,
   withFetch,
   withInterceptorsFromDi,
@@ -19,6 +20,7 @@ import { DataErrorComponent } from './app/shared/components/data-error/data-erro
 import { AuthGuard } from './app/auth/auth.guard';
 import { C } from '@angular/cdk/focus-monitor.d-CvvJeQRc';
 import { CustomBreakpointsProvider } from './app/shared/custom-breakpoints';
+import { AuthInterceptor } from './app/auth/auth-interceptor';
 
 if (environment.production) {
   Sentry.init({
@@ -33,24 +35,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     DataErrorComponent,
     AuthGuard,
-    provideHttpClient(withFetch()),
+    provideHttpClient(withInterceptorsFromDi()),
     provideRouter(routes), // <-- added back
     provideApollo(() => {
       const httpLink = inject(HttpLink);
-
-      const auth = setContext((operation, context) => {
-        const token = localStorage.getItem('token');
-
-        return {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZTQzNzliZi02MWM5LTQ1MmQtOTlhZi1jMWQ4OTU1ZWZiYmQiLCJlbWFpbCI6InpvcmFuLm1lc2VjQGdtYWlsLmNvbSIsImxhc3RQYXNzd29yZENoYW5nZSI6IjIwMjQtMDgtMzBUMDk6MDQ6MjMuMDQwWiIsInJvbGVzIjpbXSwiaWF0IjoxNzMzMjIyNzIyfQ.kRQkgHriBMCgZ5dsU-i_U-wr5d0ZkAfLKX4CRIBFNfI`,
-          },
-        };
-      });
-
       return {
         link: ApolloLink.from([
-          auth,
           httpLink.create({ uri: 'http://localhost:3000/graphql' }),
         ]),
         cache: new InMemoryCache(),
@@ -58,9 +48,13 @@ export const appConfig: ApplicationConfig = {
       };
     }),
     CustomBreakpointsProvider,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
 };
-provideHttpClient(withInterceptorsFromDi());
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
   console.error(err)

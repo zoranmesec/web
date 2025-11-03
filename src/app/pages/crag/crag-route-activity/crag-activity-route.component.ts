@@ -1,15 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export interface DialogData {
   routeId: string;
   routeName: string;
 }
 import { QueryRef } from 'apollo-angular';
-import {
-  Subscription,
-  take,
-} from 'rxjs';
-import { DataError } from 'src/app/types/data-error';;
+import { Subscription, take } from 'rxjs';
+import { DataError } from 'src/app/types/data-error';
 import {
   ASCENT_TYPES,
   PUBLISH_OPTIONS,
@@ -17,19 +14,23 @@ import {
 import {
   FindActivityRoutesInput,
   MyActivityRoutesQuery,
-  MyActivityRoutesGQL
+  MyActivityRoutesGQL,
 } from 'src/generated/graphql';
 import { FilteredTable } from '../../../common/filtered-table';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { CragActivityRouteRowComponent } from './crag-activity-route-row/crag-activity-route-row.component';
 
 @Component({
-    selector: 'crag-activity-route',
-    templateUrl: './crag-activity-route.component.html',
-    styleUrls: ['./crag-activity-route.component.scss'],
-    standalone: false
+  selector: 'crag-activity-route',
+  templateUrl: './crag-activity-route.component.html',
+  styleUrls: ['./crag-activity-route.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, CragActivityRouteRowComponent],
 })
 export class CragActivityRouteComponent {
   routeId: string;
-  routeName: string
+  routeName: string;
   error: DataError = null;
 
   routes: MyActivityRoutesQuery['myActivityRoutes']['items'];
@@ -64,7 +65,6 @@ export class CragActivityRouteComponent {
   publishOptions = PUBLISH_OPTIONS;
   noTopropeOnPage = false;
 
-
   activityRouteQuery: QueryRef<any>;
   activityRouteSub: Subscription;
 
@@ -80,21 +80,23 @@ export class CragActivityRouteComponent {
 
   ngOnInit(): void {
     const ft = this.filteredTable;
-    ft.setRouteParams({routeId: this.data.routeId, orderBy: {field: "date", direction: "DESC"}});
+    ft.setRouteParams({
+      routeId: this.data.routeId,
+      orderBy: { field: 'date', direction: 'DESC' },
+    });
     const navSub = ft.navigate$.subscribe((params) => {
       this.myActivityRoutesGQL
-        .fetch({input: params})
+        .fetch({ input: params })
         .pipe(take(1))
         .subscribe((result) => {
           this.loading = false;
           ft.navigating = false;
           this.querySuccess(result.data.myActivityRoutes);
-          });
-      }
-    );
+        });
+    });
 
     this.subscriptions.push(navSub);
-    
+
     const queryParams: FindActivityRoutesInput = ft.queryParams;
     this.myActivityRoutesGQL.watch({ input: queryParams });
 
@@ -103,7 +105,9 @@ export class CragActivityRouteComponent {
     }
 
     this.loading = true;
-    this.activityRouteQuery = this.myActivityRoutesGQL.watch({ input: queryParams });
+    this.activityRouteQuery = this.myActivityRoutesGQL.watch({
+      input: queryParams,
+    });
 
     this.activityRouteSub = this.activityRouteQuery.valueChanges.subscribe({
       next: (result) => {
@@ -114,9 +118,8 @@ export class CragActivityRouteComponent {
       error: () => {
         this.loading = false;
         this.queryError();
-      }
+      },
     });
-
   }
 
   ngOnDestroy(): void {
@@ -137,8 +140,4 @@ export class CragActivityRouteComponent {
         this.ascentTypes.find((at) => at.value === route.ascentType).topRope
     );
   }
-
-
 }
-
-

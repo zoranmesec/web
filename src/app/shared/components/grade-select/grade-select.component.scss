@@ -1,8 +1,8 @@
 :host {
   mat-form-field {
     ::ng-deep {
-      .mdc-line-ripple::before {
-        border-bottom: none !important;
+      .mat-mdc-text-field-wrapper {
+        background-color: white;
       }
     }
   }

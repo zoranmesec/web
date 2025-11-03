@@ -1,6 +1,6 @@
 @use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
-@use "./../../../../styles/global.scss" as global;
+@use "./../../../../../m3-theme.scss" as m3-theme;
+@use "./../../../../../styles/global.scss" as global;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
@@ -11,7 +11,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
     background-color: var(--mat-sys-surface);
     width: 344px !important;
     padding: 8px;
-
     div.top {
       padding: 12px 16px;
       border-bottom: 1px solid $grey;
@@ -20,6 +19,10 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
     div.bottom {
       padding: 12px 16px;
       border-radius: 8px;
+    }
+
+    mat-radio-button {
+      margin-top: 8px;
     }
   }
 
@@ -94,6 +97,13 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
         padding-left: 8px;
       }
     }
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
   }
 
   ul > li {
