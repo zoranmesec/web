@@ -149,8 +149,7 @@ body {
 
 /* The container */
 .checkbox-container {
-  display: block;
-  position: relative;
+  display: flex;
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
@@ -171,15 +170,16 @@ body {
 
 /* Create a custom checkbox */
 .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: inherit;
+  margin-top: 2px;
+  margin-right: 4px;
   height: 16px;
   width: 16px;
   border: 1px solid
     mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
   background-color: #ffffff;
   border-radius: 6px;
+  display: block;
 }
 
 /* On mouse-over, add a grey background color */
@@ -202,7 +202,7 @@ body {
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "";
-  position: absolute;
+  position: inherit;
   display: none;
 }
 

@@ -22,20 +22,21 @@
   }
   <div>&nbsp;</div>
 </section>
-<section [class.m-16]="breakpointService.gtMd()">
+<section [class.m-16]="breakpointService.gtMd() && activeTab !== 'galerija'">
   <app-crag-info [crag]="crag" *ngIf="activeTab == 'info'"></app-crag-info>
   <app-crag-routes [crag]="crag" *ngIf="activeTab == 'smeri'"></app-crag-routes>
 
   <app-crag-comments
     [crag]="crag"
-    *ngIf="activeTab == 'komentarji'"
+    *ngIf="activeTab === 'komentarji'"
     [action]="action$"
+    class="m-t-16"
   ></app-crag-comments>
 
   <app-crag-gallery
-    [cragId]="crag.id"
+    [crag]="crag"
     [images]="crag.images"
-    *ngIf="activeTab == 'galerija'"
+    *ngIf="activeTab === 'galerija'"
   ></app-crag-gallery>
 </section>
 }

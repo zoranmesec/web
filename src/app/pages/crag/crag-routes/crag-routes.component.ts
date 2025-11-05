@@ -491,6 +491,7 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
 
   toggleFilterSelection(): void {
     this.showFilters = !this.showFilters;
+    console.log('toggleFilterSelection', this.showFilters);
     this.showColumnSelection = false;
   }
 

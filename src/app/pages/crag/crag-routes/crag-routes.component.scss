@@ -31,6 +31,14 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     }
   }
 
+  .mat-focus-indicator {
+    position: inherit !important;
+  }
+
+  mat-expansion-panel {
+    position: inherit;
+  }
+
   section#options {
     height: 40px !important;
     margin-left: -16px !important;

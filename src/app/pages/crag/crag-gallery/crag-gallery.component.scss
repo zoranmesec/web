@@ -1,9 +1,59 @@
-.image-container {
-  padding: 12px;
+@use "./../../../../styles/global.scss" as global;
+
+:host {
+  a {
+    text-decoration: none;
+    color: var(--mat-sys-secondary);
+  }
+
+  section#images {
+    margin-top: 8px;
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+    padding: 0;
+    justify-content: space-evenly;
+  }
+
+  /* Create four equal columns that sits next to each other */
+  .column {
+    padding: 0;
+  }
+
   .card {
-    padding: 8px;
+    vertical-align: middle;
+
+    @media only screen and (min-width: global.$breakpoint-2xl) {
+      width: 280px;
+    }
+
+    @media only screen and (min-width: global.$breakpoint-lg) and (max-width: global.$breakpoint-2xl) {
+      width: 228px;
+    }
+
+    @media only screen and (min-width: global.$breakpoint-md) and (max-width: global.$breakpoint-lg) {
+      width: 224px;
+    }
+
+    @media only screen and (max-width: global.$breakpoint-md) {
+      width: 156px;
+    }
+
+    & {
+      padding: 16px 0 0 0;
+    }
+    app-responsive-image {
+      cursor: pointer;
+    }
     .title {
       padding-top: 4px;
+    }
+    .author {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
     }
   }
 }

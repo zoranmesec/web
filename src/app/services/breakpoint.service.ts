@@ -56,4 +56,9 @@ export class BreakpointService {
   private getBreakpoint(alias: string) {
     return this.breakpoints.find((bp) => bp.alias === alias);
   }
+
+  public observe() {
+    const queries = this.breakpoints.map((bp) => bp.mediaQuery);
+    return this.breakpointObserver.observe(queries);
+  }
 }

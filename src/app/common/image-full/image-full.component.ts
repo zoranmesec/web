@@ -1,10 +1,11 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -17,7 +18,7 @@ import { DeleteImageGQL, Image, User } from 'src/generated/graphql';
   selector: 'app-image-full',
   templateUrl: './image-full.component.html',
   styleUrls: ['./image-full.component.scss'],
-  imports: [ResponsiveImageComponent, MatIconModule],
+  imports: [ResponsiveImageComponent, MatIconModule, MatButtonModule],
   standalone: true,
 })
 export class ImageFullComponent implements OnInit {

@@ -88,8 +88,8 @@
   }
 
   <main class="mt-8 flex flex-row">
-    <section [class.hidden]="breakpointService.ltMd()" class="m-t-4">
-      @if (showFilters) {
+    <section class="m-t-4">
+      @if (!showFilters) {
       <app-crag-routes-filters
         (close)="showFilters = !showFilters"
       ></app-crag-routes-filters>
