@@ -1,0 +1,20 @@
+query RouteActivities($input: FindActivityRoutesInput) {
+  routeActivities(input: $input) {
+    items {
+      id
+      ascentType
+      date
+      user {
+        firstname
+        lastname
+      }
+    }
+    meta {
+      itemCount
+      pageCount
+      pageNumber
+      pageSize
+      __typename
+    }
+  }
+}

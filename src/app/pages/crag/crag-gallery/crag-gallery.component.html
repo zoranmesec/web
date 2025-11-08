@@ -1,16 +1,21 @@
+@if (!onlyPreview) {
 <section class="m-b-16 m-t-16 m-r-16 flex flex-justify-end">
-  <button
-    mat-flat-button
-    [routerLink]="['/urejanje/uredi-plezalisce', crag.id]"
-  >
-    Dodaj fotografijo
-  </button>
+  <button mat-flat-button>Dodaj fotografijo</button>
 </section>
+}
 <section id="images">
-  @for (_ of getColumnsArray; track $index) {
+  @if (images.length === 0) {
+  <div>
+    <mat-icon svgIcon="question"></mat-icon>
+  </div>
+  <div class="p-l-8">
+    Plezališče je brez naslovne fotografije.
+    <a>Dodaj fotografijo.</a>
+  </div>
+  } @else { @for (_ of getColumnsArray; track $index) {
   <div class="column">
     @for (image of (images | imageArrayTransform: nrColumns:$index ); track
-    image.id) {
+    $index) {
     <div class="card">
       <app-responsive-image
         [imageWidths]="[300, 600]"
@@ -24,7 +29,7 @@
         [maxIntrinsicWidth]="image.maxIntrinsicWidth"
         [fallbackWidth]="600"
         [imageAlt]="image.title"
-        (click)="onImageClick(i)"
+        (click)="onImageClick($index)"
       ></app-responsive-image>
 
       <div class="title">{{ image.title }}</div>
@@ -49,20 +54,9 @@
       </div>
       }
     </div>
-    } @empty {
-
-    <div>
-      <mat-icon svgIcon="question"></mat-icon>
-    </div>
-    <div class="p-l-8">
-      Plezališče je brez naslovne fotografije.
-      <a [routerLink]="['/urejanje/uredi-plezalisce', crag.id]"
-        >Dodaj fotografijo.</a
-      >
-    </div>
     }
   </div>
-  }
+  } }
 </section>
 <!-- <div class="flex flex-row flex-wrap">
   <div *ngFor="let image of images; let i = index" class="image-container">

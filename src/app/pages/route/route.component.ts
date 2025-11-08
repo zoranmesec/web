@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DataError } from '../../types/data-error';
 import { LayoutService } from '../../services/layout.service';
 import {
   Comment,
+  DifficultyVote,
   Route,
   RouteBySlugGQL,
   RouteBySlugQuery,
@@ -16,12 +17,44 @@ import { CommentFormComponent } from 'src/app/shared/components/comment-form/com
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 import { QueryRef } from 'apollo-angular';
+import { CommonModule } from '@angular/common';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { MatIconModule } from '@angular/material/icon';
+import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
+import { WarningsComponent } from 'src/app/shared/components/warnings/warnings.component';
+import { RouteInfoComponent } from './route-info/route-info.component';
+import { CragGalleryComponent } from '../crag/crag-gallery/crag-gallery.component';
+import { RouteCommentsComponent } from './route-comments/route-comments.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { RouteGradesComponent } from './route-grades/route-grades.component';
+import { RouteAscentsComponent } from './route-ascents/route-ascents.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 
 @Component({
-    selector: 'app-route',
-    templateUrl: './route.component.html',
-    styleUrls: ['./route.component.scss'],
-    standalone: false
+  selector: 'app-route',
+  templateUrl: './route.component.html',
+  styleUrls: ['./route.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    LoaderComponent,
+    DataErrorComponent,
+    FlexLayoutModule,
+    MatIconModule,
+    PublishStatusHintComponent,
+    WarningsComponent,
+    RouteInfoComponent,
+    CragGalleryComponent,
+    RouteCommentsComponent,
+    MatMenuModule,
+    RouterModule,
+    RouteGradesComponent,
+    RouteAscentsComponent,
+    MatExpansionModule,
+  ],
 })
 export class RouteComponent implements OnInit, OnDestroy {
   loading: boolean = true;
@@ -38,15 +71,17 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   user: User;
   userSubscription: Subscription;
+  grades: DifficultyVote[] = [];
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private layoutService: LayoutService,
-    private authService: AuthService,
-    private dialog: MatDialog,
-    private routeBySlugGQL: RouteBySlugGQL,
-    private gradingSystemService: GradingSystemsService
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly layoutService: LayoutService,
+    private readonly authService: AuthService,
+    private readonly dialog: MatDialog,
+    private readonly routeBySlugGQL: RouteBySlugGQL,
+    private readonly gradingSystemService: GradingSystemsService,
+    private readonly breakpointService: BreakpointService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +126,10 @@ export class RouteComponent implements OnInit, OnDestroy {
           break;
       }
     });
+  }
+
+  get routeImage() {
+    return this.route?.images[0] || [];
   }
 
   async addImage() {
@@ -148,6 +187,9 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.warnings = this.route?.comments.filter(
       (comment) => comment.type === 'warning'
     );
+
+    this.grades = this.route.difficultyVotes.slice();
+    this.grades.sort((a, b) => a.difficulty - b.difficulty);
 
     if (this.section === 'alpinism') {
       this.layoutService.$breadcrumbs.next([

@@ -1,25 +1,33 @@
-<div *ngIf="grades.length > 0" class="grades-list" fxLayout="column">
-  <div
-    *ngFor="let grade of grades"
-    [ngClass]="{ 'grade-included-in-calc': grade.includedInCalculation }"
-    fxLayout="row"
-    fxLayoutAlign="start center"
-    fxLayoutGap="12px"
-    class="row"
-  >
-    <app-grade
-      [difficulty]="grade.difficulty"
-      [gradingSystemId]="gradingSystemId"
-      [legacy]="true"
-    ></app-grade>
-    <div>
-      <ng-container *ngIf="grade.isBase && !grade.user"
-        >Bazna ocena</ng-container
+<mat-accordion>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Glasovi o težavnosti </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-distribution-chart
+      class="m-t-16"
+      [distribution]="gradesDistribution"
+    ></app-distribution-chart>
+    <div *ngIf="grades.length > 0" class="grades-list" fxLayout="column">
+      <div
+        *ngFor="let grade of grades"
+        [ngClass]="{ 'grade-included-in-calc': grade.includedInCalculation }"
+        class="flex flex-row p-4"
       >
-      <ng-container *ngIf="grade.user"
-        >{{ grade.user.firstname + " " + grade.user.lastname }}
-      </ng-container>
+        <app-grade
+          [difficulty]="grade.difficulty"
+          [gradingSystemId]="gradingSystemId"
+          [legacy]="true"
+        ></app-grade>
+        <div>
+          <ng-container *ngIf="grade.isBase && !grade.user"
+            >Bazna ocena</ng-container
+          >
+          <ng-container *ngIf="grade.user"
+            >{{ grade.user.firstname + " " + grade.user.lastname }}
+          </ng-container>
+        </div>
+        <div class="grade-date">{{ grade.created | date : "d. M. yyyy" }}</div>
+      </div>
     </div>
-    <div class="grade-date">{{ grade.created | date: "d. M. yyyy" }}</div>
-  </div>
-</div>
+  </mat-expansion-panel>
+</mat-accordion>

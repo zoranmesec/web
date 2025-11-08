@@ -1,31 +1,28 @@
-.card {
-  margin-bottom: 16px;
-  overflow: auto;
-}
+@use "@angular/material" as mat;
+@use "./../../../../m3-theme.scss" as m3-theme;
 
-.row {
-  font-weight: 500;
-}
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
-.row:first-child {
-  min-height: 54px;
-}
+:host {
+  mat-expansion-panel {
+    box-shadow: none !important;
+    margin-bottom: 8px !important;
+    background: none !important;
+  }
+  mat-expansion-panel:hover {
+    background: none !important;
+  }
+  mat-expansion-panel-header {
+    border-bottom: 1px solid $grey;
+  }
 
-.difficulty-votes-chart {
-  display: block;
-  margin-bottom: 8px;
-}
+  .info-table {
+    td {
+      width: 50%;
+    }
+  }
 
-h2 {
-  font-size: 16px;
-  color: black;
-  margin-left: 14px;
-  font-weight: 400;
-  margin-top: 16px;
-}
-
-.description {
-  font-weight: normal;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  .info-row > div:first-child {
+    flex-basis: 250px;
+  }
 }

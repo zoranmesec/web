@@ -1,0 +1,11 @@
+<div class="flex flex-row">
+  @if (value() === 2) {
+  <mat-icon title="Čudovita"> star </mat-icon>
+  @if (showLabel()) {<span>Čudovita</span>
+  } } @else if (value() === 1) {
+
+  <mat-icon title="Lepa"> star_border </mat-icon>@if (showLabel()) {<span
+    >Lepa</span
+  >
+  } }
+</div>

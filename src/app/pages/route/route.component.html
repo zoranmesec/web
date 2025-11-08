@@ -1,30 +1,27 @@
 <app-data-error *ngIf="error" [error]="error"></app-data-error>
 
 <app-loader *ngIf="loading"></app-loader>
+@if (!error && !loading) {
+
+<section id="title">
+  <h1>{{ route.name }}</h1>
+</section>
+<section id="navigation">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon color="primary">more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="addImage()">
+      <span>Dodaj fotografijo</span>
+    </button>
+    <button mat-menu-item (click)="addComment('warning')">
+      <span>Dodaj opozorilo</span>
+    </button>
+  </mat-menu>
+</section>
+}
 
 <div *ngIf="!error && !loading">
-  <div class="white-back mt-16">
-    <div
-      class="container py-8"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-    >
-      <h1>{{ route.name }}</h1>
-
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon color="primary">more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="addImage()">
-          <span>Dodaj fotografijo</span>
-        </button>
-        <button mat-menu-item (click)="addComment('warning')">
-          <span>Dodaj opozorilo</span>
-        </button>
-      </mat-menu>
-    </div>
-  </div>
-
   <app-publish-status-hint
     *ngIf="
       route.publishStatus === 'draft' || route.publishStatus === 'in_review'
@@ -36,27 +33,91 @@
 
   <app-warnings *ngIf="warnings" [warnings]="warnings"></app-warnings>
 
-  <div
-    class="container mt-16"
-    fxLayout="row"
-    fxLayoutGap="12px"
-    fxLayout.lt-md="column"
+  <section
+    id="info"
+    class="flex flex-row flex-justify-space-between flex-wrap w-100"
   >
-    <div fxFlex="320px" fxFlex.lt-md>
+    <div>
       <app-route-info [route]="route"></app-route-info>
     </div>
-    <div
-      fxFlex="100"
-      fxFlex.lt-md
-      fxLayout="column"
-      fxLayoutGap="0px"
-      fxLayoutGap.lt-md="12px"
-    >
-      <app-crag-gallery [images]="route.images"></app-crag-gallery>
-      <app-route-comments
-        [comments]="route.comments"
-        [action$]="action$"
-      ></app-route-comments>
+    @if(route.description) {
+
+    <div>
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Opis smeri </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ route.description }}</p>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
-  </div>
+    } @if (route.images.length>0) {
+
+    <div>
+      <app-crag-gallery
+        [images]="[route.images[0]]"
+        onlyPreview="true"
+      ></app-crag-gallery>
+    </div>
+    }
+  </section>
+  <section
+    id="ascents"
+    class="flex w-100"
+    [class.flex-column]="breakpointService.ltLg()"
+    [class.flex-row]="breakpointService.gtMd()"
+  >
+    <div class="w-100">
+      <app-route-ascents
+        [route]="route"
+        [showOnlyUserAscents]="false"
+      ></app-route-ascents>
+    </div>
+    @if(user) {
+
+    <div class="w-100">
+      <app-route-ascents
+        [route]="route"
+        [showOnlyUserAscents]="true"
+      ></app-route-ascents>
+    </div>
+    }
+  </section>
+  <section
+    id="grades"
+    class="flex w-100"
+    [class.flex-column]="breakpointService.ltLg()"
+    [class.flex-row]="breakpointService.gtMd()"
+  >
+    <div>
+      <app-route-grades
+        [grades]="grades"
+        [difficulty]="route.difficulty"
+        [gradingSystemId]="route.defaultGradingSystem.id"
+      ></app-route-grades>
+    </div>
+    <div>
+      <app-route-grades
+        [grades]="grades"
+        [difficulty]="route.difficulty"
+        [gradingSystemId]="route.defaultGradingSystem.id"
+      ></app-route-grades>
+    </div>
+  </section>
+  <section id="gallery">
+    <mat-accordion>
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Galerija </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-crag-gallery [images]="route.images"></app-crag-gallery>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </section>
+  <app-route-comments
+    [comments]="route.comments"
+    [route]="route"
+    [action$]="action$"
+  ></app-route-comments>
 </div>

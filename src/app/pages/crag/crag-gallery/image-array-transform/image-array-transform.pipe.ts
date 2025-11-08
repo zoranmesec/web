@@ -7,6 +7,7 @@ import { Image } from 'src/generated/graphql';
 export class ImageArrayTransformPipe implements PipeTransform {
   transform(images: Image[], nrColumns: number, page: number): Image[] {
     const transformedImages: Image[] = [];
+
     for (let i = 0; i < images.length; i++) {
       if (i % nrColumns === page) {
         transformedImages.push(images[i]);

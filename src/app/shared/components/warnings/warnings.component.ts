@@ -1,13 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Comment, User } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-warnings',
-    templateUrl: './warnings.component.html',
-    styleUrls: ['./warnings.component.scss'],
-    standalone: false
+  selector: 'app-warnings',
+  templateUrl: './warnings.component.html',
+  styleUrls: ['./warnings.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class WarningsComponent implements OnInit, OnDestroy {
   @Input() warnings: Comment[] = [];

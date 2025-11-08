@@ -4,7 +4,6 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
 @use "./../../../styles/global.scss" as global;
-
 :host {
   flex-direction: column !important;
   mat-form-field {
@@ -39,7 +38,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     align-items: center;
     display: flex;
     text-align: center;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid $grey;
   }
   section#crag-map-container {
     position: relative;

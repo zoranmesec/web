@@ -119,6 +119,7 @@ body {
 
   & {
     --mdc-checkbox-state-layer-size: 40px;
+    // TODO replace hardcoded color with variable
     --mdc-checkbox-unselected-focus-icon-color: #737373;
     --mat-checkbox-label-text-size: --mat-sys-body-large-size;
     --mdc-filled-text-field-container-color: white;
@@ -133,6 +134,9 @@ body {
     --mdc-filled-button-container-shape: 8px !important;
     --mdc-filled-button-label-text-color: white !important;
     --mdc-text-button-container-shape: 8px !important;
+    --mat-paginator-container-background-color: var(
+      --mat-sys-on-secondary
+    ) !important;
   }
 
   &.dark-theme {
@@ -150,8 +154,7 @@ body {
 /* The container */
 .checkbox-container {
   display: flex;
-  padding-left: 35px;
-  margin-bottom: 12px;
+
   cursor: pointer;
 
   @media only screen and (max-width: global.$breakpoint-lg) {
@@ -171,8 +174,6 @@ body {
 /* Create a custom checkbox */
 .checkmark {
   position: inherit;
-  margin-top: 2px;
-  margin-right: 4px;
   height: 16px;
   width: 16px;
   border: 1px solid
@@ -182,9 +183,14 @@ body {
   display: block;
 }
 
+.checkmark-label {
+  margin-left: 8px;
+}
+
 /* On mouse-over, add a grey background color */
 .checkbox-container:hover input ~ .checkmark {
   background-color: #ffffff;
+
   border: 1px solid
     mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 }
@@ -213,8 +219,8 @@ body {
 
 /* Style the checkmark/indicator */
 .checkbox-container .checkmark:after {
-  left: 6px;
-  top: 2px;
+  margin-left: 6px;
+  margin-top: 2px;
   width: 3px;
   height: 8px;
   border: solid white;
@@ -391,9 +397,11 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
   }
 }
 
+$header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
+
 .header {
   border-top: none !important;
-  color: var(--mdc-checkbox-unselected-focus-icon-color);
+  color: $header-grey !important;
   div:first-child {
     width: 40%;
   }
@@ -419,7 +427,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 .table-header > th {
   padding: 8px;
   border-top: none !important;
-  color: var(--mdc-checkbox-unselected-focus-icon-color) !important;
+  color: $header-grey !important;
   text-align: left !important;
   font-weight: var(--mat-sys-body-large-weight) !important;
   > div.expander {

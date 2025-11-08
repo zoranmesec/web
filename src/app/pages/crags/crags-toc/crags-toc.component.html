@@ -81,7 +81,8 @@
               [formControlName]="area.slug"
               (change)="changeArea(area.slug)"
             />
-            <span class="checkmark"></span>{{ area.name }}
+            <span class="checkmark"></span>
+            <span class="checkmark-label">{{ area.name }}</span>
           </label>
         </li>
         }
@@ -103,7 +104,7 @@
               (change)="changeType(routeType.slug)"
             />
             <span class="checkmark"></span>
-            {{ routeType.label }}
+            <span class="checkmark-label">{{ routeType.label }}</span>
           </label>
         </li>
         }
@@ -124,7 +125,7 @@
               (change)="changeOrientation(orientation.value)"
             />
             <span class="checkmark"></span>
-            {{ orientation.label }}
+            <span class="checkmark-label">{{ orientation.label }}</span>
           </label>
         </li>
         }

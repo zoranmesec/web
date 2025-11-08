@@ -1,78 +1,21 @@
-<div #container>
-  <h3
-    *ngIf="!previewMode"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    fxLayout.lt-md="column"
-  >
-    <span fxFlex="100">Komentarji</span>
-    <div fxFlex>
-      <button (click)="addComment('add-comment')" mat-button color="primary">
-        Dodaj komentar
-      </button>
-    </div>
-  </h3>
-  <!-- simplify by having same title for all comment types on route comment previews... -->
-  <h4
-    *ngIf="
-      previewMode &&
-      (regularComments.length || conditions.length || descriptions.length)
-    "
-  >
-    Najnovejši komentarji
-  </h4>
-  <div
-    *ngFor="let comment of regularComments | slice: 0:(previewMode ? 3 : 1000)"
-    class="comment"
-    [class.preview]="previewMode"
-    fxLayout="column"
-    fxLayoutGap="8px"
-  >
-    <app-comment [comment]="comment" [previewMode]="previewMode"></app-comment>
-  </div>
-  <div *ngIf="regularComments.length === 0 && !previewMode" class="p-16">
-    Ta smer nima še nobenega komentarja.
-  </div>
+<mat-accordion>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Komentarji </mat-panel-title>
+    </mat-expansion-panel-header>
 
-  <h3
-    *ngIf="!previewMode && conditions.length > 0"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    fxLayout.lt-md="column"
-  >
-    <span fxFlex="100">Opisi razmer</span>
-  </h3>
-  <div
-    *ngFor="let conditionComment of conditions"
-    class="comment"
-    [class.preview]="previewMode"
-    fxLayout="column"
-    fxLayoutGap="8px"
-  >
-    <app-comment
-      [comment]="conditionComment"
-      [previewMode]="previewMode"
-    ></app-comment>
-  </div>
-
-  <h3
-    *ngIf="!previewMode && descriptions.length > 0"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    fxLayout.lt-md="column"
-  >
-    <span fxFlex="100">Opisi smeri</span>
-  </h3>
-  <div
-    *ngFor="let description of descriptions"
-    class="comment"
-    [class.preview]="previewMode"
-    fxLayout="column"
-    fxLayoutGap="8px"
-  >
-    <app-comment
-      [comment]="description"
-      [previewMode]="previewMode"
-    ></app-comment>
-  </div>
-</div>
+    <main class="m-l-8 m-r-8">
+      <section id="form" class="m-b-16 m-t-16">
+        <app-comment-form
+          [entity]="route"
+          (commentSaved)="onCommentSaved($event)"
+        ></app-comment-form>
+      </section>
+      <section id="comments">
+        <ng-container *ngFor="let comment of comments">
+          <app-comment [comment]="comment" class="w-100"></app-comment>
+        </ng-container>
+      </section>
+    </main>
+  </mat-expansion-panel>
+</mat-accordion>

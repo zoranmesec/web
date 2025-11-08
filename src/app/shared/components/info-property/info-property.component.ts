@@ -1,11 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { RouteProperty } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-info-property',
-    templateUrl: './info-property.component.html',
-    styleUrls: ['./info-property.component.scss'],
-    standalone: false
+  selector: 'app-info-property',
+  templateUrl: './info-property.component.html',
+  styleUrls: ['./info-property.component.scss'],
+  standalone: true,
+  imports: [MatIconModule, RouterModule, CommonModule],
 })
 export class InfoPropertyComponent implements OnInit {
   @Input() property: RouteProperty;

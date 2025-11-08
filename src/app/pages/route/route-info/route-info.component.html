@@ -1,76 +1,121 @@
-<div class="card no-border">
-  <div
-    class="row"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    *ngIf="!hideGrade"
-  >
-    <div class="label">Težavnost</div>
-    <span class="text-right">
-      <span *ngIf="route.isProject">P</span>
-      <app-grade
-        *ngIf="!route.isProject"
-        [difficulty]="route.difficulty"
-        [gradingSystemId]="route.defaultGradingSystem.id"
-        [showModifier]="true"
-      ></app-grade>
-    </span>
-  </div>
-  <div
-    class="row"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    *ngIf="route.pitches.length > 0"
-  >
-    <div class="label">Raztežaji</div>
-    <span>
-      <text *ngFor="let pitch of route.pitches; let isLast = last"
-        ><span *ngIf="pitch.isProject">P</span>
-        <app-grade
-          *ngIf="!pitch.isProject"
-          [difficulty]="pitch.difficulty"
-          [gradingSystemId]="route.defaultGradingSystem.id"
-          [showModifier]="true"
-        ></app-grade
-        >{{ isLast ? "" : ", " }}</text
+<mat-accordion>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Osnovni podatki </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table class="p-t-16">
+      <tr>
+        <td class="label">Težavnost:</td>
+        <td>
+          <span *ngIf="route.isProject">P</span>
+          <app-grade
+            *ngIf="!route.isProject"
+            [difficulty]="route.difficulty"
+            [gradingSystemId]="route.defaultGradingSystem.id"
+            [showModifier]="true"
+          ></app-grade>
+        </td>
+      </tr>
+      <tr *ngIf="route.pitches.length > 0">
+        <td class="label">Raztežaji:</td>
+        <td>
+          <text *ngFor="let pitch of route.pitches; let isLast = last"
+            ><span *ngIf="pitch.isProject">P</span>
+            <app-grade
+              *ngIf="!pitch.isProject"
+              [difficulty]="pitch.difficulty"
+              [gradingSystemId]="route.defaultGradingSystem.id"
+              [showModifier]="true"
+            ></app-grade
+            >{{ isLast ? "" : ", " }}</text
+          >
+        </td>
+      </tr>
+
+      <!-- Route length -->
+      <tr>
+        <td class="label">Dolžina:</td>
+        <td>{{ route.length }} m</td>
+      </tr>
+
+      <!-- Route author -->
+      @if (route.author) {
+      <tr>
+        <td class="label">Avtor:</td>
+        <td>{{ route.author }}</td>
+      </tr>
+      }
+
+      <!-- Route star rating -->
+      @if (route.starRating > 0) {
+      <tr>
+        <td class="label">Lepota:</td>
+        <td>
+          <app-star-rating
+            [value]="route.starRating"
+            [showLabel]="true"
+          ></app-star-rating>
+        </td>
+      </tr>
+      } @if (route.sector.name.length>0) {
+      <tr>
+        <td class="label">Sektor:</td>
+        <td>{{ route.sector.name }}</td>
+      </tr>
+      }
+
+      <tr>
+        <td class="label">Plezališče:</td>
+        <td>{{ route.sector.crag.name }}</td>
+      </tr>
+
+      @if (route.sector.crag.area) {
+      <tr>
+        <td class="label">Območje:</td>
+        <td>{{ route.sector.crag.area.name }}</td>
+      </tr>
+      }
+
+      <tr>
+        <td class="label">Država:</td>
+        <td>{{ route.sector.crag.country.name }}</td>
+      </tr>
+
+      <tr *ngFor="let event of route.routeEvents">
+        <td class="label">{{ eventTypeMap[event.eventType] }}</td>
+        <span
+          >{{ event.author }} ({{
+            event.eventDate | date : (event.showFullDate ? "d. M. Y" : "Y")
+          }})
+        </span>
+      </tr>
+
+      <div
+        *ngFor="let property of route.properties"
+        class="flex flex-row flex-start info-row"
       >
-    </span>
-  </div>
+        <app-info-property [property]="property"></app-info-property>
+      </div>
 
-  <!-- Route length -->
-  <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="label">Dolžina</div>
-    <span class="text-right"> {{ route.length }} m </span>
-  </div>
+      <tr>
+        <td class="label">Število uspešnih vzponov:</td>
+        <td>{{ route.nrTicks }}</td>
+      </tr>
 
-  <!-- Route description -->
-  <div *ngIf="route.description" class="row">
-    <div fxLayout="column">
-      <div class="label mt-4">Opis smeri</div>
-      <div class="description">{{ route.description }}</div>
-    </div>
-  </div>
+      <tr>
+        <td class="label">Število poskusov:</td>
+        <td>{{ route.nrTries }}</td>
+      </tr>
 
-  <div
-    class="row"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    *ngFor="let event of route.routeEvents"
-  >
-    <div class="label">{{ eventTypeMap[event.eventType] }}</div>
-    <span class="text-right"
-      >{{ event.author }} ({{
-        event.eventDate | date: (event.showFullDate ? "d. M. Y" : "Y")
-      }})
-    </span>
-  </div>
+      <tr>
+        <td class="label">Število plezalcev:</td>
+        <td>{{ route.nrClimbers }}</td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>
 
-  <div *ngFor="let property of route.properties" class="row">
-    <app-info-property [property]="property"></app-info-property>
-  </div>
-</div>
-
-<div class="card padding">
+<!-- <div class="card padding">
   <h4>Ocene uporabnikov</h4>
   <app-distribution-chart
     class="difficulty-votes-chart"
@@ -94,19 +139,4 @@
     Prikaži v plezalnem dnevniku
   </button>
 </div>
-
-<div class="card no-border">
-  <h2>Popularnost smeri</h2>
-  <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="label">Število uspešnih vzponov</div>
-    <span class="text-right">{{ route.nrTicks }}</span>
-  </div>
-  <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="label">Število poskusov v smeri</div>
-    <span class="text-right">{{ route.nrTries }}</span>
-  </div>
-  <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="label">Število plezalcev</div>
-    <span class="text-right">{{ route.nrClimbers }}</span>
-  </div>
-</div>
+</div> -->

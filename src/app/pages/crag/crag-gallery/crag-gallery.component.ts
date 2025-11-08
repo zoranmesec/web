@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class CragGalleryComponent implements OnInit, OnChanges {
   @Input() images!: Image[];
   @Input() crag!: Crag;
+  @Input() onlyPreview?: boolean = false;
 
   protected screenWidth: number;
   protected screenHeight: number;
@@ -52,25 +53,19 @@ export class CragGalleryComponent implements OnInit, OnChanges {
   private calcNrColumns(): void {
     if (this.breakpointService.ltSm()) {
       this.nrColumns = 2;
-      return;
     }
     if (this.breakpointService.gtSm()) {
       this.nrColumns = 3;
     }
     if (this.breakpointService.gtMd()) {
       this.nrColumns = 4;
-      return;
     }
     if (this.breakpointService.gtXl()) {
       this.nrColumns = 5;
-      return;
     }
   }
 
   get getColumnsArray(): string[] {
-    if (this.images.length <= this.nrColumns) {
-      return new Array(1);
-    }
     return new Array(this.nrColumns);
   }
 

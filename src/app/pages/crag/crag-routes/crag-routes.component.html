@@ -141,7 +141,7 @@
                       [currentlySortedField]="sector.sortedField"
                       sortIndication="highlight"
                       [centered]="true"
-                      (click)="onSortableHeaderClick(sectorIndex, 'position')"
+                      (click)="onSortableHeaderClick($index, 'position')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -156,7 +156,7 @@
                       [currentlySortedField]="sector.sortedField"
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="arrows"
-                      (click)="onSortableHeaderClick(sectorIndex, 'name')"
+                      (click)="onSortableHeaderClick($index, 'name')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -173,7 +173,7 @@
                       [currentlySortedField]="sector.sortedField"
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="arrows"
-                      (click)="onSortableHeaderClick(sectorIndex, 'length')"
+                      (click)="onSortableHeaderClick($index, 'length')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -188,7 +188,7 @@
                       [currentlySortedField]="sector.sortedField"
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="arrows"
-                      (click)="onSortableHeaderClick(sectorIndex, 'difficulty')"
+                      (click)="onSortableHeaderClick($index, 'difficulty')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -203,7 +203,7 @@
                       [currentlySortedField]="sector.sortedField"
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="arrows"
-                      (click)="onSortableHeaderClick(sectorIndex, 'nrTicks')"
+                      (click)="onSortableHeaderClick($index, 'nrTicks')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -218,7 +218,7 @@
                       [currentlySortedField]="sector.sortedField"
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="arrows"
-                      (click)="onSortableHeaderClick(sectorIndex, 'nrTries')"
+                      (click)="onSortableHeaderClick($index, 'nrTries')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -233,7 +233,7 @@
                       [currentlySortedField]="sector.sortedField"
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="arrows"
-                      (click)="onSortableHeaderClick(sectorIndex, 'nrClimbers')"
+                      (click)="onSortableHeaderClick($index, 'nrClimbers')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -252,7 +252,7 @@
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="highlight"
                       [centered]="true"
-                      (click)="onSortableHeaderClick(sectorIndex, 'starRating')"
+                      (click)="onSortableHeaderClick($index, 'starRating')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -271,7 +271,7 @@
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="highlight"
                       [centered]="true"
-                      (click)="onSortableHeaderClick(sectorIndex, 'multipitch')"
+                      (click)="onSortableHeaderClick($index, 'multipitch')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -290,7 +290,7 @@
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="highlight"
                       [centered]="true"
-                      (click)="onSortableHeaderClick(sectorIndex, 'comments')"
+                      (click)="onSortableHeaderClick($index, 'comments')"
                     ></app-sortable-header-field>
                   </th>
 
@@ -309,7 +309,7 @@
                       [currentSortDirection]="sector.sortedDirection"
                       sortIndication="highlight"
                       [centered]="true"
-                      (click)="onSortableHeaderClick(sectorIndex, 'myAscents')"
+                      (click)="onSortableHeaderClick($index, 'myAscents')"
                     ></app-sortable-header-field>
                   </th>
                 </tr>
@@ -397,15 +397,10 @@
                         *ngIf="shownColumns.includes('starRating')"
                         class="icon"
                       >
-                        <mat-icon *ngIf="route.starRating == 1" title="Lepa">
-                          star_border
-                        </mat-icon>
-                        <mat-icon
-                          *ngIf="route.starRating == 2"
-                          title="Čudovita"
-                        >
-                          star
-                        </mat-icon>
+                        <app-star-rating
+                          [value]="route.starRating"
+                          [showLabel]="false"
+                        ></app-star-rating>
                       </td>
 
                       <td

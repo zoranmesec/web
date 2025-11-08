@@ -11,6 +11,7 @@ query RouteBySlug($cragSlug: String!, $routeSlug: String!) {
     length
     author
     publishStatus
+    starRating
     routeEvents {
       id
       eventDate
@@ -80,6 +81,10 @@ query RouteBySlug($cragSlug: String!, $routeSlug: String!) {
           name
         }
         peak {
+          name
+          slug
+        }
+        area {
           name
           slug
         }

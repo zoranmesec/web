@@ -62,6 +62,7 @@ import {
 } from './crag-routes-columns/crag-routes-columns.component';
 import { CragRoutesFiltersService } from './crag-routes-filters.service';
 import { consoleLoggingIntegration } from '@sentry/angular';
+import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-rating.component';
 
 export interface ColumnType {
   field: string;
@@ -97,6 +98,7 @@ export interface ColumnType {
     MatExpansionModule,
     CragRoutesFiltersComponent,
     CragRoutesColumnsComponent,
+    StarRatingComponent,
   ],
 })
 export class CragRoutesComponent implements OnInit, OnDestroy {

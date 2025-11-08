@@ -1,3 +1,54 @@
+@use "@angular/material" as mat;
+@use "./../../../m3-theme.scss" as m3-theme;
+
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+:host {
+  mat-expansion-panel {
+    box-shadow: none !important;
+    margin-bottom: 8px !important;
+    background: none !important;
+  }
+  mat-expansion-panel:hover {
+    background: none !important;
+  }
+  mat-expansion-panel-header {
+    border-bottom: 1px solid $grey;
+  }
+  section#title {
+    height: 100px;
+    padding: 0 16px 16px 16px;
+    background-color: var(--mat-sys-surface);
+    align-items: center;
+    display: flex;
+    text-align: center;
+    border-bottom: 1px solid $grey;
+  }
+
+  section#navigation {
+    border-bottom: 1px solid $grey;
+  }
+
+  section#info > div {
+    flex-basis: calc(33.33vw - 16px);
+    padding: 4px;
+    flex-grow: 1;
+  }
+
+  section#info > div:nth-child(2) {
+    flex-grow: 2;
+  }
+
+  section#ascents > div {
+    width: 100%;
+    padding: 4px;
+  }
+
+  section#grades > div {
+    width: 100%;
+    padding: 4px;
+  }
+}
+
 .warn {
   a {
     color: unset;

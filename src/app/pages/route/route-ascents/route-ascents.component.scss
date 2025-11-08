@@ -15,25 +15,13 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
   mat-expansion-panel-header {
     border-bottom: 1px solid $grey;
   }
-}
 
-.grade-date {
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-.grades-list {
-  margin: 0 -14px;
-}
-.row {
-  min-height: auto;
-  padding: 4px 14px;
-  color: #6d7084;
-  &:first-child {
-    border-top: none;
+  .mat-expansion-panel-body {
+    padding-top: 16px !important;
   }
-}
-.grade-included-in-calc {
-  font-weight: 500;
-  color: #000;
+
+  .info-row .label {
+    max-width: 150px !important;
+    min-width: 100px !important;
+  }
 }
