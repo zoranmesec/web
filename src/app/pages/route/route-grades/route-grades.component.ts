@@ -8,6 +8,7 @@ import {
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
 import { DifficultyVote } from 'src/generated/graphql';
+import { A11yModule } from '@angular/cdk/a11y';
 
 interface IGrade {
   user: {
@@ -29,6 +30,7 @@ interface IGrade {
     MatExpansionModule,
     GradeComponent,
     DistributionChartComponent,
+    A11yModule,
   ],
 })
 export class RouteGradesComponent implements OnInit {

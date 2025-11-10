@@ -1,0 +1,32 @@
+<div class="flex flex-row w-100 m-t-16">
+  @for (distribution of distribution(); track $index) {
+
+  <div
+    [style.flex-basis]="
+      (this.distribution()[$index].value / this.sum) * 100 + '%'
+    "
+    class="flex flex-row p-l-4"
+  >
+    <app-star-rating
+      [value]="distribution.stars"
+      [showLabel]="false"
+    ></app-star-rating>
+    <span>{{ this.distribution()[$index].value }}</span>
+  </div>
+
+  }
+</div>
+<div class="flex flex-row w-100 m-t-4">
+  @for (distribution of distribution(); track $index; let last = $last, first =
+  $first) {
+  <div
+    class="distribution-bar"
+    [class.star-rating-end]="last"
+    [class.star-rating-start]="first"
+    [class]="`star-rating-${distribution.stars}`"
+    [style.flex-basis]="
+      (this.distribution()[$index].value / this.sum) * 100 + '%'
+    "
+  ></div>
+  }
+</div>

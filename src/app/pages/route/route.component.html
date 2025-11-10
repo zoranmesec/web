@@ -7,17 +7,48 @@
   <h1>{{ route.name }}</h1>
 </section>
 <section id="navigation">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon color="primary">more_vert</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="addImage()">
-      <span>Dodaj fotografijo</span>
-    </button>
-    <button mat-menu-item (click)="addComment('warning')">
-      <span>Dodaj opozorilo</span>
-    </button>
-  </mat-menu>
+  <div class="flex flex-row flex-justify-space-between">
+    <div class="flex flex-row">
+      <div class="m-8 p-4 p-r-16 border-right">Zabeleži vzpon</div>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon color="primary">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="addImage()">
+            <span>Dodaj fotografijo</span>
+          </button>
+          <button mat-menu-item (click)="addComment('warning')">
+            <span>Dodaj opozorilo</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    @if (route) {
+
+    <div class="flex flex-row m-8">
+      @if(previousRoute) {
+      <div class="p-4 p-r-16" [class.border-right]="nextRoute">
+        <a
+          class="route-link"
+          [routerLink]="['./../', previousRoute.slug]"
+          (click)="$event.stopPropagation()"
+          >{{ previousRoute.name }}</a
+        >
+      </div>
+      } @if(nextRoute) {
+      <div class="p-4 p-l-16">
+        <a
+          class="route-link"
+          [routerLink]="['./../', nextRoute.slug]"
+          (click)="$event.stopPropagation()"
+          >{{ nextRoute.name }}</a
+        >
+      </div>
+      }
+    </div>
+    }
+  </div>
 </section>
 }
 
@@ -98,11 +129,9 @@
       ></app-route-grades>
     </div>
     <div>
-      <app-route-grades
-        [grades]="grades"
-        [difficulty]="route.difficulty"
-        [gradingSystemId]="route.defaultGradingSystem.id"
-      ></app-route-grades>
+      <app-route-star-ratings
+        [votes]="route.starRatingVotes"
+      ></app-route-star-ratings>
     </div>
   </section>
   <section id="gallery">

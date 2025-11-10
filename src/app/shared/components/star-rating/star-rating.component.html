@@ -1,11 +1,12 @@
 <div class="flex flex-row">
   @if (value() === 2) {
-  <mat-icon title="Čudovita"> star </mat-icon>
-  @if (showLabel()) {<span>Čudovita</span>
+  <mat-icon [title]="starRatingEnum.TWO_STARS"> star </mat-icon>
+  @if (showLabel()) {<span class="p-l-4">{{ starRatingEnum.TWO_STARS }}</span>
   } } @else if (value() === 1) {
 
-  <mat-icon title="Lepa"> star_border </mat-icon>@if (showLabel()) {<span
-    >Lepa</span
-  >
-  } }
+  <mat-icon [title]="starRatingEnum.ONE_STAR"> star_border </mat-icon>@if
+  (showLabel()) {<span class="p-l-4">{{ starRatingEnum.ONE_STAR }}</span> } }
+  @else if (value()===0 && !doNotShowZeroLabel()) {
+  <span class="p-l-4">{{ starRatingEnum.ZERO_STARS }}</span>
+  }
 </div>

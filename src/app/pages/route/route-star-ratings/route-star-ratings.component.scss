@@ -23,15 +23,12 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
     width: 56px;
   }
 
-  .grade-included-in-calc {
-    font-weight: 500;
+  .grade-user {
+    flex-basis: 55%;
   }
 
-  .grade-not-included-in-calc {
-    color: $light-grey;
-  }
-  .grade-user {
-    flex-basis: 80%;
+  .star-rating {
+    flex-basis: 20%;
   }
 
   .grade-date {

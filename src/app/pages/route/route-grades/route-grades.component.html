@@ -6,19 +6,23 @@
     <app-distribution-chart
       class="m-t-16"
       [distribution]="gradesDistribution"
+      [useGreyBackground]="false"
+      [useColorBars]="false"
     ></app-distribution-chart>
-    <div *ngIf="grades.length > 0" class="grades-list" fxLayout="column">
+    <div *ngIf="grades.length > 0" class="grades-list p-t-8" fxLayout="column">
       <div
         *ngFor="let grade of grades"
-        [ngClass]="{ 'grade-included-in-calc': grade.includedInCalculation }"
+        [class.grade-included-in-calc]="grade.includedInCalculation"
+        [class.grade-not-included-in-calc]="!grade.includedInCalculation"
         class="flex flex-row p-4"
       >
         <app-grade
+          class="grade"
           [difficulty]="grade.difficulty"
           [gradingSystemId]="gradingSystemId"
           [legacy]="true"
         ></app-grade>
-        <div>
+        <div class="grade-user p-l-8">
           <ng-container *ngIf="grade.isBase && !grade.user"
             >Bazna ocena</ng-container
           >

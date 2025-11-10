@@ -5,6 +5,7 @@ import {
   input,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  OnChanges,
 } from '@angular/core';
 import {
   MyActivityRoutesGQL,
@@ -40,7 +41,7 @@ import { LoaderComponent } from 'src/app/shared/components/loader/loader.compone
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RouteAscentsComponent implements OnInit, OnDestroy {
+export class RouteAscentsComponent implements OnDestroy, OnChanges {
   route = input.required<Route>();
   showOnlyUserAscents = input.required<boolean>();
 
@@ -59,7 +60,7 @@ export class RouteAscentsComponent implements OnInit, OnDestroy {
     private readonly cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     const userSub = this.authService.currentUser.subscribe(
       (user) => (this.user = user)
     );

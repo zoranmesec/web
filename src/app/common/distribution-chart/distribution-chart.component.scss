@@ -4,18 +4,17 @@
     grid-template-columns: auto 1fr;
     grid-gap: 0 8px;
     align-items: center;
-    background-color: var(--mat-sys-surface);
-    border-radius: 8px;
 
     .distribution-bar-label {
       text-align: right;
-      padding: 8px;
+      padding: 2px;
+      width: 56px;
     }
 
     .distribution-bar {
       height: 20px;
       background-color: transparent;
-      padding-right: 16px;
+      display: flex;
     }
 
     .distribution-bar-inner {
@@ -24,14 +23,17 @@
     }
   }
 
+  .grey-background {
+    background-color: var(--mat-sys-surface);
+    border-radius: 8px;
+  }
+
   .distribution-container-vertical {
     display: flex;
     flex-direction: column;
     gap: 8px;
     align-items: stretch;
     height: 350px;
-    background-color: var(--mat-sys-surface);
-    border-radius: 8px;
     padding: 16px 0 0 0;
 
     .distribution-bar-label {

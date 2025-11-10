@@ -1,0 +1,27 @@
+<mat-accordion>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Glasovi o lepoti </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-star-rating-chart
+      class="m-t-16"
+      [distribution]="starRatingsDistribution"
+    ></app-star-rating-chart>
+    <div *ngIf="votes().length > 0" class="grades-list p-t-8" fxLayout="column">
+      <div *ngFor="let vote of votes()" class="flex flex-row p-4">
+        <app-star-rating
+          [value]="vote.stars"
+          [showLabel]="true"
+          [doNotShowZeroLabel]="false"
+          class="star-rating"
+        ></app-star-rating>
+        <div class="grade-user p-l-8">
+          <ng-container *ngIf="vote.user"
+            >{{ vote.user.firstname + " " + vote.user.lastname }}
+          </ng-container>
+        </div>
+        <div class="grade-date">{{ vote.created | date : "d. M. yyyy" }}</div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

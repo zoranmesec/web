@@ -36,6 +36,15 @@ query RouteBySlug($cragSlug: String!, $routeSlug: String!) {
       isBase
       includedInCalculation
     }
+    starRatingVotes {
+      stars
+      user {
+        firstname
+        lastname
+      }
+      created
+      updated
+    }
     properties {
       id
       propertyType {
@@ -83,6 +92,11 @@ query RouteBySlug($cragSlug: String!, $routeSlug: String!) {
         peak {
           name
           slug
+        }
+        routes {
+          id
+          slug
+          name
         }
         area {
           name

@@ -1,4 +1,8 @@
-<div [class]="'distribution-container-' + direction()" class="w-100 m-t-16">
+<div
+  [class]="'distribution-container-' + direction()"
+  [class.grey-background]="useGreyBackground()"
+  class="w-100 m-t-16"
+>
   @if (direction() === 'horizontal') { @for (element of distribution(); track
   $index) {
   <div class="distribution-bar-label">
@@ -8,8 +12,11 @@
     <div
       class="distribution-bar-inner"
       [style.width.%]="(element.value / maxValue) * 100"
-      [style.background-color]="(element.value / maxValue) * 100 | barColor"
+      [style.background-color]="
+        (element.value / maxValue) * 100 | barColor : useColorBars()
+      "
     ></div>
+    <div class="p-l-8">{{ element.value }}</div>
   </div>
   } } @if (direction() === 'vertical') {
   <div class="distribution-bars w-100">

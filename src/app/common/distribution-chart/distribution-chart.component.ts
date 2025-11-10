@@ -11,6 +11,7 @@ import {
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { BarColorPipe } from 'src/app/shared/pipes/bar-color.pipe';
 
+// TODO move to a separate file
 export interface IDistribution {
   label: string;
   value: number;
@@ -24,9 +25,11 @@ export interface IDistribution {
   imports: [CommonModule, FlexLayoutModule, BarColorPipe],
 })
 export class DistributionChartComponent implements OnChanges, AfterViewInit {
-  // @Input() distribution: IDistribution[] = [];
   distribution = input.required<IDistribution[]>();
   direction = input<'horizontal' | 'vertical'>('horizontal');
+  useGreyBackground = input<boolean>(true);
+  useColorBars = input<boolean>(true);
+
   @Output() onViewInit = new EventEmitter<void>();
 
   maxValue: number;

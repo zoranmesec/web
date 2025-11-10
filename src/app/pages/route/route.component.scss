@@ -26,6 +26,10 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
   section#navigation {
     border-bottom: 1px solid $grey;
+
+    .border-right {
+      border-right: 1px solid $grey;
+    }
   }
 
   section#info > div {

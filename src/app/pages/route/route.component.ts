@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DataError } from '../../types/data-error';
 import { LayoutService } from '../../services/layout.service';
@@ -8,6 +8,7 @@ import {
   Route,
   RouteBySlugGQL,
   RouteBySlugQuery,
+  StarRatingVote,
   User,
 } from 'src/generated/graphql';
 import { Subject, Subscription, switchMap } from 'rxjs';
@@ -32,6 +33,10 @@ import { RouteGradesComponent } from './route-grades/route-grades.component';
 import { RouteAscentsComponent } from './route-ascents/route-ascents.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { A11yModule } from '@angular/cdk/a11y';
+import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-rating.component';
+import { RouteStarRatingsComponent } from './route-star-ratings/route-star-ratings.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-route',
@@ -50,10 +55,13 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
     CragGalleryComponent,
     RouteCommentsComponent,
     MatMenuModule,
+    MatButtonModule,
     RouterModule,
     RouteGradesComponent,
     RouteAscentsComponent,
     MatExpansionModule,
+    RouteStarRatingsComponent,
+    RouterModule,
   ],
 })
 export class RouteComponent implements OnInit, OnDestroy {
@@ -72,6 +80,7 @@ export class RouteComponent implements OnInit, OnDestroy {
   user: User;
   userSubscription: Subscription;
   grades: DifficultyVote[] = [];
+  votes: StarRatingVote[] = [];
 
   constructor(
     private readonly router: Router,
@@ -81,7 +90,8 @@ export class RouteComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly routeBySlugGQL: RouteBySlugGQL,
     private readonly gradingSystemService: GradingSystemsService,
-    private readonly breakpointService: BreakpointService
+    private readonly breakpointService: BreakpointService,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -95,6 +105,7 @@ export class RouteComponent implements OnInit, OnDestroy {
     this.routeQuerySubscription = this.activatedRoute.params
       .pipe(
         switchMap((params) => {
+          this.loading = true;
           this.routeQuery = this.routeBySlugGQL.watch({
             cragSlug: params.crag,
             routeSlug: params.route,
@@ -106,6 +117,7 @@ export class RouteComponent implements OnInit, OnDestroy {
         next: (result) => {
           this.loading = false;
           this.querySuccess(result.data);
+          this.cdr.markForCheck();
         },
         error: (error) => {
           this.loading = false;
@@ -130,6 +142,30 @@ export class RouteComponent implements OnInit, OnDestroy {
 
   get routeImage() {
     return this.route?.images[0] || [];
+  }
+
+  get previousRoute() {
+    if (!this.route) {
+      return null;
+    }
+    const routeIndex = this.route.sector.crag.routes.findIndex(
+      (r) => r.id === this.route.id
+    );
+    return routeIndex > 0
+      ? this.route.sector.crag.routes[routeIndex - 1]
+      : null;
+  }
+
+  get nextRoute() {
+    if (!this.route) {
+      return null;
+    }
+    const routeIndex = this.route.sector.crag.routes.findIndex(
+      (r) => r.id === this.route.id
+    );
+    return routeIndex < this.route.sector.crag.routes.length - 1
+      ? this.route.sector.crag.routes[routeIndex + 1]
+      : null;
   }
 
   async addImage() {
@@ -190,6 +226,9 @@ export class RouteComponent implements OnInit, OnDestroy {
 
     this.grades = this.route.difficultyVotes.slice();
     this.grades.sort((a, b) => a.difficulty - b.difficulty);
+
+    this.votes = this.route.starRatingVotes.slice();
+    this.votes.sort((a, b) => a.created - b.created);
 
     if (this.section === 'alpinism') {
       this.layoutService.$breadcrumbs.next([
