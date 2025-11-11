@@ -22,7 +22,6 @@ export class StarRatingChartComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(): void {
-    console.log(this.distribution(), this.distribution().length);
     if (!this.distribution()) {
       return;
     }

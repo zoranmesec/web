@@ -41,10 +41,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
   section#options {
     height: 40px !important;
-    margin-left: -16px !important;
     flex-wrap: wrap;
-
-    flex-flow: wrap;
     box-sizing: border-box;
     display: flex;
     place-content: center space-between;
@@ -52,6 +49,10 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
     @media only screen and (max-width: global.$breakpoint-lg) {
       place-content: center space-around;
+    }
+
+    .mat-mdc-outlined-button {
+      padding-left: 16px !important;
     }
 
     .border-right {

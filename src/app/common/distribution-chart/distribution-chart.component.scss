@@ -3,18 +3,21 @@
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 0 8px;
+
     align-items: center;
 
     .distribution-bar-label {
       text-align: right;
       padding: 2px;
-      width: 56px;
+      width: 40px;
     }
 
     .distribution-bar {
       height: 20px;
       background-color: transparent;
       display: flex;
+      line-height: 22px;
+      margin-right: 16px;
     }
 
     .distribution-bar-inner {
@@ -26,6 +29,8 @@
   .grey-background {
     background-color: var(--mat-sys-surface);
     border-radius: 8px;
+    height: 360px;
+    margin-right: 16px;
   }
 
   .distribution-container-vertical {
@@ -33,12 +38,16 @@
     flex-direction: column;
     gap: 8px;
     align-items: stretch;
-    height: 350px;
-    padding: 16px 0 0 0;
+    height: 360px;
+    padding: 0;
+    font-size: 12px;
 
     .distribution-bar-label {
       text-align: center;
       width: 40px;
+      @media (max-width: 960px) {
+        width: 20px !important;
+      }
       margin-top: 8px;
     }
 
@@ -48,6 +57,7 @@
       align-items: flex-end;
       justify-content: space-evenly;
       gap: 0 8px;
+      margin-top: 8px;
     }
 
     .distribution-bars-labels {
@@ -62,11 +72,13 @@
 
     .distribution-bar {
       width: 40px;
+      @media (max-width: 960px) {
+        width: 20px !important;
+      }
       display: inline-block;
       background-color: transparent;
-      margin: 8px 0 8px 0;
+      margin-bottom: 8px;
       text-align: center;
-      padding-top: 8px;
     }
 
     .distribution-bar-inner {

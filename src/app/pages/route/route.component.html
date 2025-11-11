@@ -9,10 +9,17 @@
 <section id="navigation">
   <div class="flex flex-row flex-justify-space-between">
     <div class="flex flex-row">
-      <div class="m-8 p-4 p-r-16 border-right">Zabeleži vzpon</div>
-      <div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon color="primary">more_vert</mat-icon>
+      <div class="m-16 p-r-16 border-right">
+        <button mat-stroked-button type="button">
+          <div class="flex flex-row">
+            <app-add-icon></app-add-icon>
+            <span class="p-l-4">Zabeleži vzpon</span>
+          </div>
+        </button>
+      </div>
+      <div class="p-t-8 m-t-8">
+        <button mat-stroked-button [matMenuTriggerFor]="menu">
+          <app-more-icon class=""></app-more-icon>
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="addImage()">
@@ -26,24 +33,34 @@
     </div>
     @if (route) {
 
-    <div class="flex flex-row m-8">
+    <div class="flex flex-row m-8 p-r-32">
       @if(previousRoute) {
-      <div class="p-4 p-r-16" [class.border-right]="nextRoute">
+      <div class="m-8 p-r-16 p-t-8" [class.border-right]="nextRoute">
         <a
           class="route-link"
           [routerLink]="['./../', previousRoute.slug]"
           (click)="$event.stopPropagation()"
-          >{{ previousRoute.name }}</a
         >
+          <div class="flex flex-row">
+            <app-arrow-icon class="m-r-8"></app-arrow-icon>
+            {{ previousRoute.name }}
+          </div>
+        </a>
       </div>
       } @if(nextRoute) {
-      <div class="p-4 p-l-16">
+      <div class="m-8 p-t-8">
         <a
           class="route-link"
           [routerLink]="['./../', nextRoute.slug]"
           (click)="$event.stopPropagation()"
-          >{{ nextRoute.name }}</a
         >
+          <div class="flex flex-row">
+            {{ nextRoute.name }}
+            <app-arrow-icon
+              class="m-l-8"
+              direction="right"
+            ></app-arrow-icon></div
+        ></a>
       </div>
       }
     </div>

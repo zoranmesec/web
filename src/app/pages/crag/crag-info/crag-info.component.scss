@@ -50,20 +50,15 @@
   section#charts {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 8px;
     padding: 0 6px 0 6px;
-
-    @media (max-width: 960px) {
-      div:first-child {
-        width: 100%;
-      }
+    div:first-child {
+      flex-basis: calc(50vw - 32px);
+      flex-grow: 1;
     }
-
-    @media (min-width: 960px) {
-      div:first-child {
-        min-width: 600px;
-        max-width: 60%;
-      }
+    div:nth-child(2) {
+      flex-basis: calc(50vw - 32px);
+      flex-grow: 1;
     }
   }
 

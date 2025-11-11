@@ -8,12 +8,10 @@
 
   section#images {
     margin-top: 8px;
-    display: -ms-flexbox; /* IE10 */
     display: flex;
-    -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
     padding: 0;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   /* Create four equal columns that sits next to each other */

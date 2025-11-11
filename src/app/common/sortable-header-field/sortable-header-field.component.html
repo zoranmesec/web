@@ -6,9 +6,7 @@
   <ng-container *ngIf="label">
     {{ label }}
   </ng-container>
-  <mat-icon *ngIf="icon">
-    {{ icon }}
-  </mat-icon>
+  <mat-icon *ngIf="icon"> {{ icon }} </mat-icon>
   <mat-icon *ngIf="svgIcon" [svgIcon]="svgIcon"></mat-icon>
   <mat-icon
     *ngIf="sortIndication === 'arrows'"

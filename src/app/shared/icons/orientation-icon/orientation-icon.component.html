@@ -6,42 +6,42 @@
   className="fill-current"
 >
   <g class="orientation-marker">
-    @if(orientations && orientations.includes(Orientation.North)) {
+    @if(orientations().includes(Orientation.North)) {
     <path
       d="M 20 20 
                   l -9.89949493661166 -9.89949493661166
                   a 14 14 0 0 1 19.7989898732233 0 
                   z"
     />
-    } @if (orientations && orientations.includes(Orientation.Northeast)) {
+    } @if ( orientations().includes(Orientation.Northeast)) {
     <path
       d="M 20 20 
                   l 0 -14
                   a 14 14 0 0 1 14 14 
                   z"
     />
-    } @if(orientations && orientations.includes(Orientation.East)) {
+    } @if( orientations().includes(Orientation.East)) {
     <path
       d="M 20 20 
                   l 9.89949493661166 -9.89949493661166
                   a 14 14 0 0 1 0 19.7989898732233 
                   z"
     />
-    } @if(orientations && orientations.includes(Orientation.Southeast)) {
+    } @if( orientations().includes(Orientation.Southeast)) {
     <path
       d="M 20 20 
                   l 14 0
                   a 14 14 0 0 1 -14 14 
                   z"
     />
-    } @if(orientations && orientations.includes(Orientation.South)) {
+    } @if( orientations().includes(Orientation.South)) {
     <path
       d="M 20 20 
                   l 9.89949493661166 9.89949493661166
                   a 14 14 0 0 1 -19.7989898732233 0
                   z"
     />
-    } @if(orientations && orientations.includes(Orientation.Southwest)) {
+    } @if(orientations().includes(Orientation.Southwest)) {
     <path
       d="M 20 20 
                   l 0 14
@@ -49,14 +49,14 @@
                   z"
     />
 
-    } @if(orientations && orientations.includes(Orientation.West)) {
+    } @if( orientations().includes(Orientation.West)) {
     <path
       d="M 20 20 
                     l -9.8994949366116 9.8994949366116
                     a 14 14 0 0 1 0 -19.7989898732233
                     z"
     />
-    } @if(orientations && orientations.includes(Orientation.Northwest)) {
+    } @if(orientations().includes(Orientation.Northwest)) {
     <path
       d="M 20 20 
                     l -14 0

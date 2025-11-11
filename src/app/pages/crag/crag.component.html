@@ -10,10 +10,17 @@
 <section id="tabs">
   <div>&nbsp;</div>
   @for (tab of tabs; track $index) {
-  <div [class.active]="tab.slug == activeTab" (click)="setActiveTab(tab)">
-    <mat-icon
-      svgIcon="{{ tab.slug == activeTab ? tab.icon + '_active' : tab.icon }}"
-    ></mat-icon>
+  <div [class.active]="tab.slug === activeTab" (click)="setActiveTab(tab)">
+    @if (tab.icon==='route') {
+    <app-routes-icon [active]="tab.slug === activeTab"></app-routes-icon>
+    } @else if (tab.icon==='image') {
+    <app-gallery-icon [active]="tab.slug === activeTab"></app-gallery-icon>
+    } @else if (tab.icon==='info') {
+    <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
+    } @else if (tab.icon==='comment') {
+    <app-comment-icon [active]="tab.slug === activeTab"></app-comment-icon>
+    }
+
     <span fxHide.lt-md>
       {{ tab.label }}
     </span>

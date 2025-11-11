@@ -19,7 +19,12 @@
         </div>
       </ng-container>
       <ng-container *ngIf="!(route.value.routeId != null)">
-        <mat-form-field class="custom-route" fxFlex="100">
+        <mat-form-field
+          appearance="outline"
+          class="custom-route"
+          appearance="outline"
+          fxFlex="100"
+        >
           <mat-label>Ime smeri</mat-label>
           <input matInput type="text" formControlName="name" />
         </mat-form-field>
@@ -70,7 +75,12 @@
 
   <div fxFlex="100" fxLayout="column" fxLayoutGap="16px">
     <div fxFlex fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px">
-      <mat-form-field class="no-hint" fxFlex="50">
+      <mat-form-field
+        appearance="outline"
+        class="no-hint"
+        appearance="outline"
+        fxFlex="50"
+      >
         <mat-label>Vrsta vzpona</mat-label>
         <mat-select formControlName="ascentType">
           <mat-select-trigger>{{
@@ -98,7 +108,7 @@
           </mat-optgroup>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="no-hint" fxFlex="50">
+      <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
         <mat-label>Vidnost</mat-label>
         <mat-select formControlName="publish">
           <mat-option
@@ -116,20 +126,20 @@
       fxLayoutGap="16px"
       *ngIf="!activity"
     >
-      <mat-form-field class="no-hint" fxFlex="50">
+      <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
         <mat-label>Datum</mat-label>
         <input matInput formControlName="date" [matDatepicker]="picker" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field class="no-hint" fxFlex="50">
+      <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
         <mat-label>Soplezalec</mat-label>
         <input matInput type="text" formControlName="partner" />
       </mat-form-field>
     </div>
   </div>
   <div>
-    <mat-form-field fxFlex="100">
+    <mat-form-field appearance="outline" fxFlex="100">
       <mat-label>Opombe</mat-label>
       <textarea
         matInput
@@ -152,6 +162,7 @@
     </div>
 
     <mat-form-field
+      appearance="outline"
       fxFlex="50"
       [class]="{'no-hint':activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == null}"
     >

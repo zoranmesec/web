@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, input, Input, OnChanges, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageFullComponent } from 'src/app/common/image-full/image-full.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
@@ -9,6 +9,7 @@ import { ImageArrayTransformPipe } from './image-array-transform/image-array-tra
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { QuestionIconComponent } from 'src/app/shared/icons/question-icon/question-icon.component';
 
 @Component({
   selector: 'app-crag-gallery',
@@ -22,12 +23,12 @@ import { MatButtonModule } from '@angular/material/button';
     RouterModule,
     MatIconModule,
     MatButtonModule,
+    QuestionIconComponent,
   ],
 })
 export class CragGalleryComponent implements OnInit, OnChanges {
-  @Input() images!: Image[];
-  @Input() crag!: Crag;
-  @Input() onlyPreview?: boolean = false;
+  images = input.required<Image[]>();
+  onlyPreview = input<boolean>(false);
 
   protected screenWidth: number;
   protected screenHeight: number;
@@ -75,7 +76,7 @@ export class CragGalleryComponent implements OnInit, OnChanges {
       height: '100vh',
       maxWidth: '100vw',
       maxHeight: '100vh',
-      data: { images: this.images, currentImageIndex: index },
+      data: { images: this.images(), currentImageIndex: index },
       autoFocus: false,
     });
   }

@@ -3,13 +3,16 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Glasovi o težavnosti </mat-panel-title>
     </mat-expansion-panel-header>
+    @if(grades.length === 0) {
+    <div class="p-16">Za to smer še ni oddanih glasov o težavnosti.</div>
+    } @else {
     <app-distribution-chart
       class="m-t-16"
       [distribution]="gradesDistribution"
       [useGreyBackground]="false"
       [useColorBars]="false"
     ></app-distribution-chart>
-    <div *ngIf="grades.length > 0" class="grades-list p-t-8" fxLayout="column">
+    <div class="grades-list p-t-8">
       <div
         *ngFor="let grade of grades"
         [class.grade-included-in-calc]="grade.includedInCalculation"
@@ -33,5 +36,6 @@
         <div class="grade-date">{{ grade.created | date : "d. M. yyyy" }}</div>
       </div>
     </div>
+    }
   </mat-expansion-panel>
 </mat-accordion>

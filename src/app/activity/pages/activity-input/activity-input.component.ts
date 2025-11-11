@@ -5,12 +5,13 @@ import { Crag, IceFall, Peak, Route } from 'src/generated/graphql';
 import ActivitySelection from 'src/app/types/activity-selection.interface';
 import { ActivatedRoute } from '@angular/router';
 import { ActivityFormComponent } from '../../forms/activity-form/activity-form.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-activity-input',
-    templateUrl: './activity-input.component.html',
-    styleUrls: ['./activity-input.component.scss'],
-    imports: [ActivityFormComponent]
+  selector: 'app-activity-input',
+  templateUrl: './activity-input.component.html',
+  styleUrls: ['./activity-input.component.scss'],
+  imports: [ActivityFormComponent, CommonModule],
 })
 export class ActivityInputComponent implements OnInit {
   type: string = null;

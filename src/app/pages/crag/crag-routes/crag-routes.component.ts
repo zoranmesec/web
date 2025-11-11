@@ -63,6 +63,9 @@ import {
 import { CragRoutesFiltersService } from './crag-routes-filters.service';
 import { consoleLoggingIntegration } from '@sentry/angular';
 import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-rating.component';
+import { ColumnsIconComponent } from 'src/app/shared/icons/columns-icon/columns-icon.component';
+import { CommentIconComponent } from 'src/app/shared/icons/comment-icon/comment-icon.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface ColumnType {
   field: string;
@@ -85,7 +88,7 @@ export interface ColumnType {
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
-
+    ColumnsIconComponent,
     PublishStatusHintComponent,
     SortableHeaderFieldComponent,
     AscentTypeComponent,
@@ -99,6 +102,8 @@ export interface ColumnType {
     CragRoutesFiltersComponent,
     CragRoutesColumnsComponent,
     StarRatingComponent,
+    CommentIconComponent,
+    MatTooltipModule,
   ],
 })
 export class CragRoutesComponent implements OnInit, OnDestroy {

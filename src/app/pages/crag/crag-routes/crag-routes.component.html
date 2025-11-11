@@ -25,10 +25,12 @@
           mat-stroked-button
           (click)="toggleColumnSelection()"
         >
-          <mat-icon svgIcon="columns"></mat-icon>
-          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-            >Izberi stolpce</span
-          >
+          <div class="flex flex-row">
+            <app-columns-icon></app-columns-icon>
+            <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
+              >Izberi stolpce</span
+            >
+          </div>
         </button>
       </div>
       <!-- <div class="border-right flex flex-row flex-align-center flex-center">
@@ -418,11 +420,11 @@
                         *ngIf="shownColumns.includes('comments')"
                         class="icon"
                       >
-                        <mat-icon
-                          *ngIf="route.comments.length > 0"
-                          title="Ima komentarje"
-                          >comment</mat-icon
-                        >
+                        @if(route.comments.length > 0) {
+                        <app-comment-icon
+                          matTooltip="Ima komentarje"
+                        ></app-comment-icon>
+                        }
                       </td>
 
                       <td

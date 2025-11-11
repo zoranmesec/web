@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
-  Input,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -26,9 +25,9 @@ import { CragImageComponent } from '../crag-image/crag-image.component';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { MapComponent } from 'src/app/common/map/map.component';
 import { RouterModule } from '@angular/router';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { OrientationIconComponent } from 'src/app/shared/icons/orientation/orientation.component';
+import { OrientationIconComponent } from 'src/app/shared/icons/orientation-icon/orientation-icon.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { QuestionIconComponent } from 'src/app/shared/icons/question-icon/question-icon.component';
 
 interface GradeSlot {
   label: string;
@@ -54,11 +53,11 @@ interface GradeSlots {
     MatTooltipModule,
     SeasonPipe,
     WallAnglePipe,
-    FlexLayoutModule,
     CragImageComponent,
     MapComponent,
     RouterModule,
     OrientationIconComponent,
+    QuestionIconComponent,
   ],
   standalone: true,
 })
@@ -359,7 +358,6 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     this.addSvgIcon('wall');
     this.addSvgIcon('walk');
     this.addSvgIcon('parking');
-    this.addSvgIcon('question');
   }
 
   async ngOnInit(): Promise<void> {

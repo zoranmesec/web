@@ -47,7 +47,7 @@
   @if (missingInfo.length > 0) {
   <section id="notification" class="w-100 p-8 flex">
     <div>
-      <mat-icon svgIcon="question"></mat-icon>
+      <app-question-icon></app-question-icon>
     </div>
     <div class="p-l-8">
       Plezališče je brez podatka o @for (info of missingInfo; let isLast =
@@ -73,7 +73,7 @@
     } @else {
     <div id="crag-image" class="w-100 flex flex-row">
       <div>
-        <mat-icon svgIcon="question"></mat-icon>
+        <app-question-icon></app-question-icon>
       </div>
       <div class="p-l-8">
         Plezališče je brez naslovne fotografije.
@@ -90,13 +90,13 @@
       {{ crag().description }}
     </div>
     } @else {
-    <div fxFlex fxLayout="column no-wrap" class="w-100">
+    <div class="w-100">
       <div>
         <h2>Opis plezališča</h2>
       </div>
-      <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
+      <div class="w-100">
         <div>
-          <mat-icon svgIcon="question"></mat-icon>
+          <app-question-icon></app-question-icon>
         </div>
         <div>
           Plezališče je brez opisa.
@@ -111,7 +111,7 @@
     }
   </section>
   <section id="charts" class="w-100">
-    <div fxFlex="2 0 auto">
+    <div>
       <h2>Distribucija težavnosti</h2>
       @if (gradeSlots && gradeSlots.regularSlots &&
       gradeSlots.regularSlots.length > 0) {
@@ -121,25 +121,22 @@
           needsCompactSlots ? gradeSlots.compactSlots : gradeSlots.regularSlots
         "
         direction="vertical"
-        fxFlexAlign="stretch"
         class="w-100"
       ></app-distribution-chart>
       }
     </div>
-    <div class="attendance" fxFlex="2 0 auto">
+    <div class="attendance">
       <h2>Obiskanost po mesecih</h2>
       <app-distribution-chart
         [distribution]="attendanceDistribution"
-        fxFlexAlign="stretch"
       ></app-distribution-chart>
     </div>
   </section>
   <section
     id="approach"
-    fxFlex="0 1 auto"
-    fxLayout.gt-md="row"
-    fxLayout.lt-lg="column"
-    fxLayoutGap="16px"
+    class="w-100 flex m-t-16"
+    [class.flex-row]="breakpointService.gtMd()"
+    [class.flex-column]="breakpointService.ltLg()"
   >
     <div class="access">
       <h2>Dostop</h2>
@@ -150,7 +147,7 @@
         } @else {
         <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
           <div>
-            <mat-icon svgIcon="question"></mat-icon>
+            <app-question-icon></app-question-icon>
           </div>
           <div>
             Plezališče je brez opisa dostopa.
@@ -174,7 +171,7 @@
           @if(!crag().lat || !crag().lon) {
           <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
             <div>
-              <mat-icon svgIcon="question"></mat-icon>
+              <app-question-icon></app-question-icon>
             </div>
             <div>
               Plezališče je brez koordinat stene.

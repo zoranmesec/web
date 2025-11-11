@@ -16,6 +16,7 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="16px">
         <mat-form-field
           fxFlex="50"
+          appearance="outline"
           [class.no-hint]="
             activityForm.controls.type.value != 'crag' || this.crag != null
           "
@@ -38,19 +39,25 @@
         </mat-form-field>
         <mat-form-field
           fxFlex="50"
+          appearance="outline"
           class="no-hint"
           *ngIf="crag == null && peak == null && iceFall == null"
         >
           <mat-label>Lokacija</mat-label>
           <input matInput type="text" formControlName="name" />
         </mat-form-field>
-        <mat-form-field fxFlex="50" class="no-hint" *ngIf="crag != null">
+        <mat-form-field
+          fxFlex="50"
+          class="no-hint"
+          appearance="outline"
+          *ngIf="crag != null"
+        >
           <mat-label>Plezališče</mat-label>
           <input matInput type="text" disabled [value]="crag.name" />
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="16px">
-        <mat-form-field class="no-hint" fxFlex="50">
+        <mat-form-field class="no-hint" appearance="outline" fxFlex="50">
           <mat-label>Datum</mat-label>
           <input
             matInput
@@ -67,6 +74,7 @@
         <mat-form-field
           class="no-hint"
           fxFlex="50"
+          appearance="outline"
           *ngIf="activityForm.controls.type.value != 'crag'"
         >
           <mat-label>Trajanje (min)</mat-label>
@@ -75,6 +83,7 @@
         <mat-form-field
           class="no-hint"
           fxFlex="50"
+          appearance="outline"
           *ngIf="activityForm.controls.type.value == 'crag'"
         >
           <mat-label>Soplezalci</mat-label>
@@ -82,7 +91,7 @@
         </mat-form-field>
       </div>
       <div fxLayout="row">
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" appearance="outline">
           <mat-label>Opis</mat-label>
           <textarea matInput formControlName="notes"></textarea>
         </mat-form-field>

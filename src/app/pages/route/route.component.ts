@@ -37,6 +37,9 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-rating.component';
 import { RouteStarRatingsComponent } from './route-star-ratings/route-star-ratings.component';
 import { MatButtonModule } from '@angular/material/button';
+import { AddIconComponent } from 'src/app/shared/icons/add-icon/add-icon.component';
+import { ArrowIconComponent } from 'src/app/shared/icons/arrow-icon/arrow-icon.component';
+import { MoreIconComponent } from 'src/app/shared/icons/more-icon/more-icon.component';
 
 @Component({
   selector: 'app-route',
@@ -62,6 +65,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatExpansionModule,
     RouteStarRatingsComponent,
     RouterModule,
+    AddIconComponent,
+    ArrowIconComponent,
+    MoreIconComponent,
   ],
 })
 export class RouteComponent implements OnInit, OnDestroy {

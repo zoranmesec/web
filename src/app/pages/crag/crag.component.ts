@@ -28,6 +28,12 @@ import { CragCommentsComponent } from './crag-comments/crag-comments.component';
 import { CragGalleryComponent } from './crag-gallery/crag-gallery.component';
 import { DefaultShowHideDirective } from 'ng-flex-layout';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { RoutesIconComponent } from 'src/app/shared/icons/routes-icon/routes-icon.component';
+import { GalleryIconComponent } from 'src/app/shared/icons/gallery-icon/gallery-icon.component';
+import { InfoIconComponent } from 'src/app/shared/icons/info-icon/info-icon.component';
+import { CommentIconComponent } from 'src/app/shared/icons/comment-icon/comment-icon.component';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 
 @Component({
   selector: 'app-crag',
@@ -44,6 +50,12 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
     MatIconModule,
     RouterModule,
     DefaultShowHideDirective,
+    RoutesIconComponent,
+    GalleryIconComponent,
+    InfoIconComponent,
+    CommentIconComponent,
+    LoaderComponent,
+    DataErrorComponent,
   ],
 })
 export class CragComponent implements OnInit, OnDestroy {
@@ -100,38 +112,8 @@ export class CragComponent implements OnInit, OnDestroy {
     private cragBySlugGQL: CragBySlugGQL,
     private breakpointObserver: BreakpointObserver,
     private scrollService: ScrollService,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
     private breakpointService: BreakpointService
-  ) {
-    let url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/info.svg'
-    );
-    this.matIconRegistry.addSvgIcon('info', url);
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/image.svg'
-    );
-    this.matIconRegistry.addSvgIcon('image', url);
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/route.svg'
-    );
-    this.matIconRegistry.addSvgIcon('route', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/route_active.svg'
-    );
-    this.matIconRegistry.addSvgIcon('route_active', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/comment.svg'
-    );
-    this.matIconRegistry.addSvgIcon('comment', url);
-
-    url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-      '../../../assets/icons/columns.svg'
-    );
-    this.matIconRegistry.addSvgIcon('columns', url);
-  }
+  ) {}
 
   ngOnInit(): void {
     const userSub = this.authService.currentUser.subscribe(

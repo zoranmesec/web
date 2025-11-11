@@ -30,17 +30,44 @@ import { ActivityFormService } from './activity-form.service';
 import { concatMap, EMPTY, map, of, switchMap } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { ACTIVITY_TYPES } from 'src/app/common/activity.constants';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DryRunActivityDialogComponent } from './dry-run-activity-dialog/dry-run-activity-dialog.component';
-import { MatLabel, MatFormField } from '@angular/material/form-field';
-import { MatDatepickerToggle, MatDatepicker } from "@angular/material/datepicker";
+import {
+  MatLabel,
+  MatFormField,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
+import {
+  MatDatepickerToggle,
+  MatDatepicker,
+} from '@angular/material/datepicker';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { ActivityEntryRoutesComponent } from '../../partials/activity-entry-routes/activity-entry-routes.component';
+import { ActivityFormRouteComponent } from './activity-form-route/activity-form-route.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-activity-form',
-    templateUrl: './activity-form.component.html',
-    styleUrls: ['./activity-form.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, MatLabel, MatFormField, MatDatepickerToggle, MatDatepicker]
+  selector: 'app-activity-form',
+  templateUrl: './activity-form.component.html',
+  styleUrls: ['./activity-form.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatLabel,
+    MatFormFieldModule,
+    MatDatepickerToggle,
+    MatDatepicker,
+    FlexLayoutModule,
+    MatSelectModule,
+    MatInputModule,
+    ActivityEntryRoutesComponent,
+    ActivityFormRouteComponent,
+    MatButtonModule,
+  ],
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
   @Input() selectedRoutes: Route[];
