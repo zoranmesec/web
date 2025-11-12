@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { QuestionIconComponent } from 'src/app/shared/icons/question-icon/question-icon.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 
 @Component({
   selector: 'app-crag-gallery',
@@ -23,7 +24,7 @@ import { QuestionIconComponent } from 'src/app/shared/icons/question-icon/questi
     RouterModule,
     MatIconModule,
     MatButtonModule,
-    QuestionIconComponent,
+    IconsModule,
   ],
 })
 export class CragGalleryComponent implements OnInit, OnChanges {

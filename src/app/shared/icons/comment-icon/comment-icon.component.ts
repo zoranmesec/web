@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-comment-icon',
-  imports: [],
+  standalone: false,
   templateUrl: './comment-icon.component.html',
   styleUrl: './comment-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

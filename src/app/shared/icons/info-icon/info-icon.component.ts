@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-info-icon',
-  imports: [],
+  standalone: false,
   templateUrl: './info-icon.component.html',
   styleUrl: './info-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

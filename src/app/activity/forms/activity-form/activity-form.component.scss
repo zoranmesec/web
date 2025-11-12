@@ -1,3 +1,53 @@
+@use "@angular/material" as mat;
+@use "./../../../../m3-theme.scss" as m3-theme;
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+$light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
+
+@use "./../../../../styles/global.scss" as global;
+
+:host {
+  .fieldset {
+    column-gap: 16px;
+    flex-wrap: wrap;
+    mat-form-field {
+      flex-basis: calc(50% - 32px);
+    }
+  }
+
+  mat-expansion-panel-header {
+    height: 68px !important;
+
+    @media only screen and (max-width: global.$breakpoint-lg) {
+      height: 40px !important;
+    }
+  }
+
+  mat-expansion-panel {
+    box-shadow: none !important;
+    margin-bottom: 8px !important;
+  }
+
+  mat-accordion > mat-expansion-panel:first-child {
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+  }
+
+  mat-accordion > mat-expansion-panel:last-child {
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+  }
+
+  ::ng-deep {
+    .mat-expansion-panel-content-wrapper {
+      background-color: white;
+    }
+
+    .mat-expansion-panel-body {
+      padding: 0 !important;
+    }
+  }
+}
+
 .only-routes-checkbox {
   padding: 14px 16px;
 }

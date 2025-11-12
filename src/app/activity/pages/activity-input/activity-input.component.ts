@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { LayoutService } from 'src/app/services/layout.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Crag, IceFall, Peak, Route } from 'src/generated/graphql';
 import ActivitySelection from 'src/app/types/activity-selection.interface';
-import { ActivatedRoute } from '@angular/router';
+
 import { ActivityFormComponent } from '../../forms/activity-form/activity-form.component';
 import { CommonModule } from '@angular/common';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { DialogData } from 'src/app/shared/components/comment-form/comment-form.component';
 
 @Component({
   selector: 'app-activity-input',
   templateUrl: './activity-input.component.html',
   styleUrls: ['./activity-input.component.scss'],
-  imports: [ActivityFormComponent, CommonModule],
+  imports: [ActivityFormComponent, CommonModule, MatDialogModule],
 })
 export class ActivityInputComponent implements OnInit {
   type: string = null;
@@ -21,28 +26,15 @@ export class ActivityInputComponent implements OnInit {
   iceFall: IceFall;
 
   constructor(
-    private layoutService: LayoutService,
     private localStorageService: LocalStorageService,
-    private activatedRoute: ActivatedRoute
+    public dialogRef: MatDialogRef<ActivityInputComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(({ crag, peak, icefall }) => {
-      if (crag != null) {
-        this.initCrag(crag);
-      }
-      // TODO: init peak, init icefall
-    });
-
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Plezalni dnevnik',
-        path: '/plezalni-dnevnik',
-      },
-      {
-        name: 'Vpis',
-      },
-    ]);
+    if (this.data.crag != null) {
+      this.initCrag(this.data.crag.id);
+    }
   }
 
   initCrag(cragId: string): void {

@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-arrow-icon',
-  imports: [],
+  standalone: false,
   templateUrl: './arrow-icon.component.html',
   styleUrl: './arrow-icon.component.scss',
 })

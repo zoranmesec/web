@@ -1,5 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormGroup,
@@ -25,7 +32,10 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { RouterModule } from '@angular/router';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AscentTypeOptionComponent } from './ascent-type-option/ascent-type-option.component';
 @Component({
   selector: 'app-activity-form-route',
   templateUrl: './activity-form-route.component.html',
@@ -43,6 +53,10 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatInputModule,
     MatButtonModule,
+    RouterModule,
+    IconsModule,
+    MatButtonToggleModule,
+    AscentTypeOptionComponent,
   ],
 })
 export class ActivityFormRouteComponent implements OnInit, OnDestroy {
@@ -50,7 +64,7 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
 
   @Input() myIndex: number;
   activity = true;
-  @Input() route: UntypedFormGroup;
+  @Input() route: FormGroup;
   @Input() first: boolean;
   @Input() last: boolean;
   @Input() crag: Crag;
@@ -60,9 +74,24 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
     (ascentType) => !ascentType.topRope
   );
 
+  protected topRope = false;
+
   publishOptions = PUBLISH_OPTIONS;
 
-  constructor(public activityFormService: ActivityFormService) {}
+  protected selectTopRope = false;
+
+  constructor(
+    public activityFormService: ActivityFormService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  get ascentTypes() {
+    if (this.route.get('topRope').value) {
+      return this.topRopeAscentTypes;
+    } else {
+      return this.nonTopRopeAscentTypes;
+    }
+  }
 
   ngOnInit(): void {
     // Should disable possibility to vote on route difficulty if ascent type not a tick and if ascent visibility publish type is not public (public, log)
@@ -73,18 +102,17 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
       });
 
     // Revalidate stuff when ascentType is changed (also triggered on load when ascentType fields are populated)
-    this.route
-      .get('ascentType')
-      .valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe((ascentType) => {
-        this.activityFormService.revalidateAscentTypes();
-        this.activityFormService.conditionallyDisableVotedDifficultyInputs();
-        this.activityFormService.conditionallyDisableVotedStarRatingInputs();
+    this.route.get('ascentType').valueChanges.subscribe((ascentType) => {
+      console.log(ascentType);
+      this.changeDetectorRef.markForCheck();
+      this.activityFormService.revalidateAscentTypes();
+      this.activityFormService.conditionallyDisableVotedDifficultyInputs();
+      this.activityFormService.conditionallyDisableVotedStarRatingInputs();
 
-        if (this.route.get('isProject').value) {
-          this.conditionallyRequireVotedDifficulty(ascentType);
-        }
-      });
+      if (this.route.get('isProject').value) {
+        this.conditionallyRequireVotedDifficulty(ascentType);
+      }
+    });
   }
 
   /**

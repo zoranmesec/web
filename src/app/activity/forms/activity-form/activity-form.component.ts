@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import {
+  FormArray,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormArray,
-  UntypedFormControl,
+  FormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
@@ -31,7 +33,11 @@ import { concatMap, EMPTY, map, of, switchMap } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { ACTIVITY_TYPES } from 'src/app/common/activity.constants';
 import { CommonModule, Location } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { DryRunActivityDialogComponent } from './dry-run-activity-dialog/dry-run-activity-dialog.component';
 import {
   MatLabel,
@@ -41,6 +47,7 @@ import {
 import {
   MatDatepickerToggle,
   MatDatepicker,
+  MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatSelectModule } from '@angular/material/select';
@@ -48,6 +55,15 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivityEntryRoutesComponent } from '../../partials/activity-entry-routes/activity-entry-routes.component';
 import { ActivityFormRouteComponent } from './activity-form-route/activity-form-route.component';
 import { MatButtonModule } from '@angular/material/button';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule,
+} from '@angular/material/core';
+import { Platform } from '@angular/cdk/platform';
+import { CustomDateAdapter } from 'src/app/app.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-activity-form',
@@ -60,13 +76,32 @@ import { MatButtonModule } from '@angular/material/button';
     MatLabel,
     MatFormFieldModule,
     MatDatepickerToggle,
-    MatDatepicker,
-    FlexLayoutModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatInputModule,
     ActivityEntryRoutesComponent,
     ActivityFormRouteComponent,
     MatButtonModule,
+    MatDialogModule,
+    MatExpansionModule,
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: 'DD.MM.YYYY',
+        },
+        display: {
+          dateInput: 'DD.MM.YYYY',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM YYYY',
+        },
+      },
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
   ],
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
@@ -85,22 +120,22 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   loadingActivity: boolean = false;
 
-  routes = new UntypedFormArray([]);
+  routes = new FormArray([]);
 
   typeOptions = ACTIVITY_TYPES.filter(
     (a) => a.value != 'peak' && a.value != 'iceFall'
   );
 
   activityForm = new UntypedFormGroup({
-    type: new UntypedFormControl(null, Validators.required),
-    name: new UntypedFormControl(''),
-    cragId: new UntypedFormControl(null),
-    peakId: new UntypedFormControl(null),
-    iceFallId: new UntypedFormControl(null),
-    duration: new UntypedFormControl(null),
-    date: new UntypedFormControl(),
-    partners: new UntypedFormControl(),
-    notes: new UntypedFormControl(),
+    type: new FormControl(null, Validators.required),
+    name: new FormControl(''),
+    cragId: new FormControl(null),
+    peakId: new FormControl(null),
+    iceFallId: new FormControl(null),
+    duration: new FormControl(null),
+    date: new FormControl(),
+    partners: new FormControl(),
+    notes: new FormControl(),
     routes: this.routes,
   });
 
@@ -120,10 +155,13 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     private myActivitiesGQL: MyActivitiesGQL,
     private activityEntryGQL: ActivityEntryGQL,
     private routesTouchesGQL: RoutesTouchesGQL,
-    private starRatingVotesGQL: StarRatingVotesGQL
+    private starRatingVotesGQL: StarRatingVotesGQL,
+
+    private readonly dateAdapter: DateAdapter<Date>
   ) {}
 
   ngOnInit(): void {
+    this.dateAdapter.setLocale('sl-SI');
     if (this.formType == 'edit' && this.crag != null) {
       this.activityForm.controls.date.disable();
     }
@@ -318,28 +356,27 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
 
   addRoute(route: any): void {
     this.routes.push(
-      new UntypedFormGroup({
-        routeId: new UntypedFormControl(route.id),
-        name: new UntypedFormControl(route.name),
-        slug: new UntypedFormControl(route.slug),
-        difficulty: new UntypedFormControl(route.difficulty),
-        defaultGradingSystemId: new UntypedFormControl(
-          route.defaultGradingSystem.id
-        ),
-        isProject: new UntypedFormControl(route.isProject),
-        ascentType: new UntypedFormControl({ value: null, disabled: true }, [
+      new FormGroup({
+        routeId: new FormControl(route.id),
+        name: new FormControl(route.name),
+        slug: new FormControl(route.slug),
+        difficulty: new FormControl(route.difficulty),
+        defaultGradingSystemId: new FormControl(route.defaultGradingSystem.id),
+        isProject: new FormControl(route.isProject),
+        ascentType: new FormControl({ value: null, disabled: true }, [
           Validators.required,
         ]),
-        date: new UntypedFormControl(),
-        partner: new UntypedFormControl(),
-        publish: new UntypedFormControl('public'),
-        notes: new UntypedFormControl(),
-        votedStarRating: new UntypedFormControl(),
-        votedDifficulty: new UntypedFormControl(),
-        ticked: new UntypedFormControl(route.ticked),
-        tried: new UntypedFormControl(route.tried),
-        trTicked: new UntypedFormControl(route.trTicked),
-        type: new UntypedFormControl(route.routeType.id),
+        topRope: new FormControl({ value: false, disabled: false }),
+        date: new FormControl(),
+        partner: new FormControl(),
+        publish: new FormControl('public'),
+        notes: new FormControl(),
+        votedStarRating: new FormControl(),
+        votedDifficulty: new FormControl(),
+        ticked: new FormControl(route.ticked),
+        tried: new FormControl(route.tried),
+        trTicked: new FormControl(route.trTicked),
+        type: new FormControl(route.routeType.id),
       })
     );
   }

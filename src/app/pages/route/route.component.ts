@@ -40,6 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AddIconComponent } from 'src/app/shared/icons/add-icon/add-icon.component';
 import { ArrowIconComponent } from 'src/app/shared/icons/arrow-icon/arrow-icon.component';
 import { MoreIconComponent } from 'src/app/shared/icons/more-icon/more-icon.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 
 @Component({
   selector: 'app-route',
@@ -65,9 +66,7 @@ import { MoreIconComponent } from 'src/app/shared/icons/more-icon/more-icon.comp
     MatExpansionModule,
     RouteStarRatingsComponent,
     RouterModule,
-    AddIconComponent,
-    ArrowIconComponent,
-    MoreIconComponent,
+    IconsModule,
   ],
 })
 export class RouteComponent implements OnInit, OnDestroy {

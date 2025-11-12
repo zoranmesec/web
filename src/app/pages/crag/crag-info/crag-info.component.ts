@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
 import { OrientationIconComponent } from 'src/app/shared/icons/orientation-icon/orientation-icon.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { QuestionIconComponent } from 'src/app/shared/icons/question-icon/question-icon.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 
 interface GradeSlot {
   label: string;
@@ -56,8 +57,7 @@ interface GradeSlots {
     CragImageComponent,
     MapComponent,
     RouterModule,
-    OrientationIconComponent,
-    QuestionIconComponent,
+    IconsModule,
   ],
   standalone: true,
 })

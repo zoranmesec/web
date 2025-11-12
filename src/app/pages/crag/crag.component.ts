@@ -34,6 +34,7 @@ import { InfoIconComponent } from 'src/app/shared/icons/info-icon/info-icon.comp
 import { CommentIconComponent } from 'src/app/shared/icons/comment-icon/comment-icon.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 
 @Component({
   selector: 'app-crag',
@@ -50,10 +51,7 @@ import { DataErrorComponent } from 'src/app/shared/components/data-error/data-er
     MatIconModule,
     RouterModule,
     DefaultShowHideDirective,
-    RoutesIconComponent,
-    GalleryIconComponent,
-    InfoIconComponent,
-    CommentIconComponent,
+    IconsModule,
     LoaderComponent,
     DataErrorComponent,
   ],

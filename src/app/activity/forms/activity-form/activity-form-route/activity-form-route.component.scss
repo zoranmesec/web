@@ -1,3 +1,7 @@
+@use "@angular/material" as mat;
+@use "./../../../../../m3-theme.scss" as m3-theme;
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+
 .route-name {
   font-weight: 500;
 }

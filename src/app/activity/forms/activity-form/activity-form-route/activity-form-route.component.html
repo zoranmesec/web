@@ -1,4 +1,40 @@
-<div fxLayout="column" fxLayoutGap="16px" [formGroup]="route">
+<main [formGroup]="route">
+  <section>
+    <div>Način vzpona</div>
+    <div class="flex flex-row flex-justify-space-around flex-wrap">
+      @for(ascentType of ascentTypes; track $index) {
+      <app-ascent-type-option
+        [ascentType]="ascentType"
+        [isSelected]="route.controls.ascentType.value === ascentType.value"
+        (click)="route.controls.ascentType.setValue(ascentType.value)"
+      ></app-ascent-type-option>
+      }
+    </div>
+    <div>
+      <label class="checkbox-container">
+        <input type="checkbox" formControlName="topRope" />
+        <span class="checkmark"></span>
+        <span class="checkmark-label"> Z varovanjem od zgoraj </span>
+      </label>
+    </div>
+  </section>
+  <section>Ocena težavnosti</section>
+  <section>Lepota smeri</section>
+  <section>
+    Vidnost
+
+    <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
+      <mat-label>Vidnost</mat-label>
+      <mat-select formControlName="publish">
+        <mat-option *ngFor="let option of publishOptions" [value]="option.value"
+          >{{ option.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+  <section>Opomba</section>
+</main>
+<div fxLayout="column" fxLayouPtGap="16px" [formGroup]="route">
   <div fxLayout="row" fxLayoutAlign="start center">
     <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
       <ng-container *ngIf="route.value.routeId">

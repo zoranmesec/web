@@ -66,6 +66,10 @@ import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-
 import { ColumnsIconComponent } from 'src/app/shared/icons/columns-icon/columns-icon.component';
 import { CommentIconComponent } from 'src/app/shared/icons/comment-icon/comment-icon.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ActivityInputComponent } from 'src/app/activity/pages/activity-input/activity-input.component';
+import { DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
 
 export interface ColumnType {
   field: string;
@@ -88,7 +92,7 @@ export interface ColumnType {
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
-    ColumnsIconComponent,
+
     PublishStatusHintComponent,
     SortableHeaderFieldComponent,
     AscentTypeComponent,
@@ -102,7 +106,7 @@ export interface ColumnType {
     CragRoutesFiltersComponent,
     CragRoutesColumnsComponent,
     StarRatingComponent,
-    CommentIconComponent,
+    IconsModule,
     MatTooltipModule,
   ],
 })
@@ -523,10 +527,27 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
         if (success) {
           this.addRoutesToLocalStorage(this.selectedRoutes);
 
-          this.router.navigate([
-            '/plezalni-dnevnik/vpis',
-            { crag: this.crag.id },
-          ]);
+          this.dialog
+            .open(ActivityInputComponent, {
+              data: {
+                crag: this.crag,
+              },
+              minWidth: '90vw',
+              minHeight: '90vh',
+              width: '90vw',
+              height: '90vh',
+            })
+            .afterClosed()
+            .subscribe((result) => {
+              if (result != null) {
+                console.log('aaa');
+              }
+            });
+
+          // this.router.navigate([
+          //   '/plezalni-dnevnik/vpis',
+          //   { crag: this.crag.id },
+          // ]);
         } else {
           this.openSnackBar();
         }

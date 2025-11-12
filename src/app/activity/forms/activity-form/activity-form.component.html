@@ -1,21 +1,8 @@
 <form [formGroup]="activityForm" (submit)="save()">
-  <h3 *ngIf="activityForm.controls.type.value == 'crag'">
-    {{ formType == "new" ? "Dodaj" : "Uredi" }} plezalni dan
-  </h3>
-  <div class="card">
-    <div
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutAlign="space-between center"
-      fxLayoutAlign.lt-md="start start"
-      fxLayoutGap="16px"
-      fxLayoutGap.lt-md="0"
-    ></div>
-
-    <div fxLayout="column" fxLayoutGap="16px" class="p-16">
-      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="16px">
+  <div>
+    <div class="p-16 flex flex-column">
+      <div class="flex flex-row fieldset">
         <mat-form-field
-          fxFlex="50"
           appearance="outline"
           [class.no-hint]="
             activityForm.controls.type.value != 'crag' || this.crag != null
@@ -38,7 +25,6 @@
           >
         </mat-form-field>
         <mat-form-field
-          fxFlex="50"
           appearance="outline"
           class="no-hint"
           *ngIf="crag == null && peak == null && iceFall == null"
@@ -47,7 +33,6 @@
           <input matInput type="text" formControlName="name" />
         </mat-form-field>
         <mat-form-field
-          fxFlex="50"
           class="no-hint"
           appearance="outline"
           *ngIf="crag != null"
@@ -56,8 +41,8 @@
           <input matInput type="text" disabled [value]="crag.name" />
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="16px">
-        <mat-form-field class="no-hint" appearance="outline" fxFlex="50">
+      <div class="flex flex-row fieldset">
+        <mat-form-field class="no-hint" appearance="outline">
           <mat-label>Datum</mat-label>
           <input
             matInput
@@ -73,7 +58,6 @@
         </mat-form-field>
         <mat-form-field
           class="no-hint"
-          fxFlex="50"
           appearance="outline"
           *ngIf="activityForm.controls.type.value != 'crag'"
         >
@@ -82,7 +66,6 @@
         </mat-form-field>
         <mat-form-field
           class="no-hint"
-          fxFlex="50"
           appearance="outline"
           *ngIf="activityForm.controls.type.value == 'crag'"
         >
@@ -90,10 +73,11 @@
           <input matInput type="text" formControlName="partners" />
         </mat-form-field>
       </div>
-      <div fxLayout="row">
-        <mat-form-field fxFlex="100" appearance="outline">
-          <mat-label>Opis</mat-label>
+      <div class="flex flex-row">
+        <mat-form-field class="w-100 p-r-48" appearance="outline">
+          <mat-label>Opombe k plezalnemu dnevu...</mat-label>
           <textarea matInput formControlName="notes"></textarea>
+          <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
         </mat-form-field>
       </div>
     </div>
@@ -107,55 +91,43 @@
     ></app-activity-entry-routes>
   </div>
 
-  <div class="mt-16" *ngIf="routes.controls.length">
-    <h3>
-      {{
-        formType == "add" ? "Dodaj nove preplezane smeri" : "Preplezane smeri"
-      }}
-    </h3>
-    <div class="card">
+  @if(routes.controls.length) {
+
+  <mat-accordion multi="true" displayMode="flat">
+    @for( route of routes.controls; track $index; let first = $first, let last =
+    $last,let index = $index) {
+    <mat-expansion-panel expanded="">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ route.value.name }} </mat-panel-title>
+      </mat-expansion-panel-header>
       <div class="p-16">
-        <div
-          *ngFor="
-            let route of routes.controls;
-            let first = first;
-            let last = last;
-            let index = index
-          "
-          class="route"
-        >
-          <app-activity-form-route
-            [myIndex]="index"
-            [route]="route"
-            [crag]="crag"
-            [first]="first"
-            [last]="last"
-            (move)="moveRoute(index, $event)"
-          ></app-activity-form-route>
-        </div>
-
-        <div class="footnote">
-          *Tvoji predlogi o težavnosti in lepoti smeri bodo v vsakem primeru
-          javno objavljeni (če jih podaš) ne glede na izbrano vidnost
-          zabeleženih vzponov.
-        </div>
+        <app-activity-form-route
+          [myIndex]="$index"
+          [route]="route"
+          [crag]="crag"
+          [first]="first"
+          [last]="last"
+          (move)="moveRoute(index, $event)"
+        ></app-activity-form-route>
       </div>
-    </div>
-  </div>
+      <div class="footnote">
+        *Tvoji predlogi o težavnosti in lepoti smeri bodo v vsakem primeru javno
+        objavljeni (če jih podaš) ne glede na izbrano vidnost zabeleženih
+        vzponov.
+      </div>
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
+  }
 
-  <div fxLayout="row" fxLayoutAlign="end center" class="p-16">
-    <div *ngIf="!loading">
-      <button type="button" mat-button (click)="location.back()">
-        Prekliči
-      </button>
-      <button
-        mat-button
-        color="primary"
-        [disabled]="!activityForm.valid || loadingActivity"
-      >
-        SHRANI
-      </button>
-    </div>
+  <mat-dialog-actions *ngIf="!loading">
+    <button mat-flat-button>Prekliči</button>
+    <button mat-flat-button (click)="save()" [mat-dialog-close]="">
+      Shrani
+    </button>
+  </mat-dialog-actions>
+
+  <div class="p-16 flex flex-row flex-justify-center">
     <span *ngIf="loading" class="loading">
       <mat-spinner diameter="30"></mat-spinner>
     </span>

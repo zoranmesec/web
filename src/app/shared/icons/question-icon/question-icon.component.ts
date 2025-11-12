@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-question-icon',
-  imports: [],
+  standalone: false,
   templateUrl: './question-icon.component.html',
   styleUrl: './question-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

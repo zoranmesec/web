@@ -1,0 +1,15 @@
+<div
+  (mouseenter)="toggleActive()"
+  (mouseleave)="toggleActive()"
+  class="ascent-type-option flex flex-column flex-align-center flex-justify-center p-8"
+  [class.selected]="isSelected()"
+>
+  {{ ascentType().value }}{{ isSelected() }}
+  <app-ascent-type-icon
+    [ascentType]="ascentType()"
+    [active]="active || isSelected()"
+  ></app-ascent-type-icon>
+  <span>
+    {{ ascentType().label }}
+  </span>
+</div>

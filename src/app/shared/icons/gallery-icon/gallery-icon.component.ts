@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-gallery-icon',
-  imports: [],
+  standalone: false,
   templateUrl: './gallery-icon.component.html',
   styleUrl: './gallery-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

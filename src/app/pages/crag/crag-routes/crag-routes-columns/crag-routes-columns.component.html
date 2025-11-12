@@ -18,17 +18,20 @@
       <ul>
         @for (column of allColumnsArray; track $index) {
         <li>
-          <label class="checkbox-container"
-            ><span *ngIf="column.field === 'starRating'"
+          <label class="checkbox-container">
+            <input type="checkbox" [formControlName]="column.field" />
+            <span class="checkmark"></span
+            ><span class="checkmark-label" *ngIf="column.field === 'starRating'"
               ><mat-icon>star</mat-icon>{{ column.selectLabel }}</span
-            ><span *ngIf="column.field === 'multipitch'"
+            ><span class="checkmark-label" *ngIf="column.field === 'multipitch'"
               ><mat-icon svgIcon="multipitch"></mat-icon
               >{{ column.selectLabel }}</span
-            ><span *ngIf="column.field === 'comments'"
+            ><span class="checkmark-label" *ngIf="column.field === 'comments'"
               ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
-            ><span *ngIf="column.field === 'myAscents'"
+            ><span class="checkmark-label" *ngIf="column.field === 'myAscents'"
               ><mat-icon>check</mat-icon>{{ column.selectLabel }}</span
             ><span
+              class="checkmark-label"
               *ngIf="
                 column.field !== 'starRating' &&
                 column.field !== 'multipitch' &&
@@ -37,8 +40,6 @@
               "
               >{{ column.selectLabel }}</span
             >
-            <input type="checkbox" [formControlName]="column.field" />
-            <span class="checkmark"></span>
           </label>
           <!-- 
           <input type="checkbox" />

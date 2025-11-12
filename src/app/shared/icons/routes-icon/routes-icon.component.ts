@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-routes-icon',
-  imports: [],
+  standalone: false,
   templateUrl: './routes-icon.component.html',
   styleUrl: './routes-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
