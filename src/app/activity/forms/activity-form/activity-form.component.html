@@ -47,7 +47,7 @@
           <input
             matInput
             formControlName="date"
-            ([matDatepicker])="(picker)"
+            [matDatepicker]="picker"
             [max]="maxDate"
           />
           <mat-datepicker-toggle
@@ -91,11 +91,11 @@
     ></app-activity-entry-routes>
   </div>
 
-  @if(routes.controls.length) {
+  @if(routes.controls.length>0) {
 
   <mat-accordion multi="true" displayMode="flat">
-    @for( route of routes.controls; track $index; let first = $first, let last =
-    $last,let index = $index) {
+    @for( route of routes.controls; track $index; let first = $first;let last =
+    $last) {
     <mat-expansion-panel expanded="">
       <mat-expansion-panel-header>
         <mat-panel-title> {{ route.value.name }} </mat-panel-title>
@@ -107,13 +107,8 @@
           [crag]="crag"
           [first]="first"
           [last]="last"
-          (move)="moveRoute(index, $event)"
+          (move)="moveRoute($index, $event)"
         ></app-activity-form-route>
-      </div>
-      <div class="footnote">
-        *Tvoji predlogi o težavnosti in lepoti smeri bodo v vsakem primeru javno
-        objavljeni (če jih podaš) ne glede na izbrano vidnost zabeleženih
-        vzponov.
       </div>
     </mat-expansion-panel>
     }
@@ -121,10 +116,8 @@
   }
 
   <mat-dialog-actions *ngIf="!loading">
-    <button mat-flat-button>Prekliči</button>
-    <button mat-flat-button (click)="save()" [mat-dialog-close]="">
-      Shrani
-    </button>
+    <button mat-button mat-dialog-close>Prekliči</button>
+    <button mat-flat-button (click)="save()">Shrani</button>
   </mat-dialog-actions>
 
   <div class="p-16 flex flex-row flex-justify-center">

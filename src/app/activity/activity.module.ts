@@ -28,12 +28,19 @@ import { ActivityFormRouteComponent } from './forms/activity-form/activity-form-
 import { ActivityFormComponent } from './forms/activity-form/activity-form.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ActivityEntryRoutesComponent } from './partials/activity-entry-routes/activity-entry-routes.component';
 import { DryRunActivityDialogComponent } from './forms/activity-form/dry-run-activity-dialog/dry-run-activity-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { GenderizeVerbPipe } from '../shared/pipes/genderize-verb.pipe';
+import { Platform } from '@angular/cdk/platform';
+import { CustomDateAdapter } from '../app.component';
 
 @NgModule({
   declarations: [],
@@ -73,6 +80,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     ActivityFormRouteComponent,
     ActivityEntryRoutesComponent,
     DryRunActivityDialogComponent,
+    GenderizeVerbPipe,
   ],
   providers: [
     {

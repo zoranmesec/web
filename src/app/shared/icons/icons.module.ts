@@ -10,7 +10,15 @@ import { MoreIconComponent } from './more-icon/more-icon.component';
 import { OrientationIconComponent } from './orientation-icon/orientation-icon.component';
 import { QuestionIconComponent } from './question-icon/question-icon.component';
 import { RoutesIconComponent } from './routes-icon/routes-icon.component';
-import { AscentTypeIconComponent } from './icons/ascent-type.component';
+import { AscentTypeIconComponent } from './ascent-type-icon/ascent-type.component';
+import { MinusIconComponent } from './minus-icon/minus-icon.component';
+import { PlusIconComponent } from './plus-icon/plus-icon.component';
+import { StarFullIconComponent } from './star-full-icon/star-full-icon.component';
+import { StarEmptyIconComponent } from './star-empty-icon/star-empty-icon.component';
+import { AddRoundIconComponent } from './add-round-icon/add-round-icon.component';
+import { ArrowUpIconComponent } from './arrow-up-icon/arrow-up-icon.component';
+import { ArrowDownIconComponent } from './arrow-down-icon/arrow-down-icon.component';
+import { DeleteIconComponent } from './delete-icon/delete-icon.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +33,28 @@ import { AscentTypeIconComponent } from './icons/ascent-type.component';
     QuestionIconComponent,
     RoutesIconComponent,
     AscentTypeIconComponent,
+    MinusIconComponent,
+    PlusIconComponent,
+    StarFullIconComponent,
+    StarEmptyIconComponent,
+    AddRoundIconComponent,
+    ArrowUpIconComponent,
+    ArrowDownIconComponent,
+    DeleteIconComponent,
   ],
   imports: [CommonModule],
-  exports: [AddIconComponent, ArrowIconComponent, AscentTypeIconComponent],
+  exports: [
+    AddIconComponent,
+    ArrowIconComponent,
+    AscentTypeIconComponent,
+    MinusIconComponent,
+    PlusIconComponent,
+    StarFullIconComponent,
+    StarEmptyIconComponent,
+    AddRoundIconComponent,
+    ArrowUpIconComponent,
+    ArrowDownIconComponent,
+    DeleteIconComponent,
+  ],
 })
 export class IconsModule {}

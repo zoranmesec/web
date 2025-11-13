@@ -1,16 +1,67 @@
 @use "@angular/material" as mat;
 @use "./../../../../../m3-theme.scss" as m3-theme;
+@use "./../../../../../styles/global.scss" as global;
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
-.route-name {
-  font-weight: 500;
-}
-.tools {
-  white-space: nowrap;
-}
-.mat-checkbox {
-  position: relative;
-  z-index: 1;
+:host {
+  @include mat.divider-overrides(
+    (
+      color: $grey,
+    )
+  );
+  section {
+    padding: 16px;
+  }
+
+  section#notes {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .border-right {
+    border-right: 1px solid $grey;
+  }
+
+  @media only screen and (max-width: global.$breakpoint-md) {
+    section {
+      padding: 8px;
+    }
+  }
+
+  .grade-select {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    app-grade-select {
+      width: 200px;
+    }
+  }
+
+  mat-checkbox {
+    ::ng-deep {
+      .mdc-checkbox__background {
+        background-color: var(--mat-sys-surface-container-lowest);
+        border-radius: 6px !important;
+      }
+
+      .mat-internal-form-field > label {
+        padding-left: 8px;
+      }
+    }
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+
+    mat-radio-button {
+      margin-bottom: 8px;
+    }
+  }
 }
 
 mat-option {

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormArray,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   ASCENT_TYPES,
   PublishOptionsEnum,
@@ -21,14 +26,14 @@ export class ActivityFormService {
     ASCENT_TYPES.filter((at) => at.topRopeTick).map((at) => at.value)
   );
 
-  routesBeingLoggedFormArray: UntypedFormArray;
+  routesBeingLoggedFormArray: FormArray;
   routesPossibleAscentTypes = []; // This is an array of sets of possible ascentTypes for each route that is being logged. Each element (that is a set) of the array belongs to a route at the same index as it appears on the log form. Each set holds all of the currently possible ascent types for this route.
 
   starRatingVotesForRoutes: {}; // This is an object of routeId=>stars pairs, that is user's possible previous star rating vote on each route.
 
   constructor() {}
 
-  initialize(routes: UntypedFormArray) {
+  initialize(routes: FormArray) {
     this.routesBeingLoggedFormArray = routes;
     this.distinctRouteIds = new Set(
       routes.controls.map(
@@ -215,6 +220,8 @@ export class ActivityFormService {
           ) {
             someVDIEnabled = true;
             routeFormGroup.get('votedDifficulty').enable({ emitEvent: false });
+            // set value for votedDifficulty to default value of difficulty
+            routeFormGroup.get('votedDifficulty').reset();
           } else {
             routeFormGroup
               .get('votedDifficulty')

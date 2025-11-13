@@ -10,4 +10,9 @@
   .mdc-line-ripple::before {
     border-bottom: none !important;
   }
+
+  app-minus-icon.enabled,
+  app-plus-icon.enabled {
+    cursor: pointer;
+  }
 }

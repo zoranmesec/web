@@ -1,7 +1,7 @@
 @use "@angular/material" as mat;
 @use "./../../../../../../m3-theme.scss" as m3-theme;
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
-
+$light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
 :host {
   .ascent-type-option {
     height: 80px;
@@ -13,6 +13,15 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     border: 1px solid $grey;
     border-radius: 8px;
     color: var(--mat-sys-secondary);
+  }
+
+  .ascent-type-option-disabled {
+    background-color: $light-grey;
+    height: 80px;
+
+    opacity: 0.5;
+    border: 1px solid $grey;
+    border-radius: 8px;
   }
 
   .ascent-type-option.selected {

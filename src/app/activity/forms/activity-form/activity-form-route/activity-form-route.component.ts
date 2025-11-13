@@ -26,9 +26,9 @@ import {
   MatHint,
   MatFormFieldModule,
 } from '@angular/material/form-field';
-import { MatSelectModule, MatSelectTrigger } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,6 +36,9 @@ import { RouterModule } from '@angular/router';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AscentTypeOptionComponent } from './ascent-type-option/ascent-type-option.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
+
 @Component({
   selector: 'app-activity-form-route',
   templateUrl: './activity-form-route.component.html',
@@ -45,7 +48,6 @@ import { AscentTypeOptionComponent } from './ascent-type-option/ascent-type-opti
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatLabel,
     MatSelectModule,
     MatOptionModule,
     MatIconModule,
@@ -57,6 +59,8 @@ import { AscentTypeOptionComponent } from './ascent-type-option/ascent-type-opti
     IconsModule,
     MatButtonToggleModule,
     AscentTypeOptionComponent,
+    MatDividerModule,
+    MatRadioModule,
   ],
 })
 export class ActivityFormRouteComponent implements OnInit, OnDestroy {
@@ -82,6 +86,7 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
 
   constructor(
     public activityFormService: ActivityFormService,
+
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -103,7 +108,6 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
 
     // Revalidate stuff when ascentType is changed (also triggered on load when ascentType fields are populated)
     this.route.get('ascentType').valueChanges.subscribe((ascentType) => {
-      console.log(ascentType);
       this.changeDetectorRef.markForCheck();
       this.activityFormService.revalidateAscentTypes();
       this.activityFormService.conditionallyDisableVotedDifficultyInputs();
@@ -149,17 +153,17 @@ export class ActivityFormRouteComponent implements OnInit, OnDestroy {
   /**
    * Map trigger value for ascent type select (so it includes toprope so there can be no confusion)
    */
-  mapAscentTypeValueToFullLabel(ascentTypeSelected: string) {
-    const ascentType = ASCENT_TYPES.find(
-      (at) => at.value === ascentTypeSelected
-    );
+  // mapAscentTypeValueToFullLabel(ascentTypeSelected: string) {
+  //   const ascentType = ASCENT_TYPES.find(
+  //     (at) => at.value === ascentTypeSelected
+  //   );
 
-    if (ascentType != null) {
-      return ascentType.label + (ascentType.topRope ? ' (top rope)' : '');
-    }
+  //   if (ascentType != null) {
+  //     return ascentType.label + (ascentType.topRope ? ' (top rope)' : '');
+  //   }
 
-    return ascentType;
-  }
+  //   return ascentType;
+  // }
 
   ngOnDestroy(): void {
     this.destroy$.next();

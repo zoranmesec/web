@@ -152,9 +152,9 @@ export const ASCENT_TYPES: AscentType[] = [
 ];
 
 export const PUBLISH_OPTIONS: Registry[] = [
-  { value: PublishOptionsEnum.public, label: 'Objavi povsod' },
+  { value: PublishOptionsEnum.public, label: 'Javno' },
   { value: PublishOptionsEnum.club, label: 'Samo za prijatelje' },
-  { value: PublishOptionsEnum.log, label: 'Javno na mojem profilu' },
+  // { value: PublishOptionsEnum.log, label: 'Javno na mojem profilu' },
   { value: PublishOptionsEnum.private, label: 'Samo zame' },
 ];
 

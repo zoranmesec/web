@@ -10,7 +10,8 @@ import { AscentType } from 'src/app/types/ascent-type';
 })
 export class AscentTypeOptionComponent {
   ascentType = input.required<AscentType>();
-  isSelected = input<boolean>(false);
+  selected = input<boolean>(false);
+  disabled = input<boolean>(false);
   protected active = false;
 
   toggleActive() {

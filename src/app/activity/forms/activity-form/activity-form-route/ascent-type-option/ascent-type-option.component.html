@@ -1,13 +1,14 @@
 <div
   (mouseenter)="toggleActive()"
   (mouseleave)="toggleActive()"
-  class="ascent-type-option flex flex-column flex-align-center flex-justify-center p-8"
-  [class.selected]="isSelected()"
+  class="flex flex-column flex-align-center flex-justify-center p-8"
+  [class.selected]="selected()"
+  [class.ascent-type-option-disabled]="disabled()"
+  [class.ascent-type-option]="!disabled()"
 >
-  {{ ascentType().value }}{{ isSelected() }}
   <app-ascent-type-icon
     [ascentType]="ascentType()"
-    [active]="active || isSelected()"
+    [active]="!disabled() && (active || selected())"
   ></app-ascent-type-icon>
   <span>
     {{ ascentType().label }}

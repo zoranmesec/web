@@ -1,16 +1,22 @@
 <main [formGroup]="route">
   <section>
     <div>Način vzpona</div>
-    <div class="flex flex-row flex-justify-space-around flex-wrap">
-      @for(ascentType of ascentTypes; track $index) {
+    <div class="flex flex-row flex-justify-space-around flex-wrap m-t-8">
+      @for(ascentType of ascentTypes; track $index) { @if
+      (activityFormService.logPossible(myIndex, ascentType.value)) {
       <app-ascent-type-option
         [ascentType]="ascentType"
-        [isSelected]="route.controls.ascentType.value === ascentType.value"
+        [selected]="route.controls.ascentType.value === ascentType.value"
         (click)="route.controls.ascentType.setValue(ascentType.value)"
       ></app-ascent-type-option>
-      }
+      } @else {
+      <app-ascent-type-option
+        [ascentType]="ascentType"
+        [disabled]="true"
+      ></app-ascent-type-option>
+      } }
     </div>
-    <div>
+    <div class="m-t-8">
       <label class="checkbox-container">
         <input type="checkbox" formControlName="topRope" />
         <span class="checkmark"></span>
@@ -18,220 +24,46 @@
       </label>
     </div>
   </section>
-  <section>Ocena težavnosti</section>
-  <section>Lepota smeri</section>
+  <mat-divider></mat-divider>
   <section>
-    Vidnost
-
-    <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
-      <mat-label>Vidnost</mat-label>
-      <mat-select formControlName="publish">
-        <mat-option *ngFor="let option of publishOptions" [value]="option.value"
-          >{{ option.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </section>
-  <section>Opomba</section>
-</main>
-<div fxLayout="column" fxLayouPtGap="16px" [formGroup]="route">
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
-      <ng-container *ngIf="route.value.routeId">
-        <div>
-          <a
-            [routerLink]="['/plezalisce', crag.slug, 'smer', route.value.slug]"
-            class="route-name"
-            >{{ route.value.name }}
-          </a>
-          <span *ngIf="route.value.isProject">P</span>
-          <app-grade
-            *ngIf="!route.value.isProject"
-            [difficulty]="route.value.difficulty"
-            [gradingSystemId]="route.value.defaultGradingSystemId"
-            [showModifier]="true"
-          >
-          </app-grade>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="!(route.value.routeId != null)">
-        <mat-form-field
-          appearance="outline"
-          class="custom-route"
-          appearance="outline"
-          fxFlex="100"
-        >
-          <mat-label>Ime smeri</mat-label>
-          <input matInput type="text" formControlName="name" />
-        </mat-form-field>
-      </ng-container>
-    </div>
-    <div fxFlex class="tools">
-      <button
-        type="button"
-        mat-icon-button
-        (click)="activityFormService.duplicateRoute(myIndex)"
-        [disabled]="route.disabled"
-        matTooltip="Dodaj ponovitev"
-      >
-        <mat-icon>control_point_duplicate</mat-icon>
-      </button>
-      <button
-        type="button"
-        mat-icon-button
-        *ngIf="!first"
-        (click)="activityFormService.moveRoute(myIndex, -1)"
-        [disabled]="route.disabled"
-        matTooltip="Premakni navzgor"
-      >
-        <mat-icon>arrow_drop_up</mat-icon>
-      </button>
-      <button
-        type="button"
-        mat-icon-button
-        *ngIf="!last"
-        (click)="activityFormService.moveRoute(myIndex, 1)"
-        [disabled]="route.disabled"
-        matTooltip="Premakni navzdol"
-      >
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
-      <button
-        *ngIf="this.activityFormService.numOfRoutes > 1"
-        type="button"
-        mat-icon-button
-        (click)="activityFormService.removeRouteAt(myIndex)"
-        [disabled]="route.disabled"
-        matTooltip="Odstrani"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
-
-  <div fxFlex="100" fxLayout="column" fxLayoutGap="16px">
-    <div fxFlex fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px">
-      <mat-form-field
-        appearance="outline"
-        class="no-hint"
-        appearance="outline"
-        fxFlex="50"
-      >
-        <mat-label>Vrsta vzpona</mat-label>
-        <mat-select formControlName="ascentType">
-          <mat-select-trigger>{{
-            mapAscentTypeValueToFullLabel(route.value.ascentType)
-          }}</mat-select-trigger>
-          <ng-container *ngFor="let type of nonTopRopeAscentTypes">
-            <mat-option
-              *ngIf="logPossibleEver(type.value)"
-              [value]="type.value"
-              [disabled]="!activityFormService.logPossible(myIndex, type.value)"
-              >{{ type.label }}
-            </mat-option>
-          </ng-container>
-          <mat-optgroup label="Top rope">
-            <ng-container *ngFor="let type of topRopeAscentTypes">
-              <mat-option
-                *ngIf="logPossibleEver(type.value)"
-                [value]="type.value"
-                [disabled]="
-                  !activityFormService.logPossible(myIndex, type.value)
-                "
-                >{{ type.label }}
-              </mat-option>
-            </ng-container>
-          </mat-optgroup>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
-        <mat-label>Vidnost</mat-label>
-        <mat-select formControlName="publish">
-          <mat-option
-            *ngFor="let option of publishOptions"
-            [value]="option.value"
-            >{{ option.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div
-      fxFlex
-      fxLayout="row"
-      fxLayout.lt-sm="column"
-      fxLayoutGap="16px"
-      *ngIf="!activity"
-    >
-      <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
-        <mat-label>Datum</mat-label>
-        <input matInput formControlName="date" [matDatepicker]="picker" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="no-hint" fxFlex="50">
-        <mat-label>Soplezalec</mat-label>
-        <input matInput type="text" formControlName="partner" />
-      </mat-form-field>
-    </div>
-  </div>
-  <div>
-    <mat-form-field appearance="outline" fxFlex="100">
-      <mat-label>Opombe</mat-label>
-      <textarea
-        matInput
-        formControlName="notes"
-        [rows]="activity ? 3 : 6"
-      ></textarea>
-      <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
-    </mat-form-field>
-  </div>
-  <div fxFlex fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px">
-    <div fxFlex="50">
+    <div>Ocena težavnosti</div>
+    <div class="m-t-8 grade-select">
       <app-grade-select
+        class="m-t-8"
         [control]="route.controls.votedDifficulty"
-        label="Predlog ocene"
         emptyText="Ne predlagaj ocene"
         [gradingSystemId]="route.value.defaultGradingSystemId"
         [noHint]="true"
         [focusDifficulty]="route.value.difficulty"
       ></app-grade-select>
     </div>
+  </section>
+  <mat-divider></mat-divider>
+  <section>
+    <div>Lepote smeri</div>
+    <div>
+      <mat-radio-group class="filter-group" formControlName="votedStarRating">
+        <mat-radio-button value="2" color="var(--mat-sys-secondary)"
+          ><div class="flex flex-row flex-align-center">
+            <app-star-full-icon></app-star-full-icon>
+            <span class="p-t-4 p-l-8">Čudovita</span>
+          </div>
+        </mat-radio-button>
+        <mat-radio-button value="1" color="var(--mat-sys-secondary)"
+          ><div class="flex flex-row flex-align-center">
+            <app-star-empty-icon></app-star-empty-icon>
+            <span class="p-t-4 p-l-8">Lepa</span>
+          </div></mat-radio-button
+        >
+        <mat-radio-button value="0" color="var(--mat-sys-secondary)"
+          >Nič posebnega</mat-radio-button
+        >
+      </mat-radio-group>
 
-    <mat-form-field
-      appearance="outline"
-      fxFlex="50"
-      [class]="{'no-hint':activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == null}"
-    >
-      <mat-label>Lepota smeri</mat-label>
-      <mat-select formControlName="votedStarRating" class="star-rating">
-        <mat-select-trigger>
-          <span *ngIf="route.controls.votedStarRating.value == 0">
-            Nič posebnega
-          </span>
-          <span *ngIf="route.controls.votedStarRating.value == 1"
-            ><mat-icon>star_border</mat-icon
-            ><span class="icon-text">Lepa</span></span
-          >
-          <span *ngIf="route.controls.votedStarRating.value == 2"
-            ><mat-icon>star</mat-icon>
-            <span class="icon-text">Čudovita</span>
-          </span>
-        </mat-select-trigger>
-        <mat-option [value]="null">Ne predlagaj lepote</mat-option>
-        <mat-option [value]="0">Nič posebnega</mat-option>
-        <mat-option [value]="1">
-          <span><mat-icon>star_border</mat-icon>Lepa</span>
-        </mat-option>
-        <mat-option [value]="2">
-          <span><mat-icon>star</mat-icon>Čudovita</span>
-        </mat-option>
-      </mat-select>
-      <mat-hint
-        class="star-rating-hint"
-        *ngIf="
-          activityFormService.starRatingVotesForRoutes?.[route.value.routeId] != null
-        "
-        ><span>Tvoj trenutni glas:</span>
+      @if(activityFormService.starRatingVotesForRoutes?.[route.value.routeId]) {
+
+      <div class="flex flex-row">
+        <span class="p-t-4">Tvoj trenutni glas:</span>
         <span
           *ngIf="activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == 0"
           class="ml-4"
@@ -240,14 +72,114 @@
         <span
           *ngIf="activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == 1"
           class="ml-4"
-          ><mat-icon>star_border</mat-icon><span>Lepa</span></span
+          ><div class="flex flex-row flex-align-center">
+            <app-star-empty-icon></app-star-empty-icon>
+            <span class="p-t-4 p-l-8">Lepa</span>
+          </div></span
         >
         <span
           *ngIf="activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == 2"
           class="ml-4"
-          ><mat-icon>star</mat-icon><span>Čudovita</span></span
+          ><div class="flex flex-row flex-align-center">
+            <app-star-full-icon></app-star-full-icon>
+            <span class="p-t-4 p-l-8">Čudovita</span>
+          </div></span
         >
-      </mat-hint>
-    </mat-form-field>
-  </div>
-</div>
+      </div>
+
+      }
+    </div>
+  </section>
+  <mat-divider></mat-divider>
+  <section>
+    <div>Vidnost</div>
+    <div>
+      <mat-radio-group class="filter-group" formControlName="publish">
+        @for (option of publishOptions; track $index) {
+
+        <mat-radio-button
+          [value]="option.value"
+          color="var(--mat-sys-secondary)"
+          >{{ option.label }}
+        </mat-radio-button>
+
+        }
+      </mat-radio-group>
+    </div>
+    <div class="footnote">
+      *Tvoji predlogi o težavnosti in lepoti smeri bodo v vsakem primeru javno
+      objavljeni (če jih podaš) ne glede na izbrano vidnost zabeleženih vzponov.
+    </div>
+  </section>
+  <mat-divider></mat-divider>
+  <section class="m-b-16" id="notes">
+    <div>Opomba</div>
+    <div class="w-100">
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          formControlName="notes"
+          [rows]="activity ? 3 : 6"
+        ></textarea>
+        <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
+      </mat-form-field>
+    </div>
+  </section>
+  <mat-divider></mat-divider>
+  <section class="flex flex-row flex-justify-space-between">
+    <div class="flex flex-row">
+      @if(!first) {
+      <div class="m-4 p-r-16 border-right">
+        <button
+          type="button"
+          mat-icon-button
+          *ngIf="!first"
+          (click)="activityFormService.moveRoute(myIndex, -1)"
+          [disabled]="route.disabled"
+          matTooltip="Premakni navzgor"
+        >
+          <app-arrow-up-icon></app-arrow-up-icon>
+        </button>
+      </div>
+      } @if(!last) {
+      <div class="p-t-4 p-l-8">
+        <button
+          type="button"
+          mat-icon-button
+          *ngIf="!last"
+          (click)="activityFormService.moveRoute(myIndex, 1)"
+          [disabled]="route.disabled"
+          matTooltip="Premakni navzdol"
+        >
+          <app-arrow-down-icon></app-arrow-down-icon>
+        </button>
+      </div>
+      }
+    </div>
+    <div class="flex flex-row">
+      <div class="m-4 p-r-16 border-right">
+        <button
+          type="button"
+          mat-icon-button
+          (click)="activityFormService.duplicateRoute(myIndex)"
+          [disabled]="route.disabled"
+          matTooltip="Dodaj ponovitev"
+        >
+          <app-add-round-icon></app-add-round-icon>
+        </button>
+      </div>
+      <div class="p-t-4 p-l-8">
+        <button
+          *ngIf="this.activityFormService.numOfRoutes > 1"
+          type="button"
+          mat-icon-button
+          (click)="activityFormService.removeRouteAt(myIndex)"
+          [disabled]="route.disabled"
+          matTooltip="Odstrani"
+        >
+          <app-delete-icon></app-delete-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>

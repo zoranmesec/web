@@ -5,6 +5,7 @@ import { GradingSystemsGQL, GradingSystemsQuery } from 'src/generated/graphql';
 export interface IGrade {
   name: string;
   modifier: -1 | 0 | 1; // -1 means the grade is soft, +1 means it's hard
+  difficulty?: number;
 }
 
 @Injectable({
@@ -66,6 +67,7 @@ export class GradingSystemsService {
                     curr.name
                   ),
                   modifier: 0,
+                  difficulty: prev.difficulty,
                 });
               }
             }
@@ -75,11 +77,13 @@ export class GradingSystemsService {
             return resolve({
               name: grades[0].name,
               modifier: 0,
+              difficulty: grades[0].difficulty,
             });
           } else if (difficulty >= grades[grades.length - 1].difficulty) {
             return resolve({
               name: grades[grades.length - 1].name,
               modifier: 0,
+              difficulty: grades[grades.length - 1].difficulty,
             });
           }
 
@@ -105,11 +109,13 @@ export class GradingSystemsService {
                   return resolve({
                     name: curr.name,
                     modifier: 0,
+                    difficulty: curr.difficulty,
                   });
                 } else {
                   return resolve({
                     name: curr.name,
                     modifier: -1,
+                    difficulty: curr.difficulty,
                   });
                 }
               } else if (difficulty > curr.difficulty) {
@@ -123,17 +129,20 @@ export class GradingSystemsService {
                   return resolve({
                     name: curr.name,
                     modifier: 0,
+                    difficulty: curr.difficulty,
                   });
                 } else {
                   return resolve({
                     name: curr.name,
                     modifier: +1,
+                    difficulty: curr.difficulty,
                   });
                 }
               } else {
                 return resolve({
                   name: curr.name,
                   modifier: 0,
+                  difficulty: curr.difficulty,
                 });
               }
             }

@@ -14,6 +14,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { IconsModule } from '../../icons/icons.module';
 
 @Component({
   selector: 'app-grade-select',
@@ -28,6 +29,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatLabel,
     CommonModule,
     NgxMatSelectSearchModule,
+    IconsModule,
   ],
 })
 export class GradeSelectComponent implements OnInit, OnChanges {
@@ -44,6 +46,7 @@ export class GradeSelectComponent implements OnInit, OnChanges {
 
   onDestroySubject = new Subject<void>();
 
+  protected gradeLabel = 'Vnesi oceno';
   constructor(private gradingSystemService: GradingSystemsService) {}
 
   ngOnInit(): void {
@@ -66,7 +69,6 @@ export class GradeSelectComponent implements OnInit, OnChanges {
     if (!this.focusDifficulty) return; // e.g. if project, there is no focus difficulty
 
     if (this.control.value) return;
-
     this.gradingSystemService
       .diffToGrade(this.focusDifficulty, this.gradingSystemId, false)
       .then((grade) => {
@@ -74,6 +76,7 @@ export class GradeSelectComponent implements OnInit, OnChanges {
         for (let i = 0; i < allOptions.length; i++) {
           const goBack = Math.min(i, 3); // deduct 3 to get the target in the center (5 are displayed)
           if ((<HTMLElement>allOptions[i]).innerText === grade.name) {
+            console.log('Found grade:', grade.name, allOptions[i - goBack]);
             allOptions[i - goBack].scrollIntoView();
             break;
           }
@@ -119,5 +122,43 @@ export class GradeSelectComponent implements OnInit, OnChanges {
   ngOnDestroy(): void {
     this.onDestroySubject.next();
     this.onDestroySubject.complete();
+  }
+
+  protected decrementGrade() {
+    const currentDifficulty = this.control.value;
+    const currentIndex = this.allGrades.findIndex(
+      (grade) => grade.difficulty === currentDifficulty
+    );
+    if (currentIndex > 0) {
+      const newGrade = this.allGrades[currentIndex - 1];
+      this.control.setValue(newGrade.difficulty);
+    }
+  }
+
+  protected incrementGrade() {
+    const currentDifficulty = this.control.value;
+    const currentIndex = this.allGrades.findIndex(
+      (grade) => grade.difficulty === currentDifficulty
+    );
+    if (currentIndex < this.allGrades.length - 1) {
+      const newGrade = this.allGrades[currentIndex + 1];
+      this.control.setValue(newGrade.difficulty);
+    }
+  }
+
+  protected canDecrement(): boolean {
+    const currentDifficulty = this.control.value;
+    const currentIndex = this.allGrades.findIndex(
+      (grade) => grade.difficulty === currentDifficulty
+    );
+    return currentIndex > 0;
+  }
+
+  protected canIncrement(): boolean {
+    const currentDifficulty = this.control.value;
+    const currentIndex = this.allGrades.findIndex(
+      (grade) => grade.difficulty === currentDifficulty
+    );
+    return currentIndex < this.allGrades.length - 1;
   }
 }

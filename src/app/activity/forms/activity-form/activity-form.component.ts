@@ -64,6 +64,7 @@ import {
 import { Platform } from '@angular/cdk/platform';
 import { CustomDateAdapter } from 'src/app/app.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 
 @Component({
   selector: 'app-activity-form',
@@ -102,6 +103,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
       },
     },
     { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
+    {
+      provide: DateAdapter,
+      useClass: CustomDateAdapter,
+      deps: [MAT_DATE_LOCALE, Platform],
+    },
   ],
 })
 export class ActivityFormComponent implements OnInit, OnDestroy {
@@ -156,12 +162,10 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     private activityEntryGQL: ActivityEntryGQL,
     private routesTouchesGQL: RoutesTouchesGQL,
     private starRatingVotesGQL: StarRatingVotesGQL,
-
-    private readonly dateAdapter: DateAdapter<Date>
+    private gradingSystemService: GradingSystemsService
   ) {}
 
-  ngOnInit(): void {
-    this.dateAdapter.setLocale('sl-SI');
+  async ngOnInit(): Promise<void> {
     if (this.formType == 'edit' && this.crag != null) {
       this.activityForm.controls.date.disable();
     }
@@ -178,9 +182,9 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.selectedRoutes != null) {
-      this.selectedRoutes.forEach((route) => {
-        this.addRoute(route);
-      });
+      await Promise.all(
+        this.selectedRoutes.map((route) => this.addRoute(route))
+      );
     }
 
     // Fetch user's previous star rating votes, and display them below the star rating inputs
@@ -287,7 +291,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     if (this.formType != 'new' || this.crag) {
       this.activityForm.controls.type.disable();
     }
-
     this.activityFormService.initialize(this.routes);
   }
 
@@ -354,7 +357,12 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  addRoute(route: any): void {
+  async addRoute(route: any): Promise<void> {
+    const gradeDiff = await this.gradingSystemService.diffToGrade(
+      route.difficulty,
+      route.defaultGradingSystem.id
+    );
+
     this.routes.push(
       new FormGroup({
         routeId: new FormControl(route.id),
@@ -372,7 +380,13 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         publish: new FormControl('public'),
         notes: new FormControl(),
         votedStarRating: new FormControl(),
-        votedDifficulty: new FormControl(),
+        votedDifficulty: new FormControl(
+          {
+            value: gradeDiff.difficulty,
+            disabled: false,
+          },
+          { nonNullable: true }
+        ),
         ticked: new FormControl(route.ticked),
         tried: new FormControl(route.tried),
         trTicked: new FormControl(route.trTicked),
@@ -382,6 +396,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
+    debugger;
     const data = this.activityForm.getRawValue();
 
     this.activityForm.disable({ emitEvent: false });
