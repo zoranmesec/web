@@ -37,6 +37,7 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
+import { CommonModule } from '@angular/common';
 
 export interface RowAction {
   item: Activity;
@@ -44,17 +45,18 @@ export interface RowAction {
 }
 
 @Component({
-    selector: 'app-activity-log',
-    templateUrl: './activity-log.component.html',
-    styleUrls: ['./activity-log.component.scss'],
-    imports: [
-        RouterLink,
-        MatSelectModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        ActivityHeaderComponent,
-    ]
+  selector: 'app-activity-log',
+  templateUrl: './activity-log.component.html',
+  styleUrls: ['./activity-log.component.scss'],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    ActivityHeaderComponent,
+  ],
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {
   error: DataError = null;

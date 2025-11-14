@@ -1,10 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, NavigationEnd, RouterLink } from '@angular/router';
+import {
+  Router,
+  NavigationEnd,
+  RouterLink,
+  ActivatedRoute,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../../../generated/graphql';
-import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule, FlexModule } from 'ng-flex-layout';
 import { CommonModule } from '@angular/common';
@@ -17,7 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenu,
     MatIcon,
     RouterLink,
-    MatMenuTrigger,
+    MatMenuModule,
     FlexModule,
     FlexLayoutModule,
     CommonModule,
@@ -30,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   user: User;
-
+  currentUrl: string;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -41,13 +46,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const naviSub = this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.naviOpen = false;
+        this.currentUrl = val.url;
       }
     });
     this.subscriptions.push(naviSub);
 
-    const authSub = this.authService.currentUser.subscribe(
-      (user) => (this.user = user)
-    );
+    const authSub = this.authService.currentUser.subscribe((user) => {
+      this.user = user;
+      console.log('Header user updated: ', user);
+    });
     this.subscriptions.push(authSub);
   }
 

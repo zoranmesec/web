@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import dayjs from 'dayjs';
@@ -14,6 +14,7 @@ import { ACTIVITY_TYPES } from '../../../common/activity.constants';
   templateUrl: './activity-entry.component.html',
   styleUrls: ['./activity-entry.component.scss'],
   standalone: true,
+  imports: [CommonModule],
 })
 export class ActivityEntryComponent implements OnInit, OnDestroy {
   loading = false;

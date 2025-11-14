@@ -10,12 +10,24 @@ import { RowAction } from '../../pages/activity-log/activity-log.component';
 import { Router, RouterLink } from '@angular/router';
 import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
 import { AscentPublishOptionComponent } from 'src/app/shared/components/ascent-publish-option/ascent-publish-option.component';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: '[app-activity-route-row]',
-    templateUrl: './activity-route-row.component.html',
-    styleUrls: ['./activity-route-row.component.scss'],
-    imports: [RouterLink, AscentTypeComponent, AscentPublishOptionComponent]
+  selector: '[app-activity-route-row]',
+  templateUrl: './activity-route-row.component.html',
+  styleUrls: ['./activity-route-row.component.scss'],
+  imports: [
+    RouterLink,
+    AscentTypeComponent,
+    AscentPublishOptionComponent,
+    CommonModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class ActivityRouteRowComponent implements OnInit {
   @Input() route: ActivityRoute;

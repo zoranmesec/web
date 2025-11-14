@@ -30,20 +30,31 @@
       <a [routerLink]="['/']"
         ><mat-icon matPrefix class="my-icon">search</mat-icon></a
       >
+      @if(currentUrl.startsWith('/plezalisca') ){
+      <div class="active">Plezališča</div>
+
+      } @else{
+
       <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
+      } @if(currentUrl.startsWith('/alpinizem') ){
+      <a class="active" [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
 
+      } @else{
       <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+      } @if(currentUrl.startsWith('/plezalni-dnevnik') ){
+      <div class="active">Plezalni dnevnik</div>
 
+      } @else{
       <a [routerLink]="['/plezalni-dnevnik/vzponi']">Plezalni dnevnik</a>
+      }
       <a *ngIf="!(user != null)" (click)="login()">Prijava</a>
       <a
         *ngIf="user != null"
-        mat-icon-button
         fxHide
         fxShow.gt-sm
         [matMenuTriggerFor]="authMenu"
       >
-        <mat-icon>account_circle</mat-icon>
+        {{ user?.fullName }}
       </a>
       <a
         *ngIf="user != null"
@@ -71,8 +82,7 @@
   <a mat-menu-item [routerLink]="['/alpinizem/vrhovi/drzave']">Vrhovi</a>
 </mat-menu>
 
-<mat-menu #authMenu="matMenu">
-  <button mat-menu-item disabled>{{ user?.fullName }}</button>
+<mat-menu #authMenu="matMenu" class="border-grey">
   <a mat-menu-item [routerLink]="['/moj-profil']">Moj profil</a>
   <a
     mat-menu-item

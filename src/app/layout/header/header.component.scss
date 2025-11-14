@@ -2,6 +2,7 @@
 @use "./../../../m3-theme.scss" as m3-theme;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+
 header {
   background: mat.get-theme-color(m3-theme.$light-theme, secondary, 100);
   height: 80px;
@@ -20,5 +21,25 @@ header {
     font-weight: 500 !important;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  nav > a.active {
+    padding-left: 16px;
+    font-weight: 500 !important;
+    text-decoration: none;
+    color: var(--mat-sys-secondary);
+    cursor: pointer;
+  }
+
+  nav > a.active:hover {
+    color: var(--mat-sys-secondary) !important;
+  }
+
+  nav > div.active {
+    padding-left: 16px;
+    font-weight: 500 !important;
+    text-decoration: none;
+    color: var(--mat-sys-secondary);
+    cursor: auto;
   }
 }

@@ -11,12 +11,18 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { DialogData } from 'src/app/shared/components/comment-form/comment-form.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-activity-input',
   templateUrl: './activity-input.component.html',
   styleUrls: ['./activity-input.component.scss'],
-  imports: [ActivityFormComponent, CommonModule, MatDialogModule],
+  imports: [
+    ActivityFormComponent,
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
 })
 export class ActivityInputComponent implements OnInit {
   type: string = null;

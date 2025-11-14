@@ -387,6 +387,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
           },
           { nonNullable: true }
         ),
+        gradeLabel: new FormControl(gradeDiff.name),
         ticked: new FormControl(route.ticked),
         tried: new FormControl(route.tried),
         trTicked: new FormControl(route.trTicked),

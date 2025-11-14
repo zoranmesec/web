@@ -9,7 +9,7 @@ import { ActivityStatisticsComponent } from './pages/activity-statistics/activit
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dnevnik',
     component: ActivityLogComponent,
     canActivate: [AuthGuard],
   },
@@ -21,11 +21,6 @@ const routes: Routes = [
   {
     path: 'statistika',
     component: ActivityStatisticsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'vpis',
-    component: ActivityInputComponent,
     canActivate: [AuthGuard],
   },
   {

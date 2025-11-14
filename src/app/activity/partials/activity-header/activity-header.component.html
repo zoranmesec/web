@@ -1,23 +1,20 @@
-<div class="container mt-16">
-  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-    <a
-      mat-tab-link
-      [active]="active == 'vzponi'"
-      [routerLink]="['/plezalni-dnevnik/vzponi']"
-      >Pregled vzponov</a
-    >
-    <a
-      mat-tab-link
-      [active]="active == 'dnevnik'"
-      [routerLink]="['/plezalni-dnevnik']"
-      >Moj dnevnik</a
-    >
-    <a
-      mat-tab-link
-      [active]="active == 'statistika'"
-      [routerLink]="['/plezalni-dnevnik/statistika']"
-      >Statistika</a
-    >
-  </nav>
-</div>
-<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+<section id="tabs">
+  <div>&nbsp;</div>
+  @for (tab of tabs; track $index) {
+  <div [class.active]="tab.slug === active()" (click)="setActiveTab(tab)">
+    @if (tab.icon==='calendar') {
+    <app-calendar-icon [active]="tab.slug === active()"></app-calendar-icon>
+    } @else if (tab.icon==='ascents') {
+    <app-ascents-icon [active]="tab.slug === active()"></app-ascents-icon>
+    } @else if (tab.icon==='statistics') {
+    <app-statistics-icon [active]="tab.slug === active()"></app-statistics-icon>
+    }
+
+    <span fxHide.lt-md>
+      {{ tab.label }}
+    </span>
+  </div>
+  <div>&nbsp;</div>
+  }
+  <div>&nbsp;</div>
+</section>

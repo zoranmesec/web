@@ -27,8 +27,8 @@
       >
         <button type="button" mat-stroked-button (click)="showMap = !showMap">
           <mat-icon class="filter-icon">map</mat-icon>
-          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-            >Pokaži zemljevid</span
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
+            @if(showMap) { Skrij zemljevid } @else { Pokaži zemljevid}</span
           >
         </button>
       </div>
@@ -43,9 +43,9 @@
           (click)="showFilters = !showFilters"
         >
           <mat-icon class="filter-icon">tune</mat-icon>
-          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-            >Pokaži filtre</span
-          >
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
+            @if (showFilters) { Skrij filtre } @else { Pokaži filtre }
+          </span>
           @if(nrOfFiltersApplied > 0) {
 
           <span [class.hidden]="breakpointService.gtMd()">

@@ -5,7 +5,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
 :host {
   .ascent-type-option {
     height: 80px;
-    border: 1px solid white;
+    border: 1px solid transparent;
     border-radius: 8px;
     cursor: pointer;
   }

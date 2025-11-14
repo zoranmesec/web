@@ -19,6 +19,9 @@ import { AddRoundIconComponent } from './add-round-icon/add-round-icon.component
 import { ArrowUpIconComponent } from './arrow-up-icon/arrow-up-icon.component';
 import { ArrowDownIconComponent } from './arrow-down-icon/arrow-down-icon.component';
 import { DeleteIconComponent } from './delete-icon/delete-icon.component';
+import { CalendarIconComponent } from './calendar-icon/calendar-icon.component';
+import { StatisticsIconComponent } from './statistics-icon/statistics-icon.component';
+import { AscentsIconComponent } from './ascents-icon/ascents-icon.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,9 @@ import { DeleteIconComponent } from './delete-icon/delete-icon.component';
     ArrowUpIconComponent,
     ArrowDownIconComponent,
     DeleteIconComponent,
+    CalendarIconComponent,
+    StatisticsIconComponent,
+    AscentsIconComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -55,6 +61,17 @@ import { DeleteIconComponent } from './delete-icon/delete-icon.component';
     ArrowUpIconComponent,
     ArrowDownIconComponent,
     DeleteIconComponent,
+    CalendarIconComponent,
+    StatisticsIconComponent,
+    AscentsIconComponent,
+    ColumnsIconComponent,
+    CommentIconComponent,
+    GalleryIconComponent,
+    InfoIconComponent,
+    RoutesIconComponent,
+    MoreIconComponent,
+    OrientationIconComponent,
+    QuestionIconComponent,
   ],
 })
 export class IconsModule {}

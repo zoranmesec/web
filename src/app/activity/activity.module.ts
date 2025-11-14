@@ -98,6 +98,7 @@ import { CustomDateAdapter } from '../app.component';
       },
     },
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    { provide: GenderizeVerbPipe, useClass: GenderizeVerbPipe },
   ],
 })
 export class ActivityModule {}

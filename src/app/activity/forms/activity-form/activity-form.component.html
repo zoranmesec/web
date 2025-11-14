@@ -4,6 +4,7 @@
       <div class="flex flex-row fieldset">
         <mat-form-field
           appearance="outline"
+          floatLabel="always"
           [class.no-hint]="
             activityForm.controls.type.value != 'crag' || this.crag != null
           "
@@ -98,7 +99,10 @@
     $last) {
     <mat-expansion-panel expanded="">
       <mat-expansion-panel-header>
-        <mat-panel-title> {{ route.value.name }} </mat-panel-title>
+        <mat-panel-title>
+          {{ route.value.name }}
+          {{ route.value.gradeLabel }}</mat-panel-title
+        >
       </mat-expansion-panel-header>
       <div class="p-16">
         <app-activity-form-route

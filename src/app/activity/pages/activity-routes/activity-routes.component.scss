@@ -1,7 +1,134 @@
+@use "@angular/material" as mat;
+@use "./../../../../m3-theme.scss" as m3-theme;
+@use "./../../../../styles/global.scss" as global;
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+
+:host {
+  section#title {
+    height: 100px;
+    padding: 0 16px 16px 16px;
+    background-color: var(--mat-sys-surface);
+    align-items: center;
+    display: flex;
+    text-align: center;
+  }
+
+  section#options {
+    height: 40px !important;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+
+    @media only screen and (max-width: global.$breakpoint-lg) {
+      place-content: center space-around;
+    }
+
+    .mat-mdc-outlined-button {
+      padding-left: 16px !important;
+    }
+
+    .border-right {
+      border-right: 1px solid $grey !important;
+      padding: 0 4px 0 4px;
+      height: 40px !important;
+    }
+
+    button {
+      padding-right: 8px !important;
+      @media only screen and (max-width: global.$breakpoint-lg) {
+        mat-icon {
+          margin-left: 8px !important;
+        }
+      }
+    }
+
+    mat-icon[svgIcon] {
+      margin-top: -6px;
+    }
+
+    @media only screen and (max-width: global.$breakpoint-lg) {
+      .border-right {
+        padding: 0 !important;
+      }
+    }
+  }
+
+  .close-icon {
+    cursor: pointer;
+    padding-top: 8px;
+  }
+
+  section#filters {
+    border-radius: 8px;
+    margin: 0 24px 24px 0;
+    background-color: var(--mat-sys-surface);
+    width: 380px !important;
+    max-width: 380px !important;
+    padding: 8px;
+    div.top {
+      padding: 12px 16px;
+      border-bottom: 1px solid $grey;
+    }
+
+    div.bottom {
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+
+    mat-form-field {
+      width: 100% !important;
+    }
+
+    mat-radio-button {
+      margin-top: 8px;
+    }
+  }
+
+  button.border {
+    border: 3px solid #ffffff;
+    border-radius: 8px;
+  }
+
+  @media only screen and (max-width: global.$breakpoint-lg) {
+    button {
+      padding: 0 !important;
+    }
+  }
+
+  button.border:hover {
+    border: 3px solid #aaccf0;
+    border-radius: 8px;
+  }
+
+  mat-accordion {
+    ::ng-deep {
+      .mat-expansion-panel {
+        box-shadow: none;
+        border-bottom: 1px solid $grey;
+      }
+    }
+  }
+
+  mat-checkbox {
+    ::ng-deep {
+      .mdc-checkbox__background {
+        background-color: var(--mat-sys-surface-container-lowest);
+        border-radius: 6px !important;
+      }
+
+      .mat-internal-form-field > label {
+        padding-left: 8px;
+      }
+    }
+  }
+}
+
 .scrollable-table {
   max-width: 100%;
   overflow-x: auto;
   .card-table {
-    min-width: 980px;
+    width: 100% !important;
   }
 }

@@ -70,6 +70,8 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ActivityInputComponent } from 'src/app/activity/pages/activity-input/activity-input.component';
 import { DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
+import { CommentFormComponent } from 'src/app/shared/components/comment-form/comment-form.component';
+import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 
 export interface ColumnType {
   field: string;
@@ -146,7 +148,7 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
     sortAll: new FormControl('', [Validators.required]),
   });
 
-  search = new UntypedFormControl();
+  search = new FormControl();
   searchSub: Subscription;
 
   selectedRoutes: Route[] = [];
@@ -502,7 +504,6 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
 
   toggleFilterSelection(): void {
     this.showFilters = !this.showFilters;
-    console.log('toggleFilterSelection', this.showFilters);
     this.showColumnSelection = false;
   }
 
@@ -532,10 +533,10 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
               data: {
                 crag: this.crag,
               },
-              minWidth: '90vw',
-              minHeight: '90vh',
-              width: '90vw',
-              height: '90vh',
+              minWidth: this.breakpointService.ltMd() ? '95vw' : '80vw',
+              minHeight: this.breakpointService.ltMd() ? '95vh' : '80vh',
+              width: this.breakpointService.ltMd() ? '95vw' : '80vw',
+              height: this.breakpointService.ltMd() ? '95vh' : '80vh',
             })
             .afterClosed()
             .subscribe((result) => {
@@ -589,6 +590,50 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
        */
       this.previousExpandedRowId = null;
     }, 300);
+  }
+
+  async addImage() {
+    // const allowed = await this.authService.guardedAction({});
+    // if (allowed) {
+    //   this.dialog
+    //     .open(ImageUploadComponent, {
+    //       data: {
+    //         entityType: 'crag',
+    //         entityId: this.crag.id,
+    //         user: this.user,
+    //       },
+    //       autoFocus: false,
+    //     })
+    //     .afterClosed()
+    //     .subscribe((result) => {
+    //       if (!result) {
+    //         return;
+    //       }
+    //       this.loading = true;
+    //       this.cragQuery.refetch();
+    //       if (this.activeTab !== 'galerija') {
+    //         this.setActiveTab({
+    //           slug: 'galerija',
+    //           label: 'Galerija',
+    //           icon: 'photo',
+    //         });
+    //       }
+    //     });
+    // }
+  }
+
+  addComment(type: string) {
+    this.authService.guardedAction({}).then((success) => {
+      if (success) {
+        this.dialog.open(CommentFormComponent, {
+          data: {
+            crag: this.crag,
+            type: type,
+          },
+          autoFocus: false,
+        });
+      }
+    });
   }
 
   onPreviewHeightEvent(height: number): void {

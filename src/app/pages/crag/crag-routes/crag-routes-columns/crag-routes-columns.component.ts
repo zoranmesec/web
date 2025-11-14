@@ -22,9 +22,9 @@ import { CommonModule, KeyValue } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatButtonModule } from '@angular/material/button';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 
 export const allColumns: Record<string, ColumnType> = {
   name: {
@@ -109,6 +109,7 @@ export const allColumns: Record<string, ColumnType> = {
     MatSelectModule,
     FlexLayoutModule,
     MatButtonModule,
+    IconsModule,
   ],
 })
 export class CragRoutesColumnsComponent

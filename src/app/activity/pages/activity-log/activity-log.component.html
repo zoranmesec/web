@@ -1,5 +1,9 @@
-<app-activity-header active="dnevnik"></app-activity-header>
+<app-data-error *ngIf="error" [error]="error"></app-data-error>
 
+<section id="title">
+  <h1>Plezalni dnevnik</h1>
+</section>
+<app-activity-header active="dnevnik"></app-activity-header>
 <div class="container mt-16">
   <div
     fxLayout="row"

@@ -1,7 +1,24 @@
+@use "./../../../../styles/global.scss" as global;
+
 :host {
+  @media only screen and (min-width: global.$breakpoint-md) {
+    mat-dialog-content {
+      padding: 16px !important;
+    }
+  }
+
+  @media only screen and (max-width: global.$breakpoint-md) {
+    mat-dialog-content {
+      padding: 4px !important;
+    }
+  }
   ::ng-deep {
     .mat-mdc-dialog-content {
       max-height: 100vh !important;
     }
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 0 !important;
   }
 }

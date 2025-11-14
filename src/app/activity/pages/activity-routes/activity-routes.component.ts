@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,6 +39,25 @@ import {
   DeleteActivityRouteGQL,
 } from 'src/generated/graphql';
 import { FilteredTable } from '../../../common/filtered-table';
+import { CommonModule } from '@angular/common';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
+import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ActivityRouteRowComponent } from '../../partials/activity-route-row/activity-route-row.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AscentTypeOptionComponent } from '../../forms/activity-form/activity-form-route/ascent-type-option/ascent-type-option.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 export interface RowAction {
   item: ActivityRoute;
@@ -45,6 +69,28 @@ export interface RowAction {
   templateUrl: './activity-routes.component.html',
   styleUrls: ['./activity-routes.component.scss'],
   standalone: true,
+  imports: [
+    IconsModule,
+    CommonModule,
+    MatButtonModule,
+    FlexLayoutModule,
+    ActivityHeaderComponent,
+    DataErrorComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatPaginatorModule,
+    LoaderComponent,
+    MatIconModule,
+    ActivityRouteRowComponent,
+    MatSelectModule,
+    MatMenuModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    AscentTypeOptionComponent,
+    MatRadioModule,
+  ],
 })
 export class ActivityRoutesComponent implements OnInit, OnDestroy {
   error: DataError = null;
@@ -54,13 +100,14 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-  filters = new UntypedFormGroup({
-    dateFrom: new UntypedFormControl(),
-    dateTo: new UntypedFormControl(),
-    ascentType: new UntypedFormControl(),
-    publish: new UntypedFormControl(),
-    cragId: new UntypedFormControl(),
-    routeId: new UntypedFormControl(),
+  filters = new FormGroup({
+    dateFrom: new FormControl(),
+    dateTo: new FormControl(),
+    ascentType: new FormControl(),
+    cragId: new FormControl(),
+    routeId: new FormControl(),
+    topRope: new FormControl(false),
+    publish: new FormGroup({}),
   });
 
   forCrag: ActivityFiltersCragQuery['crag'];
@@ -89,12 +136,23 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
   rowAction$ = new Subject<RowAction>();
 
-  ascentTypes = ASCENT_TYPES;
   publishOptions = PUBLISH_OPTIONS;
+
+  topRopeAscentTypes = ASCENT_TYPES.filter((ascentType) => ascentType.topRope);
+  nonTopRopeAscentTypes = ASCENT_TYPES.filter(
+    (ascentType) => !ascentType.topRope
+  );
 
   subscriptions: Subscription[] = [];
 
   noTopropeOnPage = false;
+
+  protected showFilters = true;
+  protected showColumnSelection = false;
+  protected searchFieldVisible = true;
+
+  protected search = new FormControl();
+  protected searchSub: Subscription;
 
   constructor(
     private router: Router,
@@ -107,7 +165,8 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
     private myActivityRoutesGQL: MyActivityRoutesGQL,
     private activityFiltersCragGQL: ActivityFiltersCragGQL,
     private activityFiltersRouteGQL: ActivityFiltersRouteGQL,
-    private deleteActivityRouteGQL: DeleteActivityRouteGQL
+    private deleteActivityRouteGQL: DeleteActivityRouteGQL,
+    protected readonly breakpointService: BreakpointService
   ) {}
 
   ngOnInit(): void {
@@ -116,6 +175,12 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         name: 'Plezalni dnevnik',
       },
     ]);
+    this.publishOptions.forEach((option) => {
+      (this.filters.get('publish') as FormGroup).addControl(
+        option.value,
+        new FormControl(false)
+      );
+    });
 
     const ft = this.filteredTable;
 
@@ -167,10 +232,21 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         if (ft.navigating) {
           ft.navigating = false;
         } else {
-          ft.setFilterParams(values);
+          const newParams = { ...values };
+          newParams.publish = Object.keys(newParams.publish).filter(
+            (key) => newParams.publish[key] === true
+          );
+          ft.setFilterParams(newParams);
         }
       });
     this.subscriptions.push(filtersSub);
+
+    const topRopeSub = this.filters
+      .get('topRope')
+      .valueChanges.subscribe(() => {
+        this.filters.patchValue({ ascentType: [] });
+      });
+    this.subscriptions.push(topRopeSub);
 
     const rowActionsSub = this.rowAction$.subscribe((action) => {
       switch (action.action) {
@@ -193,6 +269,48 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(rowActionsSub);
+  }
+
+  toggleColumnSelection(): void {
+    this.showColumnSelection = !this.showColumnSelection;
+    this.showFilters = false;
+  }
+
+  get nrOfFiltersApplied(): number {
+    return 0;
+  }
+
+  get ascentTypes() {
+    if (this.filters.get('topRope').value) {
+      return this.topRopeAscentTypes;
+    } else {
+      return this.nonTopRopeAscentTypes;
+    }
+  }
+
+  toggleFilterSelection(): void {
+    this.showFilters = !this.showFilters;
+    this.showColumnSelection = false;
+  }
+
+  closeFilters() {
+    this.showFilters = false;
+  }
+
+  toggleAscentTypeFilter(ascentTypeValue: string): void {
+    const currentValues: string[] = this.filters.value.ascentType || [];
+    if (currentValues.includes(ascentTypeValue)) {
+      const newValues = currentValues.filter((v) => v != ascentTypeValue);
+      this.filters.patchValue({ ascentType: newValues });
+    } else {
+      const newValues = [...currentValues, ascentTypeValue];
+      this.filters.patchValue({ ascentType: newValues });
+    }
+  }
+
+  isSelectedAscentTypeFilter(ascentTypeValue: string): boolean {
+    const currentValues: string[] = this.filters.value.ascentType || [];
+    return currentValues.includes(ascentTypeValue);
   }
 
   applyRelationFilterDisplayValues() {
@@ -233,10 +351,14 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
     this.routes = data.items;
     this.pagination = data.meta;
 
-    this.noTopropeOnPage = !this.routes.some(
-      (route) =>
-        this.ascentTypes.find((at) => at.value === route.ascentType).topRope
-    );
+    this.noTopropeOnPage = !this.routes.some((route) => {
+      const index = this.ascentTypes.find(
+        (at) => at.value === route.ascentType
+      );
+      if (index) {
+        return index.topRope;
+      } else return false;
+    });
   }
 
   deleteActivityRoute(activityRoute: ActivityRoute) {

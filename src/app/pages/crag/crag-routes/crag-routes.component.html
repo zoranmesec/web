@@ -11,9 +11,9 @@
           (click)="toggleFilterSelection()"
         >
           <mat-icon>tune</mat-icon>
-          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-            >Pokaži filtre</span
-          >
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
+            @if (showFilters) { Skrij filtre } @else { Pokaži filtre }
+          </span>
           @if(nrOfFiltersApplied > 0) {
           <span> ({{ nrOfFiltersApplied }})</span>
           }
@@ -33,12 +33,30 @@
           </div>
         </button>
       </div>
-      <!-- <div class="border-right flex flex-row flex-align-center flex-center">
-        <button type="button" mat-stroked-button>
-          <mat-icon class="filter-icon">sort</mat-icon>
-          <span fxHide.lt-lg class="p-l-8">Uredi</span>
+      <div class="m-l-8">
+        <button mat-stroked-button [matMenuTriggerFor]="menu">
+          <app-more-icon class=""></app-more-icon>
         </button>
-      </div> -->
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="addImage()">
+            <span>Dodaj fotografijo</span>
+          </button>
+          <button mat-menu-item (click)="addComment('comment')">
+            <span>Dodaj komentar</span>
+          </button>
+          <button mat-menu-item (click)="addComment('condition')">
+            <span>Dodaj informacijo o razmerah</span>
+          </button>
+          <button mat-menu-item (click)="addComment('warning')">
+            <span>Dodaj opozorilo</span>
+          </button>
+          <a
+            mat-menu-item
+            [routerLink]="['/urejanje/uredi-plezalisce', crag.id]"
+            >Uredi plezališče</a
+          >
+        </mat-menu>
+      </div>
 
       <div
         class="border-right flex flex-row flex-align-center flex-center"

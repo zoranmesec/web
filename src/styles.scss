@@ -82,6 +82,15 @@ body {
     )
   );
 
+  @include mat.menu-overrides(
+    (
+      container-elevation-shadow: none,
+      container-shape: 8px,
+      container-color: white,
+      item-focus-state-layer-color: var(--mat-sys-surface),
+    )
+  );
+
   .mat-mdc-select-panel {
     background-color: white !important;
     border: 1px solid var(--mat-sys-on-surface-variant);
@@ -92,6 +101,10 @@ body {
     box-shadow: none !important;
     border-width: 1px !important;
     overflow-y: auto !important;
+  }
+
+  .mat-mdc-menu-panel {
+    border: 1px solid var(--mat-sys-on-surface-variant);
   }
 
   .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
