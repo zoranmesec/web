@@ -1,0 +1,18 @@
+query SearchAutoCompleteCrags($searchInput: SearchInput) {
+  searchByInput(input: $searchInput) {
+    crags {
+      __typename
+      id
+      name
+      slug
+      type
+    }
+
+    # Searching for users is temporarily disabled.
+    # users {
+    #   __typename
+    #   id
+    #   fullName
+    # }
+  }
+}

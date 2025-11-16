@@ -14,11 +14,19 @@
       ></app-orientation-icon>
     </div>
     } @if (crag().approachTime) {
-    <div fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="center center">
+    <div class="flex flex-row flex-align-end">
       <mat-icon svgIcon="walk" matTooltip="Dostop"></mat-icon>
       <span class="value">{{ crag().approachTime }} min</span>
     </div>
-    } @if (crag().wallAngles && crag().wallAngles.length > 0) {
+
+    }
+    <div class="flex flex-row flex-align-end">
+      <app-height-icon></app-height-icon>
+      <span class="value"
+        >{{ routeHeight.minHeight }} - {{ routeHeight.maxHeight }} m</span
+      >
+    </div>
+    @if (crag().wallAngles && crag().wallAngles.length > 0) {
     <div>
       <mat-icon
         *ngFor="let angle of crag().wallAngles"

@@ -20,15 +20,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SeasonPipe } from 'src/app/shared/pipes/season.pipe';
 import { WallAnglePipe } from 'src/app/shared/pipes/wall-angle.pipe';
-import { FlexLayoutModule } from 'ng-flex-layout';
 import { CragImageComponent } from '../crag-image/crag-image.component';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { MapComponent } from 'src/app/common/map/map.component';
 import { RouterModule } from '@angular/router';
-import { OrientationIconComponent } from 'src/app/shared/icons/orientation-icon/orientation-icon.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
-import { QuestionIconComponent } from 'src/app/shared/icons/question-icon/question-icon.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { h } from '@angular/cdk/a11y-module.d-DBHGyKoh';
 
 interface GradeSlot {
   label: string;
@@ -335,6 +333,27 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     return this.breakpointService.ltLg();
   }
 
+  get routeHeight(): { minHeight: number; maxHeight: number } {
+    let minHeight = 9999;
+    let maxHeight = 0;
+    this.crag().sectors.forEach((sector) => {
+      sector.routes.forEach((route) => {
+        if (route.length) {
+          if (route.length < minHeight) {
+            minHeight = route.length;
+          }
+          if (route.length > maxHeight) {
+            maxHeight = route.length;
+          }
+        }
+      });
+    });
+    return {
+      minHeight: minHeight === 9999 ? 0 : minHeight,
+      maxHeight: maxHeight,
+    };
+  }
+
   constructor(
     private authService: AuthService,
     private matIconRegistry: MatIconRegistry,
@@ -351,7 +370,6 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     this.addSvgIcon('overhang');
     this.addSvgIcon('vertical');
     this.addSvgIcon('slab');
-    this.addSvgIcon('height');
     this.addSvgIcon('approach');
     this.addSvgIcon('north');
     this.addSvgIcon('south');

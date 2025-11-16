@@ -1,10 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  output,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteTrigger,
   MatAutocompleteModule,
@@ -22,39 +27,70 @@ import {
   Comment,
   Crag,
   Route,
+  SearchAutoCompleteCragsGQL,
   SearchAutoCompleteGQL,
+  SearchAutoCompleteRoutesGQL,
   SearchResults,
   Sector,
   User,
 } from 'src/generated/graphql';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 
+export enum SearchType {
+  Crag = 'crag',
+  Route = 'route',
+  Sector = 'sector',
+  Comment = 'comment',
+  All = 'all',
+}
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   imports: [
+    CommonModule,
     MatIconModule,
+    MatInputModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    MatButtonModule,
+    LoaderComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnDestroy, OnChanges {
+  searchType = input<SearchType>(SearchType.All);
+  forCrag = input<Crag | null>();
+  forRoute = input<Route | null>();
+  disabled = input<boolean>(false);
+  onSelected = output<Route | User | Crag | Sector | Comment>();
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private searchAutoCompleteGQL: SearchAutoCompleteGQL
+    private searchAutoCompleteGQL: SearchAutoCompleteGQL,
+    private searchAutoCompleteCragsGQL: SearchAutoCompleteCragsGQL,
+    private searchAutoCompleteRoutesGQL: SearchAutoCompleteRoutesGQL,
+    private fb: FormBuilder
   ) {}
 
-  searchForm = new UntypedFormGroup({
-    searchControl: new UntypedFormControl(''),
+  searchForm = this.fb.group({
+    searchControl: this.fb.control('', {
+      validators: [],
+    }),
   });
   @ViewChild(MatAutocompleteTrigger)
   autocompleteTrigger: MatAutocompleteTrigger;
+
+  @ViewChild('searchInput') searchInput: ElementRef<HTMLInputElement>;
 
   searchString = '';
   searchResults: SearchResults;
@@ -62,48 +98,114 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      this.searchForm.controls.searchControl.setValue(params.search);
-    });
+  ngOnChanges(): void {
+    // this.activatedRoute.params.subscribe((params) => {
+    //   this.searchForm.controls.searchControl.setValue(params.search);
+    // });
+
+    if (this.disabled()) {
+      // disable the form
+      this.searchForm.disable();
+      return;
+    } else {
+      // enable the form
+      this.searchForm.enable();
+    }
+
+    if (
+      this.forCrag() !== undefined &&
+      this.forCrag() !== null &&
+      this.searchType() !== SearchType.Route
+    ) {
+      this.searchForm.get('searchControl').setValue(this.forCrag().name);
+    }
+
+    if (this.forRoute() !== undefined && this.forRoute() !== null) {
+      this.searchForm.get('searchControl').setValue(this.forRoute().name);
+    }
 
     this.subscription = this.searchForm.controls.searchControl.valueChanges
       .pipe(
         debounceTime(300),
-        filter((value) => value.length >= 3),
+        filter((value) => {
+          return value && value.length >= 3;
+        }),
         distinctUntilChanged(),
         switchMap((searchString: string) => {
           this.searchString = searchString;
           this.error = false;
-          return this.searchAutoCompleteGQL
-            .fetch({
-              searchString,
-            })
-            .pipe(
-              catchError(() => {
-                this.error = true;
-                return EMPTY;
+          if (this.searchType() === SearchType.Crag) {
+            return this.searchAutoCompleteCragsGQL
+              .fetch({
+                searchInput: { searchString },
               })
-            );
+              .pipe(
+                catchError(() => {
+                  this.error = true;
+                  return EMPTY;
+                })
+              );
+          } else if (this.searchType() === SearchType.Route) {
+            return this.searchAutoCompleteRoutesGQL
+              .fetch({
+                searchInput: { searchString, cragId: this.forCrag()?.id },
+              })
+              .pipe(
+                catchError(() => {
+                  this.error = true;
+                  return EMPTY;
+                })
+              );
+          } else {
+            return this.searchAutoCompleteGQL
+              .fetch({
+                searchInput: { searchString },
+              })
+              .pipe(
+                catchError(() => {
+                  this.error = true;
+                  return EMPTY;
+                })
+              );
+          }
         })
       )
       .subscribe({
         next: (result) => {
-          this.searchResults = <SearchResults>result.data.search;
+          this.searchResults = <SearchResults>result.data.searchByInput;
+          this.autocompleteTrigger.openPanel();
+          this.searchInput.nativeElement.focus();
         },
       });
   }
 
+  get typeLabel(): string {
+    switch (this.searchType()) {
+      case SearchType.Crag:
+        return 'Plezališče';
+      case SearchType.Route:
+        return 'Smer';
+      case SearchType.Sector:
+        return 'Sektor';
+      case SearchType.Comment:
+        return 'Komentar';
+      default:
+        return 'Iskanje';
+    }
+  }
+
   onSubmit() {
-    this.autocompleteTrigger.closePanel();
-    this.router.navigate([
-      '/iskanje',
-      this.searchForm.controls.searchControl.value,
-    ]);
+    this.autocompleteTrigger.openPanel();
+    this.searchInput.nativeElement.focus();
+    // this.router.navigate([
+    //   '/iskanje',
+    //   this.searchForm.controls.searchControl.value,
+    // ]);
   }
 
   onClear() {
     this.searchForm.controls.searchControl.setValue('');
+    this.onSelected.emit(null);
   }
 
   // should never come to this, because onOptionSelected is triggered and user is redirected before this happens
@@ -132,6 +234,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'Crag':
         const crag = optionValue;
 
+        if (this.onSelected) {
+          this.onSelected.emit(crag);
+          return;
+        }
         this.router.navigate(
           crag.type == 'alpine'
             ? ['/alpinizem/stena', crag.slug]
@@ -142,7 +248,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
       case 'Route':
         const route = optionValue;
-
+        if (this.onSelected) {
+          this.onSelected.emit(route);
+          return;
+        }
         this.router.navigate(
           route.crag.type == 'alpine'
             ? ['/alpinizem/stena', route.crag.slug, 'smer', route.slug]
@@ -153,6 +262,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'Sector':
         const sector = optionValue;
 
+        if (this.onSelected) {
+          this.onSelected.emit(sector);
+          return;
+        }
         this.router.navigate(
           sector.crag.type == 'alpine'
             ? ['/alpinizem/stena', sector.crag.slug]
@@ -169,6 +282,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

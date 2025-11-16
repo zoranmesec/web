@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   user: User;
-  currentUrl: string;
+  currentUrl: string = '';
   constructor(
     private router: Router,
     private authService: AuthService,

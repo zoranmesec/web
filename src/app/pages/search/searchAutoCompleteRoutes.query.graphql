@@ -1,28 +1,9 @@
-query SearchAutoComplete($searchInput: SearchInput) {
+query SearchAutoCompleteRoutes($searchInput: SearchInput) {
   searchByInput(input: $searchInput) {
-    crags {
-      __typename
-      id
-      name
-      slug
-      type
-    }
-
     routes {
       __typename
       id
       slug
-      name
-      crag {
-        id
-        slug
-        type
-      }
-    }
-
-    sectors {
-      __typename
-      id
       name
       crag {
         id

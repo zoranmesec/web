@@ -202,6 +202,7 @@ export class CragsComponent implements OnInit {
         });
     });
 
+    this.subscriptions.push(this.cragSub);
     this.subscriptions.push(routeSub);
     this.subscriptions.push(authSub);
 

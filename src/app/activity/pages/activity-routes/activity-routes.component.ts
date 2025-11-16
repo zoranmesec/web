@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
@@ -12,6 +13,9 @@ import {
   concatMap,
   debounceTime,
   filter,
+  map,
+  Observable,
+  startWith,
   Subject,
   Subscription,
   switchMap,
@@ -37,11 +41,14 @@ import {
   ActivityFiltersRouteQuery,
   namedOperations,
   DeleteActivityRouteGQL,
+  GradingSystemsQuery,
+  Crag,
+  Route,
 } from 'src/generated/graphql';
 import { FilteredTable } from '../../../common/filtered-table';
 import { CommonModule } from '@angular/common';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
@@ -58,11 +65,22 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AscentTypeOptionComponent } from '../../forms/activity-form/activity-form-route/ascent-type-option/ascent-type-option.component';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
+import { MatSliderModule } from '@angular/material/slider';
+import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
+import {
+  SearchComponent,
+  SearchType,
+} from 'src/app/pages/search/search.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MaterialElevationDirective } from 'src/app/shared/directives/material-elevation.directive';
 export interface RowAction {
   item: ActivityRoute;
   action: string;
 }
+
+const MIN_GRADE = 100;
+const MAX_GRADE = 2100;
 
 @Component({
   selector: 'app-activity-routes',
@@ -90,6 +108,9 @@ export interface RowAction {
     MatExpansionModule,
     AscentTypeOptionComponent,
     MatRadioModule,
+    MatSliderModule,
+    SearchComponent,
+    MatAutocompleteModule,
   ],
 })
 export class ActivityRoutesComponent implements OnInit, OnDestroy {
@@ -97,17 +118,41 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
   routes: MyActivityRoutesQuery['myActivityRoutes']['items'];
   pagination: MyActivityRoutesQuery['myActivityRoutes']['meta'];
-
+  allGrades: GradingSystemsQuery['gradingSystems'][0]['grades'] = [];
   loading = false;
 
-  filters = new FormGroup({
+  filters = this.fb.group({
     dateFrom: new FormControl(),
     dateTo: new FormControl(),
     ascentType: new FormControl(),
     cragId: new FormControl(),
     routeId: new FormControl(),
+    routeTypes: new FormControl([]),
     topRope: new FormControl(false),
     publish: new FormGroup({}),
+    sport: new FormControl(false, {
+      validators: [],
+      nonNullable: true,
+    }),
+    boulder: new FormControl(false, {
+      validators: [],
+      nonNullable: true,
+    }),
+    multipitch: new FormControl(false, {
+      validators: [],
+      nonNullable: true,
+    }),
+  });
+
+  gradeForm = this.fb.group({
+    minGrade: this.fb.control(
+      { value: MIN_GRADE, disabled: false },
+      { validators: [] }
+    ),
+    maxGrade: this.fb.control(
+      { value: MAX_GRADE, disabled: false },
+      { validators: [] }
+    ),
   });
 
   forCrag: ActivityFiltersCragQuery['crag'];
@@ -130,6 +175,9 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
       { name: 'publish', type: 'multiselect' },
       { name: 'cragId', type: 'relation' },
       { name: 'routeId', type: 'relation' },
+      { name: 'routeTypes', type: 'multiselect' },
+      { name: 'minGrade', type: 'number' },
+      { name: 'maxGrade', type: 'number' },
     ]
   );
   ignoreFormChange = true;
@@ -145,14 +193,22 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
+  cragsLoading = true;
   noTopropeOnPage = false;
 
+  protected routeTypes = ROUTE_TYPES;
   protected showFilters = true;
   protected showColumnSelection = false;
   protected searchFieldVisible = true;
 
   protected search = new FormControl();
   protected searchSub: Subscription;
+  protected gradingSystemId: string = 'french';
+  protected isSliderDragging = false;
+  protected searchTypes = SearchType;
+  protected routeSearchEnabled = false;
+  protected minGrade = MIN_GRADE;
+  protected maxGrade = MAX_GRADE;
 
   constructor(
     private router: Router,
@@ -166,8 +222,13 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
     private activityFiltersCragGQL: ActivityFiltersCragGQL,
     private activityFiltersRouteGQL: ActivityFiltersRouteGQL,
     private deleteActivityRouteGQL: DeleteActivityRouteGQL,
-    protected readonly breakpointService: BreakpointService
-  ) {}
+    private gradingSystemService: GradingSystemsService,
+    protected readonly breakpointService: BreakpointService,
+    protected readonly fb: FormBuilder,
+    private readonly cdr: ChangeDetectorRef
+  ) {
+    void this.fetchGrades();
+  }
 
   ngOnInit(): void {
     this.layoutService.$breadcrumbs.next([
@@ -184,9 +245,9 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
     const ft = this.filteredTable;
 
-    const navSub = ft.navigate$.subscribe((params) =>
-      this.router.navigate(['/plezalni-dnevnik/vzponi', params])
-    );
+    const navSub = ft.navigate$.subscribe((params) => {
+      this.router.navigate(['/plezalni-dnevnik/vzponi', params]);
+    });
     this.subscriptions.push(navSub);
 
     const routeParamsSub = this.activatedRoute.params
@@ -196,7 +257,18 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
           this.ignoreFormChange = true;
           this.filters.patchValue(ft.filterParams, { emitEvent: false });
-
+          if (ft.filterParams.minGrade != null) {
+            this.gradeForm.patchValue(
+              { minGrade: ft.filterParams.minGrade },
+              { emitEvent: false }
+            );
+          }
+          if (ft.filterParams.maxGrade != null) {
+            this.gradeForm.patchValue(
+              { maxGrade: ft.filterParams.maxGrade },
+              { emitEvent: false }
+            );
+          }
           this.applyRelationFilterDisplayValues();
 
           this.loading = true;
@@ -236,6 +308,10 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
           newParams.publish = Object.keys(newParams.publish).filter(
             (key) => newParams.publish[key] === true
           );
+          newParams.routeTypes = [];
+          if (newParams.sport) newParams.routeTypes.push('sport');
+          if (newParams.boulder) newParams.routeTypes.push('boulder');
+          if (newParams.multipitch) newParams.routeTypes.push('multipitch');
           ft.setFilterParams(newParams);
         }
       });
@@ -269,6 +345,72 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(rowActionsSub);
+  }
+
+  async fetchGrades(): Promise<void> {
+    const gradingSystems = await this.gradingSystemService.getGradingSystems();
+    const myGradingSystem = gradingSystems.find(
+      (gs) => gs.id === this.gradingSystemId
+    );
+    if (myGradingSystem != null) {
+      this.allGrades = myGradingSystem.grades;
+    }
+  }
+
+  filterRoutesByGrade() {
+    const ft = this.filteredTable;
+    if (ft.navigating) {
+      ft.navigating = false;
+    } else {
+      const newParams = { ...this.filters.value, ...this.gradeForm.value };
+      newParams.publish = Object.keys(newParams.publish).filter(
+        (key) => newParams.publish[key] === true
+      );
+      ft.setFilterParams(newParams);
+    }
+  }
+
+  formatLabel(value: number, isMin: boolean = false): string {
+    let myValue = value;
+    if (!myValue && isMin) myValue = MIN_GRADE;
+    if (!myValue && !isMin) myValue = MAX_GRADE;
+    if (value === 350 || value === 250 || value === 150) myValue = value - 50;
+    const grade = this.allGrades.find((grade) => grade.difficulty === myValue);
+
+    if (grade != null) return grade.name;
+
+    return `${myValue}`;
+  }
+
+  onCragSelected(selected: Crag) {
+    if (selected && selected.__typename === 'Crag') {
+      this.filters.patchValue({
+        routeId: null,
+        cragId: selected.id,
+      });
+      this.routeSearchEnabled = true;
+    } else {
+      this.filters.patchValue({
+        cragId: null,
+        routeId: null,
+      });
+      this.routeSearchEnabled = false;
+    }
+    this.cdr.detectChanges();
+  }
+
+  onRouteSelected(selected: Route) {
+    if (selected && selected.__typename === 'Route') {
+      this.filters.patchValue({
+        routeId: selected.id,
+      });
+    } else {
+      this.filters.patchValue({
+        routeId: null,
+      });
+      this.routeSearchEnabled = false;
+    }
+    this.cdr.detectChanges();
   }
 
   toggleColumnSelection(): void {
@@ -318,7 +460,10 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
       this.activityFiltersCragGQL
         .fetch({ id: this.filters.value.cragId })
         .pipe(take(1))
-        .subscribe((crag) => (this.forCrag = crag.data.crag));
+        .subscribe((crag) => {
+          this.forCrag = crag.data.crag;
+          this.routeSearchEnabled = true;
+        });
     }
 
     if (!(this.filters.value.cragId != null)) {

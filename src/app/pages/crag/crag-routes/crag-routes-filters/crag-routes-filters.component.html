@@ -74,6 +74,14 @@
           <input formControlName="minDifficulty" matSliderStartThumb />
           <input formControlName="maxDifficulty" matSliderEndThumb />
         </mat-slider>
+        <div class="flex flex-row flex-justify-space-between">
+          <span>{{
+            formatLabel(filtersForm.controls.minDifficulty.value)
+          }}</span>
+          <span>{{
+            formatLabel(filtersForm.controls.maxDifficulty.value)
+          }}</span>
+        </div>
       </mat-expansion-panel>
       }
     </mat-accordion>

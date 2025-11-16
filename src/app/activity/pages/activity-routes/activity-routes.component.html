@@ -154,6 +154,18 @@
             <mat-expansion-panel-header>
               <mat-panel-title> Glede na plezališče in smer </mat-panel-title>
             </mat-expansion-panel-header>
+            <app-search
+              [searchType]="searchTypes.Crag"
+              [forCrag]="forCrag"
+              (onSelected)="onCragSelected($event)"
+            ></app-search>
+            <app-search
+              [searchType]="searchTypes.Route"
+              [disabled]="!routeSearchEnabled"
+              [forRoute]="forRoute"
+              [forCrag]="forCrag"
+              (onSelected)="onRouteSelected($event)"
+            ></app-search>
           </mat-expansion-panel>
 
           <mat-expansion-panel expanded="">
@@ -162,6 +174,58 @@
                 Glede na tip smeri in težavnost
               </mat-panel-title>
             </mat-expansion-panel-header>
+
+            <div
+              class="flex flex-column flex-justify-space-around flex-wrap m-t-8"
+            >
+              <div>
+                <ul>
+                  @for (routeType of routeTypes; track $index) {
+                  <li>
+                    <label class="checkbox-container">
+                      <input
+                        type="checkbox"
+                        [checked]="filters.controls[routeType.id].value"
+                        [formControlName]="routeType.id"
+                      />
+                      <span class="checkmark"></span>
+                      <span class="checkmark-label">{{ routeType.label }}</span>
+                    </label>
+                  </li>
+                  }
+                </ul>
+              </div>
+              @if (allGrades.length > 0) {
+
+              <div [formGroup]="gradeForm">
+                <mat-slider
+                  [min]="minGrade"
+                  [max]="maxGrade"
+                  step="50"
+                  [displayWith]="formatLabel.bind(this)"
+                >
+                  <input
+                    formControlName="minGrade"
+                    matSliderStartThumb
+                    (dragEnd)="filterRoutesByGrade()"
+                  />
+                  <input
+                    formControlName="maxGrade"
+                    matSliderEndThumb
+                    (dragEnd)="filterRoutesByGrade()"
+                  />
+                </mat-slider>
+                <div class="flex flex-row flex-justify-space-between">
+                  <span>{{
+                    formatLabel(gradeForm.controls.minGrade.value, true)
+                  }}</span>
+                  <span>{{
+                    formatLabel(gradeForm.controls.maxGrade.value, false)
+                  }}</span>
+                </div>
+              </div>
+              }
+            </div>
           </mat-expansion-panel>
 
           <mat-expansion-panel expanded="">
@@ -193,22 +257,22 @@
             <mat-expansion-panel-header>
               <mat-panel-title> Glede na vidnost </mat-panel-title>
             </mat-expansion-panel-header>
+            <div formGroupName="publish">
+              @for (option of publishOptions; track $index) {
+
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  [formControlName]="option.value"
+                  [value]="option.value"
+                />
+                <span class="checkmark"></span>
+                <span class="checkmark-label"> {{ option.label }} </span>
+              </label>
+              }
+            </div>
           </mat-expansion-panel>
 
-          <div formGroupName="publish">
-            @for (option of publishOptions; track $index) {
-
-            <label class="checkbox-container">
-              <input
-                type="checkbox"
-                [formControlName]="option.value"
-                [value]="option.value"
-              />
-              <span class="checkmark"></span>
-              <span class="checkmark-label"> {{ option.label }} </span>
-            </label>
-            }
-          </div>
           <!-- <mat-form-field appearance="outline">
             <mat-label>Vidnost</mat-label>
             <mat-select formControlName="publish" multiple>

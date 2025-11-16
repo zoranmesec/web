@@ -22,6 +22,8 @@ import { DeleteIconComponent } from './delete-icon/delete-icon.component';
 import { CalendarIconComponent } from './calendar-icon/calendar-icon.component';
 import { StatisticsIconComponent } from './statistics-icon/statistics-icon.component';
 import { AscentsIconComponent } from './ascents-icon/ascents-icon.component';
+import { MergeIconComponent } from './merge-icon/merge-icon.component';
+import { HeightIconComponent } from './height-icon/height-icon.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { AscentsIconComponent } from './ascents-icon/ascents-icon.component';
     CalendarIconComponent,
     StatisticsIconComponent,
     AscentsIconComponent,
+    MergeIconComponent,
+    HeightIconComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -72,6 +76,8 @@ import { AscentsIconComponent } from './ascents-icon/ascents-icon.component';
     MoreIconComponent,
     OrientationIconComponent,
     QuestionIconComponent,
+    MergeIconComponent,
+    HeightIconComponent,
   ],
 })
 export class IconsModule {}

@@ -74,6 +74,11 @@ export class FilteredTable {
         qp[filter.name] = values[filter.name];
         return;
       }
+      if (filter.type == 'number' && values[filter.name] != null) {
+        fp[filter.name] = Number.parseInt(values[filter.name]);
+        qp[filter.name] = Number.parseInt(values[filter.name]);
+        return;
+      }
       fp[filter.name] = null;
     });
 
@@ -133,6 +138,12 @@ export class FilteredTable {
       if (filter.type == 'relation' && values[filter.name] != null) {
         rp[filter.name] = values[filter.name];
         fp[filter.name] = values[filter.name];
+        return;
+      }
+
+      if (filter.type == 'number' && values[filter.name] != null) {
+        rp[filter.name] = Number.parseInt(values[filter.name]);
+        fp[filter.name] = Number.parseInt(values[filter.name]);
         return;
       }
       fp[filter.name] = null;
