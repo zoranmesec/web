@@ -19,10 +19,10 @@ interface FlatArea {
 }
 
 @Component({
-    selector: 'app-areas',
-    templateUrl: './country.component.html',
-    styleUrls: ['./country.component.scss'],
-    standalone: false
+  selector: 'app-areas',
+  templateUrl: './country.component.html',
+  styleUrls: ['./country.component.scss'],
+  standalone: false,
 })
 export class CountryComponent implements OnInit {
   loading: boolean = true;
@@ -56,13 +56,15 @@ export class CountryComponent implements OnInit {
       this.areaSlug = params.obmocje;
       this.iceFallsCountryGQL
         .watch({
-          countrySlug: params.country,
-          areaSlug: params.obmocje,
+          variables: {
+            countrySlug: params.country,
+            areaSlug: params.obmocje,
+          },
         })
         .valueChanges.subscribe({
           next: (result) => {
             this.loading = false;
-            this.querySuccess(result.data);
+            this.querySuccess(result.data as IceFallsCountryQuery);
           },
           error: () => {
             this.loading = false;

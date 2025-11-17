@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/services/layout.service';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterGQL } from 'src/generated/graphql';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -8,10 +12,10 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss'],
-    standalone: false
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
+  standalone: false,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   loading = false;
@@ -61,12 +65,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     this.registerGQL
       .mutate({
-        input: {
-          email: value.email,
-          password: value.password,
-          firstname: value.firstname,
-          lastname: value.lastname,
-          gender: value.gender,
+        variables: {
+          input: {
+            email: value.email,
+            password: value.password,
+            firstname: value.firstname,
+            lastname: value.lastname,
+            gender: value.gender,
+          },
         },
       })
       .subscribe({

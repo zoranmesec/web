@@ -11,56 +11,70 @@
         placeholder="Vnesi ime"
         formControlName="searchControl"
         [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        #auto="matAutocomplete"
-        [displayWith]="displayFn.bind(this)"
-        (optionSelected)="onOptionSelected($event.option.value)"
-      >
-        <mat-option disabled *ngIf="error"
-          >Prišlo je do nepričakovane napake</mat-option
-        >
-
-        <ng-container *ngIf="!error">
-          @if(loading) {
-          <mat-option disabled><app-loader></app-loader></mat-option>
-          } @if (searchResults?.crags) {
-
-          <mat-optgroup *ngIf="searchResults?.crags.length" label="Plezališča">
-            <mat-option *ngFor="let crag of searchResults.crags" [value]="crag">
-              {{ crag.name }}
-            </mat-option>
-          </mat-optgroup>
-          } @if (searchResults?.routes) {
-          <mat-optgroup *ngIf="searchResults?.routes.length" label="Smeri">
-            <mat-option
-              *ngFor="let route of searchResults.routes"
-              [value]="route"
-            >
-              {{ route.name }}
-            </mat-option>
-          </mat-optgroup>
-          } @if (searchResults?.sectors) {
-          <mat-optgroup *ngIf="searchResults?.sectors.length" label="Sektorji">
-            <mat-option
-              *ngFor="let sector of searchResults.sectors"
-              [value]="sector"
-            >
-              {{ sector.name }}
-            </mat-option>
-          </mat-optgroup>
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn.bind(this)"
+          (optionSelected)="onOptionSelected($event.option.value)"
+          >
+          @if (error) {
+            <mat-option disabled
+              >Prišlo je do nepričakovane napake</mat-option
+              >
           }
 
-          <mat-optgroup *ngIf="searchResults?.users?.length" label="Uporabniki">
-            <mat-option *ngFor="let user of searchResults.users" [value]="user">
-              {{ user.fullName }}
-            </mat-option>
-          </mat-optgroup>
-        </ng-container>
-      </mat-autocomplete>
-      <button type="button" matSuffix mat-icon-button (click)="onClear()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </form>
-</div>
+          @if (!error) {
+            @if(loading) {
+              <mat-option disabled><app-loader></app-loader></mat-option>
+              } @if (searchResults?.crags) {
+              @if (searchResults?.crags.length) {
+                <mat-optgroup label="Plezališča">
+                  @for (crag of searchResults.crags; track crag) {
+                    <mat-option [value]="crag">
+                      {{ crag.name }}
+                    </mat-option>
+                  }
+                </mat-optgroup>
+              }
+              } @if (searchResults?.routes) {
+              @if (searchResults?.routes.length) {
+                <mat-optgroup label="Smeri">
+                  @for (route of searchResults.routes; track route) {
+                    <mat-option
+                      [value]="route"
+                      >
+                      {{ route.name }}
+                    </mat-option>
+                  }
+                </mat-optgroup>
+              }
+              } @if (searchResults?.sectors) {
+              @if (searchResults?.sectors.length) {
+                <mat-optgroup label="Sektorji">
+                  @for (sector of searchResults.sectors; track sector) {
+                    <mat-option
+                      [value]="sector"
+                      >
+                      {{ sector.name }}
+                    </mat-option>
+                  }
+                </mat-optgroup>
+              }
+            }
+            @if (searchResults?.users?.length) {
+              <mat-optgroup label="Uporabniki">
+                @for (user of searchResults.users; track user) {
+                  <mat-option [value]="user">
+                    {{ user.fullName }}
+                  </mat-option>
+                }
+              </mat-optgroup>
+            }
+          }
+        </mat-autocomplete>
+        <button type="button" matSuffix mat-icon-button (click)="onClear()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </div>

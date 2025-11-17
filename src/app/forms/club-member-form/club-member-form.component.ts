@@ -13,7 +13,6 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MutationResult } from 'apollo-angular';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import {
   Club,
@@ -22,6 +21,7 @@ import {
 } from '../../../generated/graphql';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { ErrorLike, MutateResult } from '@apollo/client';
 
 @Component({
   selector: 'app-club-member-form',
@@ -61,32 +61,31 @@ export class ClubMemberFormComponent implements OnInit {
     this.loading = true;
 
     this.createClubMemberByEmailGQL
-      .mutate(
-        {
+      .mutate({
+        variables: {
           input: {
             admin: admin,
             userEmail: email,
             clubId: this.data.clubId,
           },
         },
-        {
-          update: (cache) => {
-            cache.evict({
-              id: cache.identify(this.data.club),
-            });
 
-            // remove from cache all queries on activityRoutes for club members - will need to fetch again because we have a new member
-            cache.evict({
-              id: 'ROOT_QUERY',
-              fieldName: 'activityRoutesByClubSlug',
-            });
-          },
-        }
-      )
+        update: (cache) => {
+          cache.evict({
+            id: cache.identify(this.data.club),
+          });
+
+          // remove from cache all queries on activityRoutes for club members - will need to fetch again because we have a new member
+          cache.evict({
+            id: 'ROOT_QUERY',
+            fieldName: 'activityRoutesByClubSlug',
+          });
+        },
+      })
       .subscribe({
-        next: (result: MutationResult<CreateClubMemberByEmailMutation>) => {
-          if (result.errors != null) {
-            this.queryError(result.errors);
+        next: (result: MutateResult<CreateClubMemberByEmailMutation>) => {
+          if (result.error != null) {
+            this.queryError(result.error);
           } else {
             this.querySuccess();
           }
@@ -97,20 +96,16 @@ export class ClubMemberFormComponent implements OnInit {
       });
   }
 
-  queryError(errors: readonly GraphQLFormattedError<Record<string, any>>[]) {
-    if (
-      errors.length > 0 &&
-      errors[0].message.startsWith('Could not find any entity of type')
-    ) {
+  queryError(errors: ErrorLike) {
+    if (errors.message.startsWith('Could not find any entity of type')) {
       this.displayError('Uporabnik s tem e-poštnim naslovom ni bil najden.');
     } else if (
-      errors.length > 0 &&
-      errors[0].message.startsWith(
+      errors.message.startsWith(
         'duplicate key value violates unique constraint'
       )
     ) {
       this.displayError('Uporabnik s tem e-poštnim naslovom je že član kluba.');
-    } else if (errors.length > 0 && errors[0].message === 'Forbidden') {
+    } else if (errors.message === 'Forbidden') {
       // should not really happen, because only club admins should see the option for adding members
       this.displayError('Samo administratorji kluba lahko dodajajo člane.');
     } else {

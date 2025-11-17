@@ -25,7 +25,7 @@ import {
   Peak,
   Route,
 } from 'src/generated/graphql';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
@@ -48,7 +48,6 @@ export interface DialogData {
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
     MatFormFieldModule,
     MatRadioModule,
     MatInputModule,
@@ -165,17 +164,15 @@ export class CommentFormComponent implements OnInit {
     };
 
     this.createCommentGQL
-      .mutate(
-        { input: value },
-        {
-          refetchQueries: [
-            //TODO: some of these queries might not be active and trying to refetch them causes apollo warnings
-            namedOperations.Query.CragBySlug,
-            namedOperations.Query.IceFallBySlug,
-            namedOperations.Query.RouteBySlug,
-          ],
-        }
-      )
+      .mutate({
+        variables: { input: value },
+        refetchQueries: [
+          //TODO: some of these queries might not be active and trying to refetch them causes apollo warnings
+          namedOperations.Query.CragBySlug,
+          namedOperations.Query.IceFallBySlug,
+          namedOperations.Query.RouteBySlug,
+        ],
+      })
       .subscribe({
         next: (result: any) => {
           this.loading = false;
@@ -207,15 +204,13 @@ export class CommentFormComponent implements OnInit {
     };
 
     this.updateCommentGQL
-      .mutate(
-        { input: value },
-        {
-          refetchQueries: [
-            namedOperations.Query.CragBySlug,
-            namedOperations.Query.IceFallBySlug,
-          ],
-        }
-      )
+      .mutate({
+        variables: { input: value },
+        refetchQueries: [
+          namedOperations.Query.CragBySlug,
+          namedOperations.Query.IceFallBySlug,
+        ],
+      })
       .subscribe({
         next: (result: any) => {
           this.loading = false;

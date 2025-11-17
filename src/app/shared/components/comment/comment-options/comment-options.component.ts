@@ -50,16 +50,14 @@ export class CommentOptionsComponent implements OnInit {
       .subscribe((result) => {
         if (result != null) {
           this.deleteCommentGQL
-            .mutate(
-              { id: this.comment.id },
-              {
-                refetchQueries: [
-                  namedOperations.Query.CragBySlug,
-                  namedOperations.Query.IceFallBySlug,
-                  namedOperations.Query.LatestComments,
-                ],
-              }
-            )
+            .mutate({
+              variables: { id: this.comment.id },
+              refetchQueries: [
+                namedOperations.Query.CragBySlug,
+                namedOperations.Query.IceFallBySlug,
+                namedOperations.Query.LatestComments,
+              ],
+            })
             .pipe(take(1))
             .subscribe({
               error: () => {

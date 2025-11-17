@@ -21,7 +21,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="type == 'crag' && !routes.length">
+  @if (type == 'crag' && !routes.length) {
     <div class="container mt-16">
       Izgleda, da nimaš izbranih smeri za vpis v dnevnik.
       <br />
@@ -30,7 +30,7 @@
       <a [routerLink]="['/plezalni-dnevnik']">plezalni dnevnik</a> ali na
       <a [routerLink]="['/plezalisca/slovenija', { type: 'sport' }]"
         >plezališča</a
-      >.
-    </div>
-  </ng-container>
-</mat-dialog-content>
+        >.
+      </div>
+    }
+  </mat-dialog-content>

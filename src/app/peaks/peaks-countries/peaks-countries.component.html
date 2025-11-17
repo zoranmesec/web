@@ -1,37 +1,44 @@
-<app-data-error *ngIf="error"></app-data-error>
+@if (error) {
+  <app-data-error></app-data-error>
+}
 
-<div *ngIf="!error">
-  <div class="white-back mt-16">
-    <div class="container py-8">
-      <h1>Vrhovi po državah</h1>
+@if (!error) {
+  <div>
+    <div class="white-back mt-16">
+      <div class="container py-8">
+        <h1>Vrhovi po državah</h1>
+      </div>
     </div>
+    @if (loading) {
+      <app-loader></app-loader>
+    }
+    @if (!loading) {
+      <div class="container mt-16">
+        <mat-card>
+          <mat-card-content>
+            <table>
+              <thead>
+                <tr>
+                  <th>Država</th>
+                  <th>Št. vrhov</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (country of peaksCountries; track country) {
+                  <tr
+                    [routerLink]="['/alpinizem/vrhovi/drzava', country.slug]"
+                    >
+                    <td>{{ country.name }}</td>
+                    <td>
+                      {{ country.nrPeaks }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
   </div>
-
-  <app-loader *ngIf="loading"></app-loader>
-
-  <div *ngIf="!loading" class="container mt-16">
-    <mat-card>
-      <mat-card-content>
-        <table>
-          <thead>
-            <tr>
-              <th>Država</th>
-              <th>Št. vrhov</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let country of peaksCountries"
-              [routerLink]="['/alpinizem/vrhovi/drzava', country.slug]"
-            >
-              <td>{{ country.name }}</td>
-              <td>
-                {{ country.nrPeaks }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+}

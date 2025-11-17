@@ -12,21 +12,24 @@
     <p>
       <mat-checkbox fxLayout="row" fxLayoutAlign="start" formControlName="admin"
         >Administrator</mat-checkbox
-      >
-    </p>
+        >
+      </p>
 
-    <div class="button-w-loading">
-      <button
-        *ngIf="!loading"
-        mat-flat-button
-        color="primary"
-        [disabled]="!addMemberForm.valid"
-      >
-        DODAJ ČLANA
-      </button>
-      <span *ngIf="loading" class="loading">
-        <mat-spinner diameter="30"></mat-spinner>
-      </span>
-    </div>
-  </form>
-</mat-dialog-content>
+      <div class="button-w-loading">
+        @if (!loading) {
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="!addMemberForm.valid"
+            >
+            DODAJ ČLANA
+          </button>
+        }
+        @if (loading) {
+          <span class="loading">
+            <mat-spinner diameter="30"></mat-spinner>
+          </span>
+        }
+      </div>
+    </form>
+  </mat-dialog-content>

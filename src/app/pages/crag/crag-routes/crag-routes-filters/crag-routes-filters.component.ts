@@ -8,7 +8,7 @@ import {
 
 import { MatIconModule } from '@angular/material/icon';
 
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
@@ -30,15 +30,14 @@ import { CragRoutesFiltersService } from '../crag-routes-filters.service';
   templateUrl: './crag-routes-filters.component.html',
   styleUrls: ['./crag-routes-filters.component.scss'],
   imports: [
-    CommonModule,
     MatIconModule,
     MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
     FlexLayoutModule,
-    MatSliderModule,
-  ],
+    MatSliderModule
+],
 })
 export class CragRoutesFiltersComponent implements OnDestroy, OnInit {
   @Output() close = new EventEmitter<void>();

@@ -32,7 +32,7 @@ import { ActivityFormService } from './activity-form.service';
 import { concatMap, EMPTY, map, of, switchMap } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { ACTIVITY_TYPES } from 'src/app/common/activity.constants';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import {
   MatDialog,
   MatDialogActions,
@@ -71,7 +71,6 @@ import { GradingSystemsService } from 'src/app/shared/services/grading-systems.s
   templateUrl: './activity-form.component.html',
   styleUrls: ['./activity-form.component.scss'],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatLabel,
@@ -191,7 +190,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     if (this.selectedRoutes?.length) {
       this.starRatingVotesGQL
         .fetch({
-          routeIds: this.selectedRoutes.map((route) => route.id),
+          variables: { routeIds: this.selectedRoutes.map((route) => route.id) },
         })
         .subscribe({
           next: (response) => {
@@ -223,9 +222,11 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
             )
           );
           return this.routesTouchesGQL.fetch({
-            input: {
-              routeIds: [...routeIds],
-              before: date,
+            variables: {
+              input: {
+                routeIds: [...routeIds],
+                before: date,
+              },
             },
           });
         })
@@ -311,17 +312,19 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         switchMap((date) => {
           this.loadingActivity = true;
           return this.myActivitiesGQL.fetch({
-            input: {
-              dateFrom: dayjs(date).format('YYYY-MM-DD'),
-              dateTo: dayjs(date).format('YYYY-MM-DD'),
-              cragId: this.crag.id,
+            variables: {
+              input: {
+                dateFrom: dayjs(date).format('YYYY-MM-DD'),
+                dateTo: dayjs(date).format('YYYY-MM-DD'),
+                cragId: this.crag.id,
+              },
             },
           });
         }),
         map((response) => response.data.myActivities.items[0] ?? null),
         switchMap((activity) =>
           activity != null
-            ? this.activityEntryGQL.fetch({ id: activity.id })
+            ? this.activityEntryGQL.fetch({ variables: { id: activity.id } })
             : of(null)
         ),
         map((response) => (response ? response.data.activity : null))
@@ -439,7 +442,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         };
 
         this.updateActivityGQL
-          .mutate({ input: editActivityInput, routes: [] })
+          .mutate({ variables: { input: editActivityInput, routes: [] } })
           .subscribe(this.getActivityMutationObserver());
         break;
 
@@ -450,7 +453,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         };
 
         this.dryRunUpdateActivityGQL
-          .fetch({ input: addToActivityInput, routes })
+          .fetch({ variables: { input: addToActivityInput, routes } })
           .pipe(
             concatMap((result) => {
               if (result.data.dryRunUpdateActivity.length) {
@@ -470,8 +473,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                 // User confirmed autocorrect changes, so do the actual mutation now
                 this.loading = true;
                 return this.updateActivityGQL.mutate({
-                  input: addToActivityInput,
-                  routes,
+                  variables: { input: addToActivityInput, routes },
                 });
               } else {
                 // User declined. Nothing to do. Make form active again and complete.
@@ -494,7 +496,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         };
 
         this.dryRunCreateActivityGQL
-          .fetch({ input: createActivityInput, routes })
+          .fetch({ variables: { input: createActivityInput, routes } })
           .pipe(
             concatMap((result) => {
               if (result.data.dryRunCreateActivity.length) {
@@ -514,8 +516,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                 // User confirmed autocorrect changes, so do the actual mutation now
                 this.loading = true;
                 return this.createActivityGQL.mutate({
-                  input: createActivityInput,
-                  routes,
+                  variables: { input: createActivityInput, routes },
                 });
               } else {
                 // User declined. Nothing to do. Make form active again and complete.

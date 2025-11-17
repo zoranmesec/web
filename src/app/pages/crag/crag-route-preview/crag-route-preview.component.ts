@@ -19,7 +19,7 @@ import {
 } from 'src/generated/graphql';
 import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
 import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
-import { CommonModule } from '@angular/common';
+
 import { RouteCommentsComponent } from '../../route/route-comments/route-comments.component';
 
 @Component({
@@ -28,7 +28,6 @@ import { RouteCommentsComponent } from '../../route/route-comments/route-comment
   styleUrls: ['./crag-route-preview.component.scss'],
   imports: [
     PublishStatusHintComponent,
-    CommonModule,
     DistributionChartComponent,
     RouteCommentsComponent,
   ],
@@ -65,12 +64,14 @@ export class CragRoutePreviewComponent implements OnChanges {
     this.gradeDistributionLoading = true;
 
     this.routeDifficultyVotesGQL
-      .watch({ routeId })
+      .watch({ variables: { routeId } })
       .valueChanges.subscribe((result) => {
         this.gradeDistributionLoading = false;
 
-        if (!result.errors) {
-          this.routeDiffVotesQuerySuccess(result.data);
+        if (!result.error) {
+          this.routeDiffVotesQuerySuccess(
+            result.data as RouteDifficultyVotesQuery
+          );
         } else {
           console.error('Error fetching route difficulty votes');
         }
@@ -98,12 +99,12 @@ export class CragRoutePreviewComponent implements OnChanges {
     this.routeCommentsLoading = true;
 
     this.routeCommentsGQL
-      .watch({ routeId: routeId })
+      .watch({ variables: { routeId: routeId } })
       .valueChanges.subscribe((result) => {
         this.routeCommentsLoading = false;
 
-        if (!result.errors) {
-          this.routeCommentsQuerySuccess(result.data);
+        if (!result.error) {
+          this.routeCommentsQuerySuccess(result.data as RouteCommentsQuery);
         } else {
           console.error('Error fetching route comments');
         }

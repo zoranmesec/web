@@ -6,10 +6,10 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-confirm-club-membership',
-    templateUrl: './confirm-club-membership.component.html',
-    styleUrls: ['./confirm-club-membership.component.scss'],
-    standalone: false
+  selector: 'app-confirm-club-membership',
+  templateUrl: './confirm-club-membership.component.html',
+  styleUrls: ['./confirm-club-membership.component.scss'],
+  standalone: false,
 })
 export class ConfirmClubMembershipComponent implements OnInit {
   loading = true;
@@ -27,9 +27,11 @@ export class ConfirmClubMembershipComponent implements OnInit {
 
     this.confirmClubMembershipGQL
       .mutate({
-        input: {
-          id: clubMemberId,
-          token: token,
+        variables: {
+          input: {
+            id: clubMemberId,
+            token: token,
+          },
         },
       })
       .subscribe({

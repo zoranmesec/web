@@ -1,46 +1,50 @@
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
-<app-loader *ngIf="loading && !error"></app-loader>
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
+}
+@if (loading && !error) {
+  <app-loader></app-loader>
+}
 
 <app-pending-contributions-hints></app-pending-contributions-hints>
 <div>
   <div class="container mt-16">
     <!-- <mat-card class="announcement-card mt-16 mb-32">
-      <div class="date">16. 10. 2022</div>
-      <h2>Dodajanje fotografij</h2>
-      <p>
-        Na strani plezališca in na strani plezalne smeri je odslej spet mogoče
-        dodajati fotografije. Pojavno okno za dodajanje fotografije prikličeš s
-        klikom na povezavo <i>Dodaj fotografijo</i>, ki se nahaja v spustnem
-        seznamu, desno od imena plezališča oz. smeri.
-      </p>
+    <div class="date">16. 10. 2022</div>
+    <h2>Dodajanje fotografij</h2>
+    <p>
+      Na strani plezališca in na strani plezalne smeri je odslej spet mogoče
+      dodajati fotografije. Pojavno okno za dodajanje fotografije prikličeš s
+      klikom na povezavo <i>Dodaj fotografijo</i>, ki se nahaja v spustnem
+      seznamu, desno od imena plezališča oz. smeri.
+    </p>
 
-      <p>
-        O preteklih novostih si preberi v
-        <a [routerLink]="['/dnevnik-sprememb']">dnevniku sprememb</a>.
-      </p>
-    </mat-card> -->
+    <p>
+      O preteklih novostih si preberi v
+      <a [routerLink]="['/dnevnik-sprememb']">dnevniku sprememb</a>.
+    </p>
+  </mat-card> -->
 
-    <app-search></app-search>
+  <app-search></app-search>
 
-    <app-exposed-warnings
+  <app-exposed-warnings
+    (errorEvent)="handleError($event)"
+  ></app-exposed-warnings>
+
+  <app-popular-crags (errorEvent)="handleError($event)"></app-popular-crags>
+
+  <!-- <app-latest-images (errorEvent)="handleError($event)"></app-latest-images> -->
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="16px">
+    <app-latest-ascents
+      fxFlex="50"
       (errorEvent)="handleError($event)"
-    ></app-exposed-warnings>
-
-    <app-popular-crags (errorEvent)="handleError($event)"></app-popular-crags>
-
-    <!-- <app-latest-images (errorEvent)="handleError($event)"></app-latest-images> -->
-    <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="16px">
-      <app-latest-ascents
-        fxFlex="50"
-        (errorEvent)="handleError($event)"
-      ></app-latest-ascents>
-      <app-latest-difficulty-votes
-        fxFlex="50"
-        (errorEvent)="handleError($event)"
-      ></app-latest-difficulty-votes>
-    </div>
-    <app-latest-comments
+    ></app-latest-ascents>
+    <app-latest-difficulty-votes
+      fxFlex="50"
       (errorEvent)="handleError($event)"
-    ></app-latest-comments>
+    ></app-latest-difficulty-votes>
   </div>
+  <app-latest-comments
+    (errorEvent)="handleError($event)"
+  ></app-latest-comments>
+</div>
 </div>

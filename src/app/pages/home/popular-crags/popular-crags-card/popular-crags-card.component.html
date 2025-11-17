@@ -1,53 +1,58 @@
-<mat-card appearance="outlined" *ngIf="!loading">
-  <mat-card-title>{{ title }}</mat-card-title>
-  <mat-card-content>
-    <div *ngIf="popularCrags.length" class="table-wrapper">
-      <table class="stats-card-table">
-        <thead>
-          <tr>
-            <th>Plezališče</th>
-            <th>Št. obiskov</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let popularCrag of popularCrags; let i = index"
-            [fxHide]="i >= 10 && !expand"
-            fxShow.gt-sm
-          >
-            <td>
-              <a [routerLink]="['/plezalisce', popularCrag.crag.slug]">{{
-                popularCrag.crag.name
-              }}</a>
-            </td>
-            <td>{{ popularCrag.nrVisits }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div *ngIf="!popularCrags.length" class="message">
-      V tem obdobju ni bilo obiskano nobeno plezališče.
-    </div>
-  </mat-card-content>
-
-  <mat-divider [fxHide]="popularCrags.length <= 10" fxHide.gt-sm></mat-divider>
-
-  <mat-card-actions>
-    <button
-      [fxHide]="popularCrags.length <= 10 || expand"
-      fxHide.gt-sm
-      mat-button
-      (click)="expand = true"
-    >
-      RAZŠIRI
-    </button>
-    <button
-      [fxHide]="popularCrags.length <= 10 || !expand"
-      fxHide.gt-sm
-      mat-button
-      (click)="expand = false"
-    >
-      SKRČI
-    </button>
-  </mat-card-actions>
-</mat-card>
+@if (!loading) {
+  <mat-card appearance="outlined">
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content>
+      @if (popularCrags.length) {
+        <div class="table-wrapper">
+          <table class="stats-card-table">
+            <thead>
+              <tr>
+                <th>Plezališče</th>
+                <th>Št. obiskov</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (popularCrag of popularCrags; track popularCrag; let i = $index) {
+                <tr
+                  [fxHide]="i >= 10 && !expand"
+                  fxShow.gt-sm
+                  >
+                  <td>
+                    <a [routerLink]="['/plezalisce', popularCrag.crag.slug]">{{
+                      popularCrag.crag.name
+                    }}</a>
+                  </td>
+                  <td>{{ popularCrag.nrVisits }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+      @if (!popularCrags.length) {
+        <div class="message">
+          V tem obdobju ni bilo obiskano nobeno plezališče.
+        </div>
+      }
+    </mat-card-content>
+    <mat-divider [fxHide]="popularCrags.length <= 10" fxHide.gt-sm></mat-divider>
+    <mat-card-actions>
+      <button
+        [fxHide]="popularCrags.length <= 10 || expand"
+        fxHide.gt-sm
+        mat-button
+        (click)="expand = true"
+        >
+        RAZŠIRI
+      </button>
+      <button
+        [fxHide]="popularCrags.length <= 10 || !expand"
+        fxHide.gt-sm
+        mat-button
+        (click)="expand = false"
+        >
+        SKRČI
+      </button>
+    </mat-card-actions>
+  </mat-card>
+}

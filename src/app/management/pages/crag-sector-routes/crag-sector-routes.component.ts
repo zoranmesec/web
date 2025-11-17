@@ -32,10 +32,10 @@ interface TmpRoute {
 }
 
 @Component({
-    selector: 'app-crag-sector-routes',
-    templateUrl: './crag-sector-routes.component.html',
-    styleUrls: ['./crag-sector-routes.component.scss'],
-    standalone: false
+  selector: 'app-crag-sector-routes',
+  templateUrl: './crag-sector-routes.component.html',
+  styleUrls: ['./crag-sector-routes.component.scss'],
+  standalone: false,
 })
 export class CragSectorRoutesComponent implements OnInit, OnDestroy {
   loading: boolean = true;
@@ -71,7 +71,7 @@ export class CragSectorRoutesComponent implements OnInit, OnDestroy {
         switchMap(
           (params) =>
             this.sectorGQL.watch({
-              id: params.sector,
+              variables: { id: params.sector },
             }).valueChanges
         )
       ),
@@ -125,7 +125,7 @@ export class CragSectorRoutesComponent implements OnInit, OnDestroy {
     this.savingPositions = true;
 
     this.savePositionGQL
-      .mutate({ input: data }, { fetchPolicy: 'no-cache' })
+      .mutate({ variables: { input: data }, fetchPolicy: 'no-cache' })
       .subscribe(() => {
         this.apollo.client.resetStore().then(() => {
           this.savingPositions = false;
@@ -190,7 +190,9 @@ export class CragSectorRoutesComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         filter((value) => value != null),
-        switchMap(() => this.deleteRouteGQL.mutate({ id: sector.id }))
+        switchMap(() =>
+          this.deleteRouteGQL.mutate({ variables: { id: sector.id } })
+        )
       )
       .subscribe({
         next: () => {

@@ -5,20 +5,20 @@ import { Subscription } from 'rxjs';
 import { ClubFormComponent } from 'src/app/forms/club-form/club-form.component';
 import { LayoutService } from 'src/app/services/layout.service';
 import { DataError } from 'src/app/types/data-error';
-import { Club, MyClubsGQL } from '../../../generated/graphql';
+import { Club, MyClubsGQL, MyClubsQuery } from '../../../generated/graphql';
 
 @Component({
-    selector: 'app-clubs',
-    templateUrl: './clubs.component.html',
-    styleUrls: ['./clubs.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'app-clubs',
+  templateUrl: './clubs.component.html',
+  styleUrls: ['./clubs.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class ClubsComponent implements OnInit, OnDestroy {
   myClubs: Club[] = [];
   loading = true;
   error: DataError = null;
-  myClubsQuery: QueryRef<any>;
+  myClubsQuery: QueryRef<MyClubsQuery, any>;
   myClubsSubscription: Subscription;
 
   constructor(

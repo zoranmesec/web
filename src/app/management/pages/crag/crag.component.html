@@ -1,31 +1,37 @@
-<div *ngIf="!loading && error" class="container py-8">
-  Plezališče ne obstaja.
-</div>
-<div *ngIf="!loading && !error">
-  <div class="white-back mt-16">
-    <div
-      class="container py-8"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-      fxLayout.lt-sm="column"
-    >
-      <div>
-        <div class="subheading" *ngIf="crag">Urejanje plezališča</div>
-        <h1>{{ heading }}</h1>
-      </div>
-      <div style="text-align: right">
-        <a
-          mat-button
-          color="primary"
-          [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']"
-          *ngIf="crag"
-          >Uredi sektorje in smeri</a
+@if (!loading && error) {
+  <div class="container py-8">
+    Plezališče ne obstaja.
+  </div>
+}
+@if (!loading && !error) {
+  <div>
+    <div class="white-back mt-16">
+      <div
+        class="container py-8"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        fxLayout.lt-sm="column"
         >
+        <div>
+          @if (crag) {
+            <div class="subheading">Urejanje plezališča</div>
+          }
+          <h1>{{ heading }}</h1>
+        </div>
+        <div style="text-align: right">
+          @if (crag) {
+            <a
+              mat-button
+              color="primary"
+              [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']"
+              >Uredi sektorje in smeri</a
+              >
+            }
+          </div>
+        </div>
+      </div>
+      <div class="container p15">
+        <app-crag-form [crag]="crag"></app-crag-form>
       </div>
     </div>
-  </div>
-
-  <div class="container p15">
-    <app-crag-form [crag]="crag"></app-crag-form>
-  </div>
-</div>
+  }

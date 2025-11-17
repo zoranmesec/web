@@ -16,23 +16,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let sideEffect of data.dryRunSideEffects">
-        <td>
-          {{ sideEffect.before.date | date: "d. M. yyyy" }}
-        </td>
-        <td>
-          {{ sideEffect.before.route.name }}
-        </td>
-        <td>
-          <app-ascent-type
-            [value]="sideEffect.before.ascentType"
-          ></app-ascent-type>
-          <span> --> </span>
-          <app-ascent-type
-            [value]="sideEffect.after.ascentType"
-          ></app-ascent-type>
-        </td>
-      </tr>
+      @for (sideEffect of data.dryRunSideEffects; track sideEffect) {
+        <tr>
+          <td>
+            {{ sideEffect.before.date | date: "d. M. yyyy" }}
+          </td>
+          <td>
+            {{ sideEffect.before.route.name }}
+          </td>
+          <td>
+            <app-ascent-type
+              [value]="sideEffect.before.ascentType"
+            ></app-ascent-type>
+            <span> --> </span>
+            <app-ascent-type
+              [value]="sideEffect.after.ascentType"
+            ></app-ascent-type>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 

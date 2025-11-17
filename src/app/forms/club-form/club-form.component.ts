@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { UpdateClubGQL, CreateClubGQL } from 'src/generated/graphql';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { ErrorLike } from '@apollo/client';
 
 @Component({
   selector: 'app-club-form',
@@ -72,10 +73,10 @@ export class ClubFormComponent implements OnInit {
     };
 
     this.updateClubGQL
-      .mutate({ input: updateClubInput })
+      .mutate({ variables: { input: updateClubInput } })
       .subscribe((result) => {
-        if (result.errors != null) {
-          this.queryError(result.errors);
+        if (result.error != null) {
+          this.queryError(result.error);
         } else {
           this.router.navigate([
             '/moj-profil/moji-klubi',
@@ -91,29 +92,27 @@ export class ClubFormComponent implements OnInit {
   createClub() {
     const name = this.clubForm.value.name;
 
-    this.createClubGQL.mutate({ input: { name } }).subscribe((result) => {
-      if (result.errors != null) {
-        this.queryError(result.errors);
-      } else {
-        this.displaySuccess('Nov klub je bil ustvarjen.');
-      }
-      this.dialogRef.close();
-    });
+    this.createClubGQL
+      .mutate({ variables: { input: { name } } })
+      .subscribe((result) => {
+        if (result.error != null) {
+          this.queryError(result.error);
+        } else {
+          this.displaySuccess('Nov klub je bil ustvarjen.');
+        }
+        this.dialogRef.close();
+      });
   }
 
-  queryError(errors: readonly GraphQLFormattedError<Record<string, any>>[]) {
-    if (
-      errors.length > 0 &&
-      errors[0].message.startsWith('Could not find any entity of type')
-    ) {
+  queryError(errors: ErrorLike) {
+    if (errors.message.startsWith('Could not find any entity of type')) {
       this.displayError('Klub ni bil najden.');
-    } else if (errors.length > 0 && errors[0].message === 'Forbidden') {
+    } else if (errors.message === 'Forbidden') {
       this.displayError(
         'Samo administratorji kluba lahko spremenijo ime kluba.'
       );
     } else if (
-      errors.length > 0 &&
-      errors[0].message.startsWith(
+      errors.message.startsWith(
         'duplicate key value violates unique constraint'
       )
     ) {

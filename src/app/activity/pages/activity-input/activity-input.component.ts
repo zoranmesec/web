@@ -4,7 +4,7 @@ import { Crag, IceFall, Peak, Route } from 'src/generated/graphql';
 import ActivitySelection from 'src/app/types/activity-selection.interface';
 
 import { ActivityFormComponent } from '../../forms/activity-form/activity-form.component';
-import { CommonModule } from '@angular/common';
+
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -19,10 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./activity-input.component.scss'],
   imports: [
     ActivityFormComponent,
-    CommonModule,
     MatDialogModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
 })
 export class ActivityInputComponent implements OnInit {
   type: string = null;

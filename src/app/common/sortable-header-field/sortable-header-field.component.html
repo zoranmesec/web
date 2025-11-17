@@ -2,26 +2,32 @@
   [class.active]="
     sortIndication === 'highlight' && currentlySortedField === field
   "
->
-  <ng-container *ngIf="label">
+  >
+  @if (label) {
     {{ label }}
-  </ng-container>
-  <mat-icon *ngIf="icon"> {{ icon }} </mat-icon>
-  <mat-icon *ngIf="svgIcon" [svgIcon]="svgIcon"></mat-icon>
-  <mat-icon
-    *ngIf="sortIndication === 'arrows'"
+  }
+  @if (icon) {
+    <mat-icon> {{ icon }} </mat-icon>
+  }
+  @if (svgIcon) {
+    <mat-icon [svgIcon]="svgIcon"></mat-icon>
+  }
+  @if (sortIndication === 'arrows') {
+    <mat-icon
     [class.active]="
       currentlySortedField === field && currentSortDirection === 1
     "
-    class="sort-arrow"
-    >north</mat-icon
-  >
-  <mat-icon
-    *ngIf="sortIndication === 'arrows'"
+      class="sort-arrow"
+      >north</mat-icon
+      >
+    }
+    @if (sortIndication === 'arrows') {
+      <mat-icon
     [class.active]="
       currentlySortedField == field && currentSortDirection === -1
     "
-    class="sort-arrow"
-    >south</mat-icon
-  >
-</div>
+        class="sort-arrow"
+        >south</mat-icon
+        >
+      }
+    </div>

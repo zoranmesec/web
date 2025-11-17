@@ -1,10 +1,11 @@
 <mat-dialog-content>
   {{ data.message }}
-  <div
-    *ngIf="data.finePrint"
-    class="fine-print"
-    [innerHtml]="data.finePrint"
-  ></div>
+  @if (data.finePrint) {
+    <div
+      class="fine-print"
+      [innerHtml]="data.finePrint"
+    ></div>
+  }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button type="button" mat-button [mat-dialog-close]="null">Prekliči</button>

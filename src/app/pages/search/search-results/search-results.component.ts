@@ -6,10 +6,10 @@ import { SearchService } from 'src/app/shared/services/search.service';
 import { SearchGQL, SearchQuery } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-search-results',
-    templateUrl: './search-results.component.html',
-    styleUrls: ['./search-results.component.scss'],
-    standalone: false
+  selector: 'app-search-results',
+  templateUrl: './search-results.component.html',
+  styleUrls: ['./search-results.component.scss'],
+  standalone: false,
 })
 export class SearchResultsComponent implements OnInit {
   searchString = '';
@@ -44,7 +44,7 @@ export class SearchResultsComponent implements OnInit {
             this.searchStringTooShort = false;
             this.loading = true;
             return this.searchGQL.fetch({
-              query: this.searchString,
+              variables: { query: this.searchString },
             });
           }
         })

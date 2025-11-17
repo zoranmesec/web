@@ -30,17 +30,17 @@ export interface SectorFormComponentData {
 }
 
 @Component({
-    selector: 'app-sector-form',
-    templateUrl: './sector-form.component.html',
-    styleUrls: ['./sector-form.component.scss'],
-    imports: [
-        MatFormField,
-        MatLabel,
-        MatHint,
-        MatDialogActions,
-        FormsModule,
-        ReactiveFormsModule,
-    ]
+  selector: 'app-sector-form',
+  templateUrl: './sector-form.component.html',
+  styleUrls: ['./sector-form.component.scss'],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatHint,
+    MatDialogActions,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class SectorFormComponent implements OnInit {
   saving = false;
@@ -86,7 +86,9 @@ export class SectorFormComponent implements OnInit {
 
     if (this.data.sector != null) {
       this.updateGQL
-        .mutate({ input: { ...this.form.value, id: this.data.sector.id } })
+        .mutate({
+          variables: { input: { ...this.form.value, id: this.data.sector.id } },
+        })
         .subscribe({
           next: success,
           error: error,
@@ -94,10 +96,12 @@ export class SectorFormComponent implements OnInit {
     } else {
       this.createGQL
         .mutate({
-          input: {
-            ...this.form.value,
-            position: this.data.position,
-            cragId: this.data.cragId,
+          variables: {
+            input: {
+              ...this.form.value,
+              position: this.data.position,
+              cragId: this.data.cragId,
+            },
           },
         })
         .subscribe({

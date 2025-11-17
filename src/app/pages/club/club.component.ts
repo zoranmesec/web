@@ -14,11 +14,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteClubGQL } from '../../../generated/graphql';
 
 @Component({
-    selector: 'app-club',
-    templateUrl: './club.component.html',
-    styleUrls: ['./club.component.scss'],
-    providers: [ClubService],
-    standalone: false
+  selector: 'app-club',
+  templateUrl: './club.component.html',
+  styleUrls: ['./club.component.scss'],
+  providers: [ClubService],
+  standalone: false,
 })
 export class ClubComponent implements OnInit, OnDestroy {
   loading = true;
@@ -135,17 +135,15 @@ export class ClubComponent implements OnInit, OnDestroy {
       .pipe(
         filter((result) => !!result),
         mergeMap(() => {
-          return this.deleteClubGQL.mutate(
-            { id: this.club.id },
-            {
-              update: (cache) => {
-                cache.evict({
-                  id: 'ROOT_QUERY',
-                  fieldName: 'myClubs',
-                });
-              },
-            }
-          );
+          return this.deleteClubGQL.mutate({
+            variables: { id: this.club.id },
+            update: (cache) => {
+              cache.evict({
+                id: 'ROOT_QUERY',
+                fieldName: 'myClubs',
+              });
+            },
+          });
         })
       )
       .subscribe({

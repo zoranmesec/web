@@ -29,7 +29,7 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
@@ -52,7 +52,6 @@ import { MatRadioModule } from '@angular/material/radio';
     MatOptionModule,
     MatIconModule,
     MatHint,
-    CommonModule,
     MatInputModule,
     MatButtonModule,
     RouterModule,
@@ -60,8 +59,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatButtonToggleModule,
     AscentTypeOptionComponent,
     MatDividerModule,
-    MatRadioModule,
-  ],
+    MatRadioModule
+],
 })
 export class ActivityFormRouteComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

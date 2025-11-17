@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input, Input, OnChanges, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageFullComponent } from 'src/app/common/image-full/image-full.component';
@@ -18,14 +18,13 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
   styleUrls: ['./crag-gallery.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     ResponsiveImageComponent,
     ImageArrayTransformPipe,
     RouterModule,
     MatIconModule,
     MatButtonModule,
-    IconsModule,
-  ],
+    IconsModule
+],
 })
 export class CragGalleryComponent implements OnInit, OnChanges {
   images = input.required<Image[]>();

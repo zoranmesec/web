@@ -12,6 +12,7 @@ import { filter, mergeMap } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ClubService } from '../club.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ErrorLike } from 'node_modules/@apollo/client/core/types';
 
 @Component({
   selector: 'app-club-members',
@@ -57,32 +58,30 @@ export class ClubMembersComponent implements OnInit, OnDestroy {
       .pipe(
         filter((result) => !!result),
         mergeMap((_) => {
-          return this.deleteClubMemberGQL.mutate(
-            { id },
-            {
-              refetchQueries: [namedOperations.Query.ClubBySlug], // list of members on club members view will change
-              update: (cache) => {
-                // on myClubs view number of members will change
-                cache.evict({
-                  id: 'ROOT_QUERY',
-                  fieldName: 'myClubs',
-                });
+          return this.deleteClubMemberGQL.mutate({
+            variables: { id },
+            refetchQueries: [namedOperations.Query.ClubBySlug], // list of members on club members view will change
+            update: (cache) => {
+              // on myClubs view number of members will change
+              cache.evict({
+                id: 'ROOT_QUERY',
+                fieldName: 'myClubs',
+              });
 
-                // remove from cache all queries on activityRoutes for club members - will need to fetch again because we lost a member
-                cache.evict({
-                  id: 'ROOT_QUERY',
-                  fieldName: 'activityRoutesByClubSlug',
-                });
-              },
-            }
-          );
+              // remove from cache all queries on activityRoutes for club members - will need to fetch again because we lost a member
+              cache.evict({
+                id: 'ROOT_QUERY',
+                fieldName: 'activityRoutesByClubSlug',
+              });
+            },
+          });
         })
       )
       .pipe(take(1))
       .subscribe({
         next: (data) => {
-          if (data.errors != null) {
-            this.queryError(data.errors);
+          if (data.error != null) {
+            this.queryError(data.error);
           } else {
             this.displaySuccess();
           }
@@ -93,9 +92,9 @@ export class ClubMembersComponent implements OnInit, OnDestroy {
       });
   }
 
-  queryError(errors?: readonly GraphQLFormattedError<Record<string, any>>[]) {
+  queryError(error?: ErrorLike) {
     let errorMessage = 'Prišlo je do nepričakovane napake.'; // set default error message
-    if (errors && errors.length > 0 && errors[0].message === 'Forbidden')
+    if (error && error.message === 'Forbidden')
       errorMessage = 'Nimaš pravic za odstranjevanje članov.';
     this.displayError(errorMessage);
   }

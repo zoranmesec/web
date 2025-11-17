@@ -1,132 +1,153 @@
 <app-activity-header active="statistika"></app-activity-header>
-<div class="card-loader" *ngIf="loading">
-  <app-loader></app-loader>
-</div>
-<main *ngIf="!loading">
-  <section id="menu" class="m-t-16">
-    <div
-      fxLayout="row"
-      fxLayout.lt-sm="column"
-      [formGroup]="filters"
-      fxLayoutGap="16px"
-    >
-      <mat-form-field
-        appearance="outline"
-        class="no-hint infix-width-auto"
-        id="no-bottom"
-        fxFlex
-      >
-        <mat-label>Vse</mat-label>
-        <mat-select formControlName="year">
-          <mat-option *ngFor="let year of activityYears" [value]="year.value"
-            >{{ year.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field
-        appearance="outline"
-        class="no-hint infix-width-auto"
-        fxFlex
-      >
-        <mat-label>Vrsta vzpona</mat-label>
-        <mat-select formControlName="ascentType" multiple>
-          <mat-option
-            *ngFor="let type of nonTopRopeAscentTypes"
-            [value]="type.value"
-            >{{ type.label }}
-          </mat-option>
-          <mat-optgroup label="Top rope">
-            <ng-container *ngFor="let type of topRopeAscentTypes">
-              <mat-option [value]="type.value">{{ type.label }} </mat-option>
-            </ng-container>
-          </mat-optgroup>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </section>
-  <section id="table">
-    <div
-      class="card has-loader scrollable-table mt-16 w-100"
-      *ngIf="myRouteStats && myRouteStats.length > 0"
-    >
-      <div class="card-loader" *ngIf="loading">
-        <app-loader></app-loader>
-      </div>
-      <table class="card-table w-100">
-        <thead>
-          <tr class="table-row table-header">
-            <th
-              class="stat-th"
-              [ngStyle]="{
-                'width.%': 20
-              }"
-            >
-              <span>Ocena</span>
-            </th>
-            <th
-              *ngFor="let type of selectedAscentTypes"
-              class="stat-th"
-              [ngStyle]="{
-                'width.%': 20
-              }"
-            >
-              <span>{{ type.label }}</span>
-            </th>
-            <th
-              class="stat-th"
-              [ngStyle]="{
-                'width.%': 20
-              }"
-            >
-              <span>Skupaj</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody class="table-body">
-          <tr *ngFor="let dataElement of data" class="table-row">
-            <td>{{ dataElement.grade }}</td>
-            <td *ngFor="let type of selectedAscentTypes; index as i">
-              {{ dataElement.data[type.value] }}
-            </td>
-            <td>{{ dataElement.data["sum"] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-  <section id="graphs">
-    <div *ngIf="!loading">
-      <div class="card mt-16" *ngIf="myRouteStats && myRouteStats.length > 0">
-        <h3>Graf</h3>
-        <div class="p-16">
-          <div echarts [options]="options" class="demo-chart m-16"></div>
-        </div>
-      </div>
-
-      <div class="card mt-16" *ngIf="myRouteStats && myRouteStats.length > 0">
-        <h3>Število smeri po letih</h3>
-        <div class="p-16">
-          <div echarts [options]="optionsByYear" class="demo-chart m-16"></div>
-        </div>
-      </div>
-
+@if (loading) {
+  <div class="card-loader">
+    <app-loader></app-loader>
+  </div>
+}
+@if (!loading) {
+  <main>
+    <section id="menu" class="m-t-16">
       <div
-        class="card mt-16"
-        *ngIf="myActivityStats && myActivityStats.length > 0"
-      >
-        <h3>Število aktivnosti po letih</h3>
-        <div class="p-16">
-          <div
-            echarts
-            [options]="activitiesByYear"
-            class="demo-chart m-16"
-          ></div>
+        fxLayout="row"
+        fxLayout.lt-sm="column"
+        [formGroup]="filters"
+        fxLayoutGap="16px"
+        >
+        <mat-form-field
+          appearance="outline"
+          class="no-hint infix-width-auto"
+          id="no-bottom"
+          fxFlex
+          >
+          <mat-label>Vse</mat-label>
+          <mat-select formControlName="year">
+            @for (year of activityYears; track year) {
+              <mat-option [value]="year.value"
+                >{{ year.label }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="no-hint infix-width-auto"
+          fxFlex
+          >
+          <mat-label>Vrsta vzpona</mat-label>
+          <mat-select formControlName="ascentType" multiple>
+            @for (type of nonTopRopeAscentTypes; track type) {
+              <mat-option
+                [value]="type.value"
+                >{{ type.label }}
+              </mat-option>
+            }
+            <mat-optgroup label="Top rope">
+              @for (type of topRopeAscentTypes; track type) {
+                <mat-option [value]="type.value">{{ type.label }} </mat-option>
+              }
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>
+    <section id="table">
+      @if (myRouteStats && myRouteStats.length > 0) {
+        <div
+          class="card has-loader scrollable-table mt-16 w-100"
+          >
+          @if (loading) {
+            <div class="card-loader">
+              <app-loader></app-loader>
+            </div>
+          }
+          <table class="card-table w-100">
+            <thead>
+              <tr class="table-row table-header">
+                <th
+                  class="stat-th"
+              [ngStyle]="{
+                'width.%': 20
+              }"
+                  >
+                  <span>Ocena</span>
+                </th>
+                @for (type of selectedAscentTypes; track type) {
+                  <th
+                    class="stat-th"
+              [ngStyle]="{
+                'width.%': 20
+              }"
+                    >
+                    <span>{{ type.label }}</span>
+                  </th>
+                }
+                <th
+                  class="stat-th"
+              [ngStyle]="{
+                'width.%': 20
+              }"
+                  >
+                  <span>Skupaj</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              @for (dataElement of data; track dataElement) {
+                <tr class="table-row">
+                  <td>{{ dataElement.grade }}</td>
+                  @for (type of selectedAscentTypes; track type; let i = $index) {
+                    <td>
+                      {{ dataElement.data[type.value] }}
+                    </td>
+                  }
+                  <td>{{ dataElement.data["sum"] }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
-      </div>
-      <div *ngIf="myRouteStats && myRouteStats.length == 0" class="card mt-16">
-        <h3>Ni podatkov</h3>
-      </div>
-    </div>
-  </section>
-</main>
+      }
+    </section>
+    <section id="graphs">
+      @if (!loading) {
+        <div>
+          @if (myRouteStats && myRouteStats.length > 0) {
+            <div class="card mt-16">
+              <h3>Graf</h3>
+              <div class="p-16">
+                <div echarts [options]="options" class="demo-chart m-16"></div>
+              </div>
+            </div>
+          }
+          @if (myRouteStats && myRouteStats.length > 0) {
+            <div class="card mt-16">
+              <h3>Število smeri po letih</h3>
+              <div class="p-16">
+                <div echarts [options]="optionsByYear" class="demo-chart m-16"></div>
+              </div>
+            </div>
+          }
+          @if (myActivityStats && myActivityStats.length > 0) {
+            <div
+              class="card mt-16"
+              >
+              <h3>Število aktivnosti po letih</h3>
+              <div class="p-16">
+                <div
+                  echarts
+                  [options]="activitiesByYear"
+                  class="demo-chart m-16"
+                ></div>
+              </div>
+            </div>
+          }
+          @if (myRouteStats && myRouteStats.length == 0) {
+            <div class="card mt-16">
+              <h3>Ni podatkov</h3>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  </main>
+}

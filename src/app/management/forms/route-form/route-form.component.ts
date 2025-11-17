@@ -41,17 +41,17 @@ export interface RouteFormValues {
 }
 
 @Component({
-    selector: 'app-route-form',
-    templateUrl: './route-form.component.html',
-    styleUrls: ['./route-form.component.scss'],
-    imports: [
-        MatFormField,
-        MatLabel,
-        MatDialogActions,
-        FormsModule,
-        ReactiveFormsModule,
-        GradeSelectComponent,
-    ]
+  selector: 'app-route-form',
+  templateUrl: './route-form.component.html',
+  styleUrls: ['./route-form.component.scss'],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatDialogActions,
+    FormsModule,
+    ReactiveFormsModule,
+    GradeSelectComponent,
+  ],
 })
 export class RouteFormComponent implements OnInit, OnDestroy {
   saving = false;
@@ -280,14 +280,16 @@ export class RouteFormComponent implements OnInit, OnDestroy {
     if (this.data.route != null) {
       this.updateGQL
         .mutate({
-          input: {
-            id: value.id,
-            name: value.name,
-            length: +value.length,
-            routeTypeId: value.routeTypeId,
-            defaultGradingSystemId: value.defaultGradingSystemId,
-            baseDifficulty: value.baseDifficulty ?? null,
-            isProject: value.isProject,
+          variables: {
+            input: {
+              id: value.id,
+              name: value.name,
+              length: +value.length,
+              routeTypeId: value.routeTypeId,
+              defaultGradingSystemId: value.defaultGradingSystemId,
+              baseDifficulty: value.baseDifficulty ?? null,
+              isProject: value.isProject,
+            },
           },
         })
         .subscribe({
@@ -297,16 +299,18 @@ export class RouteFormComponent implements OnInit, OnDestroy {
     } else {
       this.createGQL
         .mutate({
-          input: {
-            name: value.name,
-            length: +value.length,
-            isProject: value.isProject,
-            routeTypeId: value.routeTypeId,
-            baseDifficulty: value.baseDifficulty,
-            defaultGradingSystemId: value.defaultGradingSystemId,
-            position: value.position,
-            sectorId: value.sectorId,
-            publishStatus: value.publishStatus,
+          variables: {
+            input: {
+              name: value.name,
+              length: +value.length,
+              isProject: value.isProject,
+              routeTypeId: value.routeTypeId,
+              baseDifficulty: value.baseDifficulty,
+              defaultGradingSystemId: value.defaultGradingSystemId,
+              position: value.position,
+              sectorId: value.sectorId,
+              publishStatus: value.publishStatus,
+            },
           },
         })
         .subscribe({

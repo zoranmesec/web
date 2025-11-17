@@ -4,40 +4,52 @@
   </div>
 </div>
 
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
+}
 
-<app-loader *ngIf="loading"></app-loader>
+@if (loading) {
+  <app-loader></app-loader>
+}
 
-<ng-container *ngIf="!error && !loading">
-  <ng-container *ngIf="type == 'view'">
+@if (!error && !loading) {
+  @if (type == 'view') {
     <div class="container mt-16">
-      <div
-        class="card padding no-border description"
-        *ngIf="activity.partners || activity.duration || activity.notes"
-      >
-        <p *ngIf="activity.partners">
-          <b>Soplezalci:</b> {{ activity.partners }}
-        </p>
-        <p *ngIf="activity.duration">
-          <b>Trajanje:</b> {{ activity.duration }}min
-        </p>
-        <p>{{ activity.notes }}</p>
+      @if (activity.partners || activity.duration || activity.notes) {
+        <div
+          class="card padding no-border description"
+          >
+          @if (activity.partners) {
+            <p>
+              <b>Soplezalci:</b> {{ activity.partners }}
+            </p>
+          }
+          @if (activity.duration) {
+            <p>
+              <b>Trajanje:</b> {{ activity.duration }}min
+            </p>
+          }
+          <p>{{ activity.notes }}</p>
+        </div>
+      }
+    </div>
+    @if (activity.routes.length > 0) {
+      <div class="container mt-16">
+        <app-activity-entry-routes
+          [routes]="activity.routes"
+        ></app-activity-entry-routes>
       </div>
+    }
+  }
+  @if (type == 'edit') {
+    <div class="container mt-16">
+      <app-activity-form
+        [activity]="activity"
+        [crag]="activity.crag"
+        [iceFall]="activity.iceFall"
+        [peak]="activity.peak"
+        formType="edit"
+      ></app-activity-form>
     </div>
-    <div class="container mt-16" *ngIf="activity.routes.length > 0">
-      <app-activity-entry-routes
-        [routes]="activity.routes"
-      ></app-activity-entry-routes>
-    </div>
-  </ng-container>
-
-  <div class="container mt-16" *ngIf="type == 'edit'">
-    <app-activity-form
-      [activity]="activity"
-      [crag]="activity.crag"
-      [iceFall]="activity.iceFall"
-      [peak]="activity.peak"
-      formType="edit"
-    ></app-activity-form>
-  </div>
-</ng-container>
+  }
+}

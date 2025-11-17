@@ -1,6 +1,5 @@
-import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
-  APP_INITIALIZER,
   ErrorHandler,
   Inject,
   Optional,
@@ -9,63 +8,28 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FlexLayoutModule } from 'ng-flex-layout';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
+
+import { MatDialog } from '@angular/material/dialog';
 import {
-  MatFormFieldModule,
   MatFormFieldDefaultOptions,
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
 } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTabsModule } from '@angular/material/tabs';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HeaderComponent } from './layout/header/header.component';
-import { CragsComponent } from './pages/crags/crags.component';
-import { HomeComponent } from './pages/home/home.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+
 import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component';
-import { GraphQLModule } from './graphql/graphql.module';
-import {
-  HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
-import { CragsTocComponent } from './pages/crags/crags-toc/crags-toc.component';
-import { CragComponent } from './pages/crag/crag.component';
+
 import { LoginComponent } from './auth/login/login.component';
-import { ProfileComponent } from './pages/account/profile/profile.component';
-import { AuthGuard } from './auth/auth.guard';
-import { AuthInterceptor } from './auth/auth-interceptor';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PasswordRecoveryComponent } from './auth/password-recovery/password-recovery.component';
-import { RegisterComponent } from './pages/account/register/register.component';
-import { ConfirmAccountComponent } from './pages/account/confirm-account/confirm-account.component';
-import { SelectPasswordComponent } from './pages/account/select-password/select-password.component';
-import { MapComponent } from './common/map/map.component';
-import { CragRoutesComponent } from './pages/crag/crag-routes/crag-routes.component';
-import { CragInfoComponent } from './pages/crag/crag-info/crag-info.component';
-import { CragCommentsComponent } from './pages/crag/crag-comments/crag-comments.component';
+
 import {
   DateAdapter,
-  MatNativeDateModule,
   MAT_DATE_LOCALE,
   NativeDateAdapter,
 } from '@angular/material/core';
 
 import { Platform } from '@angular/cdk/platform';
-import { CommonModule, NgIf, registerLocaleData } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 import localeSl from '@angular/common/locales/sl';
 registerLocaleData(localeSl);
 import * as Sentry from '@sentry/angular';
@@ -80,7 +44,6 @@ import { ScrollService } from './services/scroll.service';
 import { Subscription, take, filter } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { LayoutService } from './services/layout.service';
-import { DataErrorComponent } from './shared/components/data-error/data-error.component';
 import { CustomBreakpointsProvider } from './shared/custom-breakpoints';
 
 declare let gtag: Function;
@@ -110,13 +73,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   selector: 'app-root',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
-  imports: [
-    RouterLink,
-    HeaderComponent,
-    BreadcrumbsComponent,
-    CommonModule,
-    RouterModule,
-  ],
+  imports: [RouterLink, HeaderComponent, BreadcrumbsComponent, RouterModule],
   providers: [
     CustomBreakpointsProvider,
     {

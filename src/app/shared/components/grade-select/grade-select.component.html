@@ -1,43 +1,46 @@
 @if (this.allGrades) {
-<div class="flex flex-row">
-  <div class="m-r-16 p-t-8">
-    <app-minus-icon
-      (click)="decrementGrade()"
-      [disabled]="control.disabled || !canDecrement()"
-      [class.enabled]="!control.disabled && canDecrement()"
-    ></app-minus-icon>
-  </div>
-  <div>
-    <mat-form-field class="w-100" [class.no-hint]="noHint" appearance="outline">
-      @if (label) {
-      <mat-label>{{ label }}</mat-label>
-      }
-      <mat-select [formControl]="control">
-        <mat-option>
-          <ngx-mat-select-search
-            [formControl]="gradeFilterControl"
-            placeholderLabel="Vnesi oceno"
-            noEntriesFoundLabel="Ocena ne obstaja"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option *ngIf="!gradeFilterControl.value" [value]="null">{{
-          emptyText
-        }}</mat-option>
-        <mat-option
-          *ngFor="let grade of filteredGrades"
-          [value]="grade.difficulty"
-          [selected]="true"
-          >{{ grade.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="m-l-16 p-t-8">
-    <app-plus-icon
-      (click)="incrementGrade()"
-      [disabled]="control.disabled || !canIncrement()"
-      [class.enabled]="!control.disabled && canIncrement()"
-    ></app-plus-icon>
-  </div>
-</div>
-}
+  <div class="flex flex-row">
+    <div class="m-r-16 p-t-8">
+      <app-minus-icon
+        (click)="decrementGrade()"
+        [disabled]="control.disabled || !canDecrement()"
+        [class.enabled]="!control.disabled && canDecrement()"
+      ></app-minus-icon>
+    </div>
+    <div>
+      <mat-form-field class="w-100" [class.no-hint]="noHint" appearance="outline">
+        @if (label) {
+          <mat-label>{{ label }}</mat-label>
+        }
+        <mat-select [formControl]="control">
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="gradeFilterControl"
+              placeholderLabel="Vnesi oceno"
+              noEntriesFoundLabel="Ocena ne obstaja"
+            ></ngx-mat-select-search>
+          </mat-option>
+          @if (!gradeFilterControl.value) {
+            <mat-option [value]="null">{{
+              emptyText
+            }}</mat-option>
+          }
+          @for (grade of filteredGrades; track grade) {
+            <mat-option
+              [value]="grade.difficulty"
+              [selected]="true"
+              >{{ grade.name }}</mat-option
+              >
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="m-l-16 p-t-8">
+        <app-plus-icon
+          (click)="incrementGrade()"
+          [disabled]="control.disabled || !canIncrement()"
+          [class.enabled]="!control.disabled && canIncrement()"
+        ></app-plus-icon>
+      </div>
+    </div>
+  }

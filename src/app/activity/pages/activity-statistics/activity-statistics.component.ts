@@ -1,4 +1,3 @@
-import { EChartsOption, SeriesOption } from 'echarts';
 import {
   StatsRoutes,
   MyRoutesStatsGQL,
@@ -35,8 +34,13 @@ import { LoaderComponent } from 'src/app/shared/components/loader/loader.compone
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { NgxEchartsModule } from 'ngx-echarts';
-
+import { provideEchartsCore, NgxEchartsDirective } from 'ngx-echarts';
+import * as echarts from 'echarts/core';
+import { BarChart } from 'echarts/charts';
+import { GridComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+import { EChartsOption, SeriesOption } from 'echarts/types/dist/shared';
+echarts.use([BarChart, GridComponent, CanvasRenderer]);
 @Component({
   selector: 'app-activity-statistics',
   templateUrl: './activity-statistics.component.html',
@@ -48,10 +52,11 @@ import { NgxEchartsModule } from 'ngx-echarts';
     FlexLayoutModule,
     MatFormFieldModule,
     MatSelectModule,
-    NgxEchartsModule,
+    NgxEchartsDirective,
     FormsModule,
     ReactiveFormsModule,
   ],
+  providers: [provideEchartsCore({ echarts })],
 })
 export class ActivityStatisticsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
@@ -131,8 +136,10 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
         switchMap((user) => {
           this.loadingSpinnerService.pushLoader();
           return this.myRouteStatsGQL.fetch({
-            input: {
-              routeTypes: ['sport'],
+            variables: {
+              input: {
+                routeTypes: ['sport'],
+              },
             },
           });
         })
@@ -156,8 +163,10 @@ export class ActivityStatisticsComponent implements OnInit, OnDestroy {
         switchMap((user) => {
           this.loadingSpinnerService.pushLoader();
           return this.myActivityStatsGQL.fetch({
-            input: {
-              // activityTypes: ['crag'],
+            variables: {
+              input: {
+                // activityTypes: ['crag'],
+              },
             },
           });
         })

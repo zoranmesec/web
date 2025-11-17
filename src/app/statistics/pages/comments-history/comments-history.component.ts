@@ -6,10 +6,10 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 
 @Component({
-    selector: 'app-comments-history',
-    templateUrl: './comments-history.component.html',
-    styleUrls: ['./comments-history.component.scss'],
-    standalone: false
+  selector: 'app-comments-history',
+  templateUrl: './comments-history.component.html',
+  styleUrls: ['./comments-history.component.scss'],
+  standalone: false,
 })
 export class CommentsHistoryComponent implements OnInit {
   loading: boolean;
@@ -31,9 +31,11 @@ export class CommentsHistoryComponent implements OnInit {
           this.loading = true;
 
           return this.latestCommentsGQL.fetch({
-            input: {
-              pageSize: 20,
-              pageNumber: Number(params.get('pageNumber')) || 1,
+            variables: {
+              input: {
+                pageSize: 20,
+                pageNumber: Number(params.get('pageNumber')) || 1,
+              },
             },
           });
         })

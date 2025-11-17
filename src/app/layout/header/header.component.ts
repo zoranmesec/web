@@ -12,7 +12,7 @@ import { User } from '../../../generated/graphql';
 import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule, FlexModule } from 'ng-flex-layout';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-header',
@@ -25,10 +25,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     FlexModule,
     FlexLayoutModule,
-    CommonModule,
     MatButtonModule,
-    MatIconModule,
-  ],
+    MatIconModule
+],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public naviOpen: boolean = false;

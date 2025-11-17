@@ -25,7 +25,7 @@ export class DifficultyVotesComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   difficultyVotes: DifficultyVote[];
-  pagination: MyActivityRoutesQuery['myActivityRoutes']['meta'];
+  pagination: any;
 
   filteredTable = new FilteredTable([], []);
 
@@ -61,8 +61,9 @@ export class DifficultyVotesComponent implements OnInit, OnDestroy {
           this.loading = true;
           const queryParams: LatestDifficultyVotesInput = ft.queryParams;
 
-          return this.difficultyVotesGQL.watch({ input: queryParams })
-            .valueChanges;
+          return this.difficultyVotesGQL.watch({
+            variables: { input: queryParams },
+          }).valueChanges;
         })
       )
       .subscribe({

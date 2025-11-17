@@ -5,22 +5,22 @@ import * as Sentry from '@sentry/angular';
 import { routes } from './app/app-routing.module';
 import {
   HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { provideApollo } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular/http';
-import { setContext } from '@apollo/client/link/context';
-import { ApolloLink, InMemoryCache } from '@apollo/client/core';
+
+import { ApolloLink } from '@apollo/client/core';
 import { provideRouter } from '@angular/router';
 import { DataErrorComponent } from './app/shared/components/data-error/data-error.component';
 import { AuthGuard } from './app/auth/auth.guard';
-import { C } from '@angular/cdk/focus-monitor.d-CvvJeQRc';
 import { CustomBreakpointsProvider } from './app/shared/custom-breakpoints';
 import { AuthInterceptor } from './app/auth/auth-interceptor';
+
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { provideHttpClient } from '@angular/common/http';
+import { InMemoryCache } from '@apollo/client';
 
 if (environment.production) {
   Sentry.init({
@@ -40,9 +40,8 @@ export const appConfig: ApplicationConfig = {
     provideApollo(() => {
       const httpLink = inject(HttpLink);
       return {
-        link: ApolloLink.from([
-          httpLink.create({ uri: 'http://localhost:3000/graphql' }),
-        ]),
+        link: httpLink.create({ uri: 'http://localhost:3000/graphql' }),
+
         cache: new InMemoryCache(),
         // other options...
       };

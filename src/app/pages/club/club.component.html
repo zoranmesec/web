@@ -1,60 +1,63 @@
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
+}
 
-<app-loader *ngIf="loading"></app-loader>
+@if (loading) {
+  <app-loader></app-loader>
+}
 
-<div *ngIf="!error && !loading">
-  <div class="white-back mt-16">
-    <div
-      class="container py-8"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-    >
-      <h1>{{ club.name }}</h1>
-
-      <ng-container *ngIf="clubService.amClubAdmin$ | async">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon color="primary">more_vert</mat-icon>
-        </button>
-
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="updateName()">
-            <mat-icon>edit</mat-icon>
-            <span>Preimenuj klub</span>
+@if (!error && !loading) {
+  <div>
+    <div class="white-back mt-16">
+      <div
+        class="container py-8"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        >
+        <h1>{{ club.name }}</h1>
+        @if (clubService.amClubAdmin$ | async) {
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon color="primary">more_vert</mat-icon>
           </button>
-          <button mat-menu-item (click)="addMember()">
-            <mat-icon>person_add</mat-icon>
-            <span>Dodaj člana</span>
-          </button>
-          <button mat-menu-item (click)="delete()">
-            <mat-icon>delete_outline</mat-icon>
-            <span>Izbriši klub</span>
-          </button>
-        </mat-menu>
-      </ng-container>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="updateName()">
+              <mat-icon>edit</mat-icon>
+              <span>Preimenuj klub</span>
+            </button>
+            <button mat-menu-item (click)="addMember()">
+              <mat-icon>person_add</mat-icon>
+              <span>Dodaj člana</span>
+            </button>
+            <button mat-menu-item (click)="delete()">
+              <mat-icon>delete_outline</mat-icon>
+              <span>Izbriši klub</span>
+            </button>
+          </mat-menu>
+        }
+      </div>
     </div>
-  </div>
-
-  <div class="container">
-    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-      <a
-        mat-tab-link
-        [routerLink]="['/moj-profil/moji-klubi', club.slug, 'clani']"
-        routerLinkActive
-        #rlaM="routerLinkActive"
-        [active]="rlaM.isActive"
-        >Člani kluba</a
-      >
-      <a
-        mat-tab-link
-        [routerLink]="['/moj-profil/moji-klubi', club.slug, 'vzponi']"
-        routerLinkActive
-        #rlaAr="routerLinkActive"
-        [active]="rlaAr.isActive"
-        >Vzponi članov</a
-      >
-    </nav>
-  </div>
-  <mat-tab-nav-panel #tabPanel
-    ><router-outlet></router-outlet
-  ></mat-tab-nav-panel>
-</div>
+    <div class="container">
+      <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+        <a
+          mat-tab-link
+          [routerLink]="['/moj-profil/moji-klubi', club.slug, 'clani']"
+          routerLinkActive
+          #rlaM="routerLinkActive"
+          [active]="rlaM.isActive"
+          >Člani kluba</a
+          >
+          <a
+            mat-tab-link
+            [routerLink]="['/moj-profil/moji-klubi', club.slug, 'vzponi']"
+            routerLinkActive
+            #rlaAr="routerLinkActive"
+            [active]="rlaAr.isActive"
+            >Vzponi članov</a
+            >
+          </nav>
+        </div>
+        <mat-tab-nav-panel #tabPanel
+          ><router-outlet></router-outlet
+        ></mat-tab-nav-panel>
+      </div>
+    }

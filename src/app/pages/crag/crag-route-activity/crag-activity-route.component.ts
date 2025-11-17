@@ -17,7 +17,7 @@ import {
   MyActivityRoutesGQL,
 } from 'src/generated/graphql';
 import { FilteredTable } from '../../../common/filtered-table';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { CragActivityRouteRowComponent } from './crag-activity-route-row/crag-activity-route-row.component';
 
@@ -26,7 +26,7 @@ import { CragActivityRouteRowComponent } from './crag-activity-route-row/crag-ac
   templateUrl: './crag-activity-route.component.html',
   styleUrls: ['./crag-activity-route.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatButtonModule, CragActivityRouteRowComponent],
+  imports: [MatButtonModule, CragActivityRouteRowComponent],
 })
 export class CragActivityRouteComponent {
   routeId: string;
@@ -86,7 +86,7 @@ export class CragActivityRouteComponent {
     });
     const navSub = ft.navigate$.subscribe((params) => {
       this.myActivityRoutesGQL
-        .fetch({ input: params })
+        .fetch({ variables: { input: params } })
         .pipe(take(1))
         .subscribe((result) => {
           this.loading = false;
@@ -98,7 +98,7 @@ export class CragActivityRouteComponent {
     this.subscriptions.push(navSub);
 
     const queryParams: FindActivityRoutesInput = ft.queryParams;
-    this.myActivityRoutesGQL.watch({ input: queryParams });
+    this.myActivityRoutesGQL.watch({ variables: { input: queryParams } });
 
     if (this.activityRouteSub != null) {
       this.activityRouteSub.unsubscribe();
@@ -106,7 +106,7 @@ export class CragActivityRouteComponent {
 
     this.loading = true;
     this.activityRouteQuery = this.myActivityRoutesGQL.watch({
-      input: queryParams,
+      variables: { input: queryParams },
     });
 
     this.activityRouteSub = this.activityRouteQuery.valueChanges.subscribe({

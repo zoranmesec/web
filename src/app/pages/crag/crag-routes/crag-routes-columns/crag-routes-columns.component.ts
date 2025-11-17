@@ -18,7 +18,7 @@ import {
 import { Subscription } from 'rxjs';
 import { MatRadioModule } from '@angular/material/radio';
 import { ColumnType } from '../crag-routes.component';
-import { CommonModule, KeyValue } from '@angular/common';
+import { KeyValue } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -100,7 +100,6 @@ export const allColumns: Record<string, ColumnType> = {
   templateUrl: './crag-routes-columns.component.html',
   styleUrls: ['./crag-routes-columns.component.scss'],
   imports: [
-    CommonModule,
     MatIconModule,
     MatExpansionModule,
     FormsModule,
@@ -109,8 +108,8 @@ export const allColumns: Record<string, ColumnType> = {
     MatSelectModule,
     FlexLayoutModule,
     MatButtonModule,
-    IconsModule,
-  ],
+    IconsModule
+],
 })
 export class CragRoutesColumnsComponent
   implements OnInit, OnDestroy, OnChanges

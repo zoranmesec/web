@@ -5,7 +5,7 @@
       fxLayout="row"
       fxLayoutAlign="space-between center"
       fxLayout.lt-sm="column"
-    >
+      >
       <div>
         <h1>Seznam držav</h1>
       </div>
@@ -14,26 +14,28 @@
 
   <div class="container p15 mt-16">
     <div>
-      <div *ngFor="let country of countries; let i = index">
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayout.lt-sm="column"
-          class="country mt-8"
-        >
-          <div class="name" fxFlex="100" fxFlex.lt-sm>
-            {{ country.name }}
-          </div>
-          <div fxFlex>
-            <a
-              mat-button
-              color="primary"
-              [routerLink]="['/urejanje/drzava/' + country.slug + '/podrocja/']"
-              >Uredi področja</a
+      @for (country of countries; track country; let i = $index) {
+        <div>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayout.lt-sm="column"
+            class="country mt-8"
             >
+            <div class="name" fxFlex="100" fxFlex.lt-sm>
+              {{ country.name }}
+            </div>
+            <div fxFlex>
+              <a
+                mat-button
+                color="primary"
+                [routerLink]="['/urejanje/drzava/' + country.slug + '/podrocja/']"
+                >Uredi področja</a
+                >
+              </div>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   </div>
-</div>

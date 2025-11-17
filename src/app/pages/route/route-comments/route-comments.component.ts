@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   AfterViewInit,
   Component,
@@ -21,13 +21,12 @@ import { Comment, Route } from 'src/generated/graphql';
   styleUrls: ['./route-comments.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     CommentComponent,
     FlexLayoutModule,
     MatButtonModule,
     MatExpansionModule,
-    CommentFormComponent,
-  ],
+    CommentFormComponent
+],
 })
 export class RouteCommentsComponent implements AfterViewInit, OnChanges {
   comments: Comment[];

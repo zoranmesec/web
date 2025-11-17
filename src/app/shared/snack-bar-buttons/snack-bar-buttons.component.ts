@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -16,7 +16,7 @@ export interface SnackBarData {
   selector: 'app-snack-bar-buttons',
   templateUrl: './snack-bar-buttons.component.html',
   styleUrls: ['./snack-bar-buttons.component.scss'],
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class SnackBarButtonsComponent implements OnInit {
   constructor(

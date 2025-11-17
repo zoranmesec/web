@@ -13,56 +13,65 @@
     </div>
   </div>
   @if (columnForm) {
-  <div class="p-16">
-    <form [formGroup]="columnForm">
-      <ul>
-        @for (column of allColumnsArray; track $index) {
-        <li>
-          <label class="checkbox-container">
-            <input type="checkbox" [formControlName]="column.field" />
-            <span class="checkmark"></span
-            ><span class="checkmark-label" *ngIf="column.field === 'starRating'"
-              ><mat-icon>star</mat-icon>{{ column.selectLabel }}</span
-            ><span class="checkmark-label" *ngIf="column.field === 'multipitch'"
-              ><mat-icon svgIcon="multipitch"></mat-icon
-              >{{ column.selectLabel }}</span
-            ><span class="checkmark-label" *ngIf="column.field === 'comments'"
-              ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
-            ><span class="checkmark-label" *ngIf="column.field === 'myAscents'"
-              ><mat-icon>check</mat-icon>{{ column.selectLabel }}</span
-            ><span
-              class="checkmark-label"
-              *ngIf="
-                column.field !== 'starRating' &&
-                column.field !== 'multipitch' &&
-                column.field !== 'comments' &&
-                column.field !== 'myAscents'
-              "
-              >{{ column.selectLabel }}</span
-            >
-          </label>
-          <!-- 
-          <input type="checkbox" />
-          <span class="checkmark"></span>
-        </label> -->
-        </li>
-        }
-      </ul>
-    </form>
-  </div>
-  }
+    <div class="p-16">
+      <form [formGroup]="columnForm">
+        <ul>
+          @for (column of allColumnsArray; track $index) {
+            <li>
+              <label class="checkbox-container">
+                <input type="checkbox" [formControlName]="column.field" />
+                <span class="checkmark"></span
+                  >@if (column.field === 'starRating') {
+                  <span class="checkmark-label"
+                    ><mat-icon>star</mat-icon>{{ column.selectLabel }}</span
+                    >
+                    }@if (column.field === 'multipitch') {
+                    <span class="checkmark-label"
+                      ><mat-icon svgIcon="multipitch"></mat-icon
+                      >{{ column.selectLabel }}</span
+                      >
+                      }@if (column.field === 'comments') {
+                      <span class="checkmark-label"
+                        ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
+                        >
+                        }@if (column.field === 'myAscents') {
+                        <span class="checkmark-label"
+                          ><mat-icon>check</mat-icon>{{ column.selectLabel }}</span
+                          >
+                          }@if (
+                          column.field !== 'starRating' &&
+                          column.field !== 'multipitch' &&
+                          column.field !== 'comments' &&
+                          column.field !== 'myAscents'
+                          ) {
+                          <span
+                            class="checkmark-label"
+                            >{{ column.selectLabel }}</span
+                            >
+                          }
+                        </label>
+                        <!--
+                        <input type="checkbox" />
+                        <span class="checkmark"></span>
+                      </label> -->
+                    </li>
+                  }
+                </ul>
+              </form>
+            </div>
+          }
 
-  <div
-    class="flex flex-justify-space-between bottom show-all"
-    (click)="resetColumns()"
-  >
-    <div class="flex flex-row flex-align-center reset-all">
-      <div class="close-icon">
-        <mat-icon class="map-icon">refresh</mat-icon>
-      </div>
-      <div>
-        <span class="p-l-4">Ponastavi vse</span>
-      </div>
-    </div>
-  </div>
-</section>
+          <div
+            class="flex flex-justify-space-between bottom show-all"
+            (click)="resetColumns()"
+            >
+            <div class="flex flex-row flex-align-center reset-all">
+              <div class="close-icon">
+                <mat-icon class="map-icon">refresh</mat-icon>
+              </div>
+              <div>
+                <span class="p-l-4">Ponastavi vse</span>
+              </div>
+            </div>
+          </div>
+        </section>

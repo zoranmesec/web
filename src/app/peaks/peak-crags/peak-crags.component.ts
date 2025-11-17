@@ -5,10 +5,10 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { PeakBySlugGQL, PeakBySlugQuery } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-peak-crags',
-    templateUrl: './peak-crags.component.html',
-    styleUrls: ['./peak-crags.component.scss'],
-    standalone: false
+  selector: 'app-peak-crags',
+  templateUrl: './peak-crags.component.html',
+  styleUrls: ['./peak-crags.component.scss'],
+  standalone: false,
 })
 export class PeakCragsComponent implements OnInit, OnDestroy {
   loading = true;
@@ -28,7 +28,7 @@ export class PeakCragsComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((params) => {
           const peakSlug = params.peak;
-          return this.peakBySlugGQL.fetch({ slug: peakSlug });
+          return this.peakBySlugGQL.fetch({ variables: { slug: peakSlug } });
         })
       )
       .subscribe({

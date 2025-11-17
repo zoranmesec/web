@@ -20,7 +20,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -46,7 +46,6 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
   imports: [
     MatIcon,
     MatOptionModule,
-    CommonModule,
     MatButtonModule,
     MatExpansionModule,
     MatCheckboxModule,
@@ -194,7 +193,9 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     this.countriesTocGQL
       .watch()
       .valueChanges.subscribe(
-        (result) => (this.countries = result.data.countries)
+        (result) =>
+          (this.countries = result.data
+            .countries as CountriesTocQuery['countries'])
       );
 
     this.cragForm.controls['minGrade'].valueChanges.subscribe((value) => {

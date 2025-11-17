@@ -6,14 +6,15 @@
     </button>
   </div>
 </h3>
-<div
-  *ngFor="let comment of regularComments"
-  class="comment"
-  fxLayout="column"
-  fxLayoutGap="8px"
->
-  <app-comment [comment]="comment"></app-comment>
-</div>
+@for (comment of regularComments; track comment) {
+  <div
+    class="comment"
+    fxLayout="column"
+    fxLayoutGap="8px"
+    >
+    <app-comment [comment]="comment"></app-comment>
+  </div>
+}
 
 <h3 fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-md="column">
   <span fxFlex="100">Komentarji o razmerah</span>
@@ -23,11 +24,12 @@
     </button>
   </div>
 </h3>
-<div
-  *ngFor="let conditionComment of conditions"
-  class="comment"
-  fxLayout="column"
-  fxLayoutGap="8px"
->
-  <app-comment [comment]="conditionComment"></app-comment>
-</div>
+@for (conditionComment of conditions; track conditionComment) {
+  <div
+    class="comment"
+    fxLayout="column"
+    fxLayoutGap="8px"
+    >
+    <app-comment [comment]="conditionComment"></app-comment>
+  </div>
+}

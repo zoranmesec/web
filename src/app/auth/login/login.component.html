@@ -16,30 +16,33 @@
           matInput
           type="password"
           [formControl]="loginForm.controls.password"
-        />
-        <mat-hint align="end"
-          ><a href="#" (click)="passwordRecovery()"
+          />
+          <mat-hint align="end"
+            ><a href="#" (click)="passwordRecovery()"
             >Pozabljeno geslo?</a
-          ></mat-hint
-        >
-      </mat-form-field>
-    </p>
+            ></mat-hint
+            >
+          </mat-form-field>
+        </p>
 
-    <p fxLayout="row" fxLayoutAlign="center center" class="login-button">
-      <button
-        *ngIf="!loading"
-        mat-flat-button
-        color="primary"
-        [disabled]="!loginForm.valid"
-      >
-        PRIJAVA
-      </button>
-      <span *ngIf="loading" class="loading">
-        <mat-spinner diameter="30"></mat-spinner>
-      </span>
-    </p>
-  </form>
+        <p fxLayout="row" fxLayoutAlign="center center" class="login-button">
+          @if (!loading) {
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="!loginForm.valid"
+              >
+              PRIJAVA
+            </button>
+          }
+          @if (loading) {
+            <span class="loading">
+              <mat-spinner diameter="30"></mat-spinner>
+            </span>
+          }
+        </p>
+      </form>
 
-  Še nimaš uporabniškega računa?<br />
-  <a [routerLink]="['/registracija']" mat-dialog-close>Registriraj se</a>
-</mat-dialog-content>
+      Še nimaš uporabniškega računa?<br />
+      <a [routerLink]="['/registracija']" mat-dialog-close>Registriraj se</a>
+    </mat-dialog-content>

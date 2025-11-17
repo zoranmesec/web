@@ -1,48 +1,57 @@
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
-<ng-container *ngIf="!error">
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
+}
+@if (!error) {
   <div class="white-back mt-16">
     <div class="container py-8">
       <h1>Moji klubi</h1>
     </div>
   </div>
-
-  <app-loader *ngIf="loading"></app-loader>
-
+  @if (loading) {
+    <app-loader></app-loader>
+  }
   <div class="container mt-16 clubs-actions">
     <button mat-flat-button color="primary" (click)="createClub()">
       <mat-icon>add</mat-icon>
       Ustvari nov klub
     </button>
   </div>
-
-  <div *ngIf="!loading" class="container mt-16">
-    <div *ngIf="myClubs.length" class="card clubs-list-container">
-      <mat-nav-list>
-        <ng-container *ngFor="let club of myClubs; last as isLast">
-          <a
-            mat-list-item
-            [routerLink]="['/moj-profil/moji-klubi/', club.slug]"
-          >
-            <div fxLayout="row" fxLayoutAlign="start center">
-              <div class="primary-text">{{ club.name }}</div>
-            </div>
-            <div class="metadata">
-              {{ club.nrMembers }}
-              {{
-                club.nrMembers % 100 == 1
+  @if (!loading) {
+    <div class="container mt-16">
+      @if (myClubs.length) {
+        <div class="card clubs-list-container">
+          <mat-nav-list>
+            @for (club of myClubs; track club; let isLast = $last) {
+              <a
+                mat-list-item
+                [routerLink]="['/moj-profil/moji-klubi/', club.slug]"
+                >
+                <div fxLayout="row" fxLayoutAlign="start center">
+                  <div class="primary-text">{{ club.name }}</div>
+                </div>
+                <div class="metadata">
+                  {{ club.nrMembers }}
+                  {{
+                  club.nrMembers % 100 == 1
                   ? "član"
                   : club.nrMembers % 100 == 2
                   ? "člana"
                   : club.nrMembers % 100 == 3 || club.nrMembers % 100 == 4
                   ? "člani"
                   : "članov"
-              }}
-            </div>
-          </a>
-          <mat-divider *ngIf="!isLast"></mat-divider>
-        </ng-container>
-      </mat-nav-list>
+                  }}
+                </div>
+              </a>
+              @if (!isLast) {
+                <mat-divider></mat-divider>
+              }
+            }
+          </mat-nav-list>
+        </div>
+      }
+      @if (!myClubs.length) {
+        <div>Nisi član nobenega kluba.</div>
+      }
     </div>
-    <div *ngIf="!myClubs.length">Nisi član nobenega kluba.</div>
-  </div>
-</ng-container>
+  }
+}

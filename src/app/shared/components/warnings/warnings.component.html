@@ -1,25 +1,28 @@
-<div class="container mt-16" *ngIf="warnings.length > 0">
-  <ng-container *ngFor="let warning of warnings">
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="12px"
-      class="warning"
-    >
-      <mat-icon fxFlex color="warn" fxHide.lt-md>warning</mat-icon>
-      <div fxFlex="100">
-        <div [innerHTML]="warning.content"></div>
+@if (warnings.length > 0) {
+  <div class="container mt-16">
+    @for (warning of warnings; track warning) {
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="12px"
+        class="warning"
+        >
+        <mat-icon fxFlex color="warn" fxHide.lt-md>warning</mat-icon>
+        <div fxFlex="100">
+          <div [innerHTML]="warning.content"></div>
+        </div>
       </div>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="end center" class="author">
-      {{ warning.user?.fullName }},
-      {{ warning.created | date: "d. M. yyyy HH:mm" }}
-      <app-comment-options
-        *ngIf="
+      <div fxLayout="row" fxLayoutAlign="end center" class="author">
+        {{ warning.user?.fullName }},
+        {{ warning.created | date: "d. M. yyyy HH:mm" }}
+        @if (
           user != null && warning.user != null && warning.user.id == user.id
-        "
-        [comment]="warning"
-      ></app-comment-options>
-    </div>
-  </ng-container>
-</div>
+          ) {
+          <app-comment-options
+            [comment]="warning"
+          ></app-comment-options>
+        }
+      </div>
+    }
+  </div>
+}

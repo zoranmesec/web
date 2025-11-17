@@ -18,7 +18,7 @@ import { User } from '@sentry/angular';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 import { QueryRef } from 'apollo-angular';
-import { CommonModule } from '@angular/common';
+
 import { MatMenuModule } from '@angular/material/menu';
 import { CragRoutesComponent } from './crag-routes/crag-routes.component';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -37,7 +37,6 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
   templateUrl: './crag.component.html',
   styleUrls: ['./crag.component.scss'],
   imports: [
-    CommonModule,
     MatMenuModule,
     CragInfoComponent,
     CragCommentsComponent,
@@ -93,7 +92,7 @@ export class CragComponent implements OnInit, OnDestroy {
   activeTab: string = 'smeri';
   section: string;
 
-  cragQuery: QueryRef<any>;
+  cragQuery: QueryRef<any, any>;
   cragSub: Subscription;
   subscriptions: Subscription[] = [];
 
@@ -143,7 +142,9 @@ export class CragComponent implements OnInit, OnDestroy {
       }
 
       this.cragQuery = this.cragBySlugGQL.watch({
-        crag: params.crag,
+        variables: {
+          crag: params.crag,
+        },
       });
 
       this.cragSub = this.cragQuery.valueChanges.subscribe({

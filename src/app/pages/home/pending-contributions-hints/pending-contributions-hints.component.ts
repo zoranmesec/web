@@ -3,13 +3,13 @@ import { map, of, Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Contribution, PendingContributionsGQL } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-pending-contributions-hints',
     templateUrl: './pending-contributions-hints.component.html',
     styleUrls: ['./pending-contributions-hints.component.scss'],
-    imports: [CommonModule]
+    imports: []
 })
 export class PendingContributionsHintsComponent implements OnInit, OnDestroy {
   isAdmin = false;

@@ -1,67 +1,74 @@
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
+}
 
-<app-loader *ngIf="loading"></app-loader>
+@if (loading) {
+  <app-loader></app-loader>
+}
 
 @if (!loading) {
-<mat-accordion>
-  <mat-expansion-panel expanded="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ showOnlyUserAscents() ? "Moji vzponi" : "Javni vzponi" }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+  <mat-accordion>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ showOnlyUserAscents() ? "Moji vzponi" : "Javni vzponi" }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <app-data-error *ngIf="error" [error]="error"></app-data-error>
-
-    @for (ascent of ascents; track $index) {
-
-    <div class="flex flex-row flex-start info-row p-t-16">
-      <div class="label w-100">{{ ascent.date | date : "d. M. Y" }}</div>
-      @if (!showOnlyUserAscents()) {
-
-      <div class="w-100">
-        {{ ascent.user.firstname }} {{ ascent.user.lastname }}
-      </div>
+      @if (error) {
+        <app-data-error [error]="error"></app-data-error>
       }
-      <div class="w-100">
-        <app-ascent-type
-          [value]="ascent.ascentType"
-          displayType="iconAndText"
-          iconAlignment="center"
-          (click)="openDialog($event, route.id, route.name)"
-        >
-        </app-ascent-type>
-      </div>
-    </div>
-    } @empty {
-    <p>Ni vzponov.</p>
-    }
 
-    <mat-paginator
-      *ngIf="pagination != null && ascents.length > 0"
-      hidePageSize
-      showFirstLastButtons
-      [length]="pagination.itemCount"
-      [pageIndex]="pagination.pageNumber - 1"
-      [pageSize]="pagination.pageSize"
-      (page)="paginate($event)"
-    >
-    </mat-paginator>
-  </mat-expansion-panel>
-</mat-accordion>
+      @for (ascent of ascents; track $index) {
+
+        <div class="flex flex-row flex-start info-row p-t-16">
+          <div class="label w-100">{{ ascent.date | date : "d. M. Y" }}</div>
+          @if (!showOnlyUserAscents()) {
+
+            <div class="w-100">
+              {{ ascent.user.firstname }} {{ ascent.user.lastname }}
+            </div>
+          }
+          <div class="w-100">
+            <app-ascent-type
+              [value]="ascent.ascentType"
+              displayType="iconAndText"
+              iconAlignment="center"
+              (click)="openDialog($event, route.id, route.name)"
+              >
+            </app-ascent-type>
+          </div>
+        </div>
+        } @empty {
+        <p>Ni vzponov.</p>
+      }
+
+      @if (pagination != null && ascents.length > 0) {
+        <mat-paginator
+          hidePageSize
+          showFirstLastButtons
+          [length]="pagination.itemCount"
+          [pageIndex]="pagination.pageNumber - 1"
+          [pageSize]="pagination.pageSize"
+          (page)="paginate($event)"
+          >
+        </mat-paginator>
+      }
+    </mat-expansion-panel>
+  </mat-accordion>
 }
 
 <!-- <div class="card padding">
-  <h4>Ocene uporabnikov</h4>
-  <app-distribution-chart
-    class="difficulty-votes-chart"
-    [distribution]="gradesDistribution"
-  ></app-distribution-chart>
-  <app-route-grades
-    [grades]="grades"
-    [difficulty]="route().difficulty"
-    [gradingSystemId]="route().defaultGradingSystem.id"
-  ></app-route-grades>
+<h4>Ocene uporabnikov</h4>
+<app-distribution-chart
+  class="difficulty-votes-chart"
+  [distribution]="gradesDistribution"
+></app-distribution-chart>
+<app-route-grades
+  [grades]="grades"
+  [difficulty]="route().difficulty"
+  [gradingSystemId]="route().defaultGradingSystem.id"
+></app-route-grades>
 </div>
 
 <div class="card no-border padding" *ngIf="user">
@@ -71,7 +78,7 @@
     color="primary"
     fxFill
     [routerLink]="['/plezalni-dnevnik/vzponi', { routeId: route().id }]"
-  >
+    >
     Prikaži v plezalnem dnevniku
   </button>
 </div>

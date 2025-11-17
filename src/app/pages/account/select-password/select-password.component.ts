@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,10 +12,10 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { SetPasswordGQL } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-select-password',
-    templateUrl: './select-password.component.html',
-    styleUrls: ['./select-password.component.scss'],
-    standalone: false
+  selector: 'app-select-password',
+  templateUrl: './select-password.component.html',
+  styleUrls: ['./select-password.component.scss'],
+  standalone: false,
 })
 export class SelectPasswordComponent implements OnInit, OnDestroy {
   loading = false;
@@ -63,7 +67,9 @@ export class SelectPasswordComponent implements OnInit, OnDestroy {
 
     this.setPasswordGQL
       .mutate({
-        input: { id: value.id, token: value.token, password: value.password },
+        variables: {
+          input: { id: value.id, token: value.token, password: value.password },
+        },
       })
       .subscribe({
         next: () => {

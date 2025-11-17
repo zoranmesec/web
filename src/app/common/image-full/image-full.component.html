@@ -1,8 +1,10 @@
 <div class="full-container">
   <div class="buttons-row">
-    <button mat-icon-button (click)="onDeleteClick()" *ngIf="currentUser && image.user && currentUser.id === image.user.id">
-      <mat-icon>delete</mat-icon>
-    </button>
+    @if (currentUser && image.user && currentUser.id === image.user.id) {
+      <button mat-icon-button (click)="onDeleteClick()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
     <button mat-icon-button (click)="onCloseClick()">
       <mat-icon>close</mat-icon>
     </button>
@@ -14,7 +16,7 @@
         mat-icon-button
         (click)="onPreviousImageClick()"
         [disabled]="currentImageIndex < 1"
-      >
+        >
         <mat-icon>navigate_before</mat-icon>
       </button>
     </div>
@@ -31,51 +33,63 @@
 
       <div class="caption-wrap">
         <div>
-          <span *ngIf="image.title">
-            <span>{{ image.title }}</span>
-            <span *ngIf="image.route || image.crag">, </span>
-          </span>
+          @if (image.title) {
+            <span>
+              <span>{{ image.title }}</span>
+              @if (image.route || image.crag) {
+                <span>, </span>
+              }
+            </span>
+          }
 
-          <span *ngIf="image.route">
-            <span>smer </span>
-            <a
-              *ngIf="image.route"
+          @if (image.route) {
+            <span>
+              <span>smer </span>
+              @if (image.route) {
+                <a
               [routerLink]="[
                 '/plezalisce',
                 image.route.crag.slug,
                 'smer',
                 image.route.slug
               ]"
-              >{{ image.route.name }}</a
-            >, plezališče
-            <a [routerLink]="['/plezalisce', image.route.crag.slug]">{{
-              image.route.crag.name
-            }}</a>
-          </span>
+                  >{{ image.route.name }}</a
+                  >
+                  }, plezališče
+                  <a [routerLink]="['/plezalisce', image.route.crag.slug]">{{
+                    image.route.crag.name
+                  }}</a>
+                </span>
+              }
 
-          <span *ngIf="image.crag && !image.route">plezališče </span>
-          <a
-            *ngIf="image.crag"
-            [routerLink]="['/plezalisce', image.crag.slug]"
-            >{{ image.crag.name }}</a
-          >
-        </div>
-        <div *ngIf="image.author" class="author">
-          <mat-icon>photo_camera</mat-icon>
-          <span>
-            {{ image.author }}
-          </span>
+              @if (image.crag && !image.route) {
+                <span>plezališče </span>
+              }
+              @if (image.crag) {
+                <a
+                  [routerLink]="['/plezalisce', image.crag.slug]"
+                  >{{ image.crag.name }}</a
+                  >
+                }
+              </div>
+              @if (image.author) {
+                <div class="author">
+                  <mat-icon>photo_camera</mat-icon>
+                  <span>
+                    {{ image.author }}
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="navi-col">
+            <button
+              mat-icon-button
+              (click)="onNextImageClick()"
+              [disabled]="currentImageIndex > images.length - 2"
+              >
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="navi-col">
-      <button
-        mat-icon-button
-        (click)="onNextImageClick()"
-        [disabled]="currentImageIndex > images.length - 2"
-      >
-        <mat-icon>navigate_next</mat-icon>
-      </button>
-    </div>
-  </div>
-</div>

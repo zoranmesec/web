@@ -25,6 +25,7 @@ import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascen
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DataError } from 'src/app/types/data-error';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { M } from 'node_modules/@angular/material/ripple.d-BxTUZJt7';
 
 @Component({
   selector: 'app-route-ascents',
@@ -67,20 +68,24 @@ export class RouteAscentsComponent implements OnDestroy, OnChanges {
 
     if (this.showOnlyUserAscents()) {
       const userAscentsSub = this.myActivityRoutesGQL
-        .watch({ input: { routeId: this.route().id } })
+        .watch({ variables: { input: { routeId: this.route().id } } })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.myActivityRoutes.items;
-          this.pagination = result.data.myActivityRoutes.meta;
+          this.ascents = result.data.myActivityRoutes
+            .items as MyActivityRoutesQuery['myActivityRoutes']['items'];
+          this.pagination = result.data.myActivityRoutes
+            .meta as MyActivityRoutesQuery['myActivityRoutes']['meta'];
           this.loading = false;
           this.cdr.markForCheck();
         });
       this.subscriptions.push(userAscentsSub);
     } else {
       const publicAscentsSub = this.routeActivitiesGQL
-        .watch({ input: { routeId: this.route().id } })
+        .watch({ variables: { input: { routeId: this.route().id } } })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.routeActivities.items;
-          this.pagination = result.data.routeActivities.meta;
+          this.ascents = result.data.routeActivities
+            .items as RouteActivitiesQuery['routeActivities']['items'];
+          this.pagination = result.data.routeActivities
+            .meta as RouteActivitiesQuery['routeActivities']['meta'];
           this.loading = false;
           this.cdr.markForCheck();
         });
@@ -99,30 +104,38 @@ export class RouteAscentsComponent implements OnDestroy, OnChanges {
     if (this.showOnlyUserAscents()) {
       this.myActivityRoutesGQL
         .watch({
-          input: {
-            routeId: this.route().id,
-            pageNumber: event.pageIndex + 1,
-            pageSize: event.pageSize,
+          variables: {
+            input: {
+              routeId: this.route().id,
+              pageNumber: event.pageIndex + 1,
+              pageSize: event.pageSize,
+            },
           },
         })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.myActivityRoutes.items;
-          this.pagination = result.data.myActivityRoutes.meta;
+          this.ascents = result.data.myActivityRoutes
+            .items as MyActivityRoutesQuery['myActivityRoutes']['items'];
+          this.pagination = result.data.myActivityRoutes
+            .meta as MyActivityRoutesQuery['myActivityRoutes']['meta'];
           this.loading = false;
           this.cdr.markForCheck();
         });
     } else {
       this.routeActivitiesGQL
         .watch({
-          input: {
-            routeId: this.route().id,
-            pageNumber: event.pageIndex + 1,
-            pageSize: event.pageSize,
+          variables: {
+            input: {
+              routeId: this.route().id,
+              pageNumber: event.pageIndex + 1,
+              pageSize: event.pageSize,
+            },
           },
         })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.routeActivities.items;
-          this.pagination = result.data.routeActivities.meta;
+          this.ascents = result.data.routeActivities
+            .items as RouteActivitiesQuery['routeActivities']['items'];
+          this.pagination = result.data.routeActivities
+            .meta as RouteActivitiesQuery['routeActivities']['meta'];
           this.loading = false;
           this.cdr.markForCheck();
         });

@@ -37,10 +37,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ActivityEntryRoutesComponent } from './partials/activity-entry-routes/activity-entry-routes.component';
 import { DryRunActivityDialogComponent } from './forms/activity-form/dry-run-activity-dialog/dry-run-activity-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { GenderizeVerbPipe } from '../shared/pipes/genderize-verb.pipe';
-import { Platform } from '@angular/cdk/platform';
-import { CustomDateAdapter } from '../app.component';
 
 @NgModule({
   declarations: [],
@@ -65,9 +62,6 @@ import { CustomDateAdapter } from '../app.component';
     ActivityRoutingModule,
     MatDialogModule,
     MatCardModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
     ActivityLogComponent,
     ActivityRoutesComponent,
     ActivityStatisticsComponent,

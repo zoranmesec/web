@@ -26,7 +26,6 @@ import { MapComponent } from 'src/app/common/map/map.component';
 import { RouterModule } from '@angular/router';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
-import { h } from '@angular/cdk/a11y-module.d-DBHGyKoh';
 
 interface GradeSlot {
   label: string;

@@ -7,136 +7,149 @@
       <tr>
         <td class="label">Težavnost:</td>
         <td>
-          <span *ngIf="route.isProject">P</span>
-          <app-grade
-            *ngIf="!route.isProject"
-            [difficulty]="route.difficulty"
-            [gradingSystemId]="route.defaultGradingSystem.id"
-            [showModifier]="true"
-          ></app-grade>
-        </td>
-      </tr>
-      <tr *ngIf="route.pitches.length > 0">
-        <td class="label">Raztežaji:</td>
-        <td>
-          <text *ngFor="let pitch of route.pitches; let isLast = last"
-            ><span *ngIf="pitch.isProject">P</span>
+          @if (route.isProject) {
+            <span>P</span>
+          }
+          @if (!route.isProject) {
             <app-grade
-              *ngIf="!pitch.isProject"
-              [difficulty]="pitch.difficulty"
+              [difficulty]="route.difficulty"
               [gradingSystemId]="route.defaultGradingSystem.id"
               [showModifier]="true"
-            ></app-grade
-            >{{ isLast ? "" : ", " }}</text
-          >
+            ></app-grade>
+          }
         </td>
       </tr>
+      @if (route.pitches.length > 0) {
+        <tr>
+          <td class="label">Raztežaji:</td>
+          <td>
+            @for (pitch of route.pitches; track pitch; let isLast = $last) {
+              <text
+                >@if (pitch.isProject) {
+                <span>P</span>
+              }
+              @if (!pitch.isProject) {
+                <app-grade
+                  [difficulty]="pitch.difficulty"
+                  [gradingSystemId]="route.defaultGradingSystem.id"
+                  [showModifier]="true"
+                  ></app-grade
+                  >
+                  }{{ isLast ? "" : ", " }}</text
+                  >
+                }
+              </td>
+            </tr>
+          }
 
-      <!-- Route length -->
-      <tr>
-        <td class="label">Dolžina:</td>
-        <td>{{ route.length }} m</td>
-      </tr>
+          <!-- Route length -->
+          <tr>
+            <td class="label">Dolžina:</td>
+            <td>{{ route.length }} m</td>
+          </tr>
 
-      <!-- Route author -->
-      @if (route.author) {
-      <tr>
-        <td class="label">Avtor:</td>
-        <td>{{ route.author }}</td>
-      </tr>
-      }
+          <!-- Route author -->
+          @if (route.author) {
+            <tr>
+              <td class="label">Avtor:</td>
+              <td>{{ route.author }}</td>
+            </tr>
+          }
 
-      <!-- Route star rating -->
-      @if (route.starRating > 0) {
-      <tr>
-        <td class="label">Lepota:</td>
-        <td>
-          <app-star-rating
-            [value]="route.starRating"
-            [showLabel]="true"
-          ></app-star-rating>
-        </td>
-      </tr>
-      } @if (route.sector.name.length>0) {
-      <tr>
-        <td class="label">Sektor:</td>
-        <td>{{ route.sector.name }}</td>
-      </tr>
-      }
+          <!-- Route star rating -->
+          @if (route.starRating > 0) {
+            <tr>
+              <td class="label">Lepota:</td>
+              <td>
+                <app-star-rating
+                  [value]="route.starRating"
+                  [showLabel]="true"
+                ></app-star-rating>
+              </td>
+            </tr>
+            } @if (route.sector.name.length>0) {
+            <tr>
+              <td class="label">Sektor:</td>
+              <td>{{ route.sector.name }}</td>
+            </tr>
+          }
 
-      <tr>
-        <td class="label">Plezališče:</td>
-        <td>{{ route.sector.crag.name }}</td>
-      </tr>
+          <tr>
+            <td class="label">Plezališče:</td>
+            <td>{{ route.sector.crag.name }}</td>
+          </tr>
 
-      @if (route.sector.crag.area) {
-      <tr>
-        <td class="label">Območje:</td>
-        <td>{{ route.sector.crag.area.name }}</td>
-      </tr>
-      }
+          @if (route.sector.crag.area) {
+            <tr>
+              <td class="label">Območje:</td>
+              <td>{{ route.sector.crag.area.name }}</td>
+            </tr>
+          }
 
-      <tr>
-        <td class="label">Država:</td>
-        <td>{{ route.sector.crag.country.name }}</td>
-      </tr>
+          <tr>
+            <td class="label">Država:</td>
+            <td>{{ route.sector.crag.country.name }}</td>
+          </tr>
 
-      <tr *ngFor="let event of route.routeEvents">
-        <td class="label">{{ eventTypeMap[event.eventType] }}</td>
-        <span
-          >{{ event.author }} ({{
-            event.eventDate | date : (event.showFullDate ? "d. M. Y" : "Y")
-          }})
-        </span>
-      </tr>
+          @for (event of route.routeEvents; track event) {
+            <tr>
+              <td class="label">{{ eventTypeMap[event.eventType] }}</td>
+              <span
+                >{{ event.author }} ({{
+                event.eventDate | date : (event.showFullDate ? "d. M. Y" : "Y")
+                }})
+              </span>
+            </tr>
+          }
 
-      <div
-        *ngFor="let property of route.properties"
-        class="flex flex-row flex-start info-row"
+          @for (property of route.properties; track property) {
+            <div
+              class="flex flex-row flex-start info-row"
+              >
+              <app-info-property [property]="property"></app-info-property>
+            </div>
+          }
+
+          <tr>
+            <td class="label">Število uspešnih vzponov:</td>
+            <td>{{ route.nrTicks }}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Število poskusov:</td>
+            <td>{{ route.nrTries }}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Število plezalcev:</td>
+            <td>{{ route.nrClimbers }}</td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- <div class="card padding">
+    <h4>Ocene uporabnikov</h4>
+    <app-distribution-chart
+      class="difficulty-votes-chart"
+      [distribution]="gradesDistribution"
+    ></app-distribution-chart>
+    <app-route-grades
+      [grades]="grades"
+      [difficulty]="route.difficulty"
+      [gradingSystemId]="route.defaultGradingSystem.id"
+    ></app-route-grades>
+  </div>
+
+  <div class="card no-border padding" *ngIf="user">
+    <h4>Moji vzponi</h4>
+    <button
+      mat-button
+      color="primary"
+      fxFill
+      [routerLink]="['/plezalni-dnevnik/vzponi', { routeId: route.id }]"
       >
-        <app-info-property [property]="property"></app-info-property>
-      </div>
-
-      <tr>
-        <td class="label">Število uspešnih vzponov:</td>
-        <td>{{ route.nrTicks }}</td>
-      </tr>
-
-      <tr>
-        <td class="label">Število poskusov:</td>
-        <td>{{ route.nrTries }}</td>
-      </tr>
-
-      <tr>
-        <td class="label">Število plezalcev:</td>
-        <td>{{ route.nrClimbers }}</td>
-      </tr>
-    </table>
-  </mat-expansion-panel>
-</mat-accordion>
-
-<!-- <div class="card padding">
-  <h4>Ocene uporabnikov</h4>
-  <app-distribution-chart
-    class="difficulty-votes-chart"
-    [distribution]="gradesDistribution"
-  ></app-distribution-chart>
-  <app-route-grades
-    [grades]="grades"
-    [difficulty]="route.difficulty"
-    [gradingSystemId]="route.defaultGradingSystem.id"
-  ></app-route-grades>
-</div>
-
-<div class="card no-border padding" *ngIf="user">
-  <h4>Moji vzponi</h4>
-  <button
-    mat-button
-    color="primary"
-    fxFill
-    [routerLink]="['/plezalni-dnevnik/vzponi', { routeId: route.id }]"
-  >
-    Prikaži v plezalnem dnevniku
-  </button>
-</div>
+      Prikaži v plezalnem dnevniku
+    </button>
+  </div>
 </div> -->

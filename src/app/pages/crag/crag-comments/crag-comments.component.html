@@ -6,8 +6,8 @@
     ></app-comment-form>
   </section>
   <section id="comments">
-    <ng-container *ngFor="let comment of comments">
+    @for (comment of comments; track comment) {
       <app-comment [comment]="comment"></app-comment>
-    </ng-container>
+    }
   </section>
 </main>

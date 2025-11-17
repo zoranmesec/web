@@ -1,10 +1,11 @@
 <div class="crag-map-container">
   <div [id]="'crag-map-' + id" [style]="{ 'height.px': height }"></div>
-  <div
-    class="crag-map-overlay"
-    *ngIf="mapOverlay"
-    (click)="mapOverlay = false"
-  ></div>
+  @if (mapOverlay) {
+    <div
+      class="crag-map-overlay"
+      (click)="mapOverlay = false"
+    ></div>
+  }
 </div>
 <div #popup class="popup" [hidden]="true" title="Plezališče">
   <div>
@@ -14,12 +15,16 @@
       }}</a>
     </p>
     <p>
-      <span *ngIf="selectedCrag?.nrRoutes">
-        <b>Število smeri:</b> {{ selectedCrag?.nrRoutes }},
-      </span>
-      <span *ngIf="selectedCrag?.orientation">
-        <b>Orientacija:</b> {{ selectedCrag?.orientation }}
-      </span>
+      @if (selectedCrag?.nrRoutes) {
+        <span>
+          <b>Število smeri:</b> {{ selectedCrag?.nrRoutes }},
+        </span>
+      }
+      @if (selectedCrag?.orientation) {
+        <span>
+          <b>Orientacija:</b> {{ selectedCrag?.orientation }}
+        </span>
+      }
     </p>
   </div>
 </div>
@@ -27,6 +32,6 @@
   #locate
   class="ol-control ol-unselectable locate"
   (click)="locateMe($event)"
->
+  >
   <button title="Locate me" class="map-button">◎</button>
 </div>

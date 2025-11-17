@@ -26,16 +26,16 @@ interface AresFormComponentData {
 }
 
 @Component({
-    selector: 'app-area-form',
-    templateUrl: './area-form.component.html',
-    styleUrls: ['./area-form.component.scss'],
-    imports: [
-        MatDialogModule,
-        MatLabel,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormField,
-    ]
+  selector: 'app-area-form',
+  templateUrl: './area-form.component.html',
+  styleUrls: ['./area-form.component.scss'],
+  imports: [
+    MatDialogModule,
+    MatLabel,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+  ],
 })
 export class AreaFormComponent implements OnInit {
   saving = false;
@@ -80,10 +80,12 @@ export class AreaFormComponent implements OnInit {
     if (this.data.area != null) {
       this.updateGQL
         .mutate({
-          input: {
-            ...this.form.value,
-            id: this.data.area.id,
-            countryId: this.data.countryId,
+          variables: {
+            input: {
+              ...this.form.value,
+              id: this.data.area.id,
+              countryId: this.data.countryId,
+            },
           },
         })
         .subscribe({
@@ -93,9 +95,11 @@ export class AreaFormComponent implements OnInit {
     } else {
       this.createGQL
         .mutate({
-          input: {
-            ...this.form.value,
-            countryId: this.data.countryId,
+          variables: {
+            input: {
+              ...this.form.value,
+              countryId: this.data.countryId,
+            },
           },
         })
         .subscribe({

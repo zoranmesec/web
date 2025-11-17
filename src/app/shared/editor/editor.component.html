@@ -1,4 +1,6 @@
-<div *ngIf="label != ''" class="label">{{ label }}</div>
+@if (label != '') {
+  <div class="label">{{ label }}</div>
+}
 <div class="editor" [class.focused]="focus">
   <editor
     apiKey="x0sen324zfse95ob0puqpwo7xykmf6uspxj10zquqswkkatg"

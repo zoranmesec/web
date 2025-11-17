@@ -1,9 +1,9 @@
 <div class="flex flex-row flex-align-center flex-justify-space-around">
-  <ng-container *ngFor="let button of data.buttons">
+  @for (button of data.buttons; track button) {
     <button mat-flat-button (click)="snackBarRef.closeWithAction()">
       {{ button.label }}
     </button>
-  </ng-container>
+  }
   <div class="close-icon" (click)="closeDialog()">
     <mat-icon matIcon color="red" class="map-icon">close</mat-icon>
   </div>

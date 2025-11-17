@@ -8,125 +8,137 @@
           [class.no-hint]="
             activityForm.controls.type.value != 'crag' || this.crag != null
           "
-        >
+          >
           <mat-label>Vrsta aktivnosti</mat-label>
           <mat-select formControlName="type">
-            <mat-option
-              *ngFor="let option of typeOptions"
-              [value]="option.value"
-              >{{ option.label }}
-            </mat-option>
+            @for (option of typeOptions; track option) {
+              <mat-option
+                [value]="option.value"
+                >{{ option.label }}
+              </mat-option>
+            }
           </mat-select>
-          <mat-hint
-            *ngIf="
-              activityForm.controls.type.value == 'crag' && this.crag == null
-            "
-            >* Uporabi le, če plezališča ni v naši bazi. Če plezališče obstaja,
-            najprej obkljukaj smeri na njegovi strani.</mat-hint
-          >
-        </mat-form-field>
-        <mat-form-field
-          appearance="outline"
-          class="no-hint"
-          *ngIf="crag == null && peak == null && iceFall == null"
-        >
-          <mat-label>Lokacija</mat-label>
-          <input matInput type="text" formControlName="name" />
-        </mat-form-field>
-        <mat-form-field
-          class="no-hint"
-          appearance="outline"
-          *ngIf="crag != null"
-        >
-          <mat-label>Plezališče</mat-label>
-          <input matInput type="text" disabled [value]="crag.name" />
-        </mat-form-field>
+          @if (
+            activityForm.controls.type.value == 'crag' && this.crag == null
+            ) {
+            <mat-hint
+              >* Uporabi le, če plezališča ni v naši bazi. Če plezališče obstaja,
+              najprej obkljukaj smeri na njegovi strani.</mat-hint
+              >
+            }
+          </mat-form-field>
+          @if (crag == null && peak == null && iceFall == null) {
+            <mat-form-field
+              appearance="outline"
+              class="no-hint"
+              >
+              <mat-label>Lokacija</mat-label>
+              <input matInput type="text" formControlName="name" />
+            </mat-form-field>
+          }
+          @if (crag != null) {
+            <mat-form-field
+              class="no-hint"
+              appearance="outline"
+              >
+              <mat-label>Plezališče</mat-label>
+              <input matInput type="text" disabled [value]="crag.name" />
+            </mat-form-field>
+          }
+        </div>
+        <div class="flex flex-row fieldset">
+          <mat-form-field class="no-hint" appearance="outline">
+            <mat-label>Datum</mat-label>
+            <input
+              matInput
+              formControlName="date"
+              [matDatepicker]="picker"
+              [max]="maxDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            @if (activityForm.controls.type.value != 'crag') {
+              <mat-form-field
+                class="no-hint"
+                appearance="outline"
+                >
+                <mat-label>Trajanje (min)</mat-label>
+                <input matInput type="number" formControlName="duration" />
+              </mat-form-field>
+            }
+            @if (activityForm.controls.type.value == 'crag') {
+              <mat-form-field
+                class="no-hint"
+                appearance="outline"
+                >
+                <mat-label>Soplezalci</mat-label>
+                <input matInput type="text" formControlName="partners" />
+              </mat-form-field>
+            }
+          </div>
+          <div class="flex flex-row">
+            <mat-form-field class="w-100 p-r-48" appearance="outline">
+              <mat-label>Opombe k plezalnemu dnevu...</mat-label>
+              <textarea matInput formControlName="notes"></textarea>
+              <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
-      <div class="flex flex-row fieldset">
-        <mat-form-field class="no-hint" appearance="outline">
-          <mat-label>Datum</mat-label>
-          <input
-            matInput
-            formControlName="date"
-            [matDatepicker]="picker"
-            [max]="maxDate"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field
-          class="no-hint"
-          appearance="outline"
-          *ngIf="activityForm.controls.type.value != 'crag'"
-        >
-          <mat-label>Trajanje (min)</mat-label>
-          <input matInput type="number" formControlName="duration" />
-        </mat-form-field>
-        <mat-form-field
-          class="no-hint"
-          appearance="outline"
-          *ngIf="activityForm.controls.type.value == 'crag'"
-        >
-          <mat-label>Soplezalci</mat-label>
-          <input matInput type="text" formControlName="partners" />
-        </mat-form-field>
-      </div>
-      <div class="flex flex-row">
-        <mat-form-field class="w-100 p-r-48" appearance="outline">
-          <mat-label>Opombe k plezalnemu dnevu...</mat-label>
-          <textarea matInput formControlName="notes"></textarea>
-          <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
 
-  <div class="mt-16" *ngIf="activity && activity.routes.length > 0">
-    <h3>Preplezane smeri</h3>
-    <app-activity-entry-routes
-      [routes]="activity.routes"
-      type="form"
-    ></app-activity-entry-routes>
-  </div>
+      @if (activity && activity.routes.length > 0) {
+        <div class="mt-16">
+          <h3>Preplezane smeri</h3>
+          <app-activity-entry-routes
+            [routes]="activity.routes"
+            type="form"
+          ></app-activity-entry-routes>
+        </div>
+      }
 
-  @if(routes.controls.length>0) {
+      @if(routes.controls.length>0) {
 
-  <mat-accordion multi="true" displayMode="flat">
-    @for( route of routes.controls; track $index; let first = $first;let last =
-    $last) {
-    <mat-expansion-panel expanded="">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ route.value.name }}
-          {{ route.value.gradeLabel }}</mat-panel-title
-        >
-      </mat-expansion-panel-header>
-      <div class="p-16">
-        <app-activity-form-route
-          [myIndex]="$index"
-          [route]="route"
-          [crag]="crag"
-          [first]="first"
-          [last]="last"
-          (move)="moveRoute($index, $event)"
-        ></app-activity-form-route>
-      </div>
-    </mat-expansion-panel>
-    }
-  </mat-accordion>
-  }
+        <mat-accordion multi="true" displayMode="flat">
+          @for( route of routes.controls; track $index; let first = $first;let last =
+            $last) {
+            <mat-expansion-panel expanded="">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ route.value.name }}
+                  {{ route.value.gradeLabel }}</mat-panel-title
+                  >
+                </mat-expansion-panel-header>
+                <div class="p-16">
+                  <app-activity-form-route
+                    [myIndex]="$index"
+                    [route]="route"
+                    [crag]="crag"
+                    [first]="first"
+                    [last]="last"
+                    (move)="moveRoute($index, $event)"
+                  ></app-activity-form-route>
+                </div>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+        }
 
-  <mat-dialog-actions *ngIf="!loading">
-    <button mat-button mat-dialog-close>Prekliči</button>
-    <button mat-flat-button (click)="save()">Shrani</button>
-  </mat-dialog-actions>
+        @if (!loading) {
+          <mat-dialog-actions>
+            <button mat-button mat-dialog-close>Prekliči</button>
+            <button mat-flat-button (click)="save()">Shrani</button>
+          </mat-dialog-actions>
+        }
 
-  <div class="p-16 flex flex-row flex-justify-center">
-    <span *ngIf="loading" class="loading">
-      <mat-spinner diameter="30"></mat-spinner>
-    </span>
-  </div>
-</form>
+        <div class="p-16 flex flex-row flex-justify-center">
+          @if (loading) {
+            <span class="loading">
+              <mat-spinner diameter="30"></mat-spinner>
+            </span>
+          }
+        </div>
+      </form>

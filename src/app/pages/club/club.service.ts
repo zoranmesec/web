@@ -20,7 +20,7 @@ export class ClubService implements OnDestroy {
   amClubAdmin = new BehaviorSubject<boolean>(false);
   amClubAdmin$ = this.amClubAdmin.asObservable();
 
-  clubQuery: QueryRef<any>;
+  clubQuery: QueryRef<any, any>;
   clubQuerySubscription: Subscription;
 
   private error = new Subject<Error>();
@@ -32,7 +32,7 @@ export class ClubService implements OnDestroy {
   ) {}
 
   fetchClub(clubSlug: string) {
-    this.clubQuery = this.clubBySlugGQL.watch({ clubSlug });
+    this.clubQuery = this.clubBySlugGQL.watch({ variables: { clubSlug } });
 
     // use switchmap with current user
 
@@ -47,7 +47,7 @@ export class ClubService implements OnDestroy {
       .subscribe({
         next: ({ data, user }) => {
           if (user == null) {
-            this.club.error(data.errors);
+            this.club.error(data.error);
           } else {
             const club = data.data.clubBySlug;
             const amClubAdmin = club.members.some(

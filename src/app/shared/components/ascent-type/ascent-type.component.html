@@ -1,38 +1,45 @@
 <div fxLayout="row" fxLayoutAlign="start center">
-  <ng-container *ngIf="displayType === 'icon' || displayType === 'iconAndText'">
+  @if (displayType === 'icon' || displayType === 'iconAndText') {
     <div
       [ngClass]="{
         'fixed-icons-width': fixedIconsWidth
       }"
       fxLayout="row"
       [fxLayoutAlign]="iconAlignment + ' center'"
-    >
-      <mat-icon
-        *ngIf="ascentType && ascentType.topRope"
-        svgIcon="toprope"
-        matTooltip="Top rope"
-        title="Top rope"
-      ></mat-icon>
-      <mat-icon
-        *ngIf="ascentType"
-        [ngClass]="ascentType.icon"
-        [matTooltip]="ascentType.label"
-        [title]="ascentType.label"
-        class="material-symbols-outlined"
-        >{{ ascentType.icon }}</mat-icon
       >
-    </div>
-  </ng-container>
+      @if (ascentType && ascentType.topRope) {
+        <mat-icon
+          svgIcon="toprope"
+          matTooltip="Top rope"
+          title="Top rope"
+        ></mat-icon>
+      }
+      @if (ascentType) {
+        <mat-icon
+          [ngClass]="ascentType.icon"
+          [matTooltip]="ascentType.label"
+          [title]="ascentType.label"
+          class="material-symbols-outlined"
+          >{{ ascentType.icon }}</mat-icon
+          >
+        }
+      </div>
+    }
 
-  <ng-container *ngIf="displayType === 'text' || displayType === 'iconAndText'">
-    <div
-      *ngIf="ascentType"
-      [ngClass]="{ 'ml-4': displayType === 'iconAndText' }"
-    >
-      {{ ascentType.label }} <span *ngIf="ascentType.topRope"> (top rope)</span>
-    </div>
-    <span *ngIf="ascentType === null"
-      ><i>{{ type }}</i></span
-    >
-  </ng-container>
-</div>
+    @if (displayType === 'text' || displayType === 'iconAndText') {
+      @if (ascentType) {
+        <div
+          [ngClass]="{ 'ml-4': displayType === 'iconAndText' }"
+          >
+          {{ ascentType.label }} @if (ascentType.topRope) {
+          <span> (top rope)</span>
+        }
+      </div>
+    }
+    @if (ascentType === null) {
+      <span
+        ><i>{{ type }}</i></span
+        >
+      }
+    }
+  </div>

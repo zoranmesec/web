@@ -10,13 +10,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DataError } from 'src/app/types/data-error';
 import { LatestCommentsGQL, LatestCommentsQuery } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-latest-comments',
-    imports: [CommonModule],
-    templateUrl: './latest-comments.component.html',
-    styleUrls: ['./latest-comments.component.scss']
+  selector: 'app-latest-comments',
+  imports: [],
+  templateUrl: './latest-comments.component.html',
+  styleUrls: ['./latest-comments.component.scss'],
 })
 export class LatestCommentsComponent implements OnInit, OnDestroy {
   @Output() errorEvent = new EventEmitter<DataError>();
@@ -39,9 +38,11 @@ export class LatestCommentsComponent implements OnInit, OnDestroy {
           this.loadingSpinnerService.pushLoader();
 
           return this.latestCommentsGQL.fetch({
-            input: {
-              pageSize: 5,
-              pageNumber: 1,
+            variables: {
+              input: {
+                pageSize: 5,
+                pageNumber: 1,
+              },
             },
           });
         })

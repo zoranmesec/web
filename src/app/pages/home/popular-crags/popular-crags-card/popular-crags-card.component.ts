@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DataError } from 'src/app/types/data-error';
 import { PopularCrag, PopularCragsGQL } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../../loading-spinner.service';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-popular-crags-card',
   templateUrl: './popular-crags-card.component.html',
   styleUrls: ['./popular-crags-card.component.scss'],
-  imports: [CommonModule, RouterModule, MatCardModule, MatButtonModule],
+  imports: [RouterModule, MatCardModule, MatButtonModule],
 })
 export class PopularCragsCardComponent implements OnInit, OnDestroy {
   constructor(
@@ -49,8 +49,7 @@ export class PopularCragsCardComponent implements OnInit, OnDestroy {
         switchMap((user) => {
           this.loadingSpinnerService.pushLoader();
           return this.popularCragsGQL.fetch({
-            dateFrom: this.dateFrom,
-            top: this.top,
+            variables: { dateFrom: this.dateFrom, top: this.top },
           });
         })
       )

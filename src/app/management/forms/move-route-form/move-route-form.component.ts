@@ -30,10 +30,10 @@ export interface MoveRouteFormComponentData {
 }
 
 @Component({
-    selector: 'app-move-route-form',
-    templateUrl: './move-route-form.component.html',
-    styleUrls: ['./move-route-form.component.scss'],
-    imports: [MatDialogActions, FormsModule, ReactiveFormsModule]
+  selector: 'app-move-route-form',
+  templateUrl: './move-route-form.component.html',
+  styleUrls: ['./move-route-form.component.scss'],
+  imports: [MatDialogActions, FormsModule, ReactiveFormsModule],
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
   form = new UntypedFormGroup({
@@ -99,7 +99,7 @@ export class MoveRouteFormComponent implements OnInit, OnDestroy {
 
     const sourceRouteSub = this.managementMoveRouteGetRouteGQL
       .fetch({
-        id: this.data.route.id,
+        variables: { id: this.data.route.id },
       })
       .subscribe(({ data }) => {
         this.sourceRoute = data.route as Route;
@@ -110,7 +110,9 @@ export class MoveRouteFormComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((route) =>
           route != null
-            ? this.managementMoveRouteGetRouteGQL.fetch({ id: route.id })
+            ? this.managementMoveRouteGetRouteGQL.fetch({
+                variables: { id: route.id },
+              })
             : Promise.resolve(null)
         )
       )
@@ -161,11 +163,13 @@ export class MoveRouteFormComponent implements OnInit, OnDestroy {
 
     this.managementMoveRouteToSectorGQL
       .mutate({
-        input: {
-          id: this.data.route.id,
-          targetRouteId: this.form.value.targetRoute?.id,
-          sectorId: this.form.controls.targetSector.value.id,
-          primaryRoute: this.form.controls.primarySelection.value,
+        variables: {
+          input: {
+            id: this.data.route.id,
+            targetRouteId: this.form.value.targetRoute?.id,
+            sectorId: this.form.controls.targetSector.value.id,
+            primaryRoute: this.form.controls.primarySelection.value,
+          },
         },
       })
       .subscribe({

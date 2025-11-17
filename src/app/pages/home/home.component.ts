@@ -5,7 +5,7 @@ import { LayoutService } from 'src/app/services/layout.service';
 import { DataError } from 'src/app/types/data-error';
 import { LoadingSpinnerService } from './loading-spinner.service';
 import { PendingContributionsHintsComponent } from './pending-contributions-hints/pending-contributions-hints.component';
-import { CommonModule } from '@angular/common';
+
 import { SearchComponent } from '../search/search.component';
 import { ExposedWarningsComponent } from './exposed-warnings/exposed-warnings.component';
 import { LatestAscentsComponent } from './latest-ascents/latest-ascents.component';
@@ -18,15 +18,14 @@ import { PopularCragsComponent } from './popular-crags/popular-crags.component';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     imports: [
-        PendingContributionsHintsComponent,
-        CommonModule,
-        SearchComponent,
-        ExposedWarningsComponent,
-        LatestAscentsComponent,
-        LatestDifficultyVotesComponent,
-        LatestCommentsComponent,
-        PopularCragsComponent,
-    ]
+    PendingContributionsHintsComponent,
+    SearchComponent,
+    ExposedWarningsComponent,
+    LatestAscentsComponent,
+    LatestDifficultyVotesComponent,
+    LatestCommentsComponent,
+    PopularCragsComponent
+]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   error: DataError;

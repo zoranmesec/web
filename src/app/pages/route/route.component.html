@@ -1,169 +1,173 @@
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
-
-<app-loader *ngIf="loading"></app-loader>
-@if (!error && !loading) {
-
-<section id="title">
-  <h1>{{ route.name }}</h1>
-</section>
-<section id="navigation">
-  <div class="flex flex-row flex-justify-space-between">
-    <div class="flex flex-row">
-      <div class="m-16 p-r-16 border-right">
-        <button mat-stroked-button type="button">
-          <div class="flex flex-row">
-            <app-add-icon></app-add-icon>
-            <span class="p-l-4">Zabeleži vzpon</span>
-          </div>
-        </button>
-      </div>
-      <div class="p-t-8 m-t-8">
-        <button mat-stroked-button [matMenuTriggerFor]="menu">
-          <app-more-icon class=""></app-more-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="addImage()">
-            <span>Dodaj fotografijo</span>
-          </button>
-          <button mat-menu-item (click)="addComment('warning')">
-            <span>Dodaj opozorilo</span>
-          </button>
-        </mat-menu>
-      </div>
-    </div>
-    @if (route) {
-
-    <div class="flex flex-row m-8 p-r-32">
-      @if(previousRoute) {
-      <div class="m-8 p-r-16 p-t-8" [class.border-right]="nextRoute">
-        <a
-          class="route-link"
-          [routerLink]="['./../', previousRoute.slug]"
-          (click)="$event.stopPropagation()"
-        >
-          <div class="flex flex-row">
-            <app-arrow-icon class="m-r-8"></app-arrow-icon>
-            {{ previousRoute.name }}
-          </div>
-        </a>
-      </div>
-      } @if(nextRoute) {
-      <div class="m-8 p-t-8">
-        <a
-          class="route-link"
-          [routerLink]="['./../', nextRoute.slug]"
-          (click)="$event.stopPropagation()"
-        >
-          <div class="flex flex-row">
-            {{ nextRoute.name }}
-            <app-arrow-icon
-              class="m-l-8"
-              direction="right"
-            ></app-arrow-icon></div
-        ></a>
-      </div>
-      }
-    </div>
-    }
-  </div>
-</section>
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
 }
 
-<div *ngIf="!error && !loading">
-  <app-publish-status-hint
-    *ngIf="
-      route.publishStatus === 'draft' || route.publishStatus === 'in_review'
-    "
-    class="container mt-16"
-    entityType="route"
-    [publishStatus]="route.publishStatus"
-  ></app-publish-status-hint>
+@if (loading) {
+  <app-loader></app-loader>
+}
+@if (!error && !loading) {
 
-  <app-warnings *ngIf="warnings" [warnings]="warnings"></app-warnings>
-
-  <section
-    id="info"
-    class="flex flex-row flex-justify-space-between flex-wrap w-100"
-  >
-    <div>
-      <app-route-info [route]="route"></app-route-info>
-    </div>
-    @if(route.description) {
-
-    <div>
-      <mat-accordion>
-        <mat-expansion-panel expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Opis smeri </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>{{ route.description }}</p>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-    } @if (route.images.length>0) {
-
-    <div>
-      <app-crag-gallery
-        [images]="[route.images[0]]"
-        onlyPreview="true"
-      ></app-crag-gallery>
-    </div>
-    }
+  <section id="title">
+    <h1>{{ route.name }}</h1>
   </section>
-  <section
-    id="ascents"
-    class="flex w-100"
-    [class.flex-column]="breakpointService.ltLg()"
-    [class.flex-row]="breakpointService.gtMd()"
-  >
-    <div class="w-100">
-      <app-route-ascents
+  <section id="navigation">
+    <div class="flex flex-row flex-justify-space-between">
+      <div class="flex flex-row">
+        <div class="m-16 p-r-16 border-right">
+          <button mat-stroked-button type="button">
+            <div class="flex flex-row">
+              <app-add-icon></app-add-icon>
+              <span class="p-l-4">Zabeleži vzpon</span>
+            </div>
+          </button>
+        </div>
+        <div class="p-t-8 m-t-8">
+          <button mat-stroked-button [matMenuTriggerFor]="menu">
+            <app-more-icon class=""></app-more-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="addImage()">
+              <span>Dodaj fotografijo</span>
+            </button>
+            <button mat-menu-item (click)="addComment('warning')">
+              <span>Dodaj opozorilo</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+      @if (route) {
+
+        <div class="flex flex-row m-8 p-r-32">
+          @if(previousRoute) {
+            <div class="m-8 p-r-16 p-t-8" [class.border-right]="nextRoute">
+              <a
+                class="route-link"
+                [routerLink]="['./../', previousRoute.slug]"
+                (click)="$event.stopPropagation()"
+                >
+                <div class="flex flex-row">
+                  <app-arrow-icon class="m-r-8"></app-arrow-icon>
+                  {{ previousRoute.name }}
+                </div>
+              </a>
+            </div>
+            } @if(nextRoute) {
+            <div class="m-8 p-t-8">
+              <a
+                class="route-link"
+                [routerLink]="['./../', nextRoute.slug]"
+                (click)="$event.stopPropagation()"
+                >
+                <div class="flex flex-row">
+                  {{ nextRoute.name }}
+                  <app-arrow-icon
+                    class="m-l-8"
+                    direction="right"
+                  ></app-arrow-icon></div
+                ></a>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  @if (!error && !loading) {
+    <div>
+      @if (
+        route.publishStatus === 'draft' || route.publishStatus === 'in_review'
+        ) {
+        <app-publish-status-hint
+          class="container mt-16"
+          entityType="route"
+          [publishStatus]="route.publishStatus"
+        ></app-publish-status-hint>
+      }
+      @if (warnings) {
+        <app-warnings [warnings]="warnings"></app-warnings>
+      }
+      <section
+        id="info"
+        class="flex flex-row flex-justify-space-between flex-wrap w-100"
+        >
+        <div>
+          <app-route-info [route]="route"></app-route-info>
+        </div>
+        @if(route.description) {
+          <div>
+            <mat-accordion>
+              <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Opis smeri </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ route.description }}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+          } @if (route.images.length>0) {
+          <div>
+            <app-crag-gallery
+              [images]="[route.images[0]]"
+              onlyPreview="true"
+            ></app-crag-gallery>
+          </div>
+        }
+      </section>
+      <section
+        id="ascents"
+        class="flex w-100"
+        [class.flex-column]="breakpointService.ltLg()"
+        [class.flex-row]="breakpointService.gtMd()"
+        >
+        <div class="w-100">
+          <app-route-ascents
+            [route]="route"
+            [showOnlyUserAscents]="false"
+          ></app-route-ascents>
+        </div>
+        @if(user) {
+          <div class="w-100">
+            <app-route-ascents
+              [route]="route"
+              [showOnlyUserAscents]="true"
+            ></app-route-ascents>
+          </div>
+        }
+      </section>
+      <section
+        id="grades"
+        class="flex w-100"
+        [class.flex-column]="breakpointService.ltLg()"
+        [class.flex-row]="breakpointService.gtMd()"
+        >
+        <div>
+          <app-route-grades
+            [grades]="grades"
+            [difficulty]="route.difficulty"
+            [gradingSystemId]="route.defaultGradingSystem.id"
+          ></app-route-grades>
+        </div>
+        <div>
+          <app-route-star-ratings
+            [votes]="route.starRatingVotes"
+          ></app-route-star-ratings>
+        </div>
+      </section>
+      <section id="gallery">
+        <mat-accordion>
+          <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Galerija </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-crag-gallery [images]="route.images"></app-crag-gallery>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </section>
+      <app-route-comments
+        [comments]="route.comments"
         [route]="route"
-        [showOnlyUserAscents]="false"
-      ></app-route-ascents>
+        [action$]="action$"
+      ></app-route-comments>
     </div>
-    @if(user) {
-
-    <div class="w-100">
-      <app-route-ascents
-        [route]="route"
-        [showOnlyUserAscents]="true"
-      ></app-route-ascents>
-    </div>
-    }
-  </section>
-  <section
-    id="grades"
-    class="flex w-100"
-    [class.flex-column]="breakpointService.ltLg()"
-    [class.flex-row]="breakpointService.gtMd()"
-  >
-    <div>
-      <app-route-grades
-        [grades]="grades"
-        [difficulty]="route.difficulty"
-        [gradingSystemId]="route.defaultGradingSystem.id"
-      ></app-route-grades>
-    </div>
-    <div>
-      <app-route-star-ratings
-        [votes]="route.starRatingVotes"
-      ></app-route-star-ratings>
-    </div>
-  </section>
-  <section id="gallery">
-    <mat-accordion>
-      <mat-expansion-panel expanded="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Galerija </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-crag-gallery [images]="route.images"></app-crag-gallery>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </section>
-  <app-route-comments
-    [comments]="route.comments"
-    [route]="route"
-    [action$]="action$"
-  ></app-route-comments>
-</div>
+  }

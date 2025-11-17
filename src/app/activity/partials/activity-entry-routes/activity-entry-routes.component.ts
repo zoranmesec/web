@@ -113,12 +113,10 @@ export class ActivityEntryRoutesComponent implements OnInit {
         }),
         filter((response) => response != null),
         switchMap(() =>
-          this.deleteActivityRouteGQL.mutate(
-            { id: activityRoute.id },
-            {
-              refetchQueries: [namedOperations.Query.ActivityEntry],
-            }
-          )
+          this.deleteActivityRouteGQL.mutate({
+            variables: { id: activityRoute.id },
+            refetchQueries: [namedOperations.Query.ActivityEntry],
+          })
         )
       )
       .subscribe({

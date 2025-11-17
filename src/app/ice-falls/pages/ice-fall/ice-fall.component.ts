@@ -14,12 +14,13 @@ import { LayoutService } from '../../../services/layout.service';
 import { CommentFormComponent } from '../../../shared/components/comment-form/comment-form.component';
 import { DataError } from '../../../types/data-error';
 import { IceFallsBreadcrumbs } from '../../utils/ice-falls-breadcrumbs';
+import { ErrorLike } from '@apollo/client';
 
 @Component({
-    selector: 'app-ice-fall',
-    templateUrl: './ice-fall.component.html',
-    styleUrls: ['./ice-fall.component.scss'],
-    standalone: false
+  selector: 'app-ice-fall',
+  templateUrl: './ice-fall.component.html',
+  styleUrls: ['./ice-fall.component.scss'],
+  standalone: false,
 })
 export class IceFallComponent implements OnInit {
   loading: boolean = true;
@@ -42,15 +43,15 @@ export class IceFallComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.iceFallBySlugGQL
         .watch({
-          slug: params.icefall,
+          variables: { slug: params.icefall },
         })
         .valueChanges.subscribe((result) => {
           this.loading = false;
 
-          if (result.errors != null) {
-            this.queryError(result.errors);
+          if (result.error != null) {
+            this.queryError(result.error);
           } else {
-            this.querySuccess(result.data);
+            this.querySuccess(result.data as IceFallBySlugQuery);
           }
         });
     });
@@ -67,8 +68,8 @@ export class IceFallComponent implements OnInit {
     });
   }
 
-  queryError(errors: any): void {
-    if (errors.length > 0 && errors[0].message === 'entity_not_found') {
+  queryError(error: ErrorLike): void {
+    if (error.message === 'entity_not_found') {
       this.error = {
         message: 'Slap ne obstaja v bazi.',
       };

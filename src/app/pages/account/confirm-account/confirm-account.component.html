@@ -5,11 +5,19 @@
 </div>
 
 <div class="container mt-16">
-  <app-loader *ngIf="loading"></app-loader>
-  <div *ngIf="!loading" class="card">
-    <div *ngIf="success">
-      Tvoj račun je bil uspešno aktiviran. Zdaj se lahko prijaviš.
+  @if (loading) {
+    <app-loader></app-loader>
+  }
+  @if (!loading) {
+    <div class="card">
+      @if (success) {
+        <div>
+          Tvoj račun je bil uspešno aktiviran. Zdaj se lahko prijaviš.
+        </div>
+      }
+      @if (!success) {
+        <div>Tvojega računa ni bilo mogoče aktivirati.</div>
+      }
     </div>
-    <div *ngIf="!success">Tvojega računa ni bilo mogoče aktivirati.</div>
-  </div>
+  }
 </div>

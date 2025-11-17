@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -20,7 +20,6 @@ import { CommentFormComponent } from 'src/app/shared/components/comment-form/com
   templateUrl: './crag-comments.component.html',
   styleUrls: ['./crag-comments.component.scss'],
   imports: [
-    CommonModule,
     MatButtonModule,
     CommentComponent,
     MatFormFieldModule,
@@ -28,8 +27,8 @@ import { CommentFormComponent } from 'src/app/shared/components/comment-form/com
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
-    CommentFormComponent,
-  ],
+    CommentFormComponent
+],
   standalone: true,
 })
 export class CragCommentsComponent implements OnInit, OnChanges {

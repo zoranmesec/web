@@ -37,7 +37,6 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
-import { CommonModule } from '@angular/common';
 
 export interface RowAction {
   item: Activity;
@@ -49,7 +48,6 @@ export interface RowAction {
   templateUrl: './activity-log.component.html',
   styleUrls: ['./activity-log.component.scss'],
   imports: [
-    CommonModule,
     RouterLink,
     MatSelectModule,
     FormsModule,
@@ -138,12 +136,12 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
       const queryParams: FindActivitiesInput = ft.queryParams;
 
       this.myActivitiesGQL
-        .watch({ input: queryParams })
+        .watch({ variables: { input: queryParams } })
         .valueChanges.subscribe((result) => {
           this.loading = false;
           ft.navigating = false;
 
-          if (result.errors != null) {
+          if (result.error != null) {
             this.queryError();
           } else {
             this.querySuccess(result.data.myActivities);
@@ -184,7 +182,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
   applyRelationFilterDisplayValues() {
     if (this.filters.value.cragId != null && !(this.forCrag != null)) {
       this.activityFiltersCragGQL
-        .fetch({ id: this.filters.value.cragId })
+        .fetch({ variables: { id: this.filters.value.cragId } })
         .pipe(take(1))
         .subscribe((crag) => (this.forCrag = crag.data.crag));
     }
@@ -200,7 +198,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     };
   }
 
-  querySuccess(data: MyActivitiesQuery['myActivities']): void {
+  querySuccess(data): void {
     this.activities = data.items;
     this.pagination = data.meta;
   }
@@ -235,12 +233,10 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
         ),
         filter((response) => response != null),
         switchMap(() =>
-          this.deleteActivityGQL.mutate(
-            { id: activity.id },
-            {
-              refetchQueries: [namedOperations.Query.MyActivities],
-            }
-          )
+          this.deleteActivityGQL.mutate({
+            variables: { id: activity.id },
+            refetchQueries: [namedOperations.Query.MyActivities],
+          })
         )
       )
       .subscribe({

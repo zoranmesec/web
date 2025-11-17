@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { AfterViewInit, Component, input, OnChanges } from '@angular/core';
 import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-rating.component';
 
@@ -12,7 +12,7 @@ export interface IStarRatingChartDistribution {
   templateUrl: './star-rating-chart.component.html',
   styleUrls: ['./star-rating-chart.component.scss'],
   standalone: true,
-  imports: [CommonModule, StarRatingComponent],
+  imports: [StarRatingComponent],
 })
 export class StarRatingChartComponent implements OnChanges {
   distribution = input.required<IStarRatingChartDistribution[]>();

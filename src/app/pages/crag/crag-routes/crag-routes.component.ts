@@ -562,7 +562,7 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
     }
 
     this.myCragSummaryGQL
-      .watch({ input: { cragId: this.crag.id } })
+      .watch({ variables: { input: { cragId: this.crag.id } } })
       .valueChanges.subscribe((result) => {
         this.loading = false;
         result.data?.myCragSummary.forEach((ascent) => {

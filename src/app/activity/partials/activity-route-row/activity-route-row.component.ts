@@ -56,7 +56,7 @@ export class ActivityRouteRowComponent implements OnInit {
   changePublish(value: string) {
     this.activityRouteChangePublishGQL
       .mutate({
-        input: { id: this.route.id, publish: value },
+        variables: { input: { id: this.route.id, publish: value } },
       })
       .subscribe({
         next: () => {

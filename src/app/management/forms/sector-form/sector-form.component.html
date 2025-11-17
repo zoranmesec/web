@@ -6,7 +6,7 @@
     fxLayoutAlign="stretch center"
     fxLayout.lt-md="column"
     fxLayoutAlign.lt-md="stretch"
-  >
+    >
     <mat-form-field fxFlex>
       <mat-label>Oznaka sektorja</mat-label>
       <input matInput formControlName="label" />
@@ -19,21 +19,26 @@
   </div>
   <mat-dialog-actions align="end">
     <div fxLayout="row" fxLayoutAlign="end center">
-      <button *ngIf="!saving" mat-button [mat-dialog-close]="null">
-        Prekliči
-      </button>
-      <button
-        type="submit"
-        *ngIf="!saving"
-        mat-button
-        color="primary"
-        [disabled]="!form.valid || form.pristine"
-      >
-        Shrani
-      </button>
-      <span *ngIf="saving" class="loading">
-        <mat-spinner diameter="30"></mat-spinner>
-      </span>
+      @if (!saving) {
+        <button mat-button [mat-dialog-close]="null">
+          Prekliči
+        </button>
+      }
+      @if (!saving) {
+        <button
+          type="submit"
+          mat-button
+          color="primary"
+          [disabled]="!form.valid || form.pristine"
+          >
+          Shrani
+        </button>
+      }
+      @if (saving) {
+        <span class="loading">
+          <mat-spinner diameter="30"></mat-spinner>
+        </span>
+      }
     </div>
   </mat-dialog-actions>
 </form>

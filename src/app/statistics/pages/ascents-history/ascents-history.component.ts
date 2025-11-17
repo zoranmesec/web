@@ -13,10 +13,10 @@ import {
 } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-ascents-history',
-    templateUrl: './ascents-history.component.html',
-    styleUrls: ['./ascents-history.component.scss'],
-    standalone: false
+  selector: 'app-ascents-history',
+  templateUrl: './ascents-history.component.html',
+  styleUrls: ['./ascents-history.component.scss'],
+  standalone: false,
 })
 export class AscentsHistoryComponent implements OnInit, OnDestroy {
   activities: Activity[];
@@ -65,7 +65,7 @@ export class AscentsHistoryComponent implements OnInit, OnDestroy {
             gqlParams.activitiesInput.pageNumber = +params.pageNumber;
           }
 
-          return this.ascentsGQL.fetch(gqlParams);
+          return this.ascentsGQL.fetch({ variables: gqlParams });
         })
       )
       .subscribe({

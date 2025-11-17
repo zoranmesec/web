@@ -29,10 +29,10 @@ interface TmpSector {
 }
 
 @Component({
-    selector: 'app-crag-sectors',
-    templateUrl: './crag-sectors.component.html',
-    styleUrls: ['./crag-sectors.component.scss'],
-    standalone: false
+  selector: 'app-crag-sectors',
+  templateUrl: './crag-sectors.component.html',
+  styleUrls: ['./crag-sectors.component.scss'],
+  standalone: false,
 })
 export class CragSectorsComponent implements OnInit, OnDestroy {
   loading: boolean = true;
@@ -66,7 +66,7 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
         switchMap(
           ({ crag }) =>
             this.sectorsGQL.watch({
-              id: crag,
+              variables: { id: crag },
             }).valueChanges
         )
       ),
@@ -110,7 +110,7 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
     this.savingPositions = true;
 
     this.savePositionGQL
-      .mutate({ input: data }, { fetchPolicy: 'no-cache' })
+      .mutate({ variables: { input: data }, fetchPolicy: 'no-cache' })
       .subscribe(() => {
         this.apollo.client.resetStore().then(() => {
           this.savingPositions = false;
@@ -166,7 +166,9 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         filter((value) => value != null),
-        switchMap(() => this.deleteSectorGQL.mutate({ id: sector.id }))
+        switchMap(() =>
+          this.deleteSectorGQL.mutate({ variables: { id: sector.id } })
+        )
       )
       .subscribe({
         next: () =>

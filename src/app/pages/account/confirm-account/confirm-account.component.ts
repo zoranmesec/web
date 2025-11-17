@@ -5,10 +5,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { ConfirmGQL } from 'src/generated/graphql';
 
 @Component({
-    selector: 'app-confirm-account',
-    templateUrl: './confirm-account.component.html',
-    styleUrls: ['./confirm-account.component.scss'],
-    standalone: false
+  selector: 'app-confirm-account',
+  templateUrl: './confirm-account.component.html',
+  styleUrls: ['./confirm-account.component.scss'],
+  standalone: false,
 })
 export class ConfirmAccountComponent implements OnInit, OnDestroy {
   loading = true;
@@ -28,9 +28,11 @@ export class ConfirmAccountComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((params) => {
           return this.confirmGQL.mutate({
-            input: {
-              id: params.id,
-              token: params.token,
+            variables: {
+              input: {
+                id: params.id,
+                token: params.token,
+              },
             },
           });
         })

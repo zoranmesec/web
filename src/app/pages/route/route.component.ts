@@ -18,7 +18,7 @@ import { CommentFormComponent } from 'src/app/shared/components/comment-form/com
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 import { QueryRef } from 'apollo-angular';
-import { CommonModule } from '@angular/common';
+
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 import { FlexLayoutModule } from 'ng-flex-layout';
@@ -48,7 +48,6 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
   styleUrls: ['./route.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     LoaderComponent,
     DataErrorComponent,
     FlexLayoutModule,
@@ -80,7 +79,7 @@ export class RouteComponent implements OnInit, OnDestroy {
   action$ = new Subject<string>();
   actionSubscription: Subscription;
   routeQuerySubscription: Subscription;
-  routeQuery: QueryRef<any>;
+  routeQuery: QueryRef<any, any>;
 
   user: User;
   userSubscription: Subscription;
@@ -112,8 +111,7 @@ export class RouteComponent implements OnInit, OnDestroy {
         switchMap((params) => {
           this.loading = true;
           this.routeQuery = this.routeBySlugGQL.watch({
-            cragSlug: params.crag,
-            routeSlug: params.route,
+            variables: { cragSlug: params.crag, routeSlug: params.route },
           });
           return this.routeQuery.valueChanges;
         })

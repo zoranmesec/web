@@ -12,7 +12,7 @@ import { GradingSystemsService } from '../../services/grading-systems.service';
 import { MatOption } from '@angular/material/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
+
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { IconsModule } from '../../icons/icons.module';
 
@@ -27,10 +27,9 @@ import { IconsModule } from '../../icons/icons.module';
     MatSelect,
     MatFormField,
     MatLabel,
-    CommonModule,
     NgxMatSelectSearchModule,
-    IconsModule,
-  ],
+    IconsModule
+],
 })
 export class GradeSelectComponent implements OnInit, OnChanges {
   @Input() label: string;

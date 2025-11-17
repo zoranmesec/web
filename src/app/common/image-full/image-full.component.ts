@@ -79,7 +79,7 @@ export class ImageFullComponent implements OnInit {
       .subscribe((result) => {
         if (result != null) {
           this.deleteImageGQL
-            .mutate({ id: this.image.id })
+            .mutate({ variables: { id: this.image.id } })
             .subscribe(({ data }) => {
               if (data.deleteImage) {
                 this.dialogRef.close();

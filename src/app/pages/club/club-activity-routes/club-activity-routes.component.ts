@@ -18,16 +18,16 @@ import {
 import { ClubService } from '../club.service';
 
 @Component({
-    selector: 'app-club-activity-routes',
-    templateUrl: './club-activity-routes.component.html',
-    styleUrls: ['./club-activity-routes.component.scss'],
-    standalone: false
+  selector: 'app-club-activity-routes',
+  templateUrl: './club-activity-routes.component.html',
+  styleUrls: ['./club-activity-routes.component.scss'],
+  standalone: false,
 })
 export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
   loading = true;
   error: DataError = null;
 
-  activityRoutesQuery: QueryRef<any>;
+  activityRoutesQuery: QueryRef<any, any>;
 
   activityRoutes: ActivityRoutesByClubSlugQuery['activityRoutesByClubSlug']['items'];
   pagination: ActivityRoutesByClubSlugQuery['activityRoutesByClubSlug']['meta'];
@@ -135,8 +135,10 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
           const queryParams = this.filteredTable.queryParams;
 
           this.activityRoutesQuery = this.activityRoutesByClubSlugGQL.watch({
-            clubSlug: clubSlug,
-            input: { ...queryParams, publish: this.ALLOWED_PUBLISH_TYPES },
+            variables: {
+              clubSlug: clubSlug,
+              input: { ...queryParams, publish: this.ALLOWED_PUBLISH_TYPES },
+            },
           });
 
           return this.activityRoutesQuery.valueChanges;
@@ -211,7 +213,7 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
       } else {
         // but if result set is empty (can be on page load) we have to fetch
         this.activityFiltersRouteGQL
-          .fetch({ id: this.filters.value.routeId })
+          .fetch({ variables: { id: this.filters.value.routeId } })
           .pipe(take(1))
           .subscribe((route) => (this.filterRouteName = route.data.route.name));
       }
@@ -221,7 +223,7 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
         this.filterCragName = this.activityRoutes[0].route.crag.name;
       } else {
         this.activityFiltersCragGQL
-          .fetch({ id: this.filters.value.cragId })
+          .fetch({ variables: { id: this.filters.value.cragId } })
           .pipe(take(1))
           .subscribe((crag) => (this.filterCragName = crag.data.crag.name));
       }

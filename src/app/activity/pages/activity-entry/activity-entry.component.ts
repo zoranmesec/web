@@ -1,4 +1,4 @@
-import { CommonModule, formatDate } from '@angular/common';
+import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import dayjs from 'dayjs';
@@ -14,7 +14,7 @@ import { ACTIVITY_TYPES } from '../../../common/activity.constants';
   templateUrl: './activity-entry.component.html',
   styleUrls: ['./activity-entry.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
 })
 export class ActivityEntryComponent implements OnInit, OnDestroy {
   loading = false;
@@ -46,14 +46,15 @@ export class ActivityEntryComponent implements OnInit, OnDestroy {
         switchMap((params) => {
           this.loading = true;
           return this.activityEntryGQL.watch({
-            id: params.id,
+            variables: { id: params.id },
           }).valueChanges;
         })
       )
       .subscribe({
         next: (result) => {
           this.loading = false;
-          this.activity = result.data.activity;
+          this.activity = result.data
+            .activity as ActivityEntryQuery['activity'];
 
           this.activityType = ACTIVITY_TYPES.find(
             (t) => t.value == result.data.activity.type

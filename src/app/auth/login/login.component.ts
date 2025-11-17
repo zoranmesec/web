@@ -21,7 +21,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoginGQL, LoginResponse } from '../../../generated/graphql';
 import { MatLabel, MatFormField, MatHint } from '@angular/material/form-field';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule, NgIf } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
@@ -37,8 +37,6 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     ReactiveFormsModule,
     RouterLink,
-    NgIf,
-    CommonModule,
     MatButtonModule,
     MatInputModule,
   ],
@@ -87,7 +85,7 @@ export class LoginComponent implements OnInit {
 
     const { email, password } = this.loginForm.value;
 
-    this.loginGQL.mutate({ email, password }).subscribe({
+    this.loginGQL.mutate({ variables: { email, password } }).subscribe({
       next: async (result) => {
         await this.authService.login(<LoginResponse>result.data.login);
         this.dialogRef.close(true);

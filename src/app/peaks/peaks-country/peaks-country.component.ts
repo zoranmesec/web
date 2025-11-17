@@ -16,10 +16,10 @@ type Area = {
 type Areas = Array<Area>;
 
 @Component({
-    selector: 'app-peaks-country',
-    templateUrl: './peaks-country.component.html',
-    styleUrls: ['./peaks-country.component.scss'],
-    standalone: false
+  selector: 'app-peaks-country',
+  templateUrl: './peaks-country.component.html',
+  styleUrls: ['./peaks-country.component.scss'],
+  standalone: false,
 })
 export class PeaksCountryComponent implements OnInit, OnDestroy {
   loading = true;
@@ -48,13 +48,12 @@ export class PeaksCountryComponent implements OnInit, OnDestroy {
           this.countrySlug = params.country;
           this.areaSlug = params.obmocje;
 
-          return this.peaksCountryGQL.fetch(
-            {
+          return this.peaksCountryGQL.fetch({
+            variables: {
               countrySlug: this.countrySlug,
               areaSlug: this.areaSlug,
             },
-            {}
-          );
+          });
         })
       )
       .subscribe({

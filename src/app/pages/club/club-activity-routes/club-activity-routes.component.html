@@ -1,234 +1,251 @@
-<div *ngIf="!error">
-  <div class="container mt-16">
-    <div>
-      <div
-        fxLayout="row"
-        fxLayout.lt-sm="column"
-        [formGroup]="filters"
-        fxLayoutGap="16px"
-        class="mb-16"
-      >
-        <mat-form-field appearance="fill" class="no-hint">
-          <mat-label>Časovno obdobje</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input
-              matStartDate
-              readonly
-              formControlName="dateFrom"
-              placeholder="Datum od"
-            />
-            <input
-              matEndDate
-              readonly
-              formControlName="dateTo"
-              placeholder="do"
-            />
-          </mat-date-range-input>
-          <div matSuffix fxLayout="row">
-            <button
-              mat-icon-button
-              matSuffix
-              *ngIf="
-                filters.value.dateFrom != null || filters.value.dateTo != null
-              "
-              (click)="filters.patchValue({ dateFrom: null, dateTo: null })"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-          </div>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-          <mat-error
-            *ngIf="filters.controls.dateFrom.hasError('matStartDateInvalid')"
-            >Neveljaven začetni datum</mat-error
+@if (!error) {
+  <div>
+    <div class="container mt-16">
+      <div>
+        <div
+          fxLayout="row"
+          fxLayout.lt-sm="column"
+          [formGroup]="filters"
+          fxLayoutGap="16px"
+          class="mb-16"
           >
-          <mat-error
-            *ngIf="filters.controls.dateTo.hasError('matEndDateInvalid')"
-            >Neveljaven končni datum</mat-error
-          >
-        </mat-form-field>
-
-        <mat-form-field class="no-hint">
-          <mat-label>Vrsta vzpona</mat-label>
-          <mat-select formControlName="ascentType" multiple>
-            <mat-option *ngFor="let type of ascentTypes" [value]="type.value"
-              >{{ type.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
-          *ngIf="filterMemberFullName && filters.controls.userId.value"
-          class="no-hint"
-        >
-          <mat-label>Član</mat-label>
-          <input matInput [value]="filterMemberFullName" disabled />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="filters.patchValue({ userId: null })"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <input type="hidden" formControlName="userId" />
-
-        <mat-form-field
-          *ngIf="filterRouteName && filters.controls.routeId.value"
-          class="no-hint"
-        >
-          <mat-label>Smer</mat-label>
-          <input matInput [value]="filterRouteName" disabled />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="filters.patchValue({ routeId: null })"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <input type="hidden" formControlName="routeId" />
-
-        <mat-form-field
-          *ngIf="filterCragName && filters.controls.cragId.value"
-          class="no-hint"
-        >
-          <mat-label>Plezališče</mat-label>
-          <input matInput [value]="filterCragName" disabled />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="filters.patchValue({ cragId: null })"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <input type="hidden" formControlName="cragId" />
-      </div>
-
-      <div class="card scrollable-table">
-        <div class="card-loader" *ngIf="loading">
-          <app-loader></app-loader>
-        </div>
-        <table class="card-table">
-          <tr class="row header">
-            <td *ngFor="let column of filteredTable.columns">
-              <span
-                *ngIf="column.sortable"
-                class="sortable"
-                [class.sorted]="filteredTable.sortColumn == column.name"
-                (click)="filteredTable.sort(column)"
-              >
-                {{ column.label }}
-                <mat-icon inline *ngIf="filteredTable.sortColumn != column.name"
-                  >sort</mat-icon
-                >
-                <mat-icon
-                  inline
-                  *ngIf="filteredTable.sortColumn == column.name"
-                  >{{
-                    filteredTable.sortDirection == "DESC"
-                      ? "arrow_downward"
-                      : "arrow_upward"
-                  }}</mat-icon
-                >
-              </span>
-              <span *ngIf="!column.sortable">{{ column.label }}</span>
-            </td>
-            <td></td>
-          </tr>
-
-          <tr *ngFor="let route of activityRoutes" class="row">
-            <td>{{ route.user.fullName }}</td>
-            <td>{{ route.date | date: "d. M. yyyy" }}</td>
-            <td>
-              <a [routerLink]="['/plezalisce', route.route.crag.slug]">{{
-                route.route.crag.name
-              }}</a>
-            </td>
-            <td>
-              <a
+          <mat-form-field appearance="fill" class="no-hint">
+            <mat-label>Časovno obdobje</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input
+                matStartDate
+                readonly
+                formControlName="dateFrom"
+                placeholder="Datum od"
+                />
+                <input
+                  matEndDate
+                  readonly
+                  formControlName="dateTo"
+                  placeholder="do"
+                  />
+                </mat-date-range-input>
+                <div matSuffix fxLayout="row">
+                  @if (
+                    filters.value.dateFrom != null || filters.value.dateTo != null
+                    ) {
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="filters.patchValue({ dateFrom: null, dateTo: null })"
+                      >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  }
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                </div>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                @if (filters.controls.dateFrom.hasError('matStartDateInvalid')) {
+                  <mat-error
+                    >Neveljaven začetni datum</mat-error
+                    >
+                }
+                @if (filters.controls.dateTo.hasError('matEndDateInvalid')) {
+                  <mat-error
+                    >Neveljaven končni datum</mat-error
+                    >
+                  }
+                </mat-form-field>
+                <mat-form-field class="no-hint">
+                  <mat-label>Vrsta vzpona</mat-label>
+                  <mat-select formControlName="ascentType" multiple>
+                    @for (type of ascentTypes; track type) {
+                      <mat-option [value]="type.value"
+                        >{{ type.label }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+                @if (filterMemberFullName && filters.controls.userId.value) {
+                  <mat-form-field
+                    class="no-hint"
+                    >
+                    <mat-label>Član</mat-label>
+                    <input matInput [value]="filterMemberFullName" disabled />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="filters.patchValue({ userId: null })"
+                      >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                }
+                <input type="hidden" formControlName="userId" />
+                @if (filterRouteName && filters.controls.routeId.value) {
+                  <mat-form-field
+                    class="no-hint"
+                    >
+                    <mat-label>Smer</mat-label>
+                    <input matInput [value]="filterRouteName" disabled />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="filters.patchValue({ routeId: null })"
+                      >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                }
+                <input type="hidden" formControlName="routeId" />
+                @if (filterCragName && filters.controls.cragId.value) {
+                  <mat-form-field
+                    class="no-hint"
+                    >
+                    <mat-label>Plezališče</mat-label>
+                    <input matInput [value]="filterCragName" disabled />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="filters.patchValue({ cragId: null })"
+                      >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                }
+                <input type="hidden" formControlName="cragId" />
+              </div>
+              <div class="card scrollable-table">
+                @if (loading) {
+                  <div class="card-loader">
+                    <app-loader></app-loader>
+                  </div>
+                }
+                <table class="card-table">
+                  <tr class="row header">
+                    @for (column of filteredTable.columns; track column) {
+                      <td>
+                        @if (column.sortable) {
+                          <span
+                            class="sortable"
+                            [class.sorted]="filteredTable.sortColumn == column.name"
+                            (click)="filteredTable.sort(column)"
+                            >
+                            {{ column.label }}
+                            @if (filteredTable.sortColumn != column.name) {
+                              <mat-icon inline
+                                >sort</mat-icon
+                                >
+                              }
+                              @if (filteredTable.sortColumn == column.name) {
+                                <mat-icon
+                                  inline
+                                  >{{
+                                  filteredTable.sortDirection == "DESC"
+                                  ? "arrow_downward"
+                                  : "arrow_upward"
+                                  }}</mat-icon
+                                  >
+                                }
+                              </span>
+                            }
+                            @if (!column.sortable) {
+                              <span>{{ column.label }}</span>
+                            }
+                          </td>
+                        }
+                        <td></td>
+                      </tr>
+                      @for (route of activityRoutes; track route) {
+                        <tr class="row">
+                          <td>{{ route.user.fullName }}</td>
+                          <td>{{ route.date | date: "d. M. yyyy" }}</td>
+                          <td>
+                            <a [routerLink]="['/plezalisce', route.route.crag.slug]">{{
+                              route.route.crag.name
+                            }}</a>
+                          </td>
+                          <td>
+                            <a
                 [routerLink]="[
                   '/plezalisce',
                   route.route.crag.slug,
                   'smer',
                   route.route.slug
                 ]"
-                >{{ route.route.name
-                }}{{ route.pitch ? " (R" + route.pitch.number + ")" : "" }}</a
-              >
-            </td>
-            <td>
-              <span *ngIf="route.pitch; else notPitchOnly">
-                <app-grade
-                  [difficulty]="route.pitch.difficulty"
-                  [gradingSystemId]="route.route.defaultGradingSystem.id"
-                  [showModifier]="true"
-                ></app-grade>
-              </span>
-              <ng-template #notPitchOnly>
-                <app-grade
-                  [difficulty]="route.route.difficulty"
-                  [gradingSystemId]="route.route.defaultGradingSystem.id"
-                  [showModifier]="true"
-                ></app-grade>
-              </ng-template>
-            </td>
-            <td>
-              <app-ascent-type
-                [value]="route.ascentType"
-                displayType="iconAndText"
-                [fixedIconsWidth]="!noTopropeOnPage"
-              ></app-ascent-type>
-            </td>
-            <td class="tools">
-              <button mat-icon-button [mat-menu-trigger-for]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-
-              <mat-menu #menu="matMenu">
-                <button
-                  mat-menu-item
+                              >{{ route.route.name
+                              }}{{ route.pitch ? " (R" + route.pitch.number + ")" : "" }}</a
+                              >
+                            </td>
+                            <td>
+                              @if (route.pitch) {
+                                <span>
+                                  <app-grade
+                                    [difficulty]="route.pitch.difficulty"
+                                    [gradingSystemId]="route.route.defaultGradingSystem.id"
+                                    [showModifier]="true"
+                                  ></app-grade>
+                                </span>
+                              } @else {
+                                <app-grade
+                                  [difficulty]="route.route.difficulty"
+                                  [gradingSystemId]="route.route.defaultGradingSystem.id"
+                                  [showModifier]="true"
+                                ></app-grade>
+                              }
+                            </td>
+                            <td>
+                              <app-ascent-type
+                                [value]="route.ascentType"
+                                displayType="iconAndText"
+                                [fixedIconsWidth]="!noTopropeOnPage"
+                              ></app-ascent-type>
+                            </td>
+                            <td class="tools">
+                              <button mat-icon-button [mat-menu-trigger-for]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                              </button>
+                              <mat-menu #menu="matMenu">
+                                <button
+                                  mat-menu-item
                   (click)="
                     rowAction$.next({ item: route, action: 'filterByMember' })
                   "
-                >
-                  <span>Vsi vzponi tega člana</span>
-                </button>
-                <button
-                  mat-menu-item
+                                  >
+                                  <span>Vsi vzponi tega člana</span>
+                                </button>
+                                <button
+                                  mat-menu-item
                   (click)="
                     rowAction$.next({ item: route, action: 'filterByRoute' })
                   "
-                >
-                  <span>Vsi vzponi za to smer</span>
-                </button>
-                <button
-                  mat-menu-item
+                                  >
+                                  <span>Vsi vzponi za to smer</span>
+                                </button>
+                                <button
+                                  mat-menu-item
                   (click)="
                     rowAction$.next({ item: route, action: 'filterByCrag' })
                   "
-                >
-                  <span>Vsi vzponi v tem plezališču</span>
-                </button>
-              </mat-menu>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <mat-paginator
-        *ngIf="pagination != null"
-        hidePageSize
-        showFirstLastButtons
-        [length]="pagination.itemCount"
-        [pageIndex]="pagination.pageNumber - 1"
-        [pageSize]="pagination.pageSize"
-        (page)="filteredTable.paginate($event)"
-      >
-      </mat-paginator>
-    </div>
-  </div>
-</div>
+                                  >
+                                  <span>Vsi vzponi v tem plezališču</span>
+                                </button>
+                              </mat-menu>
+                            </td>
+                          </tr>
+                        }
+                      </table>
+                    </div>
+                    @if (pagination != null) {
+                      <mat-paginator
+                        hidePageSize
+                        showFirstLastButtons
+                        [length]="pagination.itemCount"
+                        [pageIndex]="pagination.pageNumber - 1"
+                        [pageSize]="pagination.pageSize"
+                        (page)="filteredTable.paginate($event)"
+                        >
+                      </mat-paginator>
+                    }
+                  </div>
+                </div>
+              </div>
+            }

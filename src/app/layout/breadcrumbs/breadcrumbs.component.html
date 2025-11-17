@@ -1,13 +1,15 @@
 <section id="breadcrumbs">
   <a [routerLink]="['/']">Plezanje.net</a>
 
-  <ng-container *ngFor="let bc of breadcrumbs">
+  @for (bc of breadcrumbs; track bc) {
     <span class="sep"> / </span>
-    <ng-container *ngIf="bc.path">
+    @if (bc.path) {
       <a [routerLink]="bc.params ? [bc.path, bc.params] : [bc.path]">{{
         bc.name
       }}</a>
-    </ng-container>
-    <span *ngIf="!bc.path">{{ bc.name }}</span>
-  </ng-container>
+    }
+    @if (!bc.path) {
+      <span>{{ bc.name }}</span>
+    }
+  }
 </section>

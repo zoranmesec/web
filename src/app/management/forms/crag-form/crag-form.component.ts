@@ -10,7 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@sentry/angular';
-import { Apollo, MutationResult } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { filter, Observable, Subscription, switchMap, take, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -30,6 +30,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MyEditorComponent } from 'src/app/shared/editor/editor.component';
 import { ORIENTATIONS } from 'src/app/common/orientation.constants';
+import { MutateResult } from '@apollo/client';
 
 @Component({
   selector: 'app-crag-form',
@@ -163,7 +164,9 @@ export class CragFormComponent implements OnInit, OnDestroy {
     this.subscriptions.push(routeSub);
 
     this.countriesGQL
-      .fetch({ input: { orderBy: { field: 'name', direction: 'ASC' } } })
+      .fetch({
+        variables: { input: { orderBy: { field: 'name', direction: 'ASC' } } },
+      })
       .pipe(take(1))
       .subscribe((result) => {
         this.countries = result.data.countries;
@@ -212,22 +215,22 @@ export class CragFormComponent implements OnInit, OnDestroy {
 
     this.cragForm.disable();
 
-    let mutation: Observable<MutationResult>;
+    let mutation: Observable<MutateResult>;
 
     if (this.crag != null) {
-      mutation = this.updateCragGQL.mutate({ input: value });
+      mutation = this.updateCragGQL.mutate({ variables: { input: value } });
     } else {
-      mutation = this.createCragGQL.mutate({ input: value });
+      mutation = this.createCragGQL.mutate({ variables: { input: value } });
     }
 
     mutation.pipe(take(1)).subscribe({
-      next: (result) => {
+      next: (result: any) => {
         this.snackBar.open('Podatki o plezališču so shranjeni', null, {
           duration: 3000,
         });
 
         this.apollo.client.resetStore().then(() => {
-          if (this.crag == null) {
+          if (this.crag == null && result.data?.createCrag?.id) {
             this.router.navigate([
               '/urejanje/uredi-plezalisce',
               result.data.createCrag.id,
@@ -266,7 +269,9 @@ export class CragFormComponent implements OnInit, OnDestroy {
         tap(() => {
           this.loading = true;
         }),
-        switchMap(() => this.deleteCragGQL.mutate({ id: this.crag.id }))
+        switchMap(() =>
+          this.deleteCragGQL.mutate({ variables: { id: this.crag.id } })
+        )
       )
       .subscribe({
         next: () => {

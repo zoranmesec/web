@@ -1,168 +1,179 @@
-<div *ngIf="!loading">
-  <div class="white-back mt-16">
-    <div
-      class="container py-8"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-      fxLayout.lt-sm="column"
-    >
-      <div>
-        <div class="subheading" *ngIf="crag">Urejanje smeri v sektorju</div>
-        <h1>{{ heading }}</h1>
-      </div>
-      <a
-        mat-button
-        color="primary"
-        [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']"
-        *ngIf="crag"
-        >Vsi sektorji</a
-      >
-    </div>
-  </div>
-
-  <div class="container p15 mt-16">
-    <div
-      *ngIf="routes.length"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayout.lt-sm="column"
-      class="route ghost mt-8"
-    >
-      <div fxFlex class="tools" fxLayout="row" fxLayoutAlign="end center">
-        <i>Dodaj smer na začetek</i>
-        <button
-          mat-icon-button
-          (click)="add({ position: routes[0].position })"
-          matTooltip="Dodaj na začetek"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-    </div>
-    <div
-      cdkDropList
-      (cdkDropListDropped)="drop($event)"
-      [class.saving]="savingPositions"
-    >
+@if (!loading) {
+  <div>
+    <div class="white-back mt-16">
       <div
-        *ngFor="let route of routes; let i = index"
-        cdkDrag
-        [cdkDragDisabled]="!canEdit(route)"
-      >
+        class="container py-8"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        fxLayout.lt-sm="column"
+        >
+        <div>
+          @if (crag) {
+            <div class="subheading">Urejanje smeri v sektorju</div>
+          }
+          <h1>{{ heading }}</h1>
+        </div>
+        @if (crag) {
+          <a
+            mat-button
+            color="primary"
+            [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']"
+            >Vsi sektorji</a
+            >
+          }
+        </div>
+      </div>
+      <div class="container p15 mt-16">
+        @if (routes.length) {
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayout.lt-sm="column"
+            class="route ghost mt-8"
+            >
+            <div fxFlex class="tools" fxLayout="row" fxLayoutAlign="end center">
+              <i>Dodaj smer na začetek</i>
+              <button
+                mat-icon-button
+                (click)="add({ position: routes[0].position })"
+                matTooltip="Dodaj na začetek"
+                >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
         <div
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayout.lt-sm="column"
-          class="route mt-8"
+          cdkDropList
+          (cdkDropListDropped)="drop($event)"
+          [class.saving]="savingPositions"
+          >
+          @for (route of routes; track route; let i = $index) {
+            <div
+              cdkDrag
+              [cdkDragDisabled]="!canEdit(route)"
+              >
+              <div
+                fxLayout="row"
+                fxLayoutAlign="start center"
+                fxLayout.lt-sm="column"
+                class="route mt-8"
           [ngClass]="{
             warn: route.publishStatus === 'draft',
             notice: route.publishStatus === 'in_review',
             disabled: !canEdit(route)
           }"
-        >
-          <div fxFlex class="name" fxFlex="100">
-            {{ route.name }}
-          </div>
-
-          <div fxFlex>
-            <button mat-button *ngIf="route.difficulty != null">
-              <app-grade
-                [difficulty]="route.difficulty"
-                [gradingSystemId]="route.defaultGradingSystem?.id"
-                [showModifier]="true"
-                [disabled]="!canEdit(route)"
-              ></app-grade>
-            </button>
-            <button mat-button *ngIf="route.isProject">Projekt</button>
-          </div>
-
-          <div fxFlex class="tools" fxLayout="row" fxLayoutAlign="start center">
-            <ng-container *ngIf="canEdit(route)">
-              <button mat-icon-button (click)="edit(route)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                *ngIf="user.roles.includes('admin')"
-                mat-icon-button
-                matTooltip="Orodja"
-                [matMenuTriggerFor]="optionsMenu"
-                [matMenuTriggerData]="{ route: route }"
-              >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                matTooltip="Spremeni vrstni red"
-                cdkDragHandle
-              >
-                <mat-icon>sort</mat-icon>
-              </button>
-
-              <button mat-icon-button (click)="remove(route)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </ng-container>
-            <button
-              mat-icon-button
-              (click)="add({ position: route.position + 1 })"
-              matTooltip="Dodaj kot naslednjo"
-            >
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <!-- If a route is not published, show possible publishStatus change buttons -->
-          <div
-            *ngIf="canEdit(route)"
-            fxFlex
-            ngClass.lt-sm="mb-8"
-            class="publish-status-actions"
-          >
-            <button
-              mat-stroked-button
-              *ngFor="
-                let nextStatus of contributionService.nextPossiblePublishStatuses(
-                  route
-                );
-                trackBy: contributionService.statusButtonsTrackBy
-              "
-              [disabled]="!nextStatus.enabled"
+                >
+                <div fxFlex class="name" fxFlex="100">
+                  {{ route.name }}
+                </div>
+                <div fxFlex>
+                  @if (route.difficulty != null) {
+                    <button mat-button>
+                      <app-grade
+                        [difficulty]="route.difficulty"
+                        [gradingSystemId]="route.defaultGradingSystem?.id"
+                        [showModifier]="true"
+                        [disabled]="!canEdit(route)"
+                      ></app-grade>
+                    </button>
+                  }
+                  @if (route.isProject) {
+                    <button mat-button>Projekt</button>
+                  }
+                </div>
+                <div fxFlex class="tools" fxLayout="row" fxLayoutAlign="start center">
+                  @if (canEdit(route)) {
+                    <button mat-icon-button (click)="edit(route)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    @if (user.roles.includes('admin')) {
+                      <button
+                        mat-icon-button
+                        matTooltip="Orodja"
+                        [matMenuTriggerFor]="optionsMenu"
+                        [matMenuTriggerData]="{ route: route }"
+                        >
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                    }
+                    <button
+                      mat-icon-button
+                      matTooltip="Spremeni vrstni red"
+                      cdkDragHandle
+                      >
+                      <mat-icon>sort</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="remove(route)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                  <button
+                    mat-icon-button
+                    (click)="add({ position: route.position + 1 })"
+                    matTooltip="Dodaj kot naslednjo"
+                    >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <!-- If a route is not published, show possible publishStatus change buttons -->
+                @if (canEdit(route)) {
+                  <div
+                    fxFlex
+                    ngClass.lt-sm="mb-8"
+                    class="publish-status-actions"
+                    >
+                    @for (
+                      nextStatus of contributionService.nextPossiblePublishStatuses(
+                      route
+                      ); track contributionService.statusButtonsTrackBy($index,
+                      nextStatus)) {
+                      <button
+                        mat-stroked-button
+                        [disabled]="!nextStatus.enabled"
               (click)="
                 contributionService.updatePublishStatus(
                   route,
                   nextStatus.status
                 )
               "
-            >
-              {{
-                contributionService.publishStatuses[nextStatus.status]
-                  .actionLabel
-              }}
+                        >
+                        {{
+                        contributionService.publishStatuses[nextStatus.status]
+                        .actionLabel
+                        }}
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+        @if (routes.length == 0) {
+          <div class="buttons mt-16">
+            <button mat-button color="primary" (click)="add()">
+              Dodaj prvo smer
             </button>
           </div>
-        </div>
+        }
+        <mat-menu #optionsMenu="matMenu">
+          <ng-template matMenuContent let-route="route">
+            <button mat-menu-item (click)="moveToSector(route)">
+              Premakni v drug sektor
+            </button>
+            @if (
+              route.publishStatus == 'published' && route.pitches.length == 0
+              ) {
+              <button
+                mat-menu-item
+                (click)="mergeWithRoute(route)"
+                >
+                Združi s smerjo
+              </button>
+            }
+          </ng-template>
+        </mat-menu>
       </div>
     </div>
-    <div class="buttons mt-16" *ngIf="routes.length == 0">
-      <button mat-button color="primary" (click)="add()">
-        Dodaj prvo smer
-      </button>
-    </div>
-    <mat-menu #optionsMenu="matMenu">
-      <ng-template matMenuContent let-route="route">
-        <button mat-menu-item (click)="moveToSector(route)">
-          Premakni v drug sektor
-        </button>
-        <button
-          mat-menu-item
-          (click)="mergeWithRoute(route)"
-          *ngIf="
-            route.publishStatus == 'published' && route.pitches.length == 0
-          "
-        >
-          Združi s smerjo
-        </button>
-      </ng-template>
-    </mat-menu>
-  </div>
-</div>
+  }

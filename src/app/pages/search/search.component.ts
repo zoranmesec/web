@@ -37,7 +37,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FlexLayoutModule } from 'ng-flex-layout';
-import { CommonModule } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
@@ -54,7 +54,6 @@ export enum SearchType {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   imports: [
-    CommonModule,
     MatIconModule,
     MatInputModule,
     FormsModule,
@@ -137,7 +136,7 @@ export class SearchComponent implements OnDestroy, OnChanges {
           if (this.searchType() === SearchType.Crag) {
             return this.searchAutoCompleteCragsGQL
               .fetch({
-                searchInput: { searchString },
+                variables: { searchInput: { searchString } },
               })
               .pipe(
                 catchError(() => {
@@ -148,7 +147,9 @@ export class SearchComponent implements OnDestroy, OnChanges {
           } else if (this.searchType() === SearchType.Route) {
             return this.searchAutoCompleteRoutesGQL
               .fetch({
-                searchInput: { searchString, cragId: this.forCrag()?.id },
+                variables: {
+                  searchInput: { searchString, cragId: this.forCrag()?.id },
+                },
               })
               .pipe(
                 catchError(() => {
@@ -159,7 +160,7 @@ export class SearchComponent implements OnDestroy, OnChanges {
           } else {
             return this.searchAutoCompleteGQL
               .fetch({
-                searchInput: { searchString },
+                variables: { searchInput: { searchString } },
               })
               .pipe(
                 catchError(() => {

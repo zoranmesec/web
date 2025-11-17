@@ -18,7 +18,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '@sentry/angular';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { SearchService } from 'src/app/shared/services/search.service';
-import { CommonModule } from '@angular/common';
+
 import { MatMenuModule } from '@angular/material/menu';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,13 +34,13 @@ import { CragsFiltersService } from './crags-filters.service';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { ErrorLike } from '@apollo/client';
 
 @Component({
   selector: 'app-crags',
   templateUrl: './crags.component.html',
   styleUrls: ['./crags.component.scss'],
   imports: [
-    CommonModule,
     MatMenuModule,
     OrientationPipe,
     MatButtonModule,
@@ -166,8 +166,8 @@ export class CragsComponent implements OnInit {
       }
 
       this.cragSub = this.cragsGQL
-        .fetch(
-          {
+        .fetch({
+          variables: {
             country: params.country,
             input: {
               areasSlugs: this.selectedAreas,
@@ -182,15 +182,15 @@ export class CragsComponent implements OnInit {
               allowEmpty: true,
             },
           },
-          { fetchPolicy: 'no-cache' }
-        )
+          fetchPolicy: 'no-cache',
+        })
         .subscribe({
           next: (result) => {
             this.loading = false;
             this.cragsLoading = false;
 
-            if (result.errors != null) {
-              this.queryError(result.errors);
+            if (result.error != null) {
+              this.queryError(result.error);
             } else {
               this.querySuccess(result.data.countryBySlug);
             }
@@ -256,12 +256,8 @@ export class CragsComponent implements OnInit {
     }
   }
 
-  queryError(errors?: readonly GraphQLFormattedError<Record<string, any>>[]) {
-    if (
-      errors &&
-      errors.length > 0 &&
-      errors[0].message == 'entity_not_found'
-    ) {
+  queryError(error?: ErrorLike) {
+    if (error.message == 'entity_not_found') {
       this.error = {
         message: 'Država ne obstaja v bazi.',
       };

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   AfterViewInit,
   Component,
@@ -22,7 +22,7 @@ export interface IDistribution {
   templateUrl: './distribution-chart.component.html',
   styleUrls: ['./distribution-chart.component.scss'],
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule, BarColorPipe],
+  imports: [FlexLayoutModule, BarColorPipe],
 })
 export class DistributionChartComponent implements OnChanges, AfterViewInit {
   distribution = input.required<IDistribution[]>();

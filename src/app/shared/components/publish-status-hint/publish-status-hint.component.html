@@ -1,69 +1,88 @@
-<ng-container *ngIf="!loading">
+@if (!loading) {
   <!-- CRAG -->
-  <div
-    *ngIf="entityType === 'crag' && publishStatus === 'draft'"
-    class="card padding warn"
-  >
-    Plezališče je v statusu osnutek, zato je trenutno vidno samo tebi. Če si
-    zaključil_a z urejanjem podatkov o plezališču,
-    <a *ngIf="!isAdmin" [routerLink]="['/urejanje/prispevki']"
-      >predlagaj uredništvu objavo</a
-    ><a *ngIf="isAdmin" [routerLink]="['/urejanje/prispevki']">ga objavi</a>.
-  </div>
-
-  <div
-    *ngIf="entityType === 'crag' && publishStatus === 'in_review'"
-    class="card padding notice"
-  >
-    Plezališče je v pregledu pri uredništvu.
-    <a *ngIf="isAdmin" [routerLink]="['/urejanje/prispevki']"
-      >Preglej in objavi ga.</a
-    >
-  </div>
-
-  <!-- SECTOR -->
-  <div
-    *ngIf="entityType === 'sector' && publishStatus === 'draft'"
-    class="card padding warn"
-  >
-    Sektor je v statusu osnutek, zato je trenutno viden samo tebi. Če si
-    zaključil_a z urejanjem sektorja,
-    <a *ngIf="!isAdmin" [routerLink]="['/urejanje/prispevki']"
-      >predlagaj uredništvu objavo</a
-    ><a *ngIf="isAdmin" [routerLink]="['/urejanje/prispevki']">ga objavi</a>.
-  </div>
-
-  <div
-    *ngIf="entityType === 'sector' && publishStatus === 'in_review'"
-    class="card padding notice"
-  >
-    Sektor je v pregledu pri uredništvu.
-    <a *ngIf="isAdmin" [routerLink]="['/urejanje/prispevki']"
-      >Preglej in objavi ga.</a
-    >
-  </div>
-
-  <!-- ROUTE (on preview and on route page) -->
-  <div
-    *ngIf="entityType === 'route' && publishStatus === 'draft'"
-    class="padding warn"
-    [ngClass]="{ card: !previewMode, preview: previewMode }"
-  >
-    Smer je v statusu osnutek, zato je trenutno vidna samo tebi. Če si
-    zaključil_a z urejanjem podatkov o smeri,
-    <a *ngIf="!isAdmin" [routerLink]="['/urejanje/prispevki']"
-      >predlagaj uredništvu objavo</a
-    ><a *ngIf="isAdmin" [routerLink]="['/urejanje/prispevki']">jo objavi</a>.
-  </div>
-
-  <div
-    *ngIf="entityType === 'route' && publishStatus === 'in_review'"
-    class="padding notice"
-    [ngClass]="{ card: !previewMode, preview: previewMode }"
-  >
-    Smer je v pregledu pri uredništvu.
-    <a *ngIf="isAdmin" [routerLink]="['/urejanje/prispevki']"
-      >Preglej in objavi jo.</a
-    >
-  </div>
-</ng-container>
+  @if (entityType === 'crag' && publishStatus === 'draft') {
+    <div
+      class="card padding warn"
+      >
+      Plezališče je v statusu osnutek, zato je trenutno vidno samo tebi. Če si
+      zaključil_a z urejanjem podatkov o plezališču,
+      @if (!isAdmin) {
+        <a [routerLink]="['/urejanje/prispevki']"
+          >predlagaj uredništvu objavo</a
+          >
+          }@if (isAdmin) {
+          <a [routerLink]="['/urejanje/prispevki']">ga objavi</a>
+          }.
+        </div>
+      }
+      @if (entityType === 'crag' && publishStatus === 'in_review') {
+        <div
+          class="card padding notice"
+          >
+          Plezališče je v pregledu pri uredništvu.
+          @if (isAdmin) {
+            <a [routerLink]="['/urejanje/prispevki']"
+              >Preglej in objavi ga.</a
+              >
+            }
+          </div>
+        }
+        <!-- SECTOR -->
+        @if (entityType === 'sector' && publishStatus === 'draft') {
+          <div
+            class="card padding warn"
+            >
+            Sektor je v statusu osnutek, zato je trenutno viden samo tebi. Če si
+            zaključil_a z urejanjem sektorja,
+            @if (!isAdmin) {
+              <a [routerLink]="['/urejanje/prispevki']"
+                >predlagaj uredništvu objavo</a
+                >
+                }@if (isAdmin) {
+                <a [routerLink]="['/urejanje/prispevki']">ga objavi</a>
+                }.
+              </div>
+            }
+            @if (entityType === 'sector' && publishStatus === 'in_review') {
+              <div
+                class="card padding notice"
+                >
+                Sektor je v pregledu pri uredništvu.
+                @if (isAdmin) {
+                  <a [routerLink]="['/urejanje/prispevki']"
+                    >Preglej in objavi ga.</a
+                    >
+                  }
+                </div>
+              }
+              <!-- ROUTE (on preview and on route page) -->
+              @if (entityType === 'route' && publishStatus === 'draft') {
+                <div
+                  class="padding warn"
+                  [ngClass]="{ card: !previewMode, preview: previewMode }"
+                  >
+                  Smer je v statusu osnutek, zato je trenutno vidna samo tebi. Če si
+                  zaključil_a z urejanjem podatkov o smeri,
+                  @if (!isAdmin) {
+                    <a [routerLink]="['/urejanje/prispevki']"
+                      >predlagaj uredništvu objavo</a
+                      >
+                      }@if (isAdmin) {
+                      <a [routerLink]="['/urejanje/prispevki']">jo objavi</a>
+                      }.
+                    </div>
+                  }
+                  @if (entityType === 'route' && publishStatus === 'in_review') {
+                    <div
+                      class="padding notice"
+                      [ngClass]="{ card: !previewMode, preview: previewMode }"
+                      >
+                      Smer je v pregledu pri uredništvu.
+                      @if (isAdmin) {
+                        <a [routerLink]="['/urejanje/prispevki']"
+                          >Preglej in objavi jo.</a
+                          >
+                        }
+                      </div>
+                    }
+                  }

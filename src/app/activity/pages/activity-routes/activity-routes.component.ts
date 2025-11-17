@@ -47,7 +47,7 @@ import {
   ColumnDefinition,
   FilteredTable,
 } from '../../../common/filtered-table';
-import { CommonModule } from '@angular/common';
+
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
@@ -88,7 +88,6 @@ const MAX_GRADE = 2100;
   standalone: true,
   imports: [
     IconsModule,
-    CommonModule,
     MatButtonModule,
     ActivityHeaderComponent,
     DataErrorComponent,
@@ -320,8 +319,9 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
           const queryParams: FindActivityRoutesInput = ft.queryParams;
 
-          return this.myActivityRoutesGQL.watch({ input: queryParams })
-            .valueChanges;
+          return this.myActivityRoutesGQL.watch({
+            variables: { input: queryParams },
+          }).valueChanges;
         })
       )
       .subscribe({
@@ -329,7 +329,10 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
           this.loading = false;
           ft.navigating = false;
           this.ignoreFormChange = false;
-          this.querySuccess(result.data.myActivityRoutes);
+          this.querySuccess(
+            result.data
+              .myActivityRoutes as MyActivityRoutesQuery['myActivityRoutes']
+          );
         },
         error: () => {
           this.queryError();
@@ -539,7 +542,7 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
   applyRelationFilterDisplayValues() {
     if (this.filters.value.cragId != null && !(this.forCrag != null)) {
       this.activityFiltersCragGQL
-        .fetch({ id: this.filters.value.cragId })
+        .fetch({ variables: { id: this.filters.value.cragId } })
         .pipe(take(1))
         .subscribe((crag) => {
           this.forCrag = crag.data.crag;
@@ -553,7 +556,7 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
 
     if (this.filters.value.routeId != null && !(this.forRoute != null)) {
       this.activityFiltersRouteGQL
-        .fetch({ id: this.filters.value.routeId })
+        .fetch({ variables: { id: this.filters.value.routeId } })
         .pipe(take(1))
         .subscribe((route) => (this.forRoute = route.data.route));
     }
@@ -636,12 +639,10 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         }),
         filter((response) => response != null),
         switchMap(() =>
-          this.deleteActivityRouteGQL.mutate(
-            { id: activityRoute.id },
-            {
-              refetchQueries: [namedOperations.Query.MyActivityRoutes],
-            }
-          )
+          this.deleteActivityRouteGQL.mutate({
+            variables: { id: activityRoute.id },
+            refetchQueries: [namedOperations.Query.MyActivityRoutes],
+          })
         )
       )
       .subscribe({

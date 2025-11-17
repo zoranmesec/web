@@ -4,32 +4,39 @@
   </div>
 </div>
 
-<app-data-error *ngIf="error" [error]="error"></app-data-error>
+@if (error) {
+  <app-data-error [error]="error"></app-data-error>
+}
 
-<ng-container *ngIf="!error">
+@if (!error) {
   <div class="container mt-16">
     <div class="card has-loader">
-      <div class="card-loader" *ngIf="loading">
-        <app-loader></app-loader>
-      </div>
-      <div class="row comment-row" *ngFor="let comment of comments">
-        <app-comment
-          [comment]="comment"
-          [commentType]="comment.type"
-          previewMode="true"
-          showRouteLink="true"
-        ></app-comment>
-      </div>
+      @if (loading) {
+        <div class="card-loader">
+          <app-loader></app-loader>
+        </div>
+      }
+      @for (comment of comments; track comment) {
+        <div class="row comment-row">
+          <app-comment
+            [comment]="comment"
+            [commentType]="comment.type"
+            previewMode="true"
+            showRouteLink="true"
+          ></app-comment>
+        </div>
+      }
     </div>
-    <mat-paginator
-      *ngIf="pagination != null"
-      hidePageSize
-      showFirstLastButtons
-      [length]="pagination.itemCount"
-      [pageIndex]="pagination.pageNumber - 1"
-      [pageSize]="pagination.pageSize"
-      (page)="onPageChange($event)"
-    >
-    </mat-paginator>
+    @if (pagination != null) {
+      <mat-paginator
+        hidePageSize
+        showFirstLastButtons
+        [length]="pagination.itemCount"
+        [pageIndex]="pagination.pageNumber - 1"
+        [pageSize]="pagination.pageSize"
+        (page)="onPageChange($event)"
+        >
+      </mat-paginator>
+    }
   </div>
-</ng-container>
+}

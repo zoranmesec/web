@@ -23,6 +23,7 @@ import {
 } from 'src/generated/graphql';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { AsyncPipe } from '@angular/common';
 
 export interface MoveSectorFormComponentData {
   crag: Crag;
@@ -31,17 +32,18 @@ export interface MoveSectorFormComponentData {
 }
 
 @Component({
-    selector: 'app-move-sector-form',
-    templateUrl: './move-sector-form.component.html',
-    styleUrls: ['./move-sector-form.component.scss'],
-    imports: [
-        MatAutocomplete,
-        MatFormField,
-        FormsModule,
-        ReactiveFormsModule,
-        MatLabel,
-        MatDialogActions,
-    ]
+  selector: 'app-move-sector-form',
+  templateUrl: './move-sector-form.component.html',
+  styleUrls: ['./move-sector-form.component.scss'],
+  imports: [
+    MatAutocomplete,
+    MatFormField,
+    FormsModule,
+    ReactiveFormsModule,
+    MatLabel,
+    MatDialogActions,
+    AsyncPipe,
+  ],
 })
 export class MoveSectorFormComponent implements OnInit, OnDestroy {
   crags: Crag[];
@@ -69,7 +71,7 @@ export class MoveSectorFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.form.controls.crag.disable();
     const subscription = this.cragsGQL
-      .fetch({ country: this.data.countrySlug })
+      .fetch({ variables: { country: this.data.countrySlug } })
       .subscribe((result) => {
         this.crags = (result.data.countryBySlug.crags as Crag[]).filter(
           ({ id }) => id != this.data.crag.id
@@ -126,8 +128,7 @@ export class MoveSectorFormComponent implements OnInit, OnDestroy {
 
     this.moveSectorGQL
       .mutate({
-        id: this.data.sector.id,
-        cragId: value.crag.id,
+        variables: { id: this.data.sector.id, cragId: value.crag.id },
       })
       .subscribe({
         next: success,

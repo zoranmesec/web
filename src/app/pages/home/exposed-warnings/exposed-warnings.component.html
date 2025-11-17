@@ -1,6 +1,8 @@
-<h2 *ngIf="warnings?.length">Opozorila</h2>
+@if (warnings?.length) {
+<h2>Opozorila</h2>
+}
 
-<div class="carousel-outer-wrap">
+<!-- <div class="carousel-outer-wrap">
   <swiper
     #swiper
     [slidesPerView]="1"
@@ -22,52 +24,54 @@
       el: '.swiper-pagination',
       type: 'bullets'
     }"
-  >
-    <ng-template swiperSlide *ngFor="let warning of warnings">
-      <div
-        [ngClass]="{ slide: warnings.length > 2 }"
-        [ngClass.lt-md]="{ slide: warnings.length > 1 }"
-      >
-        <div class="slide-inner-wrap">
-          <mat-card class="warning">
-            <mat-card-title>
-              <ng-container *ngIf="warning.route">
-                <a
+    >
+    @for (warning of warnings; track warning) {
+      <ng-template swiperSlide>
+        <div
+          [ngClass]="{ slide: warnings.length > 2 }"
+          [ngClass.lt-md]="{ slide: warnings.length > 1 }"
+          >
+          <div class="slide-inner-wrap">
+            <mat-card class="warning">
+              <mat-card-title>
+                @if (warning.route) {
+                  <a
                   [routerLink]="[
                     '/plezalisce',
                     warning.route.crag.slug,
                     'smer',
                     warning.route.slug
                   ]"
-                  >{{ warning.route.name }}</a
-                >,
-                {{ warning.route.crag.name }}
-              </ng-container>
-              <ng-container *ngIf="warning.crag">
-                <a
+                    >{{ warning.route.name }}</a
+                    >,
+                    {{ warning.route.crag.name }}
+                  }
+                  @if (warning.crag) {
+                    <a
                   [routerLink]="[
                     '/plezalisce',
                     warning.crag.slug,
                     { tab: 'komentarji' }
                   ]"
-                >
-                  {{ warning.crag.name }}
-                </a>
-              </ng-container>
-            </mat-card-title>
-            <mat-card-content>
-              <div fxLayout="column" fxLayoutAlign="space-between" fxFlexFill>
-                <div [innerHTML]="warning.content" fxFlex="100"></div>
-                <div class="author" fxFlex="100">
-                  {{ warning.user.fullName }},
-                  {{ warning.updated | date: "d. M. yyyy HH:mm" }}
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-    </ng-template>
-    <div slot="container-end" class="swiper-pagination"></div>
-  </swiper>
-</div>
+                      >
+                      {{ warning.crag.name }}
+                    </a>
+                  }
+                </mat-card-title>
+                <mat-card-content>
+                  <div fxLayout="column" fxLayoutAlign="space-between" fxFlexFill>
+                    <div [innerHTML]="warning.content" fxFlex="100"></div>
+                    <div class="author" fxFlex="100">
+                      {{ warning.user.fullName }},
+                      {{ warning.updated | date: "d. M. yyyy HH:mm" }}
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </ng-template>
+      }
+      <div slot="container-end" class="swiper-pagination"></div>
+    </swiper>
+  </div> -->

@@ -7,10 +7,10 @@ import { Crag, ManagementGetCragGQL } from 'src/generated/graphql';
 import { CragAdminBreadcrumbs } from '../../utils/crag-admin-breadcrumbs';
 
 @Component({
-    selector: 'app-crag',
-    templateUrl: './crag.component.html',
-    styleUrls: ['./crag.component.scss'],
-    standalone: false
+  selector: 'app-crag',
+  templateUrl: './crag.component.html',
+  styleUrls: ['./crag.component.scss'],
+  standalone: false,
 })
 export class CragComponent implements OnInit, OnDestroy {
   loading: boolean = true;
@@ -34,7 +34,7 @@ export class CragComponent implements OnInit, OnDestroy {
         switchMap((params) =>
           params.crag != null
             ? this.managementGetCragGQL.watch({
-                id: params.crag,
+                variables: { id: params.crag },
               }).valueChanges
             : of(null)
         )
