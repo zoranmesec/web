@@ -30,11 +30,11 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "dayjs": "^1.11.0",
-    "echarts": "^5.4.2",
+    "echarts": "^5.5.1",
     "g": "^2.0.1",
     "graphql": "^15.0.0",
     "ng-flex-layout": "^19.2.6",
-    "ngx-echarts": "^8.0.1",
+    "ngx-echarts": "^19.0.0",
     "ngx-mask": "^13.1.1",
     "ngx-mat-select-search": "^8.0.2",
     "ol": "^10.6.1",
@@ -66,6 +66,6 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "ts-node": "^10.4.0",
-    "typescript": "^5.5.4"
+    "typescript": "5.8"
   }
 }
