@@ -406,6 +406,7 @@ $sides: (top, bottom, left, right); // Leave this variable alone
   flex-wrap: nowrap;
 }
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+$light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
 .row {
   align-items: center;
   padding: 16px;
@@ -446,7 +447,7 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
   }
 
   @media only screen and (max-width: global.$breakpoint-lg) {
-    padding: 8px !important;
+    padding: 4px !important;
   }
 }
 
@@ -463,4 +464,25 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
 .hidden {
   display: none !important;
+}
+
+.show-all {
+  color: var(--mat-sys-secondary);
+  font-weight: var(--mat-sys-display-medium-weight);
+  text-align: center;
+  cursor: pointer;
+  border: 3px solid var(--mat-sys-surface);
+}
+
+.show-all:hover {
+  border: 3px solid $light-blue;
+  border-radius: 8px;
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.route-link {
+  font-weight: var(--mat-sys-title-medium-weight) !important;
 }

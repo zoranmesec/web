@@ -12,6 +12,7 @@ import {
   RouterLink,
   RouterModule,
 } from '@angular/router';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { Tab } from 'src/app/types/tab';
 
@@ -20,7 +21,7 @@ import { Tab } from 'src/app/types/tab';
   templateUrl: './activity-header.component.html',
   styleUrls: ['./activity-header.component.scss'],
   imports: [MatTabsModule, RouterModule, IconsModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ActivityHeaderComponent implements OnInit {
   active = input.required<string>();
@@ -43,7 +44,11 @@ export class ActivityHeaderComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    protected readonly breakpointService: BreakpointService
+  ) {}
 
   ngOnInit(): void {}
 

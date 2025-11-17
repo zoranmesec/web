@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-more-icon',
@@ -7,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './more-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoreIconComponent {}
+export class MoreIconComponent {
+  size = input<'small' | 'regular'>('regular');
+}

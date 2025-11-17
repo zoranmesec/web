@@ -1,4 +1,4 @@
-<section id="filter" fxLayout="column" fxLayoutGap="12px">
+<section id="columns" fxLayout="column" fxLayoutGap="12px">
   <div class="flex flex-justify-space-between top">
     <div class="flex flex-row flex-align-center">
       <div>
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="close-icon" (click)="closeFilters()">
-      <mat-icon class="map-icon">close</mat-icon>
+      <app-close-icon></app-close-icon>
     </div>
   </div>
   @if (columnForm) {

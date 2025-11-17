@@ -8,11 +8,11 @@
     <app-ascents-icon [active]="tab.slug === active()"></app-ascents-icon>
     } @else if (tab.icon==='statistics') {
     <app-statistics-icon [active]="tab.slug === active()"></app-statistics-icon>
-    }
-
-    <span fxHide.lt-md>
+    } @if (breakpointService.gtSm()) {
+    <span>
       {{ tab.label }}
     </span>
+    }
   </div>
   <div>&nbsp;</div>
   }

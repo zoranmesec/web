@@ -104,10 +104,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
       border-radius: 8px;
     }
 
-    .route-link {
-      font-weight: var(--mat-sys-title-medium-weight) !important;
-    }
-
     .route-info {
       font-size: 13px;
     }

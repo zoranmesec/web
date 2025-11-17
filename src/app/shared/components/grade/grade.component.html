@@ -1,8 +1,8 @@
-<ng-container *ngIf="grade">
+<div *ngIf="grade" class="flex flex-row align-items-center">
   <span class="grade-name">{{ grade.name }}</span>
   <span
     *ngIf="showModifier && grade.modifier == 1"
-    class="grade-modifier hard"
+    class="grade-modifier hard m-t-8"
     [ngClass]="{ disabled }"
   >
     <mat-icon>arrow_drop_up</mat-icon>
@@ -14,4 +14,4 @@
   >
     <mat-icon>arrow_drop_down</mat-icon>
   </span>
-</ng-container>
+</div>

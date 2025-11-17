@@ -74,7 +74,6 @@ export class SearchComponent implements OnDestroy, OnChanges {
   onSelected = output<Route | User | Crag | Sector | Comment>();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private searchAutoCompleteGQL: SearchAutoCompleteGQL,
     private searchAutoCompleteCragsGQL: SearchAutoCompleteCragsGQL,
@@ -97,6 +96,7 @@ export class SearchComponent implements OnDestroy, OnChanges {
   error = false;
 
   subscription: Subscription;
+  protected isFirstRender = true;
 
   ngOnChanges(): void {
     // this.activatedRoute.params.subscribe((params) => {
@@ -173,6 +173,7 @@ export class SearchComponent implements OnDestroy, OnChanges {
       .subscribe({
         next: (result) => {
           this.searchResults = <SearchResults>result.data.searchByInput;
+
           this.autocompleteTrigger.openPanel();
           this.searchInput.nativeElement.focus();
         },

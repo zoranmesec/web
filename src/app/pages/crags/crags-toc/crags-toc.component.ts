@@ -38,6 +38,7 @@ import { FlexLayoutModule } from 'ng-flex-layout';
 import { ORIENTATIONS } from 'src/app/common/orientation.constants';
 import { MatInputModule } from '@angular/material/input';
 import { GradeSelectComponent } from 'src/app/shared/components/grade-select/grade-select.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 @Component({
   selector: 'app-crags-toc',
   templateUrl: './crags-toc.component.html',
@@ -54,6 +55,7 @@ import { GradeSelectComponent } from 'src/app/shared/components/grade-select/gra
     FlexLayoutModule,
     MatInputModule,
     GradeSelectComponent,
+    IconsModule,
   ],
 })
 export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {

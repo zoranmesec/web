@@ -1,0 +1,27 @@
+@use "@angular/material" as mat;
+@use "./../../../../m3-theme.scss" as m3-theme;
+$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
+:host {
+  ::ng-deep {
+    .mat-mdc-icon-button.mat-mdc-button-base {
+      width: 20px !important;
+      height: 20px !important;
+    }
+
+    .mat-mdc-icon-button .mat-mdc-button-touch-target {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+
+  .more-button {
+    cursor: pointer;
+    width: 30px !important;
+  }
+
+  .publish {
+    color: $grey !important;
+    font-style: normal;
+    font-size: 12px;
+  }
+}

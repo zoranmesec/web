@@ -5,7 +5,12 @@ import {
   StatsActivities,
   MyActivitiesStatisticsGQL,
 } from 'src/generated/graphql';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   Component,
   EventEmitter,
@@ -25,12 +30,28 @@ import {
 } from 'src/app/common/activity.constants';
 import { AscentType } from 'src/app/types/ascent-type';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
+import { CommonModule } from '@angular/common';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { FlexLayoutModule } from 'ng-flex-layout';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @Component({
-    selector: 'app-activity-statistics',
-    templateUrl: './activity-statistics.component.html',
-    styleUrls: ['./activity-statistics.component.scss'],
-    imports: [ActivityHeaderComponent]
+  selector: 'app-activity-statistics',
+  templateUrl: './activity-statistics.component.html',
+  styleUrls: ['./activity-statistics.component.scss'],
+  imports: [
+    CommonModule,
+    ActivityHeaderComponent,
+    LoaderComponent,
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgxEchartsModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ActivityStatisticsComponent implements OnInit, OnDestroy {
   subscription: Subscription;

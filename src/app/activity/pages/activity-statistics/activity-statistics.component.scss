@@ -1,3 +1,9 @@
+:host {
+  section {
+    padding: 0 16px 0 16px;
+  }
+}
+
 .demo-chart {
   min-height: 400px;
   width: 100%;
@@ -6,7 +12,4 @@
 .scrollable-table {
   max-width: 100%;
   overflow-x: auto;
-  .card-table {
-    min-width: 600px;
-  }
 }

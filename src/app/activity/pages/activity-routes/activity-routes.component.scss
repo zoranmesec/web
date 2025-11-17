@@ -4,6 +4,27 @@
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
+  mat-form-field {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    padding: 12px 16px 0 0;
+    width: 300px !important;
+
+    @media only screen and (max-width: global.$breakpoint-md) {
+      width: 100vw !important;
+      padding-left: 4px !important;
+      padding-right: 4px !important;
+    }
+
+    ::ng-deep {
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none !important;
+      }
+    }
+  }
   section#title {
     height: 100px;
     padding: 0 16px 16px 16px;
@@ -55,12 +76,8 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     }
   }
 
-  .close-icon {
-    cursor: pointer;
-    padding-top: 8px;
-  }
-
-  section#filters {
+  section#filters,
+  section#columns {
     border-radius: 8px;
     margin: 0 24px 24px 0;
     background-color: var(--mat-sys-surface);
@@ -73,6 +90,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     }
 
     div.bottom {
+      margin-top: 8px;
       padding: 12px 16px;
       border-radius: 8px;
     }
@@ -83,6 +101,13 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
     mat-radio-button {
       margin-top: 8px;
+    }
+  }
+
+  @media only screen and (max-width: global.$breakpoint-lg) {
+    section#filters,
+    section#columns {
+      position: absolute;
     }
   }
 
@@ -98,6 +123,22 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
   }
 
   button.border:hover {
+    border: 3px solid #aaccf0;
+    border-radius: 8px;
+  }
+
+  button {
+    border: 3px solid #ffffff;
+    border-radius: 8px;
+  }
+
+  @media only screen and (max-width: global.$breakpoint-lg) {
+    button {
+      padding: 0 !important;
+    }
+  }
+
+  button:hover {
     border: 3px solid #aaccf0;
     border-radius: 8px;
   }
@@ -123,12 +164,8 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
       }
     }
   }
-}
 
-.scrollable-table {
-  max-width: 100%;
-  overflow-x: auto;
-  .card-table {
-    width: 100% !important;
+  .close-icon {
+    cursor: pointer;
   }
 }

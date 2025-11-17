@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { PUBLISH_OPTIONS } from 'src/app/common/activity.constants';
@@ -14,6 +14,9 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 
 @Component({
   selector: '[app-activity-route-row]',
@@ -27,6 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
+    GradeComponent,
+    IconsModule,
   ],
 })
 export class ActivityRouteRowComponent implements OnInit {
@@ -36,11 +41,14 @@ export class ActivityRouteRowComponent implements OnInit {
   @Input() noNotes = false;
   @Input() noTopropeOnPage = false;
 
+  columns = input<Record<string, boolean>>({});
+
   publishOptions = PUBLISH_OPTIONS;
 
   constructor(
     private activityRouteChangePublishGQL: ActivityRouteChangePublishGQL,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    protected readonly breakpointService: BreakpointService
   ) {}
 
   ngOnInit(): void {}

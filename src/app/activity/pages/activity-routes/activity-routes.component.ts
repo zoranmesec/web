@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  Form,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -13,9 +14,6 @@ import {
   concatMap,
   debounceTime,
   filter,
-  map,
-  Observable,
-  startWith,
   Subject,
   Subscription,
   switchMap,
@@ -45,11 +43,13 @@ import {
   Crag,
   Route,
 } from 'src/generated/graphql';
-import { FilteredTable } from '../../../common/filtered-table';
+import {
+  ColumnDefinition,
+  FilteredTable,
+} from '../../../common/filtered-table';
 import { CommonModule } from '@angular/common';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { MatButtonModule } from '@angular/material/button';
-import { FlexLayoutModule } from 'ng-flex-layout';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -73,7 +73,6 @@ import {
   SearchType,
 } from 'src/app/pages/search/search.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MaterialElevationDirective } from 'src/app/shared/directives/material-elevation.directive';
 export interface RowAction {
   item: ActivityRoute;
   action: string;
@@ -91,7 +90,6 @@ const MAX_GRADE = 2100;
     IconsModule,
     CommonModule,
     MatButtonModule,
-    FlexLayoutModule,
     ActivityHeaderComponent,
     DataErrorComponent,
     MatFormFieldModule,
@@ -147,39 +145,40 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
   gradeForm = this.fb.group({
     minGrade: this.fb.control(
       { value: MIN_GRADE, disabled: false },
-      { validators: [] }
+      { validators: [], nonNullable: true }
     ),
     maxGrade: this.fb.control(
       { value: MAX_GRADE, disabled: false },
-      { validators: [] }
+      { validators: [], nonNullable: true }
     ),
   });
+
+  columnForm!: FormGroup;
 
   forCrag: ActivityFiltersCragQuery['crag'];
   forRoute: ActivityFiltersRouteQuery['route'];
 
-  filteredTable = new FilteredTable(
-    [
-      { name: 'date', label: 'Datum', sortable: true, defaultSort: 'DESC' },
-      { name: 'crag', label: 'Plezališče' },
-      { name: 'route', label: 'Smer' },
-      { name: 'grade', label: 'Ocena', sortable: true },
-      { name: 'ascentType', label: 'Vrsta vzpona' },
-      { name: 'notes', label: 'Opombe' },
-      { name: 'publish', label: 'Vidnost' },
-    ],
-    [
-      { name: 'dateFrom', type: 'date' },
-      { name: 'dateTo', type: 'date' },
-      { name: 'ascentType', type: 'multiselect' },
-      { name: 'publish', type: 'multiselect' },
-      { name: 'cragId', type: 'relation' },
-      { name: 'routeId', type: 'relation' },
-      { name: 'routeTypes', type: 'multiselect' },
-      { name: 'minGrade', type: 'number' },
-      { name: 'maxGrade', type: 'number' },
-    ]
-  );
+  private readonly tableColumns: ColumnDefinition[] = [
+    { name: 'date', label: 'Datum', sortable: true, defaultSort: 'DESC' },
+    { name: 'crag', label: 'Plezališče' },
+    { name: 'route', label: 'Smer' },
+    { name: 'grade', label: 'Ocena', sortable: true },
+    { name: 'ascentType', label: 'Vrsta vzpona' },
+    { name: 'notes', label: 'Opombe' },
+    { name: 'publish', label: 'Vidnost' },
+  ];
+
+  filteredTable = new FilteredTable(this.tableColumns, [
+    { name: 'dateFrom', type: 'date' },
+    { name: 'dateTo', type: 'date' },
+    { name: 'ascentType', type: 'multiselect' },
+    { name: 'publish', type: 'multiselect' },
+    { name: 'cragId', type: 'relation' },
+    { name: 'routeId', type: 'relation' },
+    { name: 'routeTypes', type: 'multiselect' },
+    { name: 'minGrade', type: 'number' },
+    { name: 'maxGrade', type: 'number' },
+  ]);
   ignoreFormChange = true;
 
   rowAction$ = new Subject<RowAction>();
@@ -228,6 +227,38 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
     private readonly cdr: ChangeDetectorRef
   ) {
     void this.fetchGrades();
+
+    const savedColumns = localStorage.getItem('activityRoutesSelectedColumns');
+
+    // loop through all columns and set columnForm controls
+    this.columnForm = this.fb.group({});
+    this.tableColumns.forEach((column) => {
+      let selected = true;
+      if (savedColumns) {
+        selected = savedColumns.includes(column.name);
+      }
+      this.columnForm.addControl(column.name, new FormControl(selected));
+    });
+
+    this.subscriptions.push(
+      this.columnForm.valueChanges.subscribe((value) => {
+        const selectedColumns: Record<string, ColumnDefinition> = {};
+        for (const key of Object.keys(value)) {
+          if (value[key]) {
+            selectedColumns[key] = this.tableColumns.find(
+              (column) => column.name === key
+            );
+          }
+        }
+
+        localStorage.setItem(
+          'activityRoutesSelectedColumns',
+          JSON.stringify(Object.keys(selectedColumns))
+        );
+
+        console.log('Selected columns:', this.columnForm.value);
+      })
+    );
   }
 
   ngOnInit(): void {
@@ -236,6 +267,10 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         name: 'Plezalni dnevnik',
       },
     ]);
+
+    if (this.breakpointService.ltMd()) {
+      this.showFilters = false;
+    }
     this.publishOptions.forEach((option) => {
       (this.filters.get('publish') as FormGroup).addControl(
         option.value,
@@ -262,10 +297,20 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
               { minGrade: ft.filterParams.minGrade },
               { emitEvent: false }
             );
+          } else {
+            this.gradeForm.patchValue(
+              { minGrade: MIN_GRADE },
+              { emitEvent: false }
+            );
           }
           if (ft.filterParams.maxGrade != null) {
             this.gradeForm.patchValue(
               { maxGrade: ft.filterParams.maxGrade },
+              { emitEvent: false }
+            );
+          } else {
+            this.gradeForm.patchValue(
+              { maxGrade: MAX_GRADE },
               { emitEvent: false }
             );
           }
@@ -419,7 +464,30 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
   }
 
   get nrOfFiltersApplied(): number {
-    return 0;
+    let count = 0;
+    const filterValues = this.filters.value;
+
+    if (filterValues.dateFrom) count++;
+    if (filterValues.dateTo) count++;
+    if (filterValues.ascentType && filterValues.ascentType.length > 0) count++;
+    if (filterValues.cragId || filterValues.routeId) count++;
+    if (filterValues.routeTypes && filterValues.routeTypes.length > 0) count++;
+    if (
+      filterValues.publish['club'] ||
+      filterValues.publish['private'] ||
+      filterValues.publish['public']
+    )
+      count++;
+    if (filterValues.sport || filterValues.boulder || filterValues.multipitch)
+      count++;
+
+    const gradeValues = this.gradeForm.value;
+    if (
+      (gradeValues.minGrade && gradeValues.minGrade !== MIN_GRADE) ||
+      (gradeValues.maxGrade && gradeValues.maxGrade !== MAX_GRADE)
+    )
+      count++;
+    return count;
   }
 
   get ascentTypes() {
@@ -438,6 +506,9 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
   closeFilters() {
     this.showFilters = false;
   }
+  closeColumns() {
+    this.showColumnSelection = false;
+  }
 
   toggleAscentTypeFilter(ascentTypeValue: string): void {
     const currentValues: string[] = this.filters.value.ascentType || [];
@@ -453,6 +524,16 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
   isSelectedAscentTypeFilter(ascentTypeValue: string): boolean {
     const currentValues: string[] = this.filters.value.ascentType || [];
     return currentValues.includes(ascentTypeValue);
+  }
+
+  protected removeAllFilters() {
+    this.filters.reset();
+  }
+
+  protected resetColumns() {
+    this.tableColumns.forEach((column) => {
+      this.columnForm.get(column.name).setValue(true);
+    });
   }
 
   applyRelationFilterDisplayValues() {

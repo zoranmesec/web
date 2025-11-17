@@ -5,7 +5,7 @@
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
 :host {
-  section#filter {
+  section#columns {
     border-radius: 8px;
     margin: 0 24px 24px 0;
     background-color: var(--mat-sys-surface);
@@ -36,7 +36,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
 
   .close-icon {
     cursor: pointer;
-    padding-top: 8px;
   }
 
   a.row {
@@ -49,18 +48,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
       cursor: default;
       background: #f6f9ff;
     }
-  }
-  .show-all {
-    color: var(--mat-sys-secondary);
-    font-weight: var(--mat-sys-display-medium-weight);
-    text-align: center;
-    cursor: pointer;
-    border: 3px solid var(--mat-sys-surface);
-  }
-
-  .show-all:hover {
-    border: 3px solid $light-blue;
-    border-radius: 8px;
   }
 
   .active-country {
