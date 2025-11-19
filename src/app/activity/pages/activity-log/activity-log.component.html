@@ -1,150 +1,93 @@
 @if (error) {
-  <app-data-error [error]="error"></app-data-error>
+<app-data-error [error]="error"></app-data-error>
 }
 
 <section id="title">
   <h1>Plezalni dnevnik</h1>
 </section>
 <app-activity-header active="dnevnik"></app-activity-header>
-<div class="container mt-16">
-  <div
-    fxLayout="row"
-    fxLayout.lt-sm="column"
-    [formGroup]="filters"
-    fxLayoutGap="16px"
-    >
-    <mat-form-field class="no-hint infix-width-auto" fxFlex>
-      <mat-label>Časovno obdobje</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input
-          matStartDate
-          readonly
-          formControlName="dateFrom"
-          placeholder="Datum od"
-          />
-          <input matEndDate readonly formControlName="dateTo" placeholder="do" />
-        </mat-date-range-input>
-        <div matSuffix fxLayout="row">
-          @if (filters.value.dateFrom != null || filters.value.dateTo != null) {
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="filters.patchValue({ dateFrom: null, dateTo: null })"
-              >
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        </div>
+@if (loading) {
+<app-loader></app-loader>
+} @else {
 
-        <mat-date-range-picker #picker></mat-date-range-picker>
+<section id="calendar">
+  @if (this.activities) {
 
-        @if (filters.controls.dateFrom.hasError('matStartDateInvalid')) {
-          <mat-error
-            >Neveljaven začetni datum</mat-error
-            >
-        }
-        @if (filters.controls.dateTo.hasError('matEndDateInvalid')) {
-          <mat-error
-            >Neveljaven končni datum</mat-error
-            >
-          }
-        </mat-form-field>
-
-        <mat-form-field class="no-hint infix-width-auto" fxFlex>
-          <mat-label>Vrsta aktivnosti</mat-label>
-          <mat-select formControlName="type" multiple>
-            @for (type of activityTypes; track type) {
-              <mat-option [value]="type.value"
-                >{{ type.label }}
-              </mat-option>
+  <form [formGroup]="form" #canDeactivateForm="ngForm">
+    <div class="flex flex-row flex-justify-space-between">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="month">
+            @for (month of months; track $index) {
+            <mat-option [value]="month">{{ month }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
-
-        @if (forCrag) {
-          <mat-form-field fxFlex>
-            <mat-label>Plezališče</mat-label>
-            <input matInput disabled [value]="forCrag.name" />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="filters.patchValue({ cragId: null })"
-              >
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        }
-
-        <button
-          [routerLink]="['/plezalni-dnevnik/vpis']"
-          mat-button
-          color="primary"
-          >
-          Dodaj vnos
-        </button>
-      </div>
-
-      <div class="card has-loader scrollable-table mt-16">
-        @if (loading) {
-          <div class="card-loader">
-            <app-loader></app-loader>
-          </div>
-        }
-
-        <table class="card-table">
-          <tr class="row header">
-            @for (column of filteredTable.columns; track column) {
-              <td>
-                @if (column.sortable) {
-                  <span
-                    class="sortable"
-                    [class.sorted]="filteredTable.sortColumn == column.name"
-                    (click)="filteredTable.sort(column)"
-                    >
-                    {{ column.label }}
-                    @if (filteredTable.sortColumn != column.name) {
-                      <mat-icon inline
-                        >sort</mat-icon
-                        >
-                      }
-                      @if (filteredTable.sortColumn == column.name) {
-                        <mat-icon inline>{{
-                          filteredTable.sortDirection == "DESC"
-                          ? "arrow_downward"
-                          : "arrow_upward"
-                        }}</mat-icon>
-                      }
-                    </span>
-                  }
-                  @if (!column.sortable) {
-                    <span>{{ column.label }}</span>
-                  }
-                </td>
-              }
-              <td></td>
-            </tr>
-
-            @for (activity of activities; track activity) {
-              <tr
-                class="row"
-                app-activity-row
-                [activity]="activity"
-                [rowAction]="rowAction$"
-              ></tr>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="year">
+            @for (year of years; track year) {
+            <mat-option [value]="year">{{ year }}</mat-option>
             }
-          </table>
-        </div>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-        @if (pagination != null) {
-          <mat-paginator
-            hidePageSize
-            showFirstLastButtons
-            [length]="pagination.itemCount"
-            [pageIndex]="pagination.pageNumber - 1"
-            [pageSize]="pagination.pageSize"
-            (page)="filteredTable.paginate($event)"
-            >
-          </mat-paginator>
+      <div class="flex flex-row">
+        <div class="m-t-4 sortable" (click)="decreaseMonth()">
+          <app-arrow-icon></app-arrow-icon>
+        </div>
+        <div class="flex flex-row m-4 sortable" (click)="goToToday()">
+          <app-today-icon></app-today-icon>
+          <span class="m-l-4 p-t-2">Danes</span>
+        </div>
+        <div class="m-t-4 sortable" (click)="increaseMonth()">
+          <app-arrow-icon [direction]="'right'"></app-arrow-icon>
+        </div>
+      </div>
+    </div>
+    <div class="calendar-grid">
+      <div class="day-tag">Pon</div>
+      <div class="day-tag">Tor</div>
+      <div class="day-tag">Sre</div>
+      <div class="day-tag">Čet</div>
+      <div class="day-tag">Pet</div>
+      <div class="day-tag">Sob</div>
+      <div class="day-tag">Ned</div>
+      @for (day of days; track $index) {
+      <div
+        class="day"
+        [class.today]="day.isToday"
+        [class.empty]="!day.day"
+        [class.outside-month]="!day.isWithinThisMonth"
+        [class.sortable]="day.activities.length > 0"
+      >
+        <div class="p-b-8">
+          {{ day.day | date : "d" : undefined : CmsLocale }}
+        </div>
+        @for (activity of day.activities; track $index) {
+        <div class="flex flex-row">
+          <div class="p-r-8">
+            <span
+              class="dot"
+              [style.backgroundColor]="activity | activityColor"
+            ></span>
+          </div>
+          <div class="activity-summary">
+            <span>{{ activity | activityLabel }}</span
+            ><br />
+            <span>
+              {{ activity.routes.length }} smeri<br />
+              {{ activity.routes | activityTotalMeters }} m<br />
+              najtežja smer:
+              {{ activity.routes | activityMaxDifficulty | async }}
+            </span>
+          </div>
+        </div>
         }
       </div>
+      }
+    </div>
+  </form>
+  }
+</section>
+}

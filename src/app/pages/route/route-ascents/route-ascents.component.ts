@@ -25,7 +25,6 @@ import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascen
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DataError } from 'src/app/types/data-error';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
-import { M } from 'node_modules/@angular/material/ripple.d-BxTUZJt7';
 
 @Component({
   selector: 'app-route-ascents',

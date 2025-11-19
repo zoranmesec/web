@@ -326,13 +326,15 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (result) => {
-          this.loading = false;
-          ft.navigating = false;
-          this.ignoreFormChange = false;
-          this.querySuccess(
-            result.data
-              .myActivityRoutes as MyActivityRoutesQuery['myActivityRoutes']
-          );
+          if (result.data) {
+            this.loading = false;
+            ft.navigating = false;
+            this.ignoreFormChange = false;
+            this.querySuccess(
+              result.data
+                .myActivityRoutes as MyActivityRoutesQuery['myActivityRoutes']
+            );
+          }
         },
         error: () => {
           this.queryError();

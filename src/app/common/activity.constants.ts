@@ -159,10 +159,10 @@ export const PUBLISH_OPTIONS: Registry[] = [
 ];
 
 export const ACTIVITY_TYPES: Registry[] = [
-  { value: 'crag', label: 'Dan v plezališču', color: '#383838' },
-  { value: 'climbingGym', label: 'Plezalni center', color: '#1C508C' },
-  { value: 'trainingGym', label: 'Telovadnica', color: '#8C2A1E' },
-  { value: 'peak', label: 'Osvojen vrh', color: '#383838' },
-  { value: 'iceFall', label: 'Slap', color: '#383838' },
-  { value: 'other', label: 'Ostalo', color: '#ECAAA1' },
+  { value: 'crag', label: 'Dan v plezališču', color: '#2B7FD9' },
+  { value: 'climbingGym', label: 'Plezalni center', color: '#8AB9EA' },
+  { value: 'trainingGym', label: 'Telovadnica', color: '#F0B3AA' },
+  { value: 'peak', label: 'Osvojen vrh', color: '#EACA8A' },
+  { value: 'iceFall', label: 'Slap', color: '#737373' },
+  { value: 'other', label: 'Ostalo', color: '#a3a3a3' },
 ];

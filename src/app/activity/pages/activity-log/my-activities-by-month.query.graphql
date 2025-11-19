@@ -1,0 +1,33 @@
+query MyActivitiesByMonth($month: Float!, $year: Float!) {
+  myActivitiesByMonth(month: $month, year: $year) {
+    id
+    name
+    date
+    type
+    duration
+    routes {
+      ascentType
+      route {
+        difficulty
+        length
+        defaultGradingSystem {
+          id
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    crag {
+      id
+      name
+      slug
+      country {
+        slug
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}

@@ -8,12 +8,14 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 /* stylelint-disable-next-line scss/at-mixin-argumentless-call-parentheses */
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 body {
-  @include mat.core-theme(m3-theme.$light-theme);
+  @include mat.elevation-classes();
+  @include mat.app-background();
 
   @include mat.all-component-themes(m3-theme.$light-theme);
   @include mat.system-level-colors(m3-theme.$light-theme);
@@ -139,22 +141,22 @@ body {
   }
 
   & {
-    --mdc-checkbox-state-layer-size: 40px;
+    --mat-checkbox-state-layer-size: 40px;
     // TODO replace hardcoded color with variable
-    --mdc-checkbox-unselected-focus-icon-color: #737373;
+    --mat-checkbox-unselected-focus-icon-color: #737373;
     --mat-checkbox-label-text-size: --mat-sys-body-large-size;
-    --mdc-filled-text-field-container-color: white;
-    --mdc-outlined-text-field-container-shape: 8px;
+    --mat-form-field-filled-container-color: white;
+    --mat-form-field-outlined-container-shape: 8px;
     --mat-select-panel-background-color: white;
     --mat-option-selected-state-label-text-color: var(--mat-sys-secondary);
     --mat-radio-checked-ripple-color: var(--mat-sys-secondary);
-    --mdc-radio-selected-icon-color: var(--mat-sys-secondary);
+    --mat-radio-selected-icon-color: var(--mat-sys-secondary);
     --mat-radio-label-text-size: var(--mat-sys-body-large-size) !important;
-    --mdc-snackbar-container-color: var(--mat-sys-surface) !important;
-    --mdc-filled-button-container-color: var(--mat-sys-secondary) !important;
-    --mdc-filled-button-container-shape: 8px !important;
-    --mdc-filled-button-label-text-color: white !important;
-    --mdc-text-button-container-shape: 8px !important;
+    --mat-snackbar-container-color: var(--mat-sys-surface) !important;
+    --mat-button-filled-container-color: var(--mat-sys-secondary) !important;
+    --mat-button-filled-container-shape: 8px !important;
+    --mat-button-filled-label-text-color: white !important;
+    --mat-button-text-container-shape: 8px !important;
     --mat-paginator-container-background-color: var(
       --mat-sys-on-secondary
     ) !important;

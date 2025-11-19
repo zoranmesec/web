@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormBuilder,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormControl,
@@ -27,16 +29,24 @@ import { GenderizeVerbPipe } from 'src/app/shared/pipes/genderize-verb.pipe';
 import {
   Activity,
   ActivityFiltersCragGQL,
-  ActivityFiltersCragQuery,
   DeleteActivityGQL,
-  FindActivitiesInput,
-  MyActivitiesGQL,
-  MyActivitiesQuery,
+  MyActivitiesByMonthGQL,
+  MyActivitiesByMonthQuery,
   namedOperations,
 } from 'src/generated/graphql';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { ActivityColorPipe } from 'src/app/shared/pipes/activity-color.pipe';
+import { ActivityLabelPipe } from 'src/app/shared/pipes/activity-label.pipe';
+import { ActivitySummaryPipe } from 'src/app/shared/pipes/activity-summary.pipe';
+import { ActivityTotalMetersPipe } from 'src/app/shared/pipes/activity-total-meters.pipe';
+import { ActivityMaxDifficultyPipe } from 'src/app/shared/pipes/activity-max-difficulty.pipe';
 
 export interface RowAction {
   item: Activity;
@@ -48,55 +58,50 @@ export interface RowAction {
   templateUrl: './activity-log.component.html',
   styleUrls: ['./activity-log.component.scss'],
   imports: [
-    RouterLink,
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     ActivityHeaderComponent,
+    MatButtonModule,
+    DatePipe,
+    MatFormFieldModule,
+    LoaderComponent,
+    IconsModule,
+    ActivityColorPipe,
+    ActivityLabelPipe,
+    ActivityTotalMetersPipe,
+    ActivityMaxDifficultyPipe,
+    AsyncPipe,
   ],
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {
   error: DataError = null;
 
-  activities: MyActivitiesQuery['myActivities']['items'];
-  pagination: MyActivitiesQuery['myActivities']['meta'];
+  loading = true;
 
-  loading = false;
+  protected readonly locale = 'sl-SI';
 
-  filters = new UntypedFormGroup({
-    dateFrom: new UntypedFormControl(),
-    dateTo: new UntypedFormControl(),
-    type: new UntypedFormControl(),
-    cragId: new UntypedFormControl(),
+  protected dateObject = new Date();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected days: any[] = Array(35);
+  protected today = new Date();
+  protected readonly formBuilder = inject(FormBuilder);
+  protected readonly form = this.formBuilder.group({
+    year: this.formBuilder.control(this.today.getFullYear(), {
+      nonNullable: true,
+    }),
+    month: this.formBuilder.control(this.months[this.today.getMonth()], {
+      nonNullable: true,
+    }),
   });
-
-  forCrag: ActivityFiltersCragQuery['crag'];
-
-  filteredTable = new FilteredTable(
-    [
-      { name: 'date', label: 'Datum', sortable: true, defaultSort: 'DESC' },
-      { name: 'crag', label: 'Aktivnost' },
-      { name: 'route', label: 'Lokacija' },
-      { name: 'nrRoutes', label: '' },
-      { name: 'hardestRoute', label: 'Najtežja smer' },
-      { name: 'hardestLeadClimbedRoute', label: 'Najtežja smer v vodstvu' },
-      { name: 'totalLength', label: 'Skupna dolžina' },
-    ],
-    [
-      { name: 'dateFrom', type: 'date' },
-      { name: 'dateTo', type: 'date' },
-      { name: 'type', type: 'multiselect' },
-      { name: 'cragId', type: 'relation' },
-    ]
-  );
 
   rowAction$ = new Subject<RowAction>();
 
   activityTypes = ACTIVITY_TYPES;
 
   subscriptions: Subscription[] = [];
-
+  activities: MyActivitiesByMonthQuery['myActivitiesByMonth'];
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -104,8 +109,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private layoutService: LayoutService,
-    private myActivitiesGQL: MyActivitiesGQL,
-    private activityFiltersCragGQL: ActivityFiltersCragGQL,
+    private myActivitiesByMonthGQL: MyActivitiesByMonthGQL,
     private deleteActivityGQL: DeleteActivityGQL,
     private genderizeVerbPipe: GenderizeVerbPipe
   ) {}
@@ -117,79 +121,66 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
       },
     ]);
 
-    const ft = this.filteredTable;
-
-    const navSub = ft.navigate$.subscribe((params) =>
-      this.router.navigate(['/plezalni-dnevnik', params])
-    );
-    this.subscriptions.push(navSub);
+    console.log('ngOnInit', this.form.value);
 
     const routeParamsSub = this.activatedRoute.params.subscribe((params) => {
-      ft.setRouteParams(params);
-
-      this.filters.patchValue(ft.filterParams);
-
-      this.applyRelationFilterDisplayValues();
-
       this.loading = true;
+      console.log(params);
+      const year = params['year']
+        ? parseInt(params['year'], 10)
+        : this.today.getFullYear();
+      const month = params['month']
+        ? parseInt(params['month'], 10)
+        : this.today.getMonth() + 1;
 
-      const queryParams: FindActivitiesInput = ft.queryParams;
+      this.dateObject = new Date(year, month - 1, 1);
+      this.form.patchValue({
+        year: year,
+        month: this.months[month - 1],
+      });
 
-      this.myActivitiesGQL
-        .watch({ variables: { input: queryParams } })
+      this.myActivitiesByMonthGQL
+        .watch({
+          variables: {
+            month: month,
+            year: year,
+          },
+          fetchPolicy: 'cache-and-network',
+        })
         .valueChanges.subscribe((result) => {
-          this.loading = false;
-          ft.navigating = false;
-
           if (result.error != null) {
             this.queryError();
-          } else {
-            this.querySuccess(result.data.myActivities);
+          } else if (result.data != null) {
+            this.loading = false;
+            this.querySuccess(result.data.myActivitiesByMonth);
+            this.initializeDays();
           }
         });
     });
     this.subscriptions.push(routeParamsSub);
 
-    const filtersSub = this.filters.valueChanges.subscribe((values) => {
-      if (ft.navigating) {
-        ft.navigating = false;
-      } else {
-        ft.setFilterParams(values);
-      }
-    });
-    this.subscriptions.push(filtersSub);
-
     const actionsSub = this.rowAction$.subscribe((action) => {
       switch (action.action) {
-        case 'filterByCrag':
-          this.forCrag = action.item.crag;
-          this.filters.patchValue({
-            cragId: action.item.crag.id,
-          });
-          break;
         case 'delete':
           this.deleteActivity(action.item);
           break;
       }
     });
     this.subscriptions.push(actionsSub);
+
+    const yearSub = this.form.valueChanges.subscribe((values) => {
+      console.log(values);
+      this.router.navigate([
+        '/plezalni-dnevnik/dnevnik',
+        { year: values.year, month: this.months.indexOf(values.month) + 1 },
+      ]);
+    });
+
+    this.subscriptions.push(yearSub);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
-
-  applyRelationFilterDisplayValues() {
-    if (this.filters.value.cragId != null && !(this.forCrag != null)) {
-      this.activityFiltersCragGQL
-        .fetch({ variables: { id: this.filters.value.cragId } })
-        .pipe(take(1))
-        .subscribe((crag) => (this.forCrag = crag.data.crag));
-    }
-
-    if (!(this.filters.value.cragId != null)) {
-      this.forCrag = null;
-    }
   }
 
   queryError(): void {
@@ -199,8 +190,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
   }
 
   querySuccess(data): void {
-    this.activities = data.items;
-    this.pagination = data.meta;
+    this.activities = data;
   }
 
   deleteActivity(activity: Activity) {
@@ -235,7 +225,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
         switchMap(() =>
           this.deleteActivityGQL.mutate({
             variables: { id: activity.id },
-            refetchQueries: [namedOperations.Query.MyActivities],
+            refetchQueries: [namedOperations.Query.MyActivitiesByMonth],
           })
         )
       )
@@ -252,5 +242,142 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
           });
         },
       });
+  }
+
+  get years(): number[] {
+    const currentYear = new Date().getFullYear();
+    const years: number[] = [];
+    for (let year = currentYear - 5; year <= currentYear + 5; year++) {
+      years.push(year);
+    }
+    return years;
+  }
+
+  get months(): string[] {
+    return [
+      'Januar',
+      'Februar',
+      'Marec',
+      'April',
+      'Maj',
+      'Junij',
+      'Julij',
+      'Avgust',
+      'September',
+      'Oktober',
+      'November',
+      'December',
+    ];
+  }
+
+  protected increaseMonth(): void {
+    if (this.dateObject.getMonth() === 11) {
+      this.form.patchValue({ year: this.dateObject.getFullYear() + 1 });
+    }
+    this.form.patchValue({
+      month: this.months[(this.dateObject.getMonth() + 1) % 12],
+    });
+  }
+
+  protected decreaseMonth(): void {
+    console.log(
+      this.dateObject.getMonth(),
+      this.dateObject.getFullYear(),
+      'aaaa'
+    );
+    if (this.dateObject.getMonth() === 0) {
+      this.form.patchValue({ year: this.dateObject.getFullYear() - 1 });
+    }
+    this.form.patchValue({
+      month: this.months[(this.dateObject.getMonth() - 1 + 12) % 12],
+    });
+  }
+
+  protected goToToday(): void {
+    this.form.reset();
+  }
+
+  private initializeDays(): void {
+    const today = this.dateObject;
+    let date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    date = new Date(year, monthIndex + 1, 0);
+
+    const numberOfDays = date.getDate();
+    date = new Date(year, monthIndex, 1);
+    let firstDayIndex = date.getDay() - 1;
+    if (firstDayIndex < 0) {
+      firstDayIndex = 7 + firstDayIndex;
+    } else if (firstDayIndex === 0) {
+      firstDayIndex = 7;
+    }
+    for (let i = 0; i < 42; i++) {
+      if (i >= firstDayIndex && i < numberOfDays + firstDayIndex) {
+        this.days[i] = {
+          day: new Date(year, monthIndex, i - firstDayIndex + 1),
+          activities: this.activities.filter((activity) => {
+            const activityDate = new Date(activity.date);
+            return (
+              activityDate.getDate() === i - firstDayIndex + 1 &&
+              activityDate.getMonth() === monthIndex &&
+              activityDate.getFullYear() === year
+            );
+          }),
+          isToday: this.calculateIsToday(
+            i - firstDayIndex + 1,
+            monthIndex,
+            year
+          ),
+          isWithinThisMonth: true,
+        };
+      } else if (i < firstDayIndex) {
+        this.days[i] = {
+          day: new Date(year, monthIndex, i - firstDayIndex + 1),
+          activities: this.activities.filter((activity) => {
+            const activityDate = new Date(activity.date);
+            const prevMonthIndex = monthIndex - 1 < 0 ? 11 : monthIndex - 1;
+            const prevYear = monthIndex - 1 < 0 ? year - 1 : year;
+            const daysInPrevMonth = new Date(
+              prevYear,
+              prevMonthIndex + 1,
+              0
+            ).getDate();
+            return (
+              activityDate.getDate() ===
+                daysInPrevMonth + (i - firstDayIndex + 1) &&
+              activityDate.getMonth() === prevMonthIndex &&
+              activityDate.getFullYear() === prevYear
+            );
+          }),
+          isWithinThisMonth: false,
+        };
+      } else {
+        this.days[i] = {
+          day: new Date(year, monthIndex, i - firstDayIndex + 1),
+          activities: this.activities.filter((activity) => {
+            const activityDate = new Date(activity.date);
+            const nextMonthIndex = monthIndex + 1 > 11 ? 0 : monthIndex + 1;
+            const nextYear = monthIndex + 1 > 11 ? year + 1 : year;
+            return (
+              activityDate.getDate() === i - firstDayIndex + 1 - numberOfDays &&
+              activityDate.getMonth() === nextMonthIndex &&
+              activityDate.getFullYear() === nextYear
+            );
+          }),
+          isWithinThisMonth: false,
+        };
+      }
+    }
+  }
+
+  private calculateIsToday(day: number, month: number, year: number): boolean {
+    const today = new Date();
+    return (
+      day === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
+    );
   }
 }

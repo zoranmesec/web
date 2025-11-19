@@ -40,7 +40,24 @@ import { BarChart } from 'echarts/charts';
 import { GridComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsOption, SeriesOption } from 'echarts/types/dist/shared';
-echarts.use([BarChart, GridComponent, CanvasRenderer]);
+import { LineChart } from 'echarts/charts';
+import {
+  TooltipComponent,
+  LegendComponent,
+  ToolboxComponent,
+  TitleComponent,
+} from 'echarts/components';
+
+echarts.use([
+  BarChart,
+  GridComponent,
+  CanvasRenderer,
+  TooltipComponent,
+  LegendComponent,
+  ToolboxComponent,
+  LineChart,
+  TitleComponent,
+]);
 @Component({
   selector: 'app-activity-statistics',
   templateUrl: './activity-statistics.component.html',

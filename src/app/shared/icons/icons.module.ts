@@ -26,6 +26,7 @@ import { MergeIconComponent } from './merge-icon/merge-icon.component';
 import { HeightIconComponent } from './height-icon/height-icon.component';
 import { CloseIconComponent } from './close-icon/close-icon.component';
 import { RefreshIconComponent } from './refresh-icon/refresh-icon.component';
+import { TodayIconComponent } from './today-icon/today-icon.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { RefreshIconComponent } from './refresh-icon/refresh-icon.component';
     HeightIconComponent,
     CloseIconComponent,
     RefreshIconComponent,
+    TodayIconComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -84,6 +86,7 @@ import { RefreshIconComponent } from './refresh-icon/refresh-icon.component';
     HeightIconComponent,
     CloseIconComponent,
     RefreshIconComponent,
+    TodayIconComponent,
   ],
 })
 export class IconsModule {}

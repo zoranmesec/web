@@ -1,7 +1,64 @@
-.scrollable-table {
-  max-width: 100%;
-  overflow-x: auto;
-  .card-table {
-    min-width: 980px;
+:host {
+  section#title {
+    height: 100px;
+    padding: 0 16px 16px 16px;
+    background-color: var(--mat-sys-surface);
+    align-items: center;
+    display: flex;
+    text-align: center;
+  }
+
+  section#calendar {
+    display: block;
+    padding: 16px;
+
+    mat-form-field {
+      width: 150px;
+      margin-right: 16px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      margin-top: 0px;
+      gap: 0px;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .day {
+      padding: 8px;
+      border: 1px solid #e5e5e5;
+      border-radius: 0px;
+      text-align: center;
+      min-height: 200px;
+    }
+
+    .day-tag {
+      color: #737373;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .day.today {
+      background-color: var(--mat-button-filled-disabled-container-color);
+    }
+
+    .day.outside-month {
+      color: #a3a3a3;
+    }
+
+    .dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .activity-summary {
+      text-align: left;
+    }
+
+    .activity-summary > span:nth-child(n + 2) {
+      font-size: 13px;
+    }
   }
 }
