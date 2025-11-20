@@ -65,6 +65,7 @@ import { Platform } from '@angular/cdk/platform';
 import { CustomDateAdapter } from 'src/app/app.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 
 @Component({
   selector: 'app-activity-form',
@@ -85,6 +86,7 @@ import { GradingSystemsService } from 'src/app/shared/services/grading-systems.s
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
+    IconsModule,
   ],
   providers: [
     {

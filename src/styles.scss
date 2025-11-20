@@ -307,6 +307,14 @@ h3 {
 
   line-height: 32px;
 }
+h4 {
+  color: var(--mat-sys-primary);
+  font: var(--mat-sys-headline-small);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  margin: 4px;
+}
 
 * {
   -moz-osx-font-smoothing: grayscale;
@@ -483,6 +491,10 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
 .sortable {
   cursor: pointer;
+}
+
+.sortable:hover {
+  text-decoration: underline;
 }
 
 .route-link {

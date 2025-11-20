@@ -73,6 +73,7 @@
 
 <td>
   <div class="w-100 flex flex-column">
+    @if(columns().date && rowAction) {
     <div class="header flex flex-row flex-justify-space-between">
       <div>{{ route.date | date : "d. M. yyyy" }}</div>
 
@@ -80,6 +81,7 @@
         <app-more-icon size="small"></app-more-icon>
       </div>
     </div>
+    }
     <div class="flex flex-row flex-justify-space-between">
       <div>
         <a

@@ -69,24 +69,28 @@ export class RouteAscentsComponent implements OnDestroy, OnChanges {
       const userAscentsSub = this.myActivityRoutesGQL
         .watch({ variables: { input: { routeId: this.route().id } } })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.myActivityRoutes
-            .items as MyActivityRoutesQuery['myActivityRoutes']['items'];
-          this.pagination = result.data.myActivityRoutes
-            .meta as MyActivityRoutesQuery['myActivityRoutes']['meta'];
-          this.loading = false;
-          this.cdr.markForCheck();
+          if (result.data !== undefined) {
+            this.ascents = result.data.myActivityRoutes
+              .items as MyActivityRoutesQuery['myActivityRoutes']['items'];
+            this.pagination = result.data.myActivityRoutes
+              .meta as MyActivityRoutesQuery['myActivityRoutes']['meta'];
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
         });
       this.subscriptions.push(userAscentsSub);
     } else {
       const publicAscentsSub = this.routeActivitiesGQL
         .watch({ variables: { input: { routeId: this.route().id } } })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.routeActivities
-            .items as RouteActivitiesQuery['routeActivities']['items'];
-          this.pagination = result.data.routeActivities
-            .meta as RouteActivitiesQuery['routeActivities']['meta'];
-          this.loading = false;
-          this.cdr.markForCheck();
+          if (result.data !== undefined) {
+            this.ascents = result.data.routeActivities
+              .items as RouteActivitiesQuery['routeActivities']['items'];
+            this.pagination = result.data.routeActivities
+              .meta as RouteActivitiesQuery['routeActivities']['meta'];
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
         });
       this.subscriptions.push(publicAscentsSub);
     }
@@ -112,12 +116,14 @@ export class RouteAscentsComponent implements OnDestroy, OnChanges {
           },
         })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.myActivityRoutes
-            .items as MyActivityRoutesQuery['myActivityRoutes']['items'];
-          this.pagination = result.data.myActivityRoutes
-            .meta as MyActivityRoutesQuery['myActivityRoutes']['meta'];
-          this.loading = false;
-          this.cdr.markForCheck();
+          if (result.data !== undefined) {
+            this.ascents = result.data.myActivityRoutes
+              .items as MyActivityRoutesQuery['myActivityRoutes']['items'];
+            this.pagination = result.data.myActivityRoutes
+              .meta as MyActivityRoutesQuery['myActivityRoutes']['meta'];
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
         });
     } else {
       this.routeActivitiesGQL
@@ -131,12 +137,14 @@ export class RouteAscentsComponent implements OnDestroy, OnChanges {
           },
         })
         .valueChanges.subscribe((result) => {
-          this.ascents = result.data.routeActivities
-            .items as RouteActivitiesQuery['routeActivities']['items'];
-          this.pagination = result.data.routeActivities
-            .meta as RouteActivitiesQuery['routeActivities']['meta'];
-          this.loading = false;
-          this.cdr.markForCheck();
+          if (result.data !== undefined) {
+            this.ascents = result.data.routeActivities
+              .items as RouteActivitiesQuery['routeActivities']['items'];
+            this.pagination = result.data.routeActivities
+              .meta as RouteActivitiesQuery['routeActivities']['meta'];
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
         });
     }
   }

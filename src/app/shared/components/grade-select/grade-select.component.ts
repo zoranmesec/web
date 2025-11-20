@@ -28,8 +28,8 @@ import { IconsModule } from '../../icons/icons.module';
     MatFormField,
     MatLabel,
     NgxMatSelectSearchModule,
-    IconsModule
-],
+    IconsModule,
+  ],
 })
 export class GradeSelectComponent implements OnInit, OnChanges {
   @Input() label: string;
@@ -75,7 +75,6 @@ export class GradeSelectComponent implements OnInit, OnChanges {
         for (let i = 0; i < allOptions.length; i++) {
           const goBack = Math.min(i, 3); // deduct 3 to get the target in the center (5 are displayed)
           if ((<HTMLElement>allOptions[i]).innerText === grade.name) {
-            console.log('Found grade:', grade.name, allOptions[i - goBack]);
             allOptions[i - goBack].scrollIntoView();
             break;
           }

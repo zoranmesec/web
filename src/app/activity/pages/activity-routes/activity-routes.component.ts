@@ -254,8 +254,6 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
           'activityRoutesSelectedColumns',
           JSON.stringify(Object.keys(selectedColumns))
         );
-
-        console.log('Selected columns:', this.columnForm.value);
       })
     );
   }

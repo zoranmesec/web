@@ -7,12 +7,12 @@ import {
   ActivityRouteChangePublishGQL,
 } from 'src/generated/graphql';
 import { RowAction } from '../../pages/activity-log/activity-log.component';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
 import { AscentPublishOptionComponent } from 'src/app/shared/components/ascent-publish-option/ascent-publish-option.component';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
@@ -34,7 +34,7 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
     IconsModule,
   ],
 })
-export class ActivityRouteRowComponent implements OnInit {
+export class ActivityRouteRowComponent {
   @Input() route: ActivityRoute;
   @Input() rowAction: Subject<RowAction>;
   @Input() displayType: 'activity' | 'activityForm' | 'routes' = 'routes';
@@ -50,8 +50,6 @@ export class ActivityRouteRowComponent implements OnInit {
     private snackbar: MatSnackBar,
     protected readonly breakpointService: BreakpointService
   ) {}
-
-  ngOnInit(): void {}
 
   changePublish(value: string) {
     this.activityRouteChangePublishGQL

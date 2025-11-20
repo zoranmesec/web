@@ -1,6 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -10,7 +11,12 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import {
   concatMap,
   filter,
@@ -21,7 +27,7 @@ import {
 } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ACTIVITY_TYPES } from 'src/app/common/activity.constants';
-import { FilteredTable } from 'src/app/common/filtered-table';
+import { ColumnDefinition, FilteredTable } from 'src/app/common/filtered-table';
 import { LayoutService } from 'src/app/services/layout.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DataError } from 'src/app/types/data-error';
@@ -44,9 +50,11 @@ import { LoaderComponent } from 'src/app/shared/components/loader/loader.compone
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { ActivityColorPipe } from 'src/app/shared/pipes/activity-color.pipe';
 import { ActivityLabelPipe } from 'src/app/shared/pipes/activity-label.pipe';
-import { ActivitySummaryPipe } from 'src/app/shared/pipes/activity-summary.pipe';
 import { ActivityTotalMetersPipe } from 'src/app/shared/pipes/activity-total-meters.pipe';
 import { ActivityMaxDifficultyPipe } from 'src/app/shared/pipes/activity-max-difficulty.pipe';
+import { MatInputModule } from '@angular/material/input';
+import { ActivityRouteRowComponent } from '../../partials/activity-route-row/activity-route-row.component';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 
 export interface RowAction {
   item: Activity;
@@ -73,6 +81,10 @@ export interface RowAction {
     ActivityTotalMetersPipe,
     ActivityMaxDifficultyPipe,
     AsyncPipe,
+    MatDatepickerModule,
+    MatInputModule,
+    ActivityRouteRowComponent,
+    RouterModule,
   ],
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {
@@ -94,8 +106,20 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     month: this.formBuilder.control(this.months[this.today.getMonth()], {
       nonNullable: true,
     }),
+    day: this.formBuilder.control(null, { nonNullable: true }),
+    date: this.formBuilder.control(new Date(), { nonNullable: true }),
   });
 
+  protected readonly tableColumns: ColumnDefinition[] = [
+    { name: 'route', label: 'Smer' },
+    { name: 'grade', label: 'Ocena', sortable: true },
+    { name: 'ascentType', label: 'Vrsta vzpona' },
+    { name: 'notes', label: 'Opombe' },
+    { name: 'publish', label: 'Vidnost' },
+  ];
+
+  protected currentView: 'calendar' | 'list' = 'calendar';
+  protected maxDate = new Date();
   rowAction$ = new Subject<RowAction>();
 
   activityTypes = ACTIVITY_TYPES;
@@ -111,7 +135,8 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private myActivitiesByMonthGQL: MyActivitiesByMonthGQL,
     private deleteActivityGQL: DeleteActivityGQL,
-    private genderizeVerbPipe: GenderizeVerbPipe
+    private genderizeVerbPipe: GenderizeVerbPipe,
+    protected readonly breakpointService: BreakpointService
   ) {}
 
   ngOnInit(): void {
@@ -121,11 +146,8 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
       },
     ]);
 
-    console.log('ngOnInit', this.form.value);
-
     const routeParamsSub = this.activatedRoute.params.subscribe((params) => {
       this.loading = true;
-      console.log(params);
       const year = params['year']
         ? parseInt(params['year'], 10)
         : this.today.getFullYear();
@@ -133,10 +155,19 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
         ? parseInt(params['month'], 10)
         : this.today.getMonth() + 1;
 
+      const day = params['day'] ? parseInt(params['day'], 10) : null;
+      if (day != null) {
+        this.currentView = 'list';
+      } else {
+        this.currentView = 'calendar';
+      }
+
       this.dateObject = new Date(year, month - 1, 1);
       this.form.patchValue({
         year: year,
         month: this.months[month - 1],
+        day: day,
+        date: new Date(year, month - 1, day ?? 1),
       });
 
       this.myActivitiesByMonthGQL
@@ -168,15 +199,29 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(actionsSub);
 
-    const yearSub = this.form.valueChanges.subscribe((values) => {
-      console.log(values);
-      this.router.navigate([
-        '/plezalni-dnevnik/dnevnik',
-        { year: values.year, month: this.months.indexOf(values.month) + 1 },
-      ]);
+    const formSub = this.form.valueChanges.subscribe((values) => {
+      if (this.currentView === 'list') {
+        const newDate = values.date as Date;
+        this.router.navigate([
+          '/plezalni-dnevnik/dnevnik',
+          {
+            year: newDate.getFullYear(),
+            month: newDate.getMonth() + 1,
+            day: newDate.getDate(),
+          },
+        ]);
+      } else {
+        this.router.navigate([
+          '/plezalni-dnevnik/dnevnik',
+          {
+            year: values.year,
+            month: this.months.indexOf(values.month) + 1,
+          },
+        ]);
+      }
     });
 
-    this.subscriptions.push(yearSub);
+    this.subscriptions.push(formSub);
   }
 
   ngOnDestroy(): void {
@@ -244,6 +289,14 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
       });
   }
 
+  get tableColumnsAsObject(): Record<string, boolean> {
+    const obj: Record<string, boolean> = {};
+    this.tableColumns.forEach((col) => {
+      obj[col.name] = true;
+    });
+    return obj;
+  }
+
   get years(): number[] {
     const currentYear = new Date().getFullYear();
     const years: number[] = [];
@@ -254,20 +307,57 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
   }
 
   get months(): string[] {
-    return [
-      'Januar',
-      'Februar',
-      'Marec',
-      'April',
-      'Maj',
-      'Junij',
-      'Julij',
-      'Avgust',
-      'September',
-      'Oktober',
-      'November',
-      'December',
-    ];
+    if (this.breakpointService.ltMd()) {
+      return [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'Maj',
+        'Jun',
+        'Jul',
+        'Avg',
+        'Sep',
+        'Okt',
+        'Nov',
+        'Dec',
+      ];
+    } else {
+      return [
+        'Januar',
+        'Februar',
+        'Marec',
+        'April',
+        'Maj',
+        'Junij',
+        'Julij',
+        'Avgust',
+        'September',
+        'Oktober',
+        'November',
+        'December',
+      ];
+    }
+  }
+
+  get activitiesForDay(): Activity[] {
+    const dayControl = this.form.get('day') as FormControl;
+    const yearControl = this.form.get('year') as FormControl;
+    const monthControl = this.form.get('month') as FormControl;
+    const selectedDay: Date = new Date(
+      yearControl.value,
+      this.months.indexOf(monthControl.value),
+      dayControl.value
+    );
+
+    return this.activities.filter((activity) => {
+      const activityDate = new Date(activity.date);
+      return (
+        activityDate.getDate() === selectedDay.getDate() &&
+        activityDate.getMonth() === selectedDay.getMonth() &&
+        activityDate.getFullYear() === selectedDay.getFullYear()
+      );
+    }) as Activity[];
   }
 
   protected increaseMonth(): void {
@@ -280,11 +370,6 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
   }
 
   protected decreaseMonth(): void {
-    console.log(
-      this.dateObject.getMonth(),
-      this.dateObject.getFullYear(),
-      'aaaa'
-    );
     if (this.dateObject.getMonth() === 0) {
       this.form.patchValue({ year: this.dateObject.getFullYear() - 1 });
     }
@@ -293,8 +378,57 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     });
   }
 
+  protected increaseDay(): void {
+    {
+      const dateControl = this.form.get('date') as FormControl;
+      const selectedDay: Date = dateControl.value as Date;
+      selectedDay.setDate(selectedDay.getDate() + 1);
+      this.form.patchValue({
+        year: selectedDay.getFullYear(),
+        month: this.months[selectedDay.getMonth()],
+        day: selectedDay.getDate(),
+      });
+    }
+  }
+
+  protected decreaseDay(): void {
+    const dateControl = this.form.get('date') as FormControl;
+    const selectedDay: Date = dateControl.value as Date;
+    selectedDay.setDate(selectedDay.getDate() - 1);
+    this.form.patchValue({
+      year: selectedDay.getFullYear(),
+      month: this.months[selectedDay.getMonth()],
+      day: selectedDay.getDate(),
+    });
+  }
+
+  protected showCalendar(): void {
+    const year = this.form.get('year').value;
+    const month = this.months.indexOf(this.form.get('month').value) + 1;
+
+    this.router.navigate([
+      '/plezalni-dnevnik/dnevnik',
+      {
+        year: year,
+        month: month,
+      },
+    ]);
+  }
+
   protected goToToday(): void {
     this.form.reset();
+  }
+
+  protected openDay(day): void {
+    const selectedDate: Date = day.day;
+    this.router.navigate([
+      '/plezalni-dnevnik/dnevnik',
+      {
+        year: selectedDate.getFullYear(),
+        month: selectedDate.getMonth() + 1,
+        day: selectedDate.getDate(),
+      },
+    ]);
   }
 
   private initializeDays(): void {

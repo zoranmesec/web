@@ -1,3 +1,10 @@
+@use "@angular/material" as mat;
+@use "./../../../../m3-theme.scss" as m3-theme;
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+$light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
+
+@use "./../../../../styles/global.scss" as global;
+
 :host {
   section#title {
     height: 100px;
@@ -15,6 +22,10 @@
     mat-form-field {
       width: 150px;
       margin-right: 16px;
+
+      @media only screen and (max-width: global.$breakpoint-md) {
+        width: 100px !important;
+      }
     }
 
     .calendar-grid {
@@ -30,6 +41,10 @@
       border-radius: 0px;
       text-align: center;
       min-height: 200px;
+
+      @media only screen and (max-width: global.$breakpoint-md) {
+        min-height: 50px !important;
+      }
     }
 
     .day-tag {
@@ -46,19 +61,74 @@
       color: #a3a3a3;
     }
 
-    .dot {
-      height: 10px;
-      width: 10px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
     .activity-summary {
       text-align: left;
     }
 
     .activity-summary > span:nth-child(n + 2) {
       font-size: 13px;
+    }
+  }
+
+  .dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot.large {
+    height: 14px;
+    width: 14px;
+  }
+
+  section#activity-list {
+    & {
+      padding: 16px;
+    }
+
+    mat-form-field {
+      width: 160px;
+      margin-right: 16px;
+    }
+
+    button {
+      border: 3px solid #ffffff;
+      border-radius: 8px;
+      width: 150px;
+    }
+
+    button:hover {
+      border: 3px solid #aaccf0;
+      border-radius: 8px;
+    }
+
+    .activity-log-entry {
+      border-top: 1px solid $grey;
+    }
+
+    .activity-row {
+      margin-bottom: 4px;
+      padding-left: 4px;
+    }
+
+    .activity-row > div:first-child {
+      width: 150px;
+    }
+
+    .date-selector {
+      margin-bottom: 16px;
+    }
+    ::ng-deep {
+      .activity-route-row > td:first-child {
+        width: 220px;
+      }
+
+      .activity-route-row > td:nth-child(2),
+      .activity-route-row > td:nth-child(3),
+      .activity-route-row > td:nth-child(5) {
+        width: 150px;
+      }
     }
   }
 }

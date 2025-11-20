@@ -118,9 +118,11 @@ export class RouteComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (result) => {
-          this.loading = false;
-          this.querySuccess(result.data);
-          this.cdr.markForCheck();
+          if (result.data !== undefined) {
+            this.loading = false;
+            this.querySuccess(result.data);
+            this.cdr.markForCheck();
+          }
         },
         error: (error) => {
           this.loading = false;

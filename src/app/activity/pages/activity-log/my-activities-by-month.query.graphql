@@ -5,11 +5,20 @@ query MyActivitiesByMonth($month: Float!, $year: Float!) {
     date
     type
     duration
+    partners
     routes {
       ascentType
+      publish
       route {
+        name
         difficulty
         length
+        slug
+        crag {
+          id
+          slug
+          __typename
+        }
         defaultGradingSystem {
           id
           __typename

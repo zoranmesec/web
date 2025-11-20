@@ -10,10 +10,11 @@
 <app-loader></app-loader>
 } @else {
 
-<section id="calendar">
-  @if (this.activities) {
+<form [formGroup]="form" #canDeactivateForm="ngForm">
+  @if (currentView === 'calendar') {
+  <section id="calendar">
+    @if (this.activities) {
 
-  <form [formGroup]="form" #canDeactivateForm="ngForm">
     <div class="flex flex-row flex-justify-space-between">
       <div>
         <mat-form-field appearance="outline">
@@ -38,7 +39,10 @@
         </div>
         <div class="flex flex-row m-4 sortable" (click)="goToToday()">
           <app-today-icon></app-today-icon>
+          @if(this.breakpointService.gtSm()) {
+
           <span class="m-l-4 p-t-2">Danes</span>
+          }
         </div>
         <div class="m-t-4 sortable" (click)="increaseMonth()">
           <app-arrow-icon [direction]="'right'"></app-arrow-icon>
@@ -59,35 +63,165 @@
         [class.today]="day.isToday"
         [class.empty]="!day.day"
         [class.outside-month]="!day.isWithinThisMonth"
-        [class.sortable]="day.activities.length > 0"
       >
         <div class="p-b-8">
           {{ day.day | date : "d" : undefined : CmsLocale }}
         </div>
-        @for (activity of day.activities; track $index) {
-        <div class="flex flex-row">
-          <div class="p-r-8">
-            <span
-              class="dot"
-              [style.backgroundColor]="activity | activityColor"
-            ></span>
+        <div
+          class="flex"
+          [class.flex-row]="breakpointService.ltMd()"
+          [class.flex-column]="breakpointService.gtSm()"
+        >
+          @for (activity of day.activities; track $index) {
+          <div
+            class="flex flex-row sortable"
+            (click)="openDay(day)"
+            [class.p-t-8]="breakpointService.gtSm()"
+          >
+            <div class="p-r-8">
+              <span
+                class="dot"
+                [style.backgroundColor]="activity | activityColor"
+              ></span>
+            </div>
+            @if (breakpointService.gtSm()) {
+
+            <div class="activity-summary">
+              <span>{{ activity | activityLabel }}</span
+              ><br />
+              <span>
+                {{ activity.routes.length }} smeri<br />
+                {{ activity.routes | activityTotalMeters }} m<br />
+                najtežja smer:
+                {{ activity.routes | activityMaxDifficulty | async }}
+              </span>
+            </div>
+            }
           </div>
-          <div class="activity-summary">
-            <span>{{ activity | activityLabel }}</span
-            ><br />
-            <span>
-              {{ activity.routes.length }} smeri<br />
-              {{ activity.routes | activityTotalMeters }} m<br />
-              najtežja smer:
-              {{ activity.routes | activityMaxDifficulty | async }}
-            </span>
-          </div>
+          }
         </div>
-        }
       </div>
       }
     </div>
-  </form>
+
+    }
+  </section>
+  } @else if (currentView === 'list') {
+  <section id="activity-list">
+    <div
+      class="flex flex-row flex-justify-space-between flex-wrap date-selector p-t-4"
+    >
+      <div>
+        <mat-form-field class="no-hint" appearance="outline">
+          <mat-label>Datum</mat-label>
+          <input
+            matInput
+            formControlName="date"
+            [matDatepicker]="picker"
+            [max]="maxDate"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="picker"
+            ><app-calendar-icon matDatepickerToggleIcon></app-calendar-icon
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div>
+        <button type="button" mat-stroked-button (click)="showCalendar()">
+          <div class="flex flex-row">
+            <app-calendar-icon></app-calendar-icon>
+            <span class="p-l-8 p-t-2"> Koledar </span>
+          </div>
+        </button>
+      </div>
+      <div class="flex flex-row">
+        <div class="m-t-4 sortable" (click)="decreaseDay()">
+          <app-arrow-icon></app-arrow-icon>
+        </div>
+        <div class="flex flex-row m-4 sortable" (click)="goToToday()">
+          <app-today-icon></app-today-icon>
+          @if(this.breakpointService.gtSm()) {
+
+          <span class="m-l-4 p-t-2">Danes</span>
+          }
+        </div>
+        <div class="m-t-4 sortable" (click)="increaseDay()">
+          <app-arrow-icon [direction]="'right'"></app-arrow-icon>
+        </div>
+      </div>
+    </div>
+    @for (activity of activitiesForDay; track $index) {
+
+    <div class="flex flex-row activity-log-entry m-b-16 p-t-8">
+      <div class="p-8">
+        <span
+          class="dot large"
+          [style.backgroundColor]="activity | activityColor"
+        ></span>
+      </div>
+      <div class="activity-summary w-100">
+        <h4>{{ activity | activityLabel }}</h4>
+        <div class="w-100 flex flex-row activity-row">
+          <div>Plezališče</div>
+          <div>
+            <a [routerLink]="['/plezalisce', activity.crag.slug]">
+              {{ activity.name }}</a
+            >
+          </div>
+        </div>
+        <div class="w-100 flex flex-row activity-row">
+          <div>Soplezalci</div>
+          <div>{{ activity.partners }}</div>
+        </div>
+        <div class="w-100 flex flex-row activity-row">
+          <div>Opombe</div>
+          <div>{{ activity.notes }}</div>
+        </div>
+        <div class="w-100 flex flex-row activity-row">
+          <div>Povzetek</div>
+          <div>
+            {{ activity.routes.length }} vzponov,
+            {{ activity.routes | activityTotalMeters }}m
+          </div>
+        </div>
+
+        <div
+          class="w-100 flex activity-row"
+          [class.flex-row]="breakpointService.gtSm()"
+          [class.flex-column]="breakpointService.ltMd()"
+        >
+          <div>Vzponi</div>
+          <div class="w-100 flex flex-column">
+            <table class="w-100">
+              @for (route of activity.routes; track route) {
+              <tr
+                class="table-row activity-route-row"
+                app-activity-route-row
+                [route]="route"
+                [columns]="tableColumnsAsObject"
+              ></tr>
+              }
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    } @empty {
+    <div>Za izbrani datum ni zabeleženih plezalnih aktivnosti.</div>
+    }
+    <div class="m-t-16">
+      <button type="button" mat-stroked-button (click)="showCalendar()">
+        <div class="flex flex-row">
+          <div>
+            <app-plus-icon></app-plus-icon>
+          </div>
+          <div class="p-t-2">Dodaj aktivnost</div>
+        </div>
+      </button>
+    </div>
+  </section>
+
   }
-</section>
+</form>
 }

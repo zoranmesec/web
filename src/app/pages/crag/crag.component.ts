@@ -149,6 +149,7 @@ export class CragComponent implements OnInit, OnDestroy {
 
       this.cragSub = this.cragQuery.valueChanges.subscribe({
         next: (result) => {
+          if (result.data === undefined) return;
           this.loading = false;
           this.querySuccess(result.data.cragBySlug);
 
@@ -165,7 +166,6 @@ export class CragComponent implements OnInit, OnDestroy {
           } else {
             this.activeTab = 'smeri';
           }
-          console.log(this.activeTab);
         },
         error: (error) => {
           this.loading = false;
@@ -223,7 +223,6 @@ export class CragComponent implements OnInit, OnDestroy {
     this.warnings = (this.crag as Crag).comments?.filter(
       (comment: Comment) => comment.type === 'warning'
     );
-    console.log('query success', this.section);
 
     if (this.section === 'alpinism') {
       this.layoutService.$breadcrumbs.next([

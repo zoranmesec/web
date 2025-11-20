@@ -395,8 +395,6 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async init() {
-    console.log('CragInfoComponent init', this.crag());
-
     const gradingSystemId = this.crag().defaultGradingSystem?.id || 'french';
     let routes = [];
     this.crag().sectors.forEach((sector) => {
@@ -437,7 +435,6 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
     this.gradeSlots = { ...gradeSlots };
-    console.log('gradeSlots', this.gradeSlots);
 
     const months = [
       'Jan',
