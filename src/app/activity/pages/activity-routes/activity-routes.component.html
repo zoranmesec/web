@@ -1,5 +1,5 @@
 @if (error) {
-  <app-data-error [error]="error"></app-data-error>
+<app-data-error [error]="error"></app-data-error>
 }
 
 <section id="title">
@@ -12,292 +12,287 @@
       <div
         class="border-right flex flex-row flex-align-center flex-center"
         ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
-        >
+      >
         <button
           type="button"
           mat-stroked-button
           (click)="toggleFilterSelection()"
           class="border"
-          >
+        >
           <mat-icon>tune</mat-icon>
           <span [class.hidden]="breakpointService.ltMd()" class="p-l-8">
             @if (showFilters) { Skrij filtre } @else { Pokaži filtre }
-            </span>
-            @if(nrOfFiltersApplied > 0) {
-              <span> ({{ nrOfFiltersApplied }})</span>
-            }
-          </button>
+          </span>
+          @if(nrOfFiltersApplied > 0) {
+          <span> ({{ nrOfFiltersApplied }})</span>
+          }
+        </button>
+      </div>
+      <div class="border-right flex flex-row flex-align-center flex-center">
+        <button
+          type="button"
+          mat-stroked-button
+          (click)="toggleColumnSelection()"
+          class="border"
+        >
+          <div class="flex flex-row">
+            <app-columns-icon></app-columns-icon>
+            <span [class.hidden]="breakpointService.ltMd()" class="p-l-8"
+              >Izberi stolpce</span
+            >
+          </div>
+        </button>
+      </div>
+
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        [class.hidden]="breakpointService.gtSm()"
+      >
+        <button
+          type="button"
+          mat-stroked-button
+          (click)="searchFieldVisible = !searchFieldVisible"
+        >
+          <mat-icon class="filter-icon">search</mat-icon>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
+            >Išči</span
+          >
+        </button>
+      </div>
+    </div>
+    <div [class.hidden]="breakpointService.ltMd()">
+      <mat-form-field
+        class="custom-height"
+        appearance="outline"
+        subscriptSizing="fixed"
+      >
+        <mat-label>
+          <mat-icon class="search-icon">search</mat-icon>
+          <span>Poišči po imenu</span></mat-label
+        >
+        <input matInput autofocus [formControl]="search" autocomplete="off" />
+      </mat-form-field>
+    </div>
+  </section>
+  @if(searchFieldVisible){
+  <div
+    [class.hidden]="breakpointService.gtSm()"
+    class="w-100 flex flex-row flex-align-center flex-center"
+  >
+    <mat-form-field
+      class="custom-height"
+      appearance="outline"
+      [subscriptSizing]="fixed"
+    >
+      <mat-label>
+        <mat-icon class="search-icon">search</mat-icon>
+        <span>Poišči po imenu</span></mat-label
+      >
+      <input matInput autofocus [formControl]="search" autocomplete="off" />
+    </mat-form-field>
+  </div>
+  }
+
+  <div class="flex m-t-16">
+    @if (showFilters) {
+    <section id="filters">
+      <div class="flex flex-justify-space-between top">
+        <div class="flex flex-row flex-align-center">
+          <div>
+            <mat-icon class="p-t-4">tune</mat-icon>
+          </div>
+          <div>
+            <span class="p-l-4">Filtriraj vzpone</span>
+          </div>
         </div>
-        <div class="border-right flex flex-row flex-align-center flex-center">
-          <button
-            type="button"
-            mat-stroked-button
-            (click)="toggleColumnSelection()"
-            class="border"
-            >
-            <div class="flex flex-row">
-              <app-columns-icon></app-columns-icon>
-              <span [class.hidden]="breakpointService.ltMd()" class="p-l-8"
-                >Izberi stolpce</span
-                >
-              </div>
-            </button>
-          </div>
+        <div class="close-icon" (click)="closeFilters()">
+          <mat-icon class="map-icon">close</mat-icon>
+        </div>
+      </div>
 
-          <div
-            class="border-right flex flex-row flex-align-center flex-center"
-            [class.hidden]="breakpointService.gtSm()"
-            >
-            <button
-              type="button"
-              mat-stroked-button
-              (click)="searchFieldVisible = !searchFieldVisible"
-              >
-              <mat-icon class="filter-icon">search</mat-icon>
-              <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-                >Išči</span
+      <form [formGroup]="filters" class="flex flex-column p-t-8">
+        <mat-accordion multi="true" displayMode="flat">
+          <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Glede na datum </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-form-field class="no-hint" appearance="outline">
+              <mat-label>Od datuma</mat-label>
+              <input
+                matInput
+                formControlName="dateFrom"
+                [matDatepicker]="pickerFrom"
+              />
+              <div matSuffix class="flex flex-row flex-align-center">
+                @if (filters.value.dateFrom != null) {
+                <button
+                  mat-button
+                  (click)="filters.patchValue({ dateFrom: null })"
                 >
-              </button>
-            </div>
-          </div>
-          <div [class.hidden]="breakpointService.ltMd()">
-            <mat-form-field
-              class="custom-height"
-              appearance="outline"
-              subscriptSizing="fixed"
-              >
-              <mat-label>
-                <mat-icon class="search-icon">search</mat-icon>
-                <span>Poišči po imenu</span></mat-label
+                  <mat-icon class="map-icon">close</mat-icon>
+                </button>
+                }
+                <mat-datepicker-toggle
+                  [for]="pickerFrom"
+                ></mat-datepicker-toggle>
+              </div>
+              <mat-datepicker #pickerFrom></mat-datepicker>
+              @if ( filters.controls.dateFrom.hasError('matStartDateInvalid') )
+              {
+              <mat-error>Neveljaven začetni datum</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field class="no-hint" appearance="outline">
+              <mat-label>Do datuma</mat-label>
+              <input
+                matInput
+                formControlName="dateTo"
+                [matDatepicker]="picker"
+              />
+              <div matSuffix class="flex flex-row flex-align-center">
+                @if (filters.value.dateTo != null) {
+                <button
+                  mat-button
+                  (click)="filters.patchValue({ dateTo: null })"
                 >
-                <input matInput autofocus [formControl]="search" autocomplete="off" />
-              </mat-form-field>
-            </div>
-          </section>
-          @if(searchFieldVisible){
+                  <mat-icon class="map-icon">close</mat-icon>
+                </button>
+                }
+                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+              </div>
+              <mat-datepicker #picker></mat-datepicker>
+              @if (filters.controls.dateTo.hasError('matEndDateInvalid')) {
+              <mat-error>Neveljaven končni datum</mat-error>
+              }
+            </mat-form-field>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Glede na plezališče in smer </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-search
+              [searchType]="searchTypes.Crag"
+              [forCrag]="forCrag"
+              (onSelected)="onCragSelected($event)"
+            ></app-search>
+            <app-search
+              [searchType]="searchTypes.Route"
+              [disabled]="!routeSearchEnabled"
+              [forRoute]="forRoute"
+              [forCrag]="forCrag"
+              (onSelected)="onRouteSelected($event)"
+            ></app-search>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Glede na tip smeri in težavnost
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
             <div
-              [class.hidden]="breakpointService.gtSm()"
-              class="w-100 flex flex-row flex-align-center flex-center"
-              >
-              <mat-form-field
-                class="custom-height"
-                appearance="outline"
-                [subscriptSizing]="fixed"
-                >
-                <mat-label>
-                  <mat-icon class="search-icon">search</mat-icon>
-                  <span>Poišči po imenu</span></mat-label
-                  >
-                  <input matInput autofocus [formControl]="search" autocomplete="off" />
-                </mat-form-field>
+              class="flex flex-column flex-justify-space-around flex-wrap m-t-8"
+            >
+              <div>
+                <ul>
+                  @for (routeType of routeTypes; track $index) {
+                  <li>
+                    <label class="checkbox-container">
+                      <input
+                        type="checkbox"
+                        [checked]="filters.controls[routeType.id].value"
+                        [formControlName]="routeType.id"
+                      />
+                      <span class="checkmark"></span>
+                      <span class="checkmark-label">{{ routeType.label }}</span>
+                    </label>
+                  </li>
+                  }
+                </ul>
               </div>
-            }
+              @if (allGrades.length > 0) {
 
-            <div class="flex m-t-16">
-              @if (showFilters) {
-                <section id="filters">
-                  <div class="flex flex-justify-space-between top">
-                    <div class="flex flex-row flex-align-center">
-                      <div>
-                        <mat-icon class="p-t-4">tune</mat-icon>
-                      </div>
-                      <div>
-                        <span class="p-l-4">Filtriraj vzpone</span>
-                      </div>
-                    </div>
-                    <div class="close-icon" (click)="closeFilters()">
-                      <mat-icon class="map-icon">close</mat-icon>
-                    </div>
-                  </div>
+              <div [formGroup]="gradeForm">
+                <mat-slider
+                  [min]="minGrade"
+                  [max]="maxGrade"
+                  step="50"
+                  [displayWith]="formatLabel.bind(this)"
+                >
+                  <input
+                    formControlName="minGrade"
+                    matSliderStartThumb
+                    (dragEnd)="filterRoutesByGrade()"
+                  />
+                  <input
+                    formControlName="maxGrade"
+                    matSliderEndThumb
+                    (dragEnd)="filterRoutesByGrade()"
+                  />
+                </mat-slider>
+                <div class="flex flex-row flex-justify-space-between">
+                  <span>{{
+                    formatLabel(gradeForm.controls.minGrade.value, true)
+                  }}</span>
+                  <span>{{
+                    formatLabel(gradeForm.controls.maxGrade.value, false)
+                  }}</span>
+                </div>
+              </div>
+              }
+            </div>
+          </mat-expansion-panel>
 
-                  <form [formGroup]="filters" class="flex flex-column p-t-8">
-                    <mat-accordion multi="true" displayMode="flat">
-                      <mat-expansion-panel expanded="">
-                        <mat-expansion-panel-header>
-                          <mat-panel-title> Glede na datum </mat-panel-title>
-                        </mat-expansion-panel-header>
+          <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Glede na način vzpona </mat-panel-title>
+            </mat-expansion-panel-header>
 
-                        <mat-form-field class="no-hint" appearance="outline">
-                          <mat-label>Od datuma</mat-label>
-                          <input
-                            matInput
-                            formControlName="dateFrom"
-                            [matDatepicker]="pickerFrom"
-                            />
-                            <div matSuffix class="flex flex-row flex-align-center">
-                              @if (filters.value.dateFrom != null) {
-                                <button
-                                  mat-button
-                                  (click)="filters.patchValue({ dateFrom: null })"
-                                  >
-                                  <mat-icon class="map-icon">close</mat-icon>
-                                </button>
-                              }
-                              <mat-datepicker-toggle
-                                [for]="pickerFrom"
-                              ></mat-datepicker-toggle>
-                            </div>
-                            <mat-datepicker #pickerFrom></mat-datepicker>
-                            @if (
-                              filters.controls.dateFrom.hasError('matStartDateInvalid')
-                              ) {
-                              <mat-error
-                                >Neveljaven začetni datum</mat-error
-                                >
-                            }
-                          </mat-form-field>
+            <div
+              class="flex flex-row flex-justify-space-around flex-wrap m-t-8"
+            >
+              @for(ascentType of ascentTypes; track $index) {
+              <app-ascent-type-option
+                [ascentType]="ascentType"
+                [selected]="isSelectedAscentTypeFilter(ascentType.value)"
+                (click)="toggleAscentTypeFilter(ascentType.value)"
+              ></app-ascent-type-option>
+              }
+            </div>
+            <div class="m-t-8">
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="topRope" />
+                <span class="checkmark"></span>
+                <span class="checkmark-label"> Z varovanjem od zgoraj </span>
+              </label>
+            </div>
+          </mat-expansion-panel>
 
-                          <mat-form-field class="no-hint" appearance="outline">
-                            <mat-label>Do datuma</mat-label>
-                            <input
-                              matInput
-                              formControlName="dateTo"
-                              [matDatepicker]="picker"
-                              />
-                              <div matSuffix class="flex flex-row flex-align-center">
-                                @if (filters.value.dateTo != null) {
-                                  <button
-                                    mat-button
-                                    (click)="filters.patchValue({ dateTo: null })"
-                                    >
-                                    <mat-icon class="map-icon">close</mat-icon>
-                                  </button>
-                                }
-                                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                              </div>
-                              <mat-datepicker #picker></mat-datepicker>
-                              @if (filters.controls.dateTo.hasError('matEndDateInvalid')) {
-                                <mat-error
-                                  >Neveljaven končni datum</mat-error
-                                  >
-                              }
-                            </mat-form-field>
-                          </mat-expansion-panel>
+          <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Glede na vidnost </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div formGroupName="publish">
+              @for (option of publishOptions; track $index) {
 
-                          <mat-expansion-panel expanded="">
-                            <mat-expansion-panel-header>
-                              <mat-panel-title> Glede na plezališče in smer </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <app-search
-                              [searchType]="searchTypes.Crag"
-                              [forCrag]="forCrag"
-                              (onSelected)="onCragSelected($event)"
-                            ></app-search>
-                            <app-search
-                              [searchType]="searchTypes.Route"
-                              [disabled]="!routeSearchEnabled"
-                              [forRoute]="forRoute"
-                              [forCrag]="forCrag"
-                              (onSelected)="onRouteSelected($event)"
-                            ></app-search>
-                          </mat-expansion-panel>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  [formControlName]="option.value"
+                  [value]="option.value"
+                />
+                <span class="checkmark"></span>
+                <span class="checkmark-label"> {{ option.label }} </span>
+              </label>
+              }
+            </div>
+          </mat-expansion-panel>
 
-                          <mat-expansion-panel expanded="">
-                            <mat-expansion-panel-header>
-                              <mat-panel-title>
-                                Glede na tip smeri in težavnost
-                              </mat-panel-title>
-                            </mat-expansion-panel-header>
-
-                            <div
-                              class="flex flex-column flex-justify-space-around flex-wrap m-t-8"
-                              >
-                              <div>
-                                <ul>
-                                  @for (routeType of routeTypes; track $index) {
-                                    <li>
-                                      <label class="checkbox-container">
-                                        <input
-                                          type="checkbox"
-                                          [checked]="filters.controls[routeType.id].value"
-                                          [formControlName]="routeType.id"
-                                          />
-                                          <span class="checkmark"></span>
-                                          <span class="checkmark-label">{{ routeType.label }}</span>
-                                        </label>
-                                      </li>
-                                    }
-                                  </ul>
-                                </div>
-                                @if (allGrades.length > 0) {
-
-                                  <div [formGroup]="gradeForm">
-                                    <mat-slider
-                                      [min]="minGrade"
-                                      [max]="maxGrade"
-                                      step="50"
-                                      [displayWith]="formatLabel.bind(this)"
-                                      >
-                                      <input
-                                        formControlName="minGrade"
-                                        matSliderStartThumb
-                                        (dragEnd)="filterRoutesByGrade()"
-                                        />
-                                        <input
-                                          formControlName="maxGrade"
-                                          matSliderEndThumb
-                                          (dragEnd)="filterRoutesByGrade()"
-                                          />
-                                        </mat-slider>
-                                        <div class="flex flex-row flex-justify-space-between">
-                                          <span>{{
-                                            formatLabel(gradeForm.controls.minGrade.value, true)
-                                          }}</span>
-                                          <span>{{
-                                            formatLabel(gradeForm.controls.maxGrade.value, false)
-                                          }}</span>
-                                        </div>
-                                      </div>
-                                    }
-                                  </div>
-                                </mat-expansion-panel>
-
-                                <mat-expansion-panel expanded="">
-                                  <mat-expansion-panel-header>
-                                    <mat-panel-title> Glede na način vzpona </mat-panel-title>
-                                  </mat-expansion-panel-header>
-
-                                  <div
-                                    class="flex flex-row flex-justify-space-around flex-wrap m-t-8"
-                                    >
-                                    @for(ascentType of ascentTypes; track $index) {
-                                      <app-ascent-type-option
-                                        [ascentType]="ascentType"
-                                        [selected]="isSelectedAscentTypeFilter(ascentType.value)"
-                                        (click)="toggleAscentTypeFilter(ascentType.value)"
-                                      ></app-ascent-type-option>
-                                    }
-                                  </div>
-                                  <div class="m-t-8">
-                                    <label class="checkbox-container">
-                                      <input type="checkbox" formControlName="topRope" />
-                                      <span class="checkmark"></span>
-                                      <span class="checkmark-label"> Z varovanjem od zgoraj </span>
-                                    </label>
-                                  </div>
-                                </mat-expansion-panel>
-
-                                <mat-expansion-panel expanded="">
-                                  <mat-expansion-panel-header>
-                                    <mat-panel-title> Glede na vidnost </mat-panel-title>
-                                  </mat-expansion-panel-header>
-                                  <div formGroupName="publish">
-                                    @for (option of publishOptions; track $index) {
-
-                                      <label class="checkbox-container">
-                                        <input
-                                          type="checkbox"
-                                          [formControlName]="option.value"
-                                          [value]="option.value"
-                                          />
-                                          <span class="checkmark"></span>
-                                          <span class="checkmark-label"> {{ option.label }} </span>
-                                        </label>
-                                      }
-                                    </div>
-                                  </mat-expansion-panel>
-
-                                  <!-- <mat-form-field appearance="outline">
+          <!-- <mat-form-field appearance="outline">
                                   <mat-label>Vidnost</mat-label>
                                   <mat-select formControlName="publish" multiple>
                                     <mat-option
@@ -341,170 +336,156 @@
                                     <mat-icon>close</mat-icon>
                                   </button>
                                 </mat-form-field> -->
-                              </mat-accordion>
-                            </form>
-                            <div
-                              class="flex flex-justify-space-between bottom show-all"
-                              (click)="removeAllFilters()"
-                              >
-                              <div class="flex flex-row flex-align-center">
-                                <div class="close-icon">
-                                  <app-refresh-icon></app-refresh-icon>
-                                </div>
-                                <div>
-                                  <span class="p-l-4">Ponastavi vse</span>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                          } @if (showColumnSelection) {
-                          <section id="columns">
-                            <div class="flex flex-justify-space-between top">
-                              <div class="flex flex-row flex-align-center">
-                                <div>
-                                  <app-columns-icon></app-columns-icon>
-                                </div>
-                                <div>
-                                  <span class="p-l-4">Izberi stolpce</span>
-                                </div>
-                              </div>
-                              <div class="close-icon" (click)="closeColumns()">
-                                <app-close-icon></app-close-icon>
-                              </div>
-                            </div>
-                            @if (columnForm) {
-                              <div class="p-16">
-                                <form [formGroup]="columnForm">
-                                  <ul>
-                                    @for (column of tableColumns; track $index) {
-                                      <li>
-                                        <label class="checkbox-container">
-                                          <input type="checkbox" [formControlName]="column.name" />
-                                          <span class="checkmark"></span
-                                            >@if (column.field === 'starRating') {
-                                            <span
-                                              class="checkmark-label"
-                                              ><mat-icon>star</mat-icon>{{ column.label }}</span
-                                              >
-                                            }@if (column.field === 'multipitch') {
-                                            <span
-                                              class="checkmark-label"
-                                              ><mat-icon svgIcon="multipitch"></mat-icon
-                                              >{{ column.selectLabel }}</span
-                                              >
-                                              }@if (column.field === 'comments') {
-                                              <span
-                                                class="checkmark-label"
-                                                ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
-                                                >
-                                                }@if (column.field === 'myAscents') {
-                                                <span
-                                                  class="checkmark-label"
-                                                  ><mat-icon>check</mat-icon>{{ column.label }}</span
-                                                  >
-                                                  }@if (column.name !== 'starRating') {
-                                                  <span
-                                                    class="checkmark-label"
-                                                    >{{ column.label }}</span
-                                                    >
-                                                  }
-                                                </label>
-                                                <!--
+        </mat-accordion>
+      </form>
+      <div
+        class="flex flex-justify-space-between bottom show-all"
+        (click)="removeAllFilters()"
+      >
+        <div class="flex flex-row flex-align-center">
+          <div class="close-icon">
+            <app-refresh-icon></app-refresh-icon>
+          </div>
+          <div>
+            <span class="p-l-4">Ponastavi vse</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    } @if (showColumnSelection) {
+    <section id="columns">
+      <div class="flex flex-justify-space-between top">
+        <div class="flex flex-row flex-align-center">
+          <div>
+            <app-columns-icon></app-columns-icon>
+          </div>
+          <div>
+            <span class="p-l-4">Izberi stolpce</span>
+          </div>
+        </div>
+        <div class="close-icon" (click)="closeColumns()">
+          <app-close-icon></app-close-icon>
+        </div>
+      </div>
+      @if (columnForm) {
+      <div class="p-16">
+        <form [formGroup]="columnForm">
+          <ul>
+            @for (column of tableColumns; track $index) {
+            <li>
+              <label class="checkbox-container">
+                <input type="checkbox" [formControlName]="column.name" />
+                <span class="checkmark"></span>@if (column.field ===
+                'starRating') {
+                <span class="checkmark-label"
+                  ><mat-icon>star</mat-icon>{{ column.label }}</span
+                >
+                }@if (column.field === 'multipitch') {
+                <span class="checkmark-label"
+                  ><mat-icon svgIcon="multipitch"></mat-icon
+                  >{{ column.selectLabel }}</span
+                >
+                }@if (column.field === 'comments') {
+                <span class="checkmark-label"
+                  ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
+                >
+                }@if (column.field === 'myAscents') {
+                <span class="checkmark-label"
+                  ><mat-icon>check</mat-icon>{{ column.label }}</span
+                >
+                }@if (column.name !== 'starRating') {
+                <span class="checkmark-label">{{ column.label }}</span>
+                }
+              </label>
+              <!--
                                                 <input type="checkbox" />
                                                 <span class="checkmark"></span>
                                               </label> -->
-                                            </li>
-                                          }
-                                        </ul>
-                                      </form>
-                                    </div>
-                                  }
+            </li>
+            }
+          </ul>
+        </form>
+      </div>
+      }
 
-                                  <div
-                                    class="flex flex-justify-space-between bottom show-all"
-                                    (click)="resetColumns()"
-                                    >
-                                    <div class="flex flex-row flex-align-center">
-                                      <div class="close-icon">
-                                        <app-refresh-icon></app-refresh-icon>
-                                      </div>
-                                      <div>
-                                        <span class="p-l-4">Ponastavi vse</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </section>
+      <div
+        class="flex flex-justify-space-between bottom show-all"
+        (click)="resetColumns()"
+      >
+        <div class="flex flex-row flex-align-center">
+          <div class="close-icon">
+            <app-refresh-icon></app-refresh-icon>
+          </div>
+          <div>
+            <span class="p-l-4">Ponastavi vse</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                              }
-                              @if (!error) {
-                                <div class="container mt-16 w-100">
-                                  <div class="card has-loader scrollable-table">
-                                    @if (loading) {
-                                      <div class="card-loader">
-                                        <app-loader></app-loader>
-                                      </div>
-                                    }
-                                    <table class="w-100">
-                                      <tr class="row header" [class.hidden]="breakpointService.ltLg()">
-                                        @for (column of filteredTable.columns; track $index) { @if
-                                          (columnForm.value[column.name]) {
-                                          <td>
-                                            @if (column.sortable) {
-                                              <span
-                                                class="sortable"
-                                                [class.sorted]="filteredTable.sortColumn == column.name"
-                                                (click)="filteredTable.sort(column)"
-                                                >
-                                                {{ column.label }}
-                                                @if (filteredTable.sortColumn != column.name) {
-                                                  <mat-icon
-                                                    inline
-                                                    >sort</mat-icon
-                                                    >
-                                                  }
-                                                  @if (filteredTable.sortColumn == column.name) {
-                                                    <mat-icon
-                                                      inline
-                                                      >{{
-                                                      filteredTable.sortDirection == "DESC"
-                                                      ? "arrow_downward"
-                                                      : "arrow_upward"
-                                                      }}</mat-icon
-                                                      >
-                                                    }
-                                                  </span>
-                                                }
-                                                @if (!column.sortable) {
-                                                  <span>{{ column.label }}</span>
-                                                }
-                                              </td>
-                                              } }
-                                              <td></td>
-                                            </tr>
-                                            @for (route of routes; track route) {
-                                              <tr
-                                                class="table-row"
-                                                app-activity-route-row
-                                                [route]="route"
-                                                [columns]="columnForm.value"
-                                                [rowAction]="rowAction$"
-                                                [noTopropeOnPage]="noTopropeOnPage"
-                                              ></tr>
-                                            }
-                                          </table>
-                                        </div>
-                                        @if (pagination != null) {
-                                          <mat-paginator
-                                            hidePageSize
-                                            showFirstLastButtons
-                                            [length]="pagination.itemCount"
-                                            [pageIndex]="pagination.pageNumber - 1"
-                                            [pageSize]="pagination.pageSize"
-                                            (page)="filteredTable.paginate($event)"
-                                            >
-                                          </mat-paginator>
-                                        }
-                                      </div>
-                                    }
-                                  </div>
-                                </main>
+    } @if (!error) {
+    <section id="activity-routes" class="mt-16 w-100">
+      <div class="card has-loader scrollable-table">
+        @if (loading) {
+        <div class="card-loader">
+          <app-loader></app-loader>
+        </div>
+        }
+
+        <div
+          class="row header flex flex-row activity-route-row"
+          [class.hidden]="breakpointService.ltLg()"
+        >
+          @for (column of filteredTable.columns; track $index) { @if
+          (columnForm.value[column.name]) {
+          <div>
+            @if (column.sortable) {
+            <span
+              class="sortable"
+              [class.sorted]="filteredTable.sortColumn == column.name"
+              (click)="filteredTable.sort(column)"
+            >
+              {{ column.label }}
+              @if (filteredTable.sortColumn != column.name) {
+              <mat-icon inline>sort</mat-icon>
+              } @if (filteredTable.sortColumn == column.name) {
+              <mat-icon inline>{{
+                filteredTable.sortDirection == "DESC"
+                  ? "arrow_downward"
+                  : "arrow_upward"
+              }}</mat-icon>
+              }
+            </span>
+            } @if (!column.sortable) {
+            <span>{{ column.label }}</span>
+            }
+          </div>
+          } }
+          <div></div>
+        </div>
+        @for (route of routes; track $index) {
+        <div
+          class="flex flex-row row activity-route-row"
+          app-activity-route-row
+          [route]="route"
+          [columns]="columnForm.value"
+          [rowAction]="rowAction$"
+          [noTopropeOnPage]="noTopropeOnPage"
+        ></div>
+        }
+      </div>
+      @if (pagination != null) {
+      <mat-paginator
+        hidePageSize
+        showFirstLastButtons
+        [length]="pagination.itemCount"
+        [pageIndex]="pagination.pageNumber - 1"
+        [pageSize]="pagination.pageSize"
+        (page)="filteredTable.paginate($event)"
+      >
+      </mat-paginator>
+      }
+    </section>
+    }
+  </div>
+</main>

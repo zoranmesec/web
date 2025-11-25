@@ -24,6 +24,7 @@ import {
   namedOperations,
   Peak,
   Route,
+  Activity,
 } from 'src/generated/graphql';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,6 +39,7 @@ export interface DialogData {
   route?: Route;
   crag?: Crag;
   peak?: Peak;
+  activity?: Activity;
 }
 
 @Component({

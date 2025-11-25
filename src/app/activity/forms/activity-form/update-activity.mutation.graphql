@@ -1,6 +1,6 @@
 mutation UpdateActivity(
   $input: UpdateActivityInput!
-  $routes: [CreateActivityRouteInput!]!
+  $routes: [UpdateActivityRouteInput!]!
 ) {
   updateActivity(input: $input, routes: $routes) {
     id

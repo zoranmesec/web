@@ -160,7 +160,36 @@
         ></span>
       </div>
       <div class="activity-summary w-100">
-        <h4>{{ activity | activityLabel }}</h4>
+        <div class="flex flex-row flex-justify-space-between w-100">
+          <div>
+            <h4>
+              {{ activity | activityLabel }}
+            </h4>
+          </div>
+          <div class="sortable p-8">
+            <app-more-icon [mat-menu-trigger-for]="menu"></app-more-icon>
+
+            <mat-menu #menu="matMenu">
+              <button
+                mat-menu-item
+                (click)="
+                  rowAction$.next({ item: activity, action: 'editActivity' })
+                "
+              >
+                <span>Uredi vnos</span>
+              </button>
+              <button
+                mat-menu-item
+                (click)="
+                  rowAction$.next({ item: activity, action: 'deleteActivity' })
+                "
+              >
+                <span>Odstrani vnos</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        @if (activity.type==='crag') {
         <div class="w-100 flex flex-row activity-row">
           <div>Plezališče</div>
           <div>
@@ -192,18 +221,31 @@
         >
           <div>Vzponi</div>
           <div class="w-100 flex flex-column">
-            <table class="w-100">
-              @for (route of activity.routes; track route) {
-              <tr
-                class="table-row activity-route-row"
-                app-activity-route-row
-                [route]="route"
-                [columns]="tableColumnsAsObject"
-              ></tr>
-              }
-            </table>
+            @for (route of activity.routes; track $index) {
+            <div
+              class="row activity-route-row flex flex-row"
+              app-activity-route-row
+              [route]="route"
+              [columns]="tableColumnsAsObject"
+            ></div>
+            }
           </div>
         </div>
+        } @else if (activity.type==='other') {
+        <div class="w-100 flex flex-row activity-row">
+          <div>Lokacija</div>
+          <div>{{ activity.name }}</div>
+        </div>
+        <div class="w-100 flex flex-row activity-row">
+          <div>Trajanje</div>
+          <div>{{ activity.duration }}min</div>
+        </div>
+        <div class="w-100 flex flex-row activity-row">
+          <div>Opombe</div>
+          <div>{{ activity.notes }}</div>
+        </div>
+
+        }
       </div>
     </div>
 
@@ -211,7 +253,7 @@
     <div>Za izbrani datum ni zabeleženih plezalnih aktivnosti.</div>
     }
     <div class="m-t-16">
-      <button type="button" mat-stroked-button (click)="showCalendar()">
+      <button type="button" mat-stroked-button (click)="addActivity()">
         <div class="flex flex-row">
           <div>
             <app-plus-icon></app-plus-icon>

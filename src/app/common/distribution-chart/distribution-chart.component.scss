@@ -45,10 +45,10 @@
     .distribution-bar-label {
       text-align: center;
       width: 40px;
+      margin-top: 8px;
       @media (max-width: 960px) {
         width: 20px !important;
       }
-      margin-top: 8px;
     }
 
     .distribution-bars {
@@ -72,13 +72,13 @@
 
     .distribution-bar {
       width: 40px;
-      @media (max-width: 960px) {
-        width: 20px !important;
-      }
       display: inline-block;
       background-color: transparent;
       margin-bottom: 8px;
       text-align: center;
+      @media (max-width: 960px) {
+        width: 20px !important;
+      }
     }
 
     .distribution-bar-inner {

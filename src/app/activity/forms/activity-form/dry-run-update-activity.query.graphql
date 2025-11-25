@@ -1,6 +1,6 @@
 query DryRunUpdateActivity(
   $input: UpdateActivityInput!
-  $routes: [CreateActivityRouteInput!]!
+  $routes: [UpdateActivityRouteInput!]!
 ) {
   dryRunUpdateActivity(input: $input, routes: $routes) {
     before {

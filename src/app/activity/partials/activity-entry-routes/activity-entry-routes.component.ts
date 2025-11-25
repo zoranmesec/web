@@ -12,12 +12,15 @@ import {
   DeleteActivityRouteGQL,
   namedOperations,
 } from 'src/generated/graphql';
+import { ActivityRouteRowComponent } from '../activity-route-row/activity-route-row.component';
+import { ColumnDefinition } from 'src/app/common/filtered-table';
 
 @Component({
   selector: 'app-activity-entry-routes',
   templateUrl: './activity-entry-routes.component.html',
   styleUrls: ['./activity-entry-routes.component.scss'],
   standalone: true,
+  imports: [ActivityRouteRowComponent],
 })
 export class ActivityEntryRoutesComponent implements OnInit {
   @Input() routes: ActivityRoute[];
@@ -29,7 +32,13 @@ export class ActivityEntryRoutesComponent implements OnInit {
   noTopropeOnPage = false;
 
   ascentTypes = ASCENT_TYPES;
-
+  protected readonly tableColumns: ColumnDefinition[] = [
+    { name: 'route', label: 'Smer' },
+    { name: 'grade', label: 'Ocena', sortable: true },
+    { name: 'ascentType', label: 'Vrsta vzpona' },
+    { name: 'notes', label: 'Opombe' },
+    { name: 'publish', label: 'Vidnost' },
+  ];
   constructor(
     private deleteActivityRouteGQL: DeleteActivityRouteGQL,
     private router: Router,
@@ -42,7 +51,6 @@ export class ActivityEntryRoutesComponent implements OnInit {
   ngOnInit(): void {
     // Save some space by hiding notes column if there are none
     this.noNotes = !this.routes.some((route) => route.notes);
-
     // If none of the activity routes (ascents) have ascent type with toprope, save extra space for tr icon
     this.noTopropeOnPage = !this.routes.some(
       (route) =>
@@ -132,5 +140,13 @@ export class ActivityEntryRoutesComponent implements OnInit {
           });
         },
       });
+  }
+
+  get tableColumnsAsObject(): Record<string, boolean> {
+    const obj: Record<string, boolean> = {};
+    this.tableColumns.forEach((col) => {
+      obj[col.name] = true;
+    });
+    return obj;
   }
 }

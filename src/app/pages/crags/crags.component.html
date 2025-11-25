@@ -1,324 +1,324 @@
 @if (!error) {
-  <section id="title">
-    <h1>Plezališča</h1>
-  </section>
+<section id="title">
+  <h1>Plezališča</h1>
+</section>
 
-  @if (!loading && showMap && country.code==='SI') {
-    <section id="crag-map-container mt-16">
-      <div class="crag-map">
-        @defer (on immediate) {
-        <app-map [crags]="crags$"></app-map>
-        } @placeholder {
-        <p class="fallback">Zemljevid</p>
+@if (!loading && showMap && country.code==='SI') {
+<section id="crag-map-container mt-16">
+  <div class="crag-map">
+    @defer (on idle) {
+    <app-map [crags]="crags$"></app-map>
+    } @placeholder {
+    <p class="fallback">Zemljevid</p>
+    }
+  </div>
+</section>
+} @if (loading) {
+<app-loader class="m-16"></app-loader>
+} @if (!loading) {
+<div class="container flex flex-column mt-16 p-r-16 p-l-16">
+  <section id="options">
+    <div class="flex flex-row">
+      @if(country.code==='SI') {
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        #map
+      >
+        <button type="button" mat-stroked-button (click)="showMap = !showMap">
+          <mat-icon class="filter-icon">map</mat-icon>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
+            @if(showMap) { Skrij zemljevid } @else { Pokaži zemljevid}</span
+          >
+        </button>
+      </div>
       }
-    </div>
-  </section>
-}
-
-@if (loading) {
-  <app-loader class="m-16"></app-loader>
-}
-
-@if (!loading) {
-  <div class="container flex flex-column mt-16 p-r-16 p-l-16">
-    <section id="options">
-      <div class="flex flex-row">
-        @if(country.code==='SI') {
-          <div
-            class="border-right flex flex-row flex-align-center flex-center"
-            #map
-            >
-            <button type="button" mat-stroked-button (click)="showMap = !showMap">
-              <mat-icon class="filter-icon">map</mat-icon>
-              <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
-                @if(showMap) { Skrij zemljevid } @else { Pokaži zemljevid}</span
-                  >
-                </button>
-              </div>
-            }
-            <div
-              class="border-right flex flex-row flex-align-center flex-center"
-              ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
-              >
-              <button
-                type="button"
-                mat-stroked-button
-                (click)="showFilters = !showFilters"
-                >
-                <mat-icon class="filter-icon">tune</mat-icon>
-                <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
-                  @if (showFilters) { Skrij filtre } @else { Pokaži filtre }
-                  </span>
-                  @if(nrOfFiltersApplied > 0) {
-                    <span [class.hidden]="breakpointService.gtMd()">
-                      {{ nrOfFiltersApplied }}</span
-                      >
-                    }
-                  </button>
-                </div>
-                <!-- <div class="border-right flex flex-row flex-align-center flex-center">
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
+      >
+        <button
+          type="button"
+          mat-stroked-button
+          (click)="showFilters = !showFilters"
+        >
+          <mat-icon class="filter-icon">tune</mat-icon>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
+            @if (showFilters) { Skrij filtre } @else { Pokaži filtre }
+          </span>
+          @if(nrOfFiltersApplied > 0) {
+          <span [class.hidden]="breakpointService.gtMd()">
+            {{ nrOfFiltersApplied }}</span
+          >
+          }
+        </button>
+      </div>
+      <!-- <div class="border-right flex flex-row flex-align-center flex-center">
                 <button type="button" mat-stroked-button>
                   <mat-icon class="map-icon">add_column_right</mat-icon>
                   <span class="p-l-8">Izberi stolpce</span>
                 </button>
               </div> -->
-              <!-- <div class="border-right flex flex-row flex-align-center flex-center">
+      <!-- <div class="border-right flex flex-row flex-align-center flex-center">
               <button type="button" mat-stroked-button>
                 <mat-icon class="filter-icon">sort</mat-icon>
                 <span fxHide.lt-lg class="p-l-8">Uredi</span>
               </button>
             </div> -->
-            <div
-              class="border-right flex flex-row flex-align-center flex-center"
-              [class.hidden]="breakpointService.gtSm()"
-              >
-              <button
-                type="button"
-                mat-stroked-button
-                (click)="searchFieldVisible = !searchFieldVisible"
-                >
-                <mat-icon class="filter-icon">search</mat-icon>
-                <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-                  >Išči</span
-                  >
-                </button>
-              </div>
-              <div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="dots">
-                  <mat-icon color="primary">more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                  <button
-                    mat-menu-item
+      <div
+        class="border-right flex flex-row flex-align-center flex-center"
+        [class.hidden]="breakpointService.gtSm()"
+      >
+        <button
+          type="button"
+          mat-stroked-button
+          (click)="searchFieldVisible = !searchFieldVisible"
+        >
+          <mat-icon class="filter-icon">search</mat-icon>
+          <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
+            >Išči</span
+          >
+        </button>
+      </div>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="dots">
+          <mat-icon color="primary">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
             [routerLink]="[
               '/urejanje/dodaj-plezalisce',
               { country: country?.id }
             ]"
-                    >
-                    <mat-icon>add</mat-icon>
-                    <span>Dodaj plezališče</span>
-                  </button>
-                </mat-menu>
-              </div>
+          >
+            <mat-icon>add</mat-icon>
+            <span>Dodaj plezališče</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    <div [class.hidden]="breakpointService.ltSm()">
+      <mat-form-field
+        class="custom-height"
+        appearance="outline"
+        subscriptSizing="fixed"
+      >
+        <mat-label>
+          <mat-icon class="search-icon">search</mat-icon>
+          <span>Poišči po imenu</span></mat-label
+        >
+        <input
+          matInput
+          autofocus
+          [formControl]="search"
+          autocomplete="off"
+          (keydown)="searchKeyDown($event)"
+        />
+      </mat-form-field>
+    </div>
+  </section>
+  @if(searchFieldVisible){
+  <div
+    [class.hidden]="breakpointService.gtSm()"
+    class="w-100 flex flex-row flex-align-center flex-center"
+  >
+    <mat-form-field
+      class="custom-height"
+      appearance="outline"
+      [subscriptSizing]="fixed"
+    >
+      <mat-label>
+        <mat-icon class="search-icon">search</mat-icon>
+        <span>Poišči po imenu</span></mat-label
+      >
+      <input
+        matInput
+        autofocus
+        [formControl]="search"
+        autocomplete="off"
+        (keydown)="searchKeyDown($event)"
+      />
+    </mat-form-field>
+  </div>
+  }
+  <main class="mt-8 flex flex-row">
+    <section [class.hidden]="breakpointService.ltMd()" class="m-t-4">
+      @if (showFilters) {
+      <app-crags-toc
+        [country]="country"
+        (close)="showFilters = !showFilters"
+      ></app-crags-toc>
+      }
+    </section>
+    <section [class.hidden]="breakpointService.gtSm()" class="m-t-4">
+      @if (!showFilters) {
+      <app-crags-toc
+        [country]="country"
+        (close)="showFilters = !showFilters"
+      ></app-crags-toc>
+      }
+    </section>
+    <section id="crag-list" class="flex flex-column w-100">
+      @if (cragsLoading) {
+      <app-loader class="m-32"></app-loader>
+      } @if (!cragsLoading) {
+      <div
+        [class.hidden]="breakpointService.ltLg()"
+        class="flex flex-row flex-align-start flex-center"
+      >
+        @if (selectedAreas.length > 0) {
+        <div class="filter-chip flex" (click)="removeAreaFilter()">
+          Območje: @for (area of selectedAreas; track $index; let last = $last)
+          { @if (last) {
+          <span class="p-l-4">{{ getAreaName(area) }}</span>
+          } @else {
+          <span class="p-l-4">{{ getAreaName(area) }},</span>
+          } }
+          <mat-icon>close</mat-icon>
+        </div>
+        } @if (typeParamValues.length > 0) {
+        <div class="filter-chip flex" (click)="removeRouteTypeFilter()">
+          Tip smeri: @for (type of typeParamValues; track $index; let last =
+          $last) { @if (last) {
+          <span class="p-l-4">{{ type | routeType }}</span>
+          } @else {
+          <span class="p-l-4">{{ type | routeType }},</span>
+          } }
+          <mat-icon>close</mat-icon>
+        </div>
+        } @if (selectedOrientations.length > 0) {
+        <div class="filter-chip flex" (click)="removeOrientationFilter()">
+          Orientacija: @for (orientation of selectedOrientations; track $index;
+          let last = $last) { @if (last) {
+          <span class="p-l-4">{{ orientation | orientation : "short" }}</span>
+          } @else {
+          <span class="p-l-4">{{ orientation | orientation : "short" }},</span>
+          } }
+          <mat-icon>close</mat-icon>
+        </div>
+        } @if(typeParamValues.length > 0 || selectedAreas.length > 0 ||
+        selectedOrientations.length > 0) {
+        <div class="remove-all p-t-4" (click)="removeAllFilters()">
+          Odstrani vse filtre
+        </div>
+        }
+      </div>
+      } @if (!cragsLoading) {
+      <div>
+        <div
+          class="row crag-row header flex"
+          [class.hidden]="breakpointService.ltLg()"
+        >
+          <div>Ime</div>
+          <div>Število smeri</div>
+          <div [class.hidden]="breakpointService.ltXl()">Orientacija</div>
+          <div>Težavnost</div>
+        </div>
+        @for(crag of filteredCrags; track $index) {
+        <div class="row flex flex-row crag-row">
+          <div
+            [class.flex]="breakpointService.ltMd()"
+            [class.hidden]="breakpointService.ltLg()"
+          >
+            <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
+          </div>
+          <div
+            [class.flex]="breakpointService.ltMd()"
+            [class.hidden]="breakpointService.ltLg()"
+          >
+            {{ crag.nrRoutes }}
+          </div>
+          <div [class.hidden]="breakpointService.ltXl()">
+            {{ crag.orientation | orientation : "short" }}
+          </div>
+          <div
+            [class.hidden]="breakpointService.ltLg()"
+            class="routes flex flex-row"
+          >
+            @if (crag.nrRoutes > 0) {
+            <div class="p-r-4">
+              {{
+                crag.minDifficulty != null && crag.maxDifficulty != null
+                  ? "od "
+                  : ""
+              }}
             </div>
-            <div [class.hidden]="breakpointService.ltSm()">
-              <mat-form-field
-                class="custom-height"
-                appearance="outline"
-                subscriptSizing="fixed"
+            <app-grade
+              [difficulty]="crag.minDifficulty"
+              [gradingSystemId]="crag.defaultGradingSystem.id"
+            ></app-grade>
+            <div class="p-l-4 p-r-4">
+              {{
+                crag.minDifficulty != null && crag.maxDifficulty != null
+                  ? " do "
+                  : ""
+              }}
+            </div>
+            <app-grade
+              [difficulty]="crag.maxDifficulty"
+              [gradingSystemId]="crag.defaultGradingSystem.id"
+            ></app-grade>
+            }
+          </div>
+          <!-- Less than large -->
+          <div
+            class="flex flex-column flex-justify-start w-100"
+            [class.hidden]="breakpointService.gtMd()"
+          >
+            <div class="w-100 flex flex-wrap flex-justify-space-between">
+              <div>
+                <a
+                  [routerLink]="['/plezalisce/', crag.slug]"
+                  class="crag-link"
+                  >{{ crag.name }}</a
                 >
-                <mat-label>
-                  <mat-icon class="search-icon">search</mat-icon>
-                  <span>Poišči po imenu</span></mat-label
-                  >
-                  <input
-                    matInput
-                    autofocus
-                    [formControl]="search"
-                    autocomplete="off"
-                    (keydown)="searchKeyDown($event)"
-                    />
-                  </mat-form-field>
+              </div>
+              @if ( crag.orientation != null && crag.orientation !== 'none' ) {
+              <div class="flex flex-row flex-justify-start">
+                <div>
+                  <mat-icon svgIcon="orientation" class="map-icon"></mat-icon>
                 </div>
-              </section>
-              @if(searchFieldVisible){
-                <div
-                  [class.hidden]="breakpointService.gtSm()"
-                  class="w-100 flex flex-row flex-align-center flex-center"
-                  >
-                  <mat-form-field
-                    class="custom-height"
-                    appearance="outline"
-                    [subscriptSizing]="fixed"
-                    >
-                    <mat-label>
-                      <mat-icon class="search-icon">search</mat-icon>
-                      <span>Poišči po imenu</span></mat-label
-                      >
-                      <input
-                        matInput
-                        autofocus
-                        [formControl]="search"
-                        autocomplete="off"
-                        (keydown)="searchKeyDown($event)"
-                        />
-                      </mat-form-field>
-                    </div>
-                  }
-                  <main class="mt-8 flex flex-row">
-                    <section [class.hidden]="breakpointService.ltMd()" class="m-t-4">
-                      @if (showFilters) {
-                        <app-crags-toc
-                          [country]="country"
-                          (close)="showFilters = !showFilters"
-                        ></app-crags-toc>
-                      }
-                    </section>
-                    <section [class.hidden]="breakpointService.gtSm()" class="m-t-4">
-                      @if (!showFilters) {
-                        <app-crags-toc
-                          [country]="country"
-                          (close)="showFilters = !showFilters"
-                        ></app-crags-toc>
-                      }
-                    </section>
-                    <div class="flex flex-column w-100">
-                      @if (cragsLoading) {
-                        <app-loader class="m-32"></app-loader>
-                      }
-                      @if (!cragsLoading) {
-                        <div
-                          [class.hidden]="breakpointService.ltLg()"
-                          class="flex flex-row flex-align-start flex-center"
-                          >
-                          @if (selectedAreas.length > 0) {
-                            <div class="filter-chip flex" (click)="removeAreaFilter()">
-                              Območje: @for (area of selectedAreas; track $index; let last = $last)
-                              { @if (last) {
-                              <span class="p-l-4">{{ getAreaName(area) }}</span>
-                            } @else {
-                              <span class="p-l-4">{{ getAreaName(area) }},</span>
-                              } }
-                              <mat-icon>close</mat-icon>
-                            </div>
-                            } @if (typeParamValues.length > 0) {
-                            <div class="filter-chip flex" (click)="removeRouteTypeFilter()">
-                              Tip smeri: @for (type of typeParamValues; track $index; let last =
-                              $last) { @if (last) {
-                              <span class="p-l-4">{{ type | routeType }}</span>
-                            } @else {
-                              <span class="p-l-4">{{ type | routeType }},</span>
-                              } }
-                              <mat-icon>close</mat-icon>
-                            </div>
-                            } @if (selectedOrientations.length > 0) {
-                            <div class="filter-chip flex" (click)="removeOrientationFilter()">
-                              Orientacija: @for (orientation of selectedOrientations; track $index;
-                              let last = $last) { @if (last) {
-                              <span class="p-l-4">{{ orientation | orientation : "short" }}</span>
-                            } @else {
-                              <span class="p-l-4">{{ orientation | orientation : "short" }},</span>
-                              } }
-                              <mat-icon>close</mat-icon>
-                            </div>
-                            } @if(typeParamValues.length > 0 || selectedAreas.length > 0 ||
-                            selectedOrientations.length > 0) {
-                            <div class="remove-all p-t-4" (click)="removeAllFilters()">
-                              Odstrani vse filtre
-                            </div>
-                          }
-                        </div>
-                      }
-                      @if (!cragsLoading) {
-                        <div class="card">
-                          <div class="row header flex" [class.hidden]="breakpointService.ltLg()">
-                            <div>Ime</div>
-                            <div>Število smeri</div>
-                            <div [class.hidden]="breakpointService.ltXl()">Orientacija</div>
-                            <div>Težavnost</div>
-                          </div>
-                          @for(crag of filteredCrags; track $index) {
-                            <div class="row flex flex-row flex-align-center flex-center">
-                              <div
-                                [class.flex]="breakpointService.ltMd()"
-                                [class.hidden]="breakpointService.ltLg()"
-                                >
-                                <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
-                              </div>
-                              <div
-                                [class.flex]="breakpointService.ltMd()"
-                                [class.hidden]="breakpointService.ltLg()"
-                                >
-                                {{ crag.nrRoutes }}
-                              </div>
-                              <div [class.hidden]="breakpointService.ltXl()">
-                                {{ crag.orientation | orientation : "short" }}
-                              </div>
-                              <div
-                                [class.flex]="breakpointService.ltMd()"
-                                [class.hidden]="breakpointService.ltLg()"
-                                class="routes"
-                                >
-                                @if (crag.nrRoutes > 0) {
-                                  {{
-                                  crag.minDifficulty != null && crag.maxDifficulty != null
-                                  ? "od "
-                                  : ""
-                                  }}
-                                  <app-grade
-                                    [difficulty]="crag.minDifficulty"
-                                    [gradingSystemId]="crag.defaultGradingSystem.id"
-                                  ></app-grade>
-                                  {{
-                                  crag.minDifficulty != null && crag.maxDifficulty != null
-                                  ? " do "
-                                  : ""
-                                  }}<app-grade
-                                  [difficulty]="crag.maxDifficulty"
-                                  [gradingSystemId]="crag.defaultGradingSystem.id"
-                                ></app-grade>
-                              }
-                            </div>
-                            <!-- Less than large -->
-                            <div
-                              class="flex flex-column flex-justify-start w-100"
-                              [class.hidden]="breakpointService.gtMd()"
-                              >
-                              <div class="w-100 flex flex-wrap flex-justify-space-between">
-                                <div>
-                                  <a
-                                    [routerLink]="['/plezalisce/', crag.slug]"
-                                    class="crag-link"
-                                    >{{ crag.name }}</a
-                                    >
-                                  </div>
-                                  @if ( crag.orientation != null && crag.orientation !== 'none' ) {
-                                    <div class="flex flex-row flex-justify-start">
-                                      <div>
-                                        <mat-icon svgIcon="orientation" class="map-icon"></mat-icon>
-                                      </div>
-                                      <div>
-                                        <span>{{ crag.orientation | orientation : "short" }}</span>
-                                      </div>
-                                    </div>
-                                  }
-                                </div>
-                                <div [class.hidden]="breakpointService.gtMd()" class="routes w-100">
-                                  <span>{{ crag.nrRoutes }} smeri od </span>
-                                  @if (crag.nrRoutes > 0) {
-                                    <app-grade
-                                      [difficulty]="crag.minDifficulty"
-                                      [gradingSystemId]="crag.defaultGradingSystem.id"
-                                    ></app-grade>
-                                    {{
-                                    crag.minDifficulty != null && crag.maxDifficulty != null
-                                    ? " do "
-                                    : ""
-                                    }}<app-grade
-                                    [difficulty]="crag.maxDifficulty"
-                                    [gradingSystemId]="crag.defaultGradingSystem.id"
-                                  ></app-grade>
-                                }
-                              </div>
-                            </div>
-                          </div>
-                        }
-                        <div class="no-results">
-                          Plezališča, ki ga iščeš ni na seznamu?
-                          <a
+                <div>
+                  <span>{{ crag.orientation | orientation : "short" }}</span>
+                </div>
+              </div>
+              }
+            </div>
+            <div [class.hidden]="breakpointService.gtMd()" class="routes w-100">
+              <span>{{ crag.nrRoutes }} smeri od </span>
+              @if (crag.nrRoutes > 0) {
+              <app-grade
+                [difficulty]="crag.minDifficulty"
+                [gradingSystemId]="crag.defaultGradingSystem.id"
+              ></app-grade>
+              {{
+                crag.minDifficulty != null && crag.maxDifficulty != null
+                  ? " do "
+                  : ""
+              }}<app-grade
+                [difficulty]="crag.maxDifficulty"
+                [gradingSystemId]="crag.defaultGradingSystem.id"
+              ></app-grade>
+              }
+            </div>
+          </div>
+        </div>
+        }
+        <div class="no-results">
+          Plezališča, ki ga iščeš ni na seznamu?
+          <a
             [routerLink]="[
               '/urejanje/dodaj-plezalisce',
               { country: country?.id }
             ]"
-                            >Dodaj plezališče.</a
-                            >
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </main>
-                </div>
-              }
-            } @else {
-              <app-data-error [error]="error"></app-data-error>
-            }
+            >Dodaj plezališče.</a
+          >
+        </div>
+      </div>
+      }
+    </section>
+  </main>
+</div>
+} } @else {
+<app-data-error [error]="error"></app-data-error>
+}

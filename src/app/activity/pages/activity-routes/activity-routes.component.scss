@@ -104,6 +104,18 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     }
   }
 
+  section#activity-routes {
+    ::ng-deep {
+      .activity-route-row > div:not(:last-child) {
+        flex-basis: 30%;
+      }
+
+      .activity-route-row > div:last-child {
+        flex-basis: 40px;
+      }
+    }
+  }
+
   @media only screen and (max-width: global.$breakpoint-lg) {
     section#filters,
     section#columns {

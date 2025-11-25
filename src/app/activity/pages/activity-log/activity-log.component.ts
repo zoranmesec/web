@@ -1,4 +1,10 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -35,7 +41,9 @@ import { GenderizeVerbPipe } from 'src/app/shared/pipes/genderize-verb.pipe';
 import {
   Activity,
   ActivityFiltersCragGQL,
+  ActivityRoute,
   DeleteActivityGQL,
+  DeleteActivityRouteGQL,
   MyActivitiesByMonthGQL,
   MyActivitiesByMonthQuery,
   namedOperations,
@@ -43,7 +51,7 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, formatDate } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
@@ -55,9 +63,11 @@ import { ActivityMaxDifficultyPipe } from 'src/app/shared/pipes/activity-max-dif
 import { MatInputModule } from '@angular/material/input';
 import { ActivityRouteRowComponent } from '../../partials/activity-route-row/activity-route-row.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { ActivityInputComponent } from '../activity-input/activity-input.component';
 
 export interface RowAction {
-  item: Activity;
+  item: Activity | ActivityRoute;
   action: string;
 }
 
@@ -85,6 +95,7 @@ export interface RowAction {
     MatInputModule,
     ActivityRouteRowComponent,
     RouterModule,
+    MatMenuModule,
   ],
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {
@@ -126,6 +137,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   activities: MyActivitiesByMonthQuery['myActivitiesByMonth'];
+  title: string;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -135,8 +147,10 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private myActivitiesByMonthGQL: MyActivitiesByMonthGQL,
     private deleteActivityGQL: DeleteActivityGQL,
+    private deleteActivityRouteGQL: DeleteActivityRouteGQL,
     private genderizeVerbPipe: GenderizeVerbPipe,
-    protected readonly breakpointService: BreakpointService
+    protected readonly breakpointService: BreakpointService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -158,6 +172,28 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
       const day = params['day'] ? parseInt(params['day'], 10) : null;
       if (day != null) {
         this.currentView = 'list';
+
+        this.title = this.capitalizeFirstLetter(
+          formatDate(
+            new Date(year, month - 1, day),
+            'EEEE, d. MMMM y',
+            this.locale
+          )
+        );
+
+        this.layoutService.$breadcrumbs.next([
+          {
+            name: 'Plezalni dnevnik',
+            path: 'plezalni-dnevnik',
+          },
+          {
+            name: 'Koledar',
+            path: 'plezalni-dnevnik/dnevnik',
+          },
+          {
+            name: this.title,
+          },
+        ]);
       } else {
         this.currentView = 'calendar';
       }
@@ -176,7 +212,6 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
             month: month,
             year: year,
           },
-          fetchPolicy: 'cache-and-network',
         })
         .valueChanges.subscribe((result) => {
           if (result.error != null) {
@@ -192,8 +227,14 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
 
     const actionsSub = this.rowAction$.subscribe((action) => {
       switch (action.action) {
+        case 'editActivity':
+          this.editActivity(action.item as Activity);
+          break;
+        case 'deleteActivity':
+          this.deleteActivity(action.item as Activity);
+          break;
         case 'delete':
-          this.deleteActivity(action.item);
+          this.deleteActivityRoute(action.item as ActivityRoute);
           break;
       }
     });
@@ -235,7 +276,92 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
   }
 
   querySuccess(data): void {
+    console.log('refetched!');
     this.activities = data;
+    this.changeDetectorRef.markForCheck();
+  }
+
+  deleteActivityRoute(activityRoute: ActivityRoute) {
+    this.authService.currentUser
+      .pipe(
+        concatMap((user) => {
+          let finePrint = '';
+
+          finePrint += ['redpoint', 'flash', 'onsight'].includes(
+            activityRoute.ascentType
+          )
+            ? `Ker je to tvoj prvi uspešni vzpon v tej smeri, lahko pride do avtomatske spremembe tipa vzpona pri tvojih drugih vnosih za to smer.`
+            : '';
+
+          finePrint += ['t_redpoint', 't_flash', 't_onsight'].includes(
+            activityRoute.ascentType
+          )
+            ? `Ker je to tvoj prvi uspešni toprope vzpon v tej smeri, lahko pride do avtomatske spremembe tipa vzpona pri tvojih drugih vnosih za to smer.`
+            : '';
+
+          finePrint += ['redpoint', 'flash', 'onsight'].includes(
+            activityRoute.ascentType
+          )
+            ? `<br/>
+              Če je to tvoj edini uspešni vzpon v tej smeri, boš s tem ${this.genderizeVerbPipe.transform(
+                'pobrisal',
+                user.gender
+              )} tudi svoj morebitni glas o težavnosti te smeri.`
+            : ``;
+
+          finePrint += `<br/>
+              Če je to tvoj edini vzpon v tej smeri, boš s tem ${this.genderizeVerbPipe.transform(
+                'pobrisal',
+                user.gender
+              )} tudi svoj morebitni glas o lepoti te smeri.`;
+
+          return this.dialog
+            .open(ConfirmationDialogComponent, {
+              data: {
+                title: 'Brisanje vzpona',
+                message: `Si ${this.genderizeVerbPipe.transform(
+                  'prepričan',
+                  user.gender
+                )}, da želiš izbrisati ta vzpon?`,
+                finePrint: finePrint,
+              },
+            })
+            .afterClosed();
+        }),
+        filter((response) => response != null),
+        switchMap(() =>
+          this.deleteActivityRouteGQL.mutate({
+            variables: { id: activityRoute.id },
+            refetchQueries: [namedOperations.Query.MyActivitiesByMonth],
+          })
+        )
+      )
+      .subscribe({
+        next: () => {
+          this.snackbar.open('Vzpon je bil uspešno izbrisan', null, {
+            duration: 2000,
+          });
+        },
+        error: () => {
+          this.snackbar.open('Pri brisanju vzpona je prišlo do napake', null, {
+            panelClass: 'error',
+            duration: 3000,
+          });
+        },
+      });
+  }
+
+  private editActivity(activity: Activity) {
+    this.dialog
+      .open(ActivityInputComponent, {
+        data: { activity: activity, crag: activity.crag },
+        minWidth: this.breakpointService.ltMd() ? '95vw' : '80vw',
+        minHeight: this.breakpointService.ltMd() ? '95vh' : '80vh',
+      })
+      .afterClosed()
+      .subscribe(() => {
+        console.log('Dialog closed');
+      });
   }
 
   deleteActivity(activity: Activity) {
@@ -360,6 +486,21 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     }) as Activity[];
   }
 
+  protected addActivity(): void {
+    this.dialog
+      .open(ActivityInputComponent, {
+        data: {},
+        minWidth: this.breakpointService.ltMd() ? '95vw' : '80vw',
+        minHeight: this.breakpointService.ltMd() ? '95vh' : '80vh',
+        width: this.breakpointService.ltMd() ? '95vw' : '80vw',
+        height: this.breakpointService.ltMd() ? '95vh' : '80vh',
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.dialog.closeAll();
+      });
+  }
+
   protected increaseMonth(): void {
     if (this.dateObject.getMonth() === 11) {
       this.form.patchValue({ year: this.dateObject.getFullYear() + 1 });
@@ -416,6 +557,19 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
   }
 
   protected goToToday(): void {
+    // if same day do nothing
+    const today = new Date();
+    const year = this.form.get('year').value;
+    const month = this.months.indexOf(this.form.get('month').value);
+    const day = this.form.get('day').value;
+    if (
+      today.getFullYear() === year &&
+      today.getMonth() === month &&
+      today.getDate() === day
+    ) {
+      return;
+    }
+
     this.form.reset();
   }
 
@@ -513,5 +667,10 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
       month === today.getMonth() &&
       year === today.getFullYear()
     );
+  }
+
+  private capitalizeFirstLetter(str: string): string {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }

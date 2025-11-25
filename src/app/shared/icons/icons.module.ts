@@ -27,6 +27,9 @@ import { HeightIconComponent } from './height-icon/height-icon.component';
 import { CloseIconComponent } from './close-icon/close-icon.component';
 import { RefreshIconComponent } from './refresh-icon/refresh-icon.component';
 import { TodayIconComponent } from './today-icon/today-icon.component';
+import { ArrowRightIconComponent } from './arrow-right-icon/arrow-right-icon.component';
+import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.component';
+import { SeasonIconComponent } from './season-icon/season-icon.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,10 @@ import { TodayIconComponent } from './today-icon/today-icon.component';
     CloseIconComponent,
     RefreshIconComponent,
     TodayIconComponent,
+    ArrowRightIconComponent,
+
+    WallAngleIconComponent,
+    SeasonIconComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -87,6 +94,9 @@ import { TodayIconComponent } from './today-icon/today-icon.component';
     CloseIconComponent,
     RefreshIconComponent,
     TodayIconComponent,
+    ArrowRightIconComponent,
+    WallAngleIconComponent,
+    SeasonIconComponent,
   ],
 })
 export class IconsModule {}

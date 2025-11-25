@@ -383,7 +383,7 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
           break;
         case 'filterByRoute':
           this.filters.patchValue({
-            cragId: null,
+            cragId: action.item.route.crag.id,
             routeId: action.item.route.id,
           });
           break;
@@ -588,6 +588,7 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         return index.topRope;
       } else return false;
     });
+    this.cdr.markForCheck();
   }
 
   deleteActivityRoute(activityRoute: ActivityRoute) {

@@ -1,11 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { AscentType } from 'src/app/types/ascent-type';
-import { AscentType as GeneratedAscentType } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-ascent-type-icon',

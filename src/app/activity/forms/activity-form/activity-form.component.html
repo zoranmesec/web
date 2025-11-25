@@ -2,6 +2,19 @@
   <div>
     <div class="p-16 flex flex-column">
       <div class="flex flex-row fieldset">
+        <mat-form-field class="no-hint" appearance="outline">
+          <mat-label>Datum</mat-label>
+          <input
+            matInput
+            formControlName="date"
+            [matDatepicker]="picker"
+            [max]="maxDate"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="picker"
+            ><app-calendar-icon matDatepickerToggleIcon></app-calendar-icon
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
         <mat-form-field
           appearance="outline"
           floatLabel="always"
@@ -23,6 +36,8 @@
           >
           }
         </mat-form-field>
+      </div>
+      <div class="flex flex-row fieldset">
         @if (crag == null && peak == null && iceFall == null) {
         <mat-form-field appearance="outline" class="no-hint">
           <mat-label>Lokacija</mat-label>
@@ -33,23 +48,7 @@
           <mat-label>Plezališče</mat-label>
           <input matInput type="text" disabled [value]="crag.name" />
         </mat-form-field>
-        }
-      </div>
-      <div class="flex flex-row fieldset">
-        <mat-form-field class="no-hint" appearance="outline">
-          <mat-label>Datum</mat-label>
-          <input
-            matInput
-            formControlName="date"
-            [matDatepicker]="picker"
-            [max]="maxDate"
-          />
-          <mat-datepicker-toggle matIconSuffix [for]="picker"
-            ><app-calendar-icon matDatepickerToggleIcon></app-calendar-icon
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        @if (activityForm.controls.type.value != 'crag') {
+        } @if (activityForm.controls.type.value != 'crag') {
         <mat-form-field class="no-hint" appearance="outline">
           <mat-label>Trajanje (min)</mat-label>
           <input matInput type="number" formControlName="duration" />
@@ -62,15 +61,15 @@
         }
       </div>
       <div class="flex flex-row">
-        <mat-form-field class="w-100 p-r-48" appearance="outline">
-          <mat-label>Opombe k plezalnemu dnevu...</mat-label>
+        <mat-form-field class="w-100 p-r-8" appearance="outline">
+          <mat-label>Opombe...</mat-label>
           <textarea matInput formControlName="notes"></textarea>
           <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
         </mat-form-field>
       </div>
     </div>
   </div>
-
+  <!-- 
   @if (activity && activity.routes.length > 0) {
   <div class="mt-16">
     <h3>Preplezane smeri</h3>
@@ -79,7 +78,8 @@
       type="form"
     ></app-activity-entry-routes>
   </div>
-  } @if(routes.controls.length>0) {
+  }  -->
+  @if(routes.controls.length>0) {
 
   <mat-accordion multi="true" displayMode="flat">
     @for( route of routes.controls; track $index; let first = $first;let last =
@@ -106,8 +106,20 @@
   </mat-accordion>
   } @if (!loading) {
   <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Prekliči</button>
-    <button mat-flat-button (click)="save()">Shrani</button>
+    <button
+      mat-button
+      [disabled]="activityForm.invalid || activityForm.disabled"
+      mat-dialog-close
+    >
+      Prekliči
+    </button>
+    <button
+      mat-flat-button
+      [disabled]="activityForm.invalid || activityForm.disabled"
+      (click)="save()"
+    >
+      Shrani
+    </button>
   </mat-dialog-actions>
   }
 
@@ -119,3 +131,6 @@
     }
   </div>
 </form>
+<div class="hidden">
+  {{ "" | date }}
+</div>

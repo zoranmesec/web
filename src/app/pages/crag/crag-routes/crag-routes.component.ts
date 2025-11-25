@@ -541,7 +541,20 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
             .afterClosed()
             .subscribe((result) => {
               if (result != null) {
-                console.log('aaa');
+                this.snackBar
+                  .open(
+                    'Vnos je bil shranjen v plezalni dnevnik',
+                    'Odpri dnevnik',
+                    {
+                      duration: 3000,
+                    }
+                  )
+                  .onAction()
+                  .subscribe(() => {
+                    if (this.crag) {
+                      this.router.navigate(['/plezalni-dnevnik']);
+                    }
+                  });
               }
             });
 

@@ -1,12 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-export enum Season {
-  winter = 'zima',
-  spring = 'pomlad',
-  summer = 'poletje',
-  autumn = 'jesen',
-}
-
+import { Season } from 'src/app/types/season';
 @Pipe({
   name: 'season',
   standalone: true,

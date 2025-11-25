@@ -9,4 +9,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class RoutesIconComponent {
   active = input<boolean>(false);
+  disabled = input<boolean>(false);
 }

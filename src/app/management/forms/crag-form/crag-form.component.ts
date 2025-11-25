@@ -1,10 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormControl,
+  FormControl,
   UntypedFormGroup,
   Validators,
+  FormGroup,
+  FormBuilder,
 } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -17,20 +19,34 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 import { Registry } from 'src/app/types/registry';
 import {
   Crag,
+  CreateCragInput,
   GradingSystem,
   ManagementCragFormGetCountriesGQL,
   ManagementCragFormGetCountriesQuery,
   ManagementCreateCragGQL,
   ManagementDeleteCragGQL,
   ManagementUpdateCragGQL,
+  Orientation,
+  Season,
+  WallAngle,
 } from 'src/generated/graphql';
 import { GradingSystemsService } from '../../../shared/services/grading-systems.service';
 import { ContributionService } from '../../pages/contributions/contribution/contribution.service';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
-import { MyEditorComponent } from 'src/app/shared/editor/editor.component';
 import { ORIENTATIONS } from 'src/app/common/orientation.constants';
 import { MutateResult } from '@apollo/client';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
+
+import { WallAngle as FormattedWallAngle } from 'src/app/types/wall-angle';
+import { Season as FormattedSeason } from 'src/app/types/season';
+import { WallAngleOptionComponent } from './wall-angle-option/wall-angle-option.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { SeasonOptionComponent } from './season-option/season-option.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-crag-form',
@@ -41,27 +57,41 @@ import { MutateResult } from '@apollo/client';
     MatDialogModule,
     MatSnackBarModule,
     MatSelectModule,
-    MyEditorComponent,
     FormsModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    IconsModule,
+    WallAngleOptionComponent,
+    SeasonOptionComponent,
+    MatRadioModule,
+    MatButtonModule,
   ],
 })
 export class CragFormComponent implements OnInit, OnDestroy {
   @Input() crag: Crag;
 
-  cragForm = new UntypedFormGroup({
-    name: new UntypedFormControl('', [Validators.required]),
-    type: new UntypedFormControl('sport', [Validators.required]),
-    lat: new UntypedFormControl(),
-    lon: new UntypedFormControl(),
-    orientation: new UntypedFormControl(),
-    access: new UntypedFormControl(),
-    description: new UntypedFormControl(),
-    areaId: new UntypedFormControl(),
-    countryId: new UntypedFormControl(null, Validators.required),
-    isHidden: new UntypedFormControl(false),
-    defaultGradingSystemId: new UntypedFormControl(null, Validators.required),
-    publishStatus: new UntypedFormControl('draft'),
+  fb: FormBuilder = inject(FormBuilder);
+
+  cragForm = this.fb.group({
+    name: this.fb.control('', [Validators.required]),
+    type: this.fb.control('sport', [Validators.required]),
+    lat: this.fb.control(0),
+    lon: this.fb.control(0),
+    orientations: this.fb.control<Orientation[]>([]),
+    access: this.fb.control(''),
+    description: this.fb.control(''),
+    areaId: this.fb.control(''),
+    countryId: this.fb.control({ value: '', disabled: false }, [
+      Validators.required,
+    ]),
+    isHidden: this.fb.control(false),
+    defaultGradingSystemId: this.fb.control(null, Validators.required),
+    publishStatus: this.fb.control('draft'),
+    wallAngles: this.fb.control<WallAngle[]>([]),
+    rainproof: this.fb.control(null),
+    seasons: this.fb.control<Season[]>([]),
   });
 
   loading: boolean = false;
@@ -86,6 +116,28 @@ export class CragFormComponent implements OnInit, OnDestroy {
   ];
 
   orientations: Registry[] = ORIENTATIONS;
+  protected wallAngles: {
+    wallAngle: WallAngle;
+    formattedWallAngle: FormattedWallAngle;
+  }[] = [
+    {
+      wallAngle: WallAngle.Vertical,
+      formattedWallAngle: FormattedWallAngle.vertical,
+    },
+    { wallAngle: WallAngle.Slab, formattedWallAngle: FormattedWallAngle.slab },
+    {
+      wallAngle: WallAngle.Overhang,
+      formattedWallAngle: FormattedWallAngle.overhang,
+    },
+    { wallAngle: WallAngle.Roof, formattedWallAngle: FormattedWallAngle.roof },
+  ];
+
+  protected seasons: { season: Season; formattedSeason: FormattedSeason }[] = [
+    { season: Season.Spring, formattedSeason: FormattedSeason.spring },
+    { season: Season.Summer, formattedSeason: FormattedSeason.summer },
+    { season: Season.Autumn, formattedSeason: FormattedSeason.autumn },
+    { season: Season.Winter, formattedSeason: FormattedSeason.winter },
+  ];
 
   constructor(
     private authService: AuthService,
@@ -147,6 +199,7 @@ export class CragFormComponent implements OnInit, OnDestroy {
         countryId: this.crag.country?.id,
         areaId: this.crag.area?.id,
         defaultGradingSystemId: this.crag.defaultGradingSystem?.id,
+        wallAngles: [],
       });
     }
 
@@ -208,18 +261,15 @@ export class CragFormComponent implements OnInit, OnDestroy {
   save(): void {
     this.loading = true;
 
-    const value =
-      this.crag != null
-        ? { ...this.cragForm.value, id: this.crag.id }
-        : { ...this.cragForm.value };
-
-    this.cragForm.disable();
-
     let mutation: Observable<MutateResult>;
-
+    debugger;
     if (this.crag != null) {
+      const value = { ...this.cragForm.value, id: this.crag.id };
+      this.cragForm.disable();
       mutation = this.updateCragGQL.mutate({ variables: { input: value } });
     } else {
+      const value = { ...this.cragForm.value } as CreateCragInput;
+      this.cragForm.disable();
       mutation = this.createCragGQL.mutate({ variables: { input: value } });
     }
 

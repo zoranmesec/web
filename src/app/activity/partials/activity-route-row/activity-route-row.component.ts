@@ -1,13 +1,24 @@
-import { Component, input, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  input,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { PUBLISH_OPTIONS } from 'src/app/common/activity.constants';
 import {
   ActivityRoute,
   ActivityRouteChangePublishGQL,
+  namedOperations,
 } from 'src/generated/graphql';
 import { RowAction } from '../../pages/activity-log/activity-log.component';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
 import { AscentPublishOptionComponent } from 'src/app/shared/components/ascent-publish-option/ascent-publish-option.component';
 import { CommonModule } from '@angular/common';
@@ -32,15 +43,19 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
     MatIconModule,
     GradeComponent,
     IconsModule,
+    RouterModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityRouteRowComponent {
-  @Input() route: ActivityRoute;
-  @Input() rowAction: Subject<RowAction>;
-  @Input() displayType: 'activity' | 'activityForm' | 'routes' = 'routes';
-  @Input() noNotes = false;
-  @Input() noTopropeOnPage = false;
+  rowAction = input<Subject<RowAction>>(null);
+  displayType = input<'activity' | 'activityForm' | 'routes'>('routes');
 
+  noNotes = input<boolean>(false);
+
+  noTopropeOnPage = input<boolean>(false);
+
+  route = input.required<ActivityRoute>();
   columns = input<Record<string, boolean>>({});
 
   publishOptions = PUBLISH_OPTIONS;
@@ -48,13 +63,40 @@ export class ActivityRouteRowComponent {
   constructor(
     private activityRouteChangePublishGQL: ActivityRouteChangePublishGQL,
     private snackbar: MatSnackBar,
-    protected readonly breakpointService: BreakpointService
-  ) {}
+    protected readonly breakpointService: BreakpointService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
+    effect(() => {
+      console.log(
+        'ActivityRouteRowComponent inputs changed',
+        this.route(),
+        this.displayType(),
+        this.columns(),
+        this.noNotes(),
+        this.noTopropeOnPage()
+      );
+    });
+  }
 
   changePublish(value: string) {
     this.activityRouteChangePublishGQL
       .mutate({
-        variables: { input: { id: this.route.id, publish: value } },
+        variables: {
+          routes: [
+            {
+              id: this.route().id,
+              routeId: this.route().route.id,
+              publish: value,
+              ascentType: this.route().ascentType,
+              date: this.route().date,
+            },
+          ],
+          activityId: this.route().activity.id,
+        },
+        refetchQueries: [
+          namedOperations.Query.MyActivitiesByMonth,
+          namedOperations.Query.MyActivityRoutes,
+        ],
       })
       .subscribe({
         next: () => {

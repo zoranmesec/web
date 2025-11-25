@@ -1,5 +1,17 @@
+@use "@angular/material" as mat;
+@use "./../../../../../m3-theme.scss" as m3-theme;
+@use "./../../../../../styles/global.scss" as global;
+$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
+
 $border-color: rgba(0, 0, 0, 0.08); // very light gray
 $table-header-text-color: #0000008a; // light gray
+
+:host {
+  .change-row > div:first-child {
+    color: $grey;
+    flex-basis: 45%;
+  }
+}
 
 .mat-dialog-content {
   max-width: 600px;
@@ -43,8 +55,4 @@ table {
       background-color: #fff;
     }
   }
-}
-
-app-ascent-type {
-  display: inline-block;
 }

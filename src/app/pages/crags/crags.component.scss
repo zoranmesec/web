@@ -91,6 +91,14 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     }
   }
 
+  section#crag-list {
+    ::ng-deep {
+      .crag-row > div {
+        flex-basis: 25%;
+      }
+    }
+  }
+
   button {
     border: 3px solid #ffffff;
     border-radius: 8px;

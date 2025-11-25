@@ -5,22 +5,23 @@
       <td>Ocena</td>
       <td>Vrsta vzpona</td>
       @if (!noNotes) {
-        <td>Opombe</td>
+      <td>Opombe</td>
       }
       <td>Vidnost</td>
       <td></td>
     </tr>
 
     @for (route of routes; track route) {
-      <tr
-        class="row"
-        app-activity-route-row
-        [route]="route"
-        [rowAction]="rowAction$"
-        [displayType]="type == 'form' ? 'activityForm' : 'activity'"
-        [noNotes]="noNotes"
-        [noTopropeOnPage]="noTopropeOnPage"
-      ></tr>
+    <tr
+      class="row"
+      app-activity-route-row
+      [route]="route"
+      [rowAction]="rowAction$"
+      [displayType]="type == 'form' ? 'activityForm' : 'activity'"
+      [noNotes]="noNotes"
+      [columns]="tableColumnsAsObject"
+      [noTopropeOnPage]="noTopropeOnPage"
+    ></tr>
     }
   </table>
 </div>

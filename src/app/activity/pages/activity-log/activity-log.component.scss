@@ -58,7 +58,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     }
 
     .day.outside-month {
-      color: #a3a3a3;
+      color: var(--mat-sys-on-surface-variant);
     }
 
     .activity-summary {
@@ -95,7 +95,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     button {
       border: 3px solid #ffffff;
       border-radius: 8px;
-      width: 150px;
     }
 
     button:hover {
@@ -114,20 +113,37 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
     .activity-row > div:first-child {
       width: 150px;
+      min-width: 150px;
     }
 
     .date-selector {
       margin-bottom: 16px;
     }
+
+    table {
+      table-layout: auto;
+    }
+
     ::ng-deep {
-      .activity-route-row > td:first-child {
-        width: 220px;
+      .activity-route-row > div:first-child {
+        flex-basis: 190px;
+        margin-right: 16px;
+      }
+      .activity-route-row > div:nth-child(2) {
+        flex-basis: 80px;
       }
 
-      .activity-route-row > td:nth-child(2),
-      .activity-route-row > td:nth-child(3),
-      .activity-route-row > td:nth-child(5) {
-        width: 150px;
+      .activity-route-row > div:nth-child(3) {
+        flex-basis: 250px;
+      }
+
+      .activity-route-row > div:nth-child(4) {
+        flex-basis: 80%;
+        padding-left: 8px;
+      }
+      .activity-route-row > div:nth-child(5) {
+        text-align: right !important;
+        flex-basis: 150px;
       }
     }
   }

@@ -1,0 +1,16 @@
+<div
+  (mouseenter)="toggleActive()"
+  (mouseleave)="toggleActive()"
+  class="flex flex-column flex-align-center flex-justify-center p-8"
+  [class.selected]="selected()"
+  [class.wall-angle-option-disabled]="disabled()"
+  [class.wall-angle-option]="!disabled()"
+>
+  <app-wall-angle-icon
+    [wallAngle]="wallAngle()"
+    [active]="!disabled() && (active || selected())"
+  ></app-wall-angle-icon>
+  <span>
+    {{ wallAngle() }}
+  </span>
+</div>

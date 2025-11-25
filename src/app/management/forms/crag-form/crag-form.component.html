@@ -1,206 +1,233 @@
 <form
   [formGroup]="cragForm"
   (submit)="save()"
-  class="card padding no-border mt-16"
+  class="card padding no-border m-t-32"
   [class]="crag?.publishStatus"
-  >
-  <div fxLayout="row" fxLayoutGap="8px" fxLayout.lt-sm="column">
-    <p fxFlex="50">
-      <mat-form-field>
+>
+  <div class="flex flex-row p-b-16">
+    <div>
+      <mat-form-field appearance="outline">
         <mat-label>Ime plezališča</mat-label>
         <input matInput cdkFocusInitial type="text" formControlName="name" />
       </mat-form-field>
-    </p>
-    <p fxFlex="50">
-      <mat-form-field class="no-hint">
-        <mat-label>Vrsta plezanja</mat-label>
-        <mat-select formControlName="type">
-          @for (type of types; track type) {
-            <mat-option [value]="type.value"
-              >{{ type.label }}
-            </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </p>
+    </div>
   </div>
 
-  <div fxLayout="row" fxLayoutGap="8px" fxLayout.lt-sm="column">
-    <p fxFlex="50">
-      <mat-form-field class="no-hint">
+  <div class="flex flex-row gap-16 p-b-16">
+    <div>
+      <mat-form-field class="no-hint" appearance="outline">
         <mat-label>Država</mat-label>
         <mat-select formControlName="countryId">
           @for (country of countries; track country) {
-            <mat-option [value]="country.id"
-              >{{ country.name }}
-            </mat-option>
+          <mat-option [value]="country.id">{{ country.name }} </mat-option>
           }
         </mat-select>
       </mat-form-field>
-    </p>
+    </div>
 
     @if (areas.length > 0) {
-      <p fxFlex="50">
-        <mat-form-field class="no-hint">
-          <mat-label>Regija</mat-label>
-          <mat-select formControlName="areaId">
-            @for (area of areas; track area) {
-              <mat-option [value]="area.id"
-                >{{ area.name }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </p>
+    <div>
+      <mat-form-field class="no-hint" appearance="outline">
+        <mat-label>Področje</mat-label>
+        <mat-select formControlName="areaId">
+          @for (area of areas; track area) {
+          <mat-option [value]="area.id">{{ area.name }} </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
     }
   </div>
 
-  <div fxLayout="row" fxLayoutGap="8px" fxLayout.lt-sm="column">
-    <p fxFlex="50">
-      <mat-form-field>
+  <div class="flex flex-row gap-16 p-b-16">
+    <div>
+      <mat-form-field class="no-hint" appearance="outline">
+        <mat-label>Vrsta plezanja</mat-label>
+        <mat-select formControlName="type">
+          @for (type of types; track type) {
+          <mat-option [value]="type.value">{{ type.label }} </mat-option>
+          }
+        </mat-select>
+
+        <mat-select formControlName="orientation" multiple>
+          @for (orientation of orientations; track orientation) {
+          <mat-option [value]="orientation.value"
+            >{{ orientation.label }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Privzeti sistem ocenjevanja</mat-label>
+        <mat-select formControlName="defaultGradingSystemId">
+          @for (option of gradingSystems; track option) {
+          <mat-option [value]="option.id">{{ option.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="flex flex-row gap-16 p-b-16">
+    <div>
+      <mat-form-field appearance="outline">
         <mat-label>Zemljepisna širina</mat-label>
         <input
           matInput
           type="number"
           formControlName="lat"
           (blur)="formatCoordinate($event, 'lat')"
-          />
-          <mat-hint>Google koordinata, npr.: 45,96882</mat-hint>
-        </mat-form-field>
-      </p>
-      <p fxFlex="50">
-        <mat-form-field>
-          <mat-label>Zemljepisna dolžina</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="lon"
-            (blur)="formatCoordinate($event, 'lon')"
-            />
-            <mat-hint>Google koordinata, npr.: 14,00936</mat-hint>
-          </mat-form-field>
-        </p>
-      </div>
+        />
+        <mat-hint>Google koordinata, npr.: 45,96882</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Zemljepisna dolžina</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="lon"
+          (blur)="formatCoordinate($event, 'lon')"
+        />
+        <mat-hint>Google koordinata, npr.: 14,00936</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
 
-      <div fxLayout="row" fxLayoutGap="8px" fxLayout.lt-sm="column">
-        <p fxFlex="50">
-          <mat-form-field class="no-hint">
-            <mat-label>Usmerjenost</mat-label>
-            <mat-select formControlName="orientation">
-              @for (orientation of orientations; track orientation) {
-                <mat-option
-                  [value]="orientation.value"
-                  >{{ orientation.label }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </p>
-      </div>
+  <mat-divider></mat-divider>
 
-      <p>
-        <app-my-editor
-          label="Opis plezališča"
-          [control]="cragForm.controls.description"
-        ></app-my-editor>
-      </p>
+  <div class="m-t-32">
+    <div>
+      <mat-form-field appearance="outline" class="no-hint w-100">
+        <mat-label>Opis plezališča</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
 
-      <p>
-        <app-my-editor
-          label="Opis dostopa"
-          [control]="cragForm.controls.access"
-        ></app-my-editor>
-      </p>
+  <div class="flex flex-column m-t-16">
+    <div>Naklon stene</div>
+    <div class="flex flex-row flex-justify-center gap-16">
+      @for(wallAngle of wallAngles; track $index) {
+      <app-wall-angle-option
+        [wallAngle]="wallAngle.formattedWallAngle"
+        [selected]="cragForm.controls.wallAngles.value === wallAngle.wallAngle"
+        (click)="cragForm.controls.wallAngles.setValue([wallAngle.wallAngle])"
+      ></app-wall-angle-option>
+      }
+    </div>
+  </div>
 
-      <div fxLayout="row" fxLayoutGap="8px" fxLayout.lt-sm="column">
-        <p fxFlex="50">
-          <mat-form-field fxFlex>
-            <mat-label>Privzeti sistem ocenjevanja</mat-label>
-            <mat-select formControlName="defaultGradingSystemId">
-              @for (option of gradingSystems; track option) {
-                <mat-option
-                  [value]="option.id"
-                  >{{ option.name }}</mat-option
-                  >
-              }
-            </mat-select>
-          </mat-form-field>
-        </p>
-      </div>
+  <div class="flex flex-column m-t-16">
+    <div>Plezanje v dežju</div>
+    <div class="">
+      <mat-radio-group class="filter-group" formControlName="rainproof">
+        <mat-radio-button [value]="true" color="var(--mat-sys-secondary)"
+          ><div class="flex flex-row flex-align-center">Je možno</div>
+        </mat-radio-button>
+        <mat-radio-button [value]="false" color="var(--mat-sys-secondary)"
+          >Ni možno</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+  </div>
 
-      <div fxLayout="row">
-        <p fxFlex="50" fxLayoutAlign="start center">
-          <mat-checkbox formControlName="isHidden"
-            >Prikaži samo prijavljenim uporabnikom</mat-checkbox
-            >
-          </p>
-        </div>
+  <mat-divider class="m-t-16"></mat-divider>
 
-        <div fxLayout="row">
-          @if (
-            crag?.user?.id == user.id && ['user', 'proposal'].includes(crag.status)
-            ) {
-            <div
-              fxFlex
-              >
-              <button mat-button type="button" (click)="deleteCrag()">
-                Izbriši plezališče
-              </button>
-            </div>
+  <div class="flex flex-row gap-16 m-t-32">
+    <div>
+      <mat-form-field appearance="outline" class="no-hint">
+        <mat-label>Usmerjenost</mat-label>
+        <mat-select formControlName="orientation" multiple>
+          @for (orientation of orientations; track orientation) {
+          <mat-option [value]="orientation.value"
+            >{{ orientation.label }}
+          </mat-option>
           }
-          <div fxFlex="100" fxLayoutAlign="end center" fxLayoutGap="8px">
-            @if (!loading) {
-              <button
-                mat-button
-                color="primary"
-                [disabled]="!cragForm.valid || cragForm.pristine"
-                >
-                Shrani
-              </button>
-            }
-            @if (loading) {
-              <span class="loading">
-                <mat-spinner diameter="30"></mat-spinner>
-              </span>
-            }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
-            @if (contributionService.nextPossiblePublishStatuses(crag)) {
-              <div
-                class="publish-status-actions"
-                >
-                @for (
-                  nextStatus of contributionService.nextPossiblePublishStatuses(
-                  crag
-                  ); track contributionService.statusButtonsTrackBy($index,
-                  nextStatus)) {
-                  <button
-                    type="button"
-                    mat-stroked-button
-                    [disabled]="!nextStatus.enabled || !cragForm.pristine"
+  <div class="flex flex-column gap-16 m-t-32">
+    <div>Sezona</div>
+    <div class="flex flex-row flex-justify-center gap-16">
+      @for(season of seasons; track $index) {
+      <app-season-option
+        [season]="season.formattedSeason"
+        [selected]="cragForm.controls.seasons.value === season.season"
+        (click)="cragForm.controls.seasons.setValue([season.season])"
+      ></app-season-option>
+      }
+    </div>
+  </div>
+
+  <div class="m-t-16">
+    <mat-checkbox formControlName="isHidden"
+      >Prikaži samo prijavljenim uporabnikom</mat-checkbox
+    >
+  </div>
+
+  <mat-divider class="m-t-32"></mat-divider>
+  <div class="flex flex-row m-t-32">
+    @if ( crag?.user?.id == user.id && ['user',
+    'proposal'].includes(crag.status) ) {
+    <div>
+      <button mat-flat-button type="button" (click)="deleteCrag()">
+        Izbriši plezališče
+      </button>
+    </div>
+    }
+
+    <div
+      class="flex flex-row flex-justify-space-between flex-align-center gap-8 w-100"
+    >
+      @if (!loading) { @if (canDelete()) {
+      <div
+        class="flex flex-row flex-align-center sortable"
+        (click)="deleteCrag()"
+      >
+        <div>
+          <app-delete-icon></app-delete-icon>
+        </div>
+        <div>Izbriši</div>
+      </div>
+      }
+      <div>
+        <button
+          mat-flat-button
+          [disabled]="!cragForm.valid || cragForm.pristine"
+        >
+          Shrani
+        </button>
+      </div>
+      } @if (loading) {
+      <span class="loading">
+        <mat-spinner diameter="30"></mat-spinner>
+      </span>
+      } @if (contributionService.nextPossiblePublishStatuses(crag)) {
+      <div class="publish-status-actions">
+        @for ( nextStatus of contributionService.nextPossiblePublishStatuses(
+        crag ); track contributionService.statusButtonsTrackBy($index,
+        nextStatus)) {
+        <button
+          type="button"
+          mat-flat-button
+          [disabled]="!nextStatus.enabled || !cragForm.pristine"
           (click)="
             contributionService.updatePublishStatus(crag, nextStatus.status)
           "
-                    >
-                    {{
-                    contributionService.publishStatuses[nextStatus.status].actionLabel
-                    }}
-                  </button>
-                }
-              </div>
-            }
-
-            @if (canDelete()) {
-              <div class="delete">
-                <button
-                  type="button"
-                  mat-stroked-button
-                  color="warn"
-                  (click)="deleteCrag()"
-                  >
-                  Izbriši
-                </button>
-              </div>
-            }
-          </div>
-        </div>
-      </form>
+        >
+          {{
+            contributionService.publishStatuses[nextStatus.status].actionLabel
+          }}
+        </button>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</form>

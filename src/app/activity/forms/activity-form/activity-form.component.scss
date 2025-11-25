@@ -12,6 +12,12 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     mat-form-field {
       flex-basis: calc(50% - 32px);
     }
+
+    @media only screen and (max-width: global.$breakpoint-lg) {
+      mat-form-field {
+        flex-basis: calc(100% - 8px);
+      }
+    }
   }
 
   mat-expansion-panel-header {

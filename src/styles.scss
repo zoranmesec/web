@@ -161,6 +161,9 @@ body {
       --mat-sys-on-secondary
     ) !important;
     --mat-sys-body-large-line-height: 24px !important;
+    --mat-dialog-supporting-text-color: var(--mat-sys-primary) !important;
+    --mat-pseudo-checkbox-full-selected-icon-color: orange !important;
+    --mat-pseudo-checkbox-minimal-selected-checkmark-color: orange !important;
     line-height: var(--mat-sys-body-large-line-height) !important;
   }
 
@@ -366,6 +369,10 @@ $sides: (top, bottom, left, right); // Leave this variable alone
   .p-#{$space} {
     padding: #{$space}px !important;
   }
+
+  .gap-#{$space} {
+    gap: #{$space}px !important;
+  }
 }
 
 .mat-mdc-menu-panel.custom-menu {
@@ -419,15 +426,8 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
 .row {
   align-items: center;
-  padding: 16px;
+  padding: 8px;
   border-top: 1px solid $grey;
-
-  > div:first-child {
-    width: 40%;
-  }
-  > div:not(:first-child) {
-    width: 20%;
-  }
 
   @media only screen and (max-width: global.$breakpoint-lg) {
     padding: 8px !important;
@@ -439,12 +439,6 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 .header {
   border-top: none !important;
   color: $header-grey !important;
-  div:first-child {
-    width: 40%;
-  }
-  div:not(:first-child) {
-    width: 20%;
-  }
 }
 
 .table-row > td {
@@ -500,3 +494,14 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 .route-link {
   font-weight: var(--mat-sys-title-medium-weight) !important;
 }
+
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
+  color: black !important;
+}
+// mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+//   background-color: white !important;
+// }
+// mat-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
+//   background-color: var(--mat-sys-secondary) !important;
+// }

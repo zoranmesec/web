@@ -1,6 +1,14 @@
-.mat-form-field {
-  width: 100%;
+:host {
+  mat-form-field {
+    width: 300px;
+  }
+
+  mat-radio-button {
+    display: block;
+    margin: 8px;
+  }
 }
+
 .mat-hint a {
   text-decoration: none;
 }

@@ -1,45 +1,23 @@
-<div fxLayout="row" fxLayoutAlign="start center">
-  @if (displayType === 'icon' || displayType === 'iconAndText') {
-    <div
-      [ngClass]="{
-        'fixed-icons-width': fixedIconsWidth
-      }"
-      fxLayout="row"
-      [fxLayoutAlign]="iconAlignment + ' center'"
-      >
-      @if (ascentType && ascentType.topRope) {
-        <mat-icon
-          svgIcon="toprope"
-          matTooltip="Top rope"
-          title="Top rope"
-        ></mat-icon>
-      }
-      @if (ascentType) {
-        <mat-icon
-          [ngClass]="ascentType.icon"
-          [matTooltip]="ascentType.label"
-          [title]="ascentType.label"
-          class="material-symbols-outlined"
-          >{{ ascentType.icon }}</mat-icon
-          >
-        }
-      </div>
-    }
-
-    @if (displayType === 'text' || displayType === 'iconAndText') {
-      @if (ascentType) {
-        <div
-          [ngClass]="{ 'ml-4': displayType === 'iconAndText' }"
-          >
-          {{ ascentType.label }} @if (ascentType.topRope) {
-          <span> (top rope)</span>
-        }
-      </div>
-    }
-    @if (ascentType === null) {
-      <span
-        ><i>{{ type }}</i></span
-        >
-      }
+<div class="flex flex-row">
+  @if (displayType() === 'icon' || displayType() === 'iconAndText') {
+  <div
+    [ngClass]="{
+      'fixed-icons-width': fixedIconsWidth()
+    }"
+    class="flex flex-row"
+  >
+    <app-ascent-type-icon [ascentType]="ascentType()"></app-ascent-type-icon>
+  </div>
+  } @if (displayType() === 'text' || displayType() === 'iconAndText') { @if
+  (ascentType()) {
+  <div [ngClass]="{ 'ml-4': displayType() === 'iconAndText' }">
+    {{ ascentType().label }} @if (ascentType().topRope) {
+    <span> (top rope)</span>
     }
   </div>
+  } @if (ascentType() === null) {
+  <span
+    ><i>{{ type }}</i></span
+  >
+  } }
+</div>

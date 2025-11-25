@@ -1,0 +1,32 @@
+@use "@angular/material" as mat;
+@use "./../../../../../m3-theme.scss" as m3-theme;
+$light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
+:host {
+  .wall-angle-option {
+    height: 80px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .wall-angle-option:hover {
+    border: 1px solid $grey;
+    border-radius: 8px;
+    color: var(--mat-sys-secondary);
+  }
+
+  .wall-angle-option-disabled {
+    background-color: $light-grey;
+    height: 80px;
+
+    opacity: 0.5;
+    border: 1px solid $grey;
+    border-radius: 8px;
+  }
+
+  .wall-angle-option.selected {
+    border: 1px solid $grey;
+    border-radius: 8px;
+    color: var(--mat-sys-secondary);
+  }
+}

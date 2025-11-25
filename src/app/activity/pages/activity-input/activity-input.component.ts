@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { Crag, IceFall, Peak, Route } from 'src/generated/graphql';
+import { Activity, Crag, IceFall, Peak, Route } from 'src/generated/graphql';
 import ActivitySelection from 'src/app/types/activity-selection.interface';
 
 import { ActivityFormComponent } from '../../forms/activity-form/activity-form.component';
@@ -17,11 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-activity-input',
   templateUrl: './activity-input.component.html',
   styleUrls: ['./activity-input.component.scss'],
-  imports: [
-    ActivityFormComponent,
-    MatDialogModule,
-    MatButtonModule
-],
+  imports: [ActivityFormComponent, MatDialogModule, MatButtonModule],
 })
 export class ActivityInputComponent implements OnInit {
   type: string = null;
@@ -29,6 +25,7 @@ export class ActivityInputComponent implements OnInit {
   crag: Crag;
   peak: Peak;
   iceFall: IceFall;
+  protected activity: Activity;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -40,6 +37,14 @@ export class ActivityInputComponent implements OnInit {
     if (this.data.crag != null) {
       this.initCrag(this.data.crag.id);
     }
+    this.activity = this.data.activity;
+    this.iceFall = this.data.iceFall;
+    this.peak = this.data.peak;
+    this.crag = this.data.crag;
+  }
+
+  protected closeDialog(): void {
+    this.dialogRef.close();
   }
 
   initCrag(cragId: string): void {

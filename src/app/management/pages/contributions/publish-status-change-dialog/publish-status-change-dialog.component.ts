@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -13,15 +14,16 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-    selector: 'app-publish-status-change-dialog',
-    templateUrl: './publish-status-change-dialog.component.html',
-    styleUrls: ['./publish-status-change-dialog.component.scss'],
-    imports: [
-        MatDialogActions,
-        MatDialogContent,
-        MatDialogModule,
-        ReactiveFormsModule,
-    ]
+  selector: 'app-publish-status-change-dialog',
+  templateUrl: './publish-status-change-dialog.component.html',
+  styleUrls: ['./publish-status-change-dialog.component.scss'],
+  imports: [
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+  ],
 })
 export class PublishStatusChangeDialogComponent implements OnInit {
   publishForm = new FormGroup({
