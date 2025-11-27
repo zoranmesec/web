@@ -1,189 +1,163 @@
 @if (error) {
-  <app-data-error [error]="error"></app-data-error>
+    <app-data-error [error]="error"></app-data-error>
 }
 
 @if (!error) {
-  <div class="container mt-16">
-    <app-search></app-search>
-    @if (loading) {
-      <app-loader></app-loader>
-    }
-    @if (!loading) {
-      <div class="mt-16">
-        @if (searchStringTooShort) {
-          <div>
-            Iskalni niz "{{ searchString }}" je prekratek. Za uspešno iskanje moraš
-            vnesti vsaj 3 znake.
-          </div>
+    <div class="container mt-16">
+        <app-search></app-search>
+        @if (loading) {
+            <app-loader></app-loader>
         }
-        @if (!searchStringTooShort && noResults) {
-          <div>
-            Za iskalni niz "{{ searchString }}" ni rezultatov :(
-          </div>
-        }
-        @if (!searchStringTooShort && !noResults) {
-          <div>
-            <mat-tab-group
-              animationDuration="0ms"
-              mat-stretch-tabs
-              [selectedIndex]="firstNonEmptyTabIndex"
-              >
-              <mat-tab label="Plezališča ({{ searchResults.crags.length }})">
-                @if (!searchResults.crags.length) {
-                  <div class="results-tab">
-                    Za iskalni niz "{{ searchString }}" med plezališči ni rezultatov :(
-                  </div>
+        @if (!loading) {
+            <div class="mt-16">
+                @if (searchStringTooShort) {
+                    <div>Iskalni niz "{{ searchString }}" je prekratek. Za uspešno iskanje moraš vnesti vsaj 3 znake.</div>
                 }
-                @if (searchResults.crags.length) {
-                  <div class="card results-tab">
-                    <div
-                      fxLayout="row"
-                      fxLayoutAlign="start center"
-                      fxLayoutGap="5px"
-                      class="row header"
-                      >
-                      <div fxFlex="50%">Plezališče</div>
-                      <div fxFlex="25%">Število smeri</div>
-                      <div fxFlex="20px">U</div>
-                      <div fxFlex class="lastColumn">Težavnost</div>
-                    </div>
-                    @for (crag of searchResults.crags; track crag) {
-                      <div
-              [routerLink]="
-                crag.type == 'alpine'
+                @if (!searchStringTooShort && noResults) {
+                    <div>Za iskalni niz "{{ searchString }}" ni rezultatov :(</div>
+                }
+                @if (!searchStringTooShort && !noResults) {
+                    <div>
+                        <mat-tab-group animationDuration="0ms" mat-stretch-tabs [selectedIndex]="firstNonEmptyTabIndex">
+                            <mat-tab label="Plezališča ({{ searchResults.crags.length }})">
+                                @if (!searchResults.crags.length) {
+                                    <div class="results-tab">Za iskalni niz "{{ searchString }}" med plezališči ni rezultatov :(</div>
+                                }
+                                @if (searchResults.crags.length) {
+                                    <div class="card results-tab">
+                                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="row header">
+                                            <div fxFlex="50%">Plezališče</div>
+                                            <div fxFlex="25%">Število smeri</div>
+                                            <div fxFlex="20px">U</div>
+                                            <div fxFlex class="lastColumn">Težavnost</div>
+                                        </div>
+                                        @for (crag of searchResults.crags; track crag) {
+                                            <div
+                                                [routerLink]=""
+                                                ="
+                crag.type === 'alpine'
                   ? ['/alpinizem/stena', crag.slug]
                   : ['/plezalisce', crag.slug]
               "
-                        fxLayout="row"
-                        fxLayoutAlign="start center"
-                        fxLayoutGap="5px"
-                        class="row"
-                        >
-                        <div fxFlex="50%">
-                          <a [innerHtml]="highlight(crag.name, searchString)"></a>
-                        </div>
-                        <div fxFlex="25%">
-                          {{ crag.nrRoutes | pluralizeNoun: "smer" }}
-                        </div>
-                        <div fxFlex="20px">
-                          {{ crag.orientation }}
-                        </div>
-                        <div fxFlex class="lastColumn">
-                          @if (crag.minDifficulty) {
-                            <app-grade
-                              [difficulty]="crag.minDifficulty"
-                              [gradingSystemId]="crag.defaultGradingSystem.id"
-                            ></app-grade>
-                          }
-                          {{
-                          crag.minDifficulty != null && crag.maxDifficulty != null
-                          ? " do "
-                          : ""
-                          }}
-                          @if (crag.maxDifficulty) {
-                            <app-grade
-                              [difficulty]="crag.maxDifficulty"
-                              [gradingSystemId]="crag.defaultGradingSystem.id"
-                            ></app-grade>
-                          }
-                        </div>
-                      </div>
-                    }
-                  </div>
-                }
-              </mat-tab>
-              <mat-tab label="Smeri ({{ searchResults.routes.length }})">
-                @if (!searchResults.routes.length) {
-                  <div class="results-tab">
-                    Za iskalni niz "{{ searchString }}" med smermi ni rezultatov :(
-                  </div>
-                }
-                @if (searchResults.routes.length) {
-                  <div class="card results-tab">
-                    <div
-                      fxLayout="row"
-                      fxLayoutAlign="start center"
-                      fxLayoutGap="5px"
-                      class="row header"
-                      >
-                      <div fxFlex>Smer</div>
-                      <div fxFlex>Težavnost</div>
-                      <div fxFlex>Dolžina</div>
-                      <div fxFlex class="lastColumn">Plezališče</div>
-                    </div>
-                    @for (route of searchResults.routes; track route) {
-                      <div
-                        fxLayout="row"
-                        fxLayoutAlign="start center"
-                        fxLayoutGap="5px"
-                        class="row"
-              [routerLink]="
-                route.crag.type == 'alpine'
+                                                fxLayout="row"
+                                                fxLayoutAlign="start center"
+                                                fxLayoutGap="5px"
+                                                class="row"
+                                            >
+                                                <div fxFlex="50%">
+                                                    <a [innerHtml]="highlight(crag.name, searchString)"></a>
+                                                </div>
+                                                <div fxFlex="25%">
+                                                    {{ crag.nrRoutes | pluralizeNoun: 'smer' }}
+                                                </div>
+                                                <div fxFlex="20px">
+                                                    {{ crag.orientation }}
+                                                </div>
+                                                <div fxFlex class="lastColumn">
+                                                    @if (crag.minDifficulty) {
+                                                        <app-grade
+                                                            [difficulty]="crag.minDifficulty"
+                                                            [gradingSystemId]="crag.defaultGradingSystem.id"
+                                                        ></app-grade>
+                                                    }
+                                                    {{ crag.minDifficulty !== null && crag.maxDifficulty !== null ? ' do ' : '' }}
+                                                    @if (crag.maxDifficulty) {
+                                                        <app-grade
+                                                            [difficulty]="crag.maxDifficulty"
+                                                            [gradingSystemId]="crag.defaultGradingSystem.id"
+                                                        ></app-grade>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </mat-tab>
+                            <mat-tab label="Smeri ({{ searchResults.routes.length }})">
+                                @if (!searchResults.routes.length) {
+                                    <div class="results-tab">Za iskalni niz "{{ searchString }}" med smermi ni rezultatov :(</div>
+                                }
+                                @if (searchResults.routes.length) {
+                                    <div class="card results-tab">
+                                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="row header">
+                                            <div fxFlex>Smer</div>
+                                            <div fxFlex>Težavnost</div>
+                                            <div fxFlex>Dolžina</div>
+                                            <div fxFlex class="lastColumn">Plezališče</div>
+                                        </div>
+                                        @for (route of searchResults.routes; track route) {
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="start center"
+                                                fxLayoutGap="5px"
+                                                class="row"
+                                                [routerLink]=""
+                                                ="
+                route.crag.type === 'alpine'
                   ? ['/alpinizem/stena', route.crag.slug, 'smer', route.slug]
                   : ['/plezalisce', route.crag.slug, 'smer', route.slug]
               "
-                        >
-                        <div fxFlex>
-                          <a [innerHtml]="highlight(route.name, searchString)"></a>
-                        </div>
-                        <div fxFlex>
-                          @if (route.isProject) {
-                            <span>P</span>
-                          }
-                          @if (!route.isProject) {
-                            <app-grade
-                              [difficulty]="route.difficulty"
-                              [gradingSystemId]="route.defaultGradingSystem.id"
-                              [showModifier]="false"
-                              >
-                            </app-grade>
-                          }
-                        </div>
-                        <div fxFlex>{{ route.length }} m</div>
-                        <div fxFlex class="lastColumn">
-                          {{ route.crag.name }}
-                        </div>
-                      </div>
-                    }
-                  </div>
-                }
-                @for (route of searchResults.routes; track route) {
-                  <p></p>
-                }
-              </mat-tab>
-              <mat-tab label="Sektorji ({{ searchResults.sectors.length }})">
-                @if (!searchResults.sectors.length) {
-                  <div class="results-tab">
-                    Za iskalni niz "{{ searchString }}" med sektorji ni rezultatov :(
-                  </div>
-                }
-                @if (searchResults.sectors.length) {
-                  <div class="card results-tab">
-                    <div fxLayout="row" fxLayoutAlign="start center" class="row header">
-                      <div fxFlex>Sektor</div>
-                      <div fxFlex class="lastColumn">Plezališče</div>
-                    </div>
-                    @for (sector of searchResults.sectors; track sector) {
-                      <div
-                        fxLayout="row"
-                        fxLayoutAlign="start center"
-                        class="row"
-              [routerLink]="
-                sector.crag.type == 'alpine'
+                                            >
+                                                <div fxFlex>
+                                                    <a [innerHtml]="highlight(route.name, searchString)"></a>
+                                                </div>
+                                                <div fxFlex>
+                                                    @if (route.isProject) {
+                                                        <span>P</span>
+                                                    }
+                                                    @if (!route.isProject) {
+                                                        <app-grade
+                                                            [difficulty]="route.difficulty"
+                                                            [gradingSystemId]="route.defaultGradingSystem.id"
+                                                            [showModifier]="false"
+                                                        >
+                                                        </app-grade>
+                                                    }
+                                                </div>
+                                                <div fxFlex>{{ route.length }} m</div>
+                                                <div fxFlex class="lastColumn">
+                                                    {{ route.crag.name }}
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @for (route of searchResults.routes; track route) {
+                                    <p></p>
+                                }
+                            </mat-tab>
+                            <mat-tab label="Sektorji ({{ searchResults.sectors.length }})">
+                                @if (!searchResults.sectors.length) {
+                                    <div class="results-tab">Za iskalni niz "{{ searchString }}" med sektorji ni rezultatov :(</div>
+                                }
+                                @if (searchResults.sectors.length) {
+                                    <div class="card results-tab">
+                                        <div fxLayout="row" fxLayoutAlign="start center" class="row header">
+                                            <div fxFlex>Sektor</div>
+                                            <div fxFlex class="lastColumn">Plezališče</div>
+                                        </div>
+                                        @for (sector of searchResults.sectors; track sector) {
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="start center"
+                                                class="row"
+                                                [routerLink]=""
+                                                ="
+                sector.crag.type === 'alpine'
                   ? ['/alpinizem/stena', sector.crag.slug]
                   : ['/plezalisce', sector.crag.slug]
               "
-                        >
-                        <div fxFlex>
-                          <a [innerHtml]="highlight(sector.name, searchString)"></a>
-                        </div>
-                        <div fxFlex class="lastColumn">{{ sector.crag.name }}</div>
-                      </div>
-                    }
-                  </div>
-                }
-              </mat-tab>
-              <!-- <mat-tab label="Uporabniki ({{ searchResults.users.length }})">
+                                            >
+                                                <div fxFlex>
+                                                    <a [innerHtml]="highlight(sector.name, searchString)"></a>
+                                                </div>
+                                                <div fxFlex class="lastColumn">{{ sector.crag.name }}</div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </mat-tab>
+                            <!-- <mat-tab label="Uporabniki ({{ searchResults.users.length }})">
               <div *ngIf="!searchResults.users.length" class="results-tab">
                 Za iskalni niz "{{ searchString }}" med uporabniki ni rezultatov :(
               </div>
@@ -212,35 +186,29 @@
                 </div>
               </div>
             </mat-tab> -->
-            <mat-tab label="Komentarji ({{ searchResults.comments.length }})">
-              @if (!searchResults.comments.length) {
-                <div class="results-tab">
-                  Za iskalni niz "{{ searchString }}" med komentarji ni rezultatov :(
-                </div>
-              }
-              @if (searchResults.comments.length) {
-                <div class="card results-tab">
-                  <div
-                    class="row header"
-                    fxLayout="row"
-                    fxLayoutAlign="start center"
-                    fxLayoutGap="5px"
-                    >
-                    <div fxFlex="50%">Komentar</div>
-                    <div fxFlex>Smer</div>
-                    <div fxFlex>Plezališče</div>
-                    <div fxFlex>Uporabnik</div>
-                    <div fxFlex class="lastColumn">Datum</div>
-                  </div>
-                  @for (comment of searchResults.comments; track comment) {
-                    <div
-                      flLayout="row"
-                      fxLayoutAlign="start center"
-                      fxLayoutGap="5px"
-                      class="row"
-              [routerLink]="
+                            <mat-tab label="Komentarji ({{ searchResults.comments.length }})">
+                                @if (!searchResults.comments.length) {
+                                    <div class="results-tab">Za iskalni niz "{{ searchString }}" med komentarji ni rezultatov :(</div>
+                                }
+                                @if (searchResults.comments.length) {
+                                    <div class="card results-tab">
+                                        <div class="row header" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                                            <div fxFlex="50%">Komentar</div>
+                                            <div fxFlex>Smer</div>
+                                            <div fxFlex>Plezališče</div>
+                                            <div fxFlex>Uporabnik</div>
+                                            <div fxFlex class="lastColumn">Datum</div>
+                                        </div>
+                                        @for (comment of searchResults.comments; track comment) {
+                                            <div
+                                                flLayout="row"
+                                                fxLayoutAlign="start center"
+                                                fxLayoutGap="5px"
+                                                class="row"
+                                                [routerLink]=""
+                                                ="
                 comment?.route
-                  ? comment.route.crag.type == 'alpine'
+                  ? comment.route.crag.type === 'alpine'
                     ? [
                         '/alpinizem/stena',
                         comment.route.crag.slug,
@@ -253,36 +221,33 @@
                         'smer',
                         comment.route.slug
                       ]
-                  : comment.crag.type == 'alpine'
+                  : comment.crag.type === 'alpine'
                   ? ['/alpinizem/stena', comment.crag.slug]
                   : ['/plezalisce', comment.crag.slug]
               "
-                      >
-                      <div
-                        fxFlex="50%"
-                        [innerHTML]="highlight(comment.content, searchString, true)"
-                      ></div>
-                      <div fxFlex>
-                        {{ comment.route ? comment.route.name : "-" }}
-                      </div>
-                      <div fxFlex>
-                        {{ comment.crag ? comment.crag.name : comment.route.crag.name }}
-                      </div>
-                      <div fxFlex>
-                        {{ comment.user ? comment.user.fullName : "anonimnež" }}
-                      </div>
-                      <div fxFlex class="lastColumn">
-                        {{ comment.created | date: "d. M. yyyy HH:mm" }}
-                      </div>
+                                            >
+                                                <div fxFlex="50%" [innerHTML]="highlight(comment.content, searchString, true)"></div>
+                                                <div fxFlex>
+                                                    {{ comment.route ? comment.route.name : '-' }}
+                                                </div>
+                                                <div fxFlex>
+                                                    {{ comment.crag ? comment.crag.name : comment.route.crag.name }}
+                                                </div>
+                                                <div fxFlex>
+                                                    {{ comment.user ? comment.user.fullName : 'anonimnež' }}
+                                                </div>
+                                                <div fxFlex class="lastColumn">
+                                                    {{ comment.created | date: 'd. M. yyyy HH:mm' }}
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </mat-tab>
+                        </mat-tab-group>
                     </div>
-                  }
-                </div>
-              }
-            </mat-tab>
-          </mat-tab-group>
-        </div>
-      }
+                }
+            </div>
+        }
     </div>
-  }
-</div>
 }

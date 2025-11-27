@@ -1,24 +1,21 @@
-
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-sortable-header-field',
-  templateUrl: './sortable-header-field.component.html',
-  styleUrls: ['./sortable-header-field.component.scss'],
-  imports: [MatIconModule],
+    selector: 'app-sortable-header-field',
+    templateUrl: './sortable-header-field.component.html',
+    styleUrls: ['./sortable-header-field.component.scss'],
+    imports: [MatIconModule]
 })
-export class SortableHeaderFieldComponent implements OnInit {
-  @Input() field: string;
-  @Input() label?: string;
-  @Input() icon?: string;
-  @Input() svgIcon?: string;
-  @Input() centered = false;
-  @Input() sortIndication: 'highlight' | 'arrows';
-  @Input() currentSortDirection?: number;
-  @Input() currentlySortedField: string;
+export class SortableHeaderFieldComponent  {
+    @Input() field: string;
+    @Input() label?: string;
+    @Input() icon?: string;
+    @Input() svgIcon?: string;
+    @Input() centered = false;
+    @Input() sortIndication: 'highlight' | 'arrows';
+    @Input() currentSortDirection?: number;
+    @Input() currentlySortedField: string;
 
-  constructor() {}
 
-  ngOnInit(): void {}
 }

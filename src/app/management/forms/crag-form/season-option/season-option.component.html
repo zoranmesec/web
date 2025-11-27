@@ -1,16 +1,13 @@
 <div
-  (mouseenter)="toggleActive()"
-  (mouseleave)="toggleActive()"
-  class="flex flex-column flex-align-center flex-justify-center p-8"
-  [class.selected]="selected()"
-  [class.season-option-disabled]="disabled()"
-  [class.season-option]="!disabled()"
+    (mouseenter)="toggleActive()"
+    (mouseleave)="toggleActive()"
+    class="flex flex-column flex-align-center flex-justify-center p-8"
+    [class.selected]="selected()"
+    [class.season-option-disabled]="disabled()"
+    [class.season-option]="!disabled()"
 >
-  <app-season-icon
-    [season]="season()"
-    [active]="!disabled() && (active || selected())"
-  ></app-season-icon>
-  <span>
-    {{ season() }}
-  </span>
+    <app-season-icon [season]="season()" [active]="!disabled() && (active || selected())"></app-season-icon>
+    <span>
+        {{ season() }}
+    </span>
 </div>

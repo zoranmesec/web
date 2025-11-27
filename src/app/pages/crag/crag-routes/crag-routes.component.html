@@ -1,622 +1,503 @@
 @if (!loading) {
-  <div class="container flex flex-column mt-16">
-    <section id="options">
-      <div class="flex flex-row">
-        <div
-          class="border-right flex flex-row flex-align-center flex-center"
-          ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
-          >
-          <button
-            type="button"
-            mat-stroked-button
-            (click)="toggleFilterSelection()"
-            >
-            <mat-icon>tune</mat-icon>
-            <span [class.hidden]="breakpointService.ltLg()" class="p-l-8">
-              @if (showFilters) { Skrij filtre } @else { Pokaži filtre }
-              </span>
-              @if(nrOfFiltersApplied > 0) {
-                <span> ({{ nrOfFiltersApplied }})</span>
-              }
-            </button>
-          </div>
-          <div class="border-right flex flex-row flex-align-center flex-center">
-            <button
-              type="button"
-              mat-stroked-button
-              (click)="toggleColumnSelection()"
-              >
-              <div class="flex flex-row">
-                <app-columns-icon></app-columns-icon>
-                <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-                  >Izberi stolpce</span
-                  >
-                </div>
-              </button>
-            </div>
-            <div class="m-l-8">
-              <button mat-stroked-button [matMenuTriggerFor]="menu">
-                <app-more-icon class=""></app-more-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="addImage()">
-                  <span>Dodaj fotografijo</span>
-                </button>
-                <button mat-menu-item (click)="addComment('comment')">
-                  <span>Dodaj komentar</span>
-                </button>
-                <button mat-menu-item (click)="addComment('condition')">
-                  <span>Dodaj informacijo o razmerah</span>
-                </button>
-                <button mat-menu-item (click)="addComment('warning')">
-                  <span>Dodaj opozorilo</span>
-                </button>
-                <a
-                  mat-menu-item
-                  [routerLink]="['/urejanje/uredi-plezalisce', crag.id]"
-                  >Uredi plezališče</a
-                  >
-                </mat-menu>
-              </div>
-              <div
-                class="border-right flex flex-row flex-align-center flex-center"
-                [class.hidden]="breakpointService.gtSm()"
-                >
-                <button
-                  type="button"
-                  mat-stroked-button
-                  (click)="searchFieldVisible = !searchFieldVisible"
-                  >
-                  <mat-icon class="filter-icon">search</mat-icon>
-                  <span [class.hidden]="breakpointService.ltLg()" class="p-l-8"
-                    >Išči</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div [class.hidden]="breakpointService.ltSm()">
-                <mat-form-field
-                  class="custom-height"
-                  appearance="outline"
-                  subscriptSizing="fixed"
-                  >
-                  <mat-label>
-                    <mat-icon class="search-icon">search</mat-icon>
-                    <span>Poišči po imenu123</span></mat-label
-                    >
-                    <input matInput autofocus [formControl]="search" autocomplete="off" />
-                  </mat-form-field>
-                </div>
-              </section>
-              @if(searchFieldVisible){
+    <div class="container flex flex-column mt-16">
+        <section id="options">
+            <div class="flex flex-row">
                 <div
-                  [class.hidden]="breakpointService.gtSm()"
-                  class="w-100 flex flex-row flex-align-center flex-center"
-                  >
-                  <mat-form-field
-                    class="custom-height"
-                    appearance="outline"
-                    [subscriptSizing]="fixed"
-                    >
+                    class="border-right flex flex-row flex-align-center flex-center"
+                    ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
+                >
+                    <button type="button" mat-stroked-button (click)="toggleFilterSelection()">
+                        <mat-icon>tune</mat-icon>
+                        <span [class.hidden]="breakpointService.ltLg" class="p-l-8">
+                            @if (showFilters) {
+                                Skrij filtre
+                            } @else {
+                                Pokaži filtre
+                            }
+                        </span>
+                        @if (nrOfFiltersApplied > 0) {
+                            <span> ({{ nrOfFiltersApplied }})</span>
+                        }
+                    </button>
+                </div>
+                <div class="border-right flex flex-row flex-align-center flex-center">
+                    <button type="button" mat-stroked-button (click)="toggleColumnSelection()">
+                        <div class="flex flex-row">
+                            <app-columns-icon></app-columns-icon>
+                            <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Izberi stolpce</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="m-l-8">
+                    <button mat-stroked-button [matMenuTriggerFor]="menu">
+                        <app-more-icon class=""></app-more-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="addImage()">
+                            <span>Dodaj fotografijo</span>
+                        </button>
+                        <button mat-menu-item (click)="addComment('comment')">
+                            <span>Dodaj komentar</span>
+                        </button>
+                        <button mat-menu-item (click)="addComment('condition')">
+                            <span>Dodaj informacijo o razmerah</span>
+                        </button>
+                        <button mat-menu-item (click)="addComment('warning')">
+                            <span>Dodaj opozorilo</span>
+                        </button>
+                        <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag.id]">Uredi plezališče</a>
+                    </mat-menu>
+                </div>
+                <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.gtSm">
+                    <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
+                        <mat-icon class="filter-icon">search</mat-icon>
+                        <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Išči</span>
+                    </button>
+                </div>
+            </div>
+            <div [class.hidden]="breakpointService.ltSm">
+                <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
                     <mat-label>
-                      <mat-icon class="search-icon">search</mat-icon>
-                      <span>Poišči po imenu444</span></mat-label
-                      >
-                      <input matInput autofocus [formControl]="search" autocomplete="off" />
-                    </mat-form-field>
-                  </div>
+                        <mat-icon class="search-icon">search</mat-icon>
+                        <span>Poišči po imenu123</span></mat-label
+                    >
+                    <input matInput [formControl]="search" autocomplete="off" />
+                </mat-form-field>
+            </div>
+        </section>
+        @if (searchFieldVisible) {
+            <div [class.hidden]="breakpointService.gtSm" class="w-100 flex flex-row flex-align-center flex-center">
+                <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
+                    <mat-label>
+                        <mat-icon class="search-icon">search</mat-icon>
+                        <span>Poišči po imenu444</span></mat-label
+                    >
+                    <input matInput [formControl]="search" autocomplete="off" />
+                </mat-form-field>
+            </div>
+        }
+        <main class="mt-8 flex flex-row">
+            <section class="m-t-4">
+                @if (showFilters) {
+                    <app-crag-routes-filters (close)="showFilters = !showFilters"></app-crag-routes-filters>
                 }
-                <main class="mt-8 flex flex-row">
-                  <section class="m-t-4">
-                    @if (showFilters) {
-                      <app-crag-routes-filters
-                        (close)="showFilters = !showFilters"
-                      ></app-crag-routes-filters>
-                      } @if (showColumnSelection) {
-                      <app-crag-routes-columns
+                @if (showColumnSelection) {
+                    <app-crag-routes-columns
                         [columns]="allColumns"
                         (close)="showColumnSelection = !showColumnSelection"
                         (columns)="onSelectedColumnsChange($event)"
-                      ></app-crag-routes-columns>
-                    }
-                  </section>
-                  <section id="routes">
-                    <mat-accordion multi="true" displayMode="flat">
-                      @for (sector of sectors; track $index) {
+                    ></app-crag-routes-columns>
+                }
+            </section>
+            <section id="routes">
+                <mat-accordion multi="true" displayMode="flat">
+                    @for (sector of sectors; track $index) {
                         <mat-expansion-panel expanded="">
-                          <mat-expansion-panel-header>
-                            <mat-panel-title>
-                              <h3
-                                class="sector-title"
-                [ngClass]="{
-                  warn: sector.publishStatus === 'draft',
-                  notice: sector.publishStatus === 'in_review'
-                }"
-                                >
-                                {{ sector.label }}
-                                <span>{{ sector.name != "" ? " - " + sector.name : "" }}</span>
-                              </h3>
-                              @if (
-                                sector.publishStatus === 'draft' ||
-                                sector.publishStatus === 'in_review'
-                                ) {
-                                <app-publish-status-hint
-                                  class="mt-8 d-block"
-                                  entityType="sector"
-                                  [publishStatus]="sector.publishStatus"
-                                ></app-publish-status-hint>
-                              }
-                            </mat-panel-title>
-                          </mat-expansion-panel-header>
-                          @if (!cragsLoading) {
-                            <div class="card">
-                              <!-- Table view -->
-                              <table class="shadow w-100">
-                                <thead [class.hidden]="breakpointService.ltLg()">
-                                  <tr class="table-header">
-                                    <th class="checkbox">
-                                      <app-sortable-header-field
-                                        field="position"
-                                        label="#"
-                                        [currentlySortedField]="sector.sortedField"
-                                        sortIndication="highlight"
-                                        [centered]="true"
-                                        (click)="onSortableHeaderClick($index, 'position')"
-                                      ></app-sortable-header-field>
-                                    </th>
-                                    @if (shownColumns.includes('name')) {
-                                      <th
-                                        class="name"
-                                        [ngStyle]="{ 'min-width.px': allColumns.name.width }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="name"
-                                          [label]="allColumns.name.tableLabel"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="arrows"
-                                          (click)="onSortableHeaderClick($index, 'name')"
-                                        ></app-sortable-header-field>
-                                      </th>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h3
+                                        class="sector-title"
+                                        [ngClass]="{
+                                            warn: sector.publishStatus === 'draft',
+                                            notice: sector.publishStatus === 'in_review'
+                                        }"
+                                    >
+                                        {{ sector.label }}
+                                        <span>{{ sector.name !== '' ? ' - ' + sector.name : '' }}</span>
+                                    </h3>
+                                    @if (sector.publishStatus === 'draft' || sector.publishStatus === 'in_review') {
+                                        <app-publish-status-hint
+                                            class="mt-8 d-block"
+                                            entityType="sector"
+                                            [publishStatus]="sector.publishStatus"
+                                        ></app-publish-status-hint>
                                     }
-                                    @if (
-                                      !sector.bouldersOnly && shownColumns.includes('length')
-                                      ) {
-                                      <th
-                                        class="length"
-                                        [ngStyle]="{ 'width.px': allColumns.length.width }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="length"
-                                          [label]="allColumns.length.tableLabel"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="arrows"
-                                          (click)="onSortableHeaderClick($index, 'length')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('difficulty')) {
-                                      <th
-                                        class="grade"
-                                        [ngStyle]="{ 'width.px': allColumns.difficulty.width }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="difficulty"
-                                          [label]="allColumns.difficulty.tableLabel"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="arrows"
-                                          (click)="onSortableHeaderClick($index, 'difficulty')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('nrTicks')) {
-                                      <th
-                                        class="nr-ticks"
-                                        [ngStyle]="{ 'width.px': allColumns.nrTicks.width }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="nrTicks"
-                                          [label]="allColumns.nrTicks.tableLabel"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="arrows"
-                                          (click)="onSortableHeaderClick($index, 'nrTicks')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('nrTries')) {
-                                      <th
-                                        class="nr-tries"
-                                        [ngStyle]="{ 'width.px': allColumns.nrTries.width }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="nrTries"
-                                          [label]="allColumns.nrTries.tableLabel"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="arrows"
-                                          (click)="onSortableHeaderClick($index, 'nrTries')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('nrClimbers')) {
-                                      <th
-                                        class="nr-climbers"
-                                        [ngStyle]="{ 'width.px': allColumns.nrClimbers.width }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="nrClimbers"
-                                          [label]="allColumns.nrClimbers.tableLabel"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="arrows"
-                                          (click)="onSortableHeaderClick($index, 'nrClimbers')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('starRating')) {
-                                      <th
-                                        class="icon"
-                    [ngStyle]="{
-                      'width.px': allColumns.starRating.width,
-                      'min-width.px': allColumns.starRating.width
-                    }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="starRating"
-                                          icon="star"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="highlight"
-                                          [centered]="true"
-                                          (click)="onSortableHeaderClick($index, 'starRating')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('multipitch')) {
-                                      <th
-                                        class="icon"
-                    [ngStyle]="{
-                      'width.px': allColumns.multipitch.width,
-                      'min-width.px': allColumns.multipitch.width
-                    }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="multipitch"
-                                          svgIcon="multipitch"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="highlight"
-                                          [centered]="true"
-                                          (click)="onSortableHeaderClick($index, 'multipitch')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('comments')) {
-                                      <th
-                                        class="icon"
-                    [ngStyle]="{
-                      'width.px': allColumns.comments.width,
-                      'min-width.px': allColumns.comments.width
-                    }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="comments"
-                                          icon="comment"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="highlight"
-                                          [centered]="true"
-                                          (click)="onSortableHeaderClick($index, 'comments')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                    @if (shownColumns.includes('myAscents')) {
-                                      <th
-                                        class="icon"
-                    [ngStyle]="{
-                      'width.px': allColumns.myAscents.width,
-                      'min-width.px': allColumns.myAscents.width
-                    }"
-                                        >
-                                        <app-sortable-header-field
-                                          field="myAscents"
-                                          icon="check"
-                                          [currentlySortedField]="sector.sortedField"
-                                          [currentSortDirection]="sector.sortedDirection"
-                                          sortIndication="highlight"
-                                          [centered]="true"
-                                          (click)="onSortableHeaderClick($index, 'myAscents')"
-                                        ></app-sortable-header-field>
-                                      </th>
-                                    }
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  @for (route of sector.routes; track route) {
-                                    @if (route.show) {
-                                      <tr
-                                        [class.hidden]="breakpointService.ltLg()"
-                                        class="table-row"
-                                        (click)="expandRow(route.id)"
-                                        [ngClass]="{ selected: route.id === expandedRowId }"
-                                        >
-                                        <td class="checkbox" (click)="onCheckBoxClick($event)">
-                                          <label class="checkbox-container">
-                                            <input
-                                              type="checkbox"
-                                              (change)="changeSelection(route)"
-                                              [checked]="selectedRoutesIds.indexOf(route.id) > -1"
-                                              />
-                                              <span class="checkmark"></span>
-                                            </label>
-                                          </td>
-                                          @if (shownColumns.includes('name')) {
-                                            <td class="name">
-                                              <a
-                          [ngClass]="{
-                            warn: route.publishStatus === 'draft',
-                            notice: route.publishStatus === 'in_review'
-                          }"
-                          [routerLink]="
-                            section === 'alpinism'
-                              ? [
-                                  '/alpinizem',
-                                  'stena',
-                                  crag.slug,
-                                  'smer',
-                                  route.slug
-                                ]
-                              : ['/plezalisce', crag.slug, 'smer', route.slug]
-                          "
-                                                (click)="$event.stopPropagation()"
-                                                >{{ route.name }}</a
-                                                >
-                                              </td>
-                                            }
-                                            @if (
-                                              !sector.bouldersOnly &&
-                                              shownColumns.includes('length')
-                                              ) {
-                                              <td
-                                                >
-                                                @if (
-                                                  route.routeType.id !== 'boulder' && route.length
-                                                  ) {
-                                                  {{ route.length }} m
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            @if (!cragsLoading) {
+                                <div class="card">
+                                    <!-- Table view -->
+                                    <table class="shadow w-100">
+                                        <thead [class.hidden]="breakpointService.ltLg">
+                                            <tr class="table-header">
+                                                <th class="checkbox">
+                                                    <app-sortable-header-field
+                                                        field="position"
+                                                        label="#"
+                                                        [currentlySortedField]="sector.sortedField"
+                                                        sortIndication="highlight"
+                                                        [centered]="true"
+                                                        (click)="onSortableHeaderClick($index, 'position')"
+                                                    ></app-sortable-header-field>
+                                                </th>
+                                                @if (shownColumns.includes('name')) {
+                                                    <th class="name" [ngStyle]="{ 'min-width.px': allColumns.name.width }">
+                                                        <app-sortable-header-field
+                                                            field="name"
+                                                            [label]="allColumns.name.tableLabel"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="arrows"
+                                                            (click)="onSortableHeaderClick($index, 'name')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
                                                 }
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('difficulty')) {
-                                              <td>
-                                                @if (route.isProject) {
-                                                  <span>P</span>
+                                                @if (!sector.bouldersOnly && shownColumns.includes('length')) {
+                                                    <th class="length" [ngStyle]="{ 'width.px': allColumns.length.width }">
+                                                        <app-sortable-header-field
+                                                            field="length"
+                                                            [label]="allColumns.length.tableLabel"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="arrows"
+                                                            (click)="onSortableHeaderClick($index, 'length')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
                                                 }
-                                                @if (!route.isProject) {
-                                                  <app-grade
-                                                    [difficulty]="route.difficulty"
-                                                    [showModifier]="true"
-                                                    [gradingSystemId]="route.defaultGradingSystem.id"
-                                                  ></app-grade>
+                                                @if (shownColumns.includes('difficulty')) {
+                                                    <th class="grade" [ngStyle]="{ 'width.px': allColumns.difficulty.width }">
+                                                        <app-sortable-header-field
+                                                            field="difficulty"
+                                                            [label]="allColumns.difficulty.tableLabel"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="arrows"
+                                                            (click)="onSortableHeaderClick($index, 'difficulty')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
                                                 }
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('nrTicks')) {
-                                              <td>
-                                                {{ route.nrTicks }}
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('nrTries')) {
-                                              <td>
-                                                {{ route.nrTries }}
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('nrClimbers')) {
-                                              <td>
-                                                {{ route.nrClimbers }}
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('starRating')) {
-                                              <td
-                                                class="icon"
-                                                >
-                                                <app-star-rating
-                                                  [value]="route.starRating"
-                                                  [showLabel]="false"
-                                                ></app-star-rating>
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('multipitch')) {
-                                              <td
-                                                class="icon"
-                                                >
-                                                @if (route.pitches.length > 0) {
-                                                  <mat-icon
-                                                    svgIcon="multipitch"
-                                                    title="Večraztežajna"
-                                                  ></mat-icon>
+                                                @if (shownColumns.includes('nrTicks')) {
+                                                    <th class="nr-ticks" [ngStyle]="{ 'width.px': allColumns.nrTicks.width }">
+                                                        <app-sortable-header-field
+                                                            field="nrTicks"
+                                                            [label]="allColumns.nrTicks.tableLabel"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="arrows"
+                                                            (click)="onSortableHeaderClick($index, 'nrTicks')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
                                                 }
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('comments')) {
-                                              <td
-                                                class="icon"
-                                                >
-                                                @if(route.comments.length > 0) {
-                                                  <app-comment-icon
-                                                    matTooltip="Ima komentarje"
-                                                  ></app-comment-icon>
+                                                @if (shownColumns.includes('nrTries')) {
+                                                    <th class="nr-tries" [ngStyle]="{ 'width.px': allColumns.nrTries.width }">
+                                                        <app-sortable-header-field
+                                                            field="nrTries"
+                                                            [label]="allColumns.nrTries.tableLabel"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="arrows"
+                                                            (click)="onSortableHeaderClick($index, 'nrTries')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
                                                 }
-                                              </td>
-                                            }
-                                            @if (shownColumns.includes('myAscents')) {
-                                              <td
-                                                class="icon"
-                                                >
-                                                @if (ascents[route.id] != null) {
-                                                  <app-ascent-type
-                                                    [value]="ascents[route.id]"
-                                                    displayType="icon"
-                                                    iconAlignment="center"
-                                                    (click)="openDialog($event, route.id, route.name)"
+                                                @if (shownColumns.includes('nrClimbers')) {
+                                                    <th class="nr-climbers" [ngStyle]="{ 'width.px': allColumns.nrClimbers.width }">
+                                                        <app-sortable-header-field
+                                                            field="nrClimbers"
+                                                            [label]="allColumns.nrClimbers.tableLabel"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="arrows"
+                                                            (click)="onSortableHeaderClick($index, 'nrClimbers')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
+                                                }
+                                                @if (shownColumns.includes('starRating')) {
+                                                    <th
+                                                        class="icon"
+                                                        [ngStyle]="{
+                                                            'width.px': allColumns.starRating.width,
+                                                            'min-width.px': allColumns.starRating.width
+                                                        }"
                                                     >
-                                                  </app-ascent-type>
+                                                        <app-sortable-header-field
+                                                            field="starRating"
+                                                            icon="star"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="highlight"
+                                                            [centered]="true"
+                                                            (click)="onSortableHeaderClick($index, 'starRating')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
                                                 }
-                                              </td>
+                                                @if (shownColumns.includes('multipitch')) {
+                                                    <th
+                                                        class="icon"
+                                                        [ngStyle]="{
+                                                            'width.px': allColumns.multipitch.width,
+                                                            'min-width.px': allColumns.multipitch.width
+                                                        }"
+                                                    >
+                                                        <app-sortable-header-field
+                                                            field="multipitch"
+                                                            svgIcon="multipitch"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="highlight"
+                                                            [centered]="true"
+                                                            (click)="onSortableHeaderClick($index, 'multipitch')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
+                                                }
+                                                @if (shownColumns.includes('comments')) {
+                                                    <th
+                                                        class="icon"
+                                                        [ngStyle]="{
+                                                            'width.px': allColumns.comments.width,
+                                                            'min-width.px': allColumns.comments.width
+                                                        }"
+                                                    >
+                                                        <app-sortable-header-field
+                                                            field="comments"
+                                                            icon="comment"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="highlight"
+                                                            [centered]="true"
+                                                            (click)="onSortableHeaderClick($index, 'comments')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
+                                                }
+                                                @if (shownColumns.includes('myAscents')) {
+                                                    <th
+                                                        class="icon"
+                                                        [ngStyle]="{
+                                                            'width.px': allColumns.myAscents.width,
+                                                            'min-width.px': allColumns.myAscents.width
+                                                        }"
+                                                    >
+                                                        <app-sortable-header-field
+                                                            field="myAscents"
+                                                            icon="check"
+                                                            [currentlySortedField]="sector.sortedField"
+                                                            [currentSortDirection]="sector.sortedDirection"
+                                                            sortIndication="highlight"
+                                                            [centered]="true"
+                                                            (click)="onSortableHeaderClick($index, 'myAscents')"
+                                                        ></app-sortable-header-field>
+                                                    </th>
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (route of sector.routes; track route) {
+                                                @if (route.show) {
+                                                    <tr
+                                                        [class.hidden]="breakpointService.ltLg"
+                                                        class="table-row"
+                                                        (click)="expandRow(route.id)"
+                                                        [ngClass]="{ selected: route.id === expandedRowId }"
+                                                    >
+                                                        <td class="checkbox" (click)="onCheckBoxClick($event)">
+                                                            <label class="checkbox-container">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    (change)="changeSelection(route)"
+                                                                    [checked]="selectedRoutesIds.indexOf(route.id) > -1"
+                                                                />
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </td>
+                                                        @if (shownColumns.includes('name')) {
+                                                            <td class="name">
+                                                                <a
+                                                                    [ngClass]="{
+                                                                        warn: route.publishStatus === 'draft',
+                                                                        notice: route.publishStatus === 'in_review'
+                                                                    }"
+                                                                    [routerLink]="
+                                                                        section === 'alpinism'
+                                                                            ? ['/alpinizem', 'stena', crag.slug, 'smer', route.slug]
+                                                                            : ['/plezalisce', crag.slug, 'smer', route.slug]
+                                                                    "
+                                                                    (click)="$event.stopPropagation()"
+                                                                    >{{ route.name }}</a
+                                                                >
+                                                            </td>
+                                                        }
+                                                        @if (!sector.bouldersOnly && shownColumns.includes('length')) {
+                                                            <td>
+                                                                @if (route.routeType.id !== 'boulder' && route.length) {
+                                                                    {{ route.length }} m
+                                                                }
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('difficulty')) {
+                                                            <td>
+                                                                @if (route.isProject) {
+                                                                    <span>P</span>
+                                                                }
+                                                                @if (!route.isProject) {
+                                                                    <app-grade
+                                                                        [difficulty]="route.difficulty"
+                                                                        [showModifier]="true"
+                                                                        [gradingSystemId]="route.defaultGradingSystem.id"
+                                                                    ></app-grade>
+                                                                }
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('nrTicks')) {
+                                                            <td>
+                                                                {{ route.nrTicks }}
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('nrTries')) {
+                                                            <td>
+                                                                {{ route.nrTries }}
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('nrClimbers')) {
+                                                            <td>
+                                                                {{ route.nrClimbers }}
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('starRating')) {
+                                                            <td class="icon">
+                                                                <app-star-rating
+                                                                    [value]="route.starRating"
+                                                                    [showLabel]="false"
+                                                                ></app-star-rating>
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('multipitch')) {
+                                                            <td class="icon">
+                                                                @if (route.pitches.length > 0) {
+                                                                    <mat-icon svgIcon="multipitch" title="Večraztežajna"></mat-icon>
+                                                                }
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('comments')) {
+                                                            <td class="icon">
+                                                                @if (route.comments.length > 0) {
+                                                                    <app-comment-icon matTooltip="Ima komentarje"></app-comment-icon>
+                                                                }
+                                                            </td>
+                                                        }
+                                                        @if (shownColumns.includes('myAscents')) {
+                                                            <td class="icon">
+                                                                @if (ascents[route.id] !== null) {
+                                                                    <app-ascent-type
+                                                                        [value]="ascents[route.id]"
+                                                                        displayType="icon"
+                                                                        iconAlignment="center"
+                                                                        (click)="openDialog($event, route.id, route.name)"
+                                                                    >
+                                                                    </app-ascent-type>
+                                                                }
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                    <!-- Less than large -->
+                                                    <tr [class.hidden]="breakpointService.gtMd" class="table-row">
+                                                        <td class="checkbox" (click)="onCheckBoxClick($event)">
+                                                            <label class="checkbox-container">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    (change)="changeSelection(route)"
+                                                                    [checked]="selectedRoutesIds.indexOf(route.id) > -1"
+                                                                />
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="w-100 flex flex-wrap flex-justify-space-between">
+                                                                <div>
+                                                                    <a
+                                                                        [ngClass]="{
+                                                                            warn: route.publishStatus === 'draft',
+                                                                            notice: route.publishStatus === 'in_review'
+                                                                        }"
+                                                                        class="route-link"
+                                                                        [routerLink]="
+                                                                            section === 'alpinism'
+                                                                                ? ['/alpinizem', 'stena', crag.slug, 'smer', route.slug]
+                                                                                : ['/plezalisce', crag.slug, 'smer', route.slug]
+                                                                        "
+                                                                        (click)="$event.stopPropagation()"
+                                                                        >{{ route.name }}</a
+                                                                    >
+                                                                </div>
+                                                                <div class="flex flex-row flex-justify-start">
+                                                                    @if (route.starRating === 1) {
+                                                                        <mat-icon title="Lepa"> star_border </mat-icon>
+                                                                    }
+                                                                    @if (route.starRating === 2) {
+                                                                        <mat-icon title="Čudovita"> star </mat-icon>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                [class.hidden]="breakpointService.gtMd"
+                                                                class="w-100 flex flex-justify-space-between"
+                                                            >
+                                                                <div>
+                                                                    @if (route.isProject) {
+                                                                        <span>P</span>
+                                                                    }
+                                                                    @if (!route.isProject) {
+                                                                        <app-grade
+                                                                            [difficulty]="route.difficulty"
+                                                                            [showModifier]="true"
+                                                                            [gradingSystemId]="route.defaultGradingSystem.id"
+                                                                        ></app-grade>
+                                                                    }
+                                                                    <span class="p-l-16">{{ route.length }} m</span>
+                                                                </div>
+                                                                <div class="flex flex-row flex-align-center">
+                                                                    @if (route.pitches.length > 0) {
+                                                                        <mat-icon svgIcon="multipitch" title="Večraztežajna"></mat-icon>
+                                                                    }
+                                                                    @if (route.comments.length > 0) {
+                                                                        <mat-icon title="Ima komentarje">comment</mat-icon>
+                                                                    }
+                                                                    @if (ascents[route.id] !== null) {
+                                                                        <app-ascent-type
+                                                                            [value]="ascents[route.id]"
+                                                                            displayType="icon"
+                                                                            iconAlignment="center"
+                                                                            (click)="openDialog($event, route.id, route.name)"
+                                                                        >
+                                                                        </app-ascent-type>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div [class.hidden]="breakpointService.gtMd" class="w-100 route-info">
+                                                                {{ route.nrTicks }} uspešnih vzponov, {{ route.nrClimbers }} plezalcev,
+                                                                {{ route.nrTries }} poskusov
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="details-row selected">
+                                                        <td [attr.colspan]="shownColumns.length + 1">
+                                                            <div
+                                                                class="route-expanding-container"
+                                                                [ngStyle]="{
+                                                                    'max-height.px': route.id === expandedRowId ? expandedRowHeight : 0
+                                                                }"
+                                                            >
+                                                                @if (expandedRowId === route.id || previousExpandedRowId === route.id) {
+                                                                    <div class="route-expanding-details">
+                                                                        <app-crag-route-preview
+                                                                            [routeId]="route.id"
+                                                                            [publishStatus]="route.publishStatus"
+                                                                            (heightChangeEvent)="onPreviewHeightEvent($event)"
+                                                                        ></app-crag-route-preview>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
-                                          </tr>
-                                          <!-- Less than large -->
-                                          <tr
-                                            [class.hidden]="breakpointService.gtMd()"
-                                            class="table-row"
-                                            >
-                                            <td class="checkbox" (click)="onCheckBoxClick($event)">
-                                              <label class="checkbox-container">
-                                                <input
-                                                  type="checkbox"
-                                                  (change)="changeSelection(route)"
-                                                  [checked]="selectedRoutesIds.indexOf(route.id) > -1"
-                                                  />
-                                                  <span class="checkmark"></span>
-                                                </label>
-                                              </td>
-                                              <td>
-                                                <div
-                                                  class="w-100 flex flex-wrap flex-justify-space-between"
-                                                  >
-                                                  <div>
-                                                    <a
-                              [ngClass]="{
-                                warn: route.publishStatus === 'draft',
-                                notice: route.publishStatus === 'in_review'
-                              }"
-                                                      class="route-link"
-                              [routerLink]="
-                                section === 'alpinism'
-                                  ? [
-                                      '/alpinizem',
-                                      'stena',
-                                      crag.slug,
-                                      'smer',
-                                      route.slug
-                                    ]
-                                  : [
-                                      '/plezalisce',
-                                      crag.slug,
-                                      'smer',
-                                      route.slug
-                                    ]
-                              "
-                                                      (click)="$event.stopPropagation()"
-                                                      >{{ route.name }}</a
-                                                      >
-                                                    </div>
-                                                    <div class="flex flex-row flex-justify-start">
-                                                      @if (route.starRating == 1) {
-                                                        <mat-icon
-                                                          title="Lepa"
-                                                          >
-                                                          star_border
-                                                        </mat-icon>
-                                                      }
-                                                      @if (route.starRating == 2) {
-                                                        <mat-icon
-                                                          title="Čudovita"
-                                                          >
-                                                          star
-                                                        </mat-icon>
-                                                      }
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    [class.hidden]="breakpointService.gtMd()"
-                                                    class="w-100 flex flex-justify-space-between"
-                                                    >
-                                                    <div>
-                                                      @if (route.isProject) {
-                                                        <span>P</span>
-                                                      }
-                                                      @if (!route.isProject) {
-                                                        <app-grade
-                                                          [difficulty]="route.difficulty"
-                                                          [showModifier]="true"
-                                                          [gradingSystemId]="route.defaultGradingSystem.id"
-                                                        ></app-grade>
-                                                      }
-                                                      <span class="p-l-16">{{ route.length }} m</span>
-                                                    </div>
-                                                    <div class="flex flex-row flex-align-center">
-                                                      @if (route.pitches.length > 0) {
-                                                        <mat-icon
-                                                          svgIcon="multipitch"
-                                                          title="Večraztežajna"
-                                                        ></mat-icon>
-                                                      }
-                                                      @if (route.comments.length > 0) {
-                                                        <mat-icon
-                                                          title="Ima komentarje"
-                                                          >comment</mat-icon
-                                                          >
-                                                      }
-                                                      @if (ascents[route.id] != null) {
-                                                        <app-ascent-type
-                                                          [value]="ascents[route.id]"
-                                                          displayType="icon"
-                                                          iconAlignment="center"
-                                                          (click)="openDialog($event, route.id, route.name)"
-                                                          >
-                                                        </app-ascent-type>
-                                                      }
-                                                    </div>
-                                                  </div>
-                                                  <div
-                                                    [class.hidden]="breakpointService.gtMd()"
-                                                    class="w-100 route-info"
-                                                    >
-                                                    {{ route.nrTicks }} uspešnih vzponov,
-                                                    {{ route.nrClimbers }} plezalcev,
-                                                    {{ route.nrTries }} poskusov
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                              <tr class="details-row selected">
-                                                <td [attr.colspan]="shownColumns.length + 1">
-                                                  <div
-                                                    class="route-expanding-container"
-                          [ngStyle]="{
-                            'max-height.px':
-                              route.id === expandedRowId ? expandedRowHeight : 0
-                          }"
-                                                    >
-                                                    @if (
-                                                      expandedRowId === route.id ||
-                                                      previousExpandedRowId === route.id
-                                                      ) {
-                                                      <div
-                                                        class="route-expanding-details"
-                                                        >
-                                                        <app-crag-route-preview
-                                                          [routeId]="route.id"
-                                                          [publishStatus]="route.publishStatus"
-                                                          (heightChangeEvent)="onPreviewHeightEvent($event)"
-                                                        ></app-crag-route-preview>
-                                                      </div>
-                                                    }
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                            }
-                                          }
                                         </tbody>
-                                      </table>
-                                    </div>
-                                  }
-                                </mat-expansion-panel>
-                              }
-                            </mat-accordion>
-                          </section>
-                        </main>
-                      </div>
+                                    </table>
+                                </div>
+                            }
+                        </mat-expansion-panel>
                     }
+                </mat-accordion>
+            </section>
+        </main>
+    </div>
+}

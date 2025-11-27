@@ -1,5 +1,5 @@
-@use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
@@ -7,26 +7,26 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $red: mat.get-theme-color(m3-theme.$light-theme, error, 50);
 $light-red: mat.get-theme-color(m3-theme.$light-theme, error, 90);
 :host {
-  article {
-    border-bottom: 1px solid $light-grey !important;
+    article {
+        border-bottom: 1px solid $light-grey !important;
 
-    div.title {
-      color: $grey;
+        div.title {
+            color: $grey;
+        }
+        div.author {
+            text-align: right;
+            font: var(--mat-sys-title-medium) !important;
+        }
     }
-    div.author {
-      text-align: right;
-      font: var(--mat-sys-title-medium) !important;
+
+    div.condition {
+        background-color: $light-red !important;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        border: 1px solid $red;
+
+        border-radius: 8px;
+        border-width: 1px;
+        padding: 8px;
     }
-  }
-
-  div.condition {
-    background-color: $light-red !important;
-    margin-top: 16px;
-    margin-bottom: 16px;
-    border: 1px solid $red;
-
-    border-radius: 8px;
-    border-width: 1px;
-    padding: 8px;
-  }
 }

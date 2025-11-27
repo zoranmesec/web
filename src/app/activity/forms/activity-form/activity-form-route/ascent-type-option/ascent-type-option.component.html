@@ -1,16 +1,13 @@
 <div
-  (mouseenter)="toggleActive()"
-  (mouseleave)="toggleActive()"
-  class="flex flex-column flex-align-center flex-justify-center p-8"
-  [class.selected]="selected()"
-  [class.ascent-type-option-disabled]="disabled()"
-  [class.ascent-type-option]="!disabled()"
+    (mouseenter)="toggleActive()"
+    (mouseleave)="toggleActive()"
+    class="flex flex-column flex-align-center flex-justify-center p-8"
+    [class.selected]="selected()"
+    [class.ascent-type-option-disabled]="disabled()"
+    [class.ascent-type-option]="!disabled()"
 >
-  <app-ascent-type-icon
-    [ascentType]="ascentType()"
-    [active]="!disabled() && (active || selected())"
-  ></app-ascent-type-icon>
-  <span>
-    {{ ascentType().label }}
-  </span>
+    <app-ascent-type-icon [ascentType]="ascentType()" [active]="!disabled() && (active || selected())"></app-ascent-type-icon>
+    <span>
+        {{ ascentType().label }}
+    </span>
 </div>

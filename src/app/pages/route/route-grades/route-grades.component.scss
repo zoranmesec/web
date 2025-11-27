@@ -1,41 +1,41 @@
-@use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
 :host {
-  mat-expansion-panel {
-    box-shadow: none !important;
-    margin-bottom: 8px !important;
-    background: none !important;
-  }
-  mat-expansion-panel:hover {
-    background: none !important;
-  }
-  mat-expansion-panel-header {
-    border-bottom: 1px solid $grey;
-  }
+    mat-expansion-panel {
+        box-shadow: none !important;
+        margin-bottom: 8px !important;
+        background: none !important;
+    }
+    mat-expansion-panel:hover {
+        background: none !important;
+    }
+    mat-expansion-panel-header {
+        border-bottom: 1px solid $grey;
+    }
 
-  .grade {
-    text-align: right;
+    .grade {
+        text-align: right;
 
-    width: 56px;
-  }
+        width: 56px;
+    }
 
-  .grade-included-in-calc {
-    font-weight: 500;
-  }
+    .grade-included-in-calc {
+        font-weight: 500;
+    }
 
-  .grade-not-included-in-calc {
-    color: $light-grey;
-  }
-  .grade-user {
-    flex-basis: 80%;
-  }
+    .grade-not-included-in-calc {
+        color: $light-grey;
+    }
+    .grade-user {
+        flex-basis: 80%;
+    }
 
-  .grade-date {
-    margin-left: 8px;
-    white-space: nowrap;
-  }
+    .grade-date {
+        margin-left: 8px;
+        white-space: nowrap;
+    }
 }

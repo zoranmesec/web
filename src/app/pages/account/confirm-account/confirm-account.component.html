@@ -1,23 +1,21 @@
 <div class="white-back mt-16">
-  <div class="container py-8">
-    <h1>Aktivacija računa</h1>
-  </div>
+    <div class="container py-8">
+        <h1>Aktivacija računa</h1>
+    </div>
 </div>
 
 <div class="container mt-16">
-  @if (loading) {
-    <app-loader></app-loader>
-  }
-  @if (!loading) {
-    <div class="card">
-      @if (success) {
-        <div>
-          Tvoj račun je bil uspešno aktiviran. Zdaj se lahko prijaviš.
+    @if (loading) {
+        <app-loader></app-loader>
+    }
+    @if (!loading) {
+        <div class="card">
+            @if (success) {
+                <div>Tvoj račun je bil uspešno aktiviran. Zdaj se lahko prijaviš.</div>
+            }
+            @if (!success) {
+                <div>Tvojega računa ni bilo mogoče aktivirati.</div>
+            }
         </div>
-      }
-      @if (!success) {
-        <div>Tvojega računa ni bilo mogoče aktivirati.</div>
-      }
-    </div>
-  }
+    }
 </div>

@@ -1,76 +1,73 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { LoginRequest } from '../types/login-request';
 import { Apollo } from 'apollo-angular';
-import { GuardedActionOptions } from '../types/guarded-action-options';
+import dayjs from 'dayjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { LoginResponse, User } from 'src/generated/graphql';
 import { LocalStorageService } from '../services/local-storage.service';
-import dayjs from 'dayjs';
+import { GuardedActionOptions } from '../types/guarded-action-options';
+import { LoginRequest } from '../types/login-request';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root'
 })
 export class AuthService {
-  public currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+    public currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
-  public openLogin$ = new Subject<LoginRequest>();
+    public openLogin$ = new Subject<LoginRequest>();
 
-  constructor(
-    private apollo: Apollo,
-    private localStorageService: LocalStorageService
-  ) {}
+    constructor(
+        private apollo: Apollo,
+        private localStorageService: LocalStorageService<LoginResponse>
+    ) {}
 
-  public initialize(): void {
-    const authData = this.localStorageService.getItem('auth');
-    if (authData != null && authData.user) {
-      this.currentUser.next(authData.user);
-    }
-  }
+    public initialize(): void {
+        const authData = this.localStorageService.getItem('auth');
 
-  async logout() {
-    await this.apollo.client.clearStore(); // need to clear the cache first, because some queries get fetched right after logout completes
-    this.localStorageService.removeItem('auth');
-    this.currentUser.next(null); // only after cache is finished clearing can we emmit new user (because it might trigger some refetches)
-  }
-
-  async login(loginResponse: LoginResponse): Promise<any> {
-    await this.apollo.client.clearStore();
-    this.localStorageService.setItem(
-      'auth',
-      loginResponse,
-      dayjs().add(1, 'year').toISOString()
-    );
-
-    this.currentUser.next(loginResponse.user);
-  }
-
-  getToken(): string {
-    const authData = this.localStorageService.getItem('auth');
-
-    if (authData != null && authData.user) {
-      return authData.token;
+        if (authData !== undefined && authData.user) {
+            this.currentUser.next(authData.user);
+        }
     }
 
-    return null;
-  }
+    async logout() {
+        await this.apollo.client.clearStore(); // need to clear the cache first, because some queries get fetched right after logout completes
+        this.localStorageService.removeItem('auth');
+        this.currentUser.next(null); // only after cache is finished clearing can we emmit new user (because it might trigger some refetches)
+    }
 
-  async guardedAction(options: GuardedActionOptions): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (this.currentUser.value != null) {
-        resolve(true);
-        return;
-      }
+    async login(loginResponse: LoginResponse): Promise<any> {
+        await this.apollo.client.clearStore();
+        this.localStorageService.setItem('auth', loginResponse, dayjs().add(1, 'year').toISOString());
 
-      const success = new Subject<any>();
+        this.currentUser.next(loginResponse.user);
+    }
 
-      this.openLogin$.next({
-        success: success,
-        ...options,
-      });
+    getToken(): string {
+        const authData = this.localStorageService.getItem('auth');
 
-      success.subscribe((data) => {
-        resolve(data);
-      });
-    });
-  }
+        if (authData !== undefined && authData.user) {
+            return authData.token;
+        }
+
+        return null;
+    }
+
+    async guardedAction(options: GuardedActionOptions): Promise<any> {
+        return new Promise((resolve, _reject) => {
+            if (this.currentUser.value !== null) {
+                resolve(true);
+                return;
+            }
+
+            const success = new Subject<any>();
+
+            this.openLogin$.next({
+                success: success,
+                ...options
+            });
+
+            success.subscribe((data) => {
+                resolve(data);
+            });
+        });
+    }
 }

@@ -1,10 +1,10 @@
 .warn,
 .notice {
-  a {
-    color: unset;
-    text-decoration: underline;
-  }
-  &.preview {
-    font-size: 12px;
-  }
+    a {
+        color: unset;
+        text-decoration: underline;
+    }
+    &.preview {
+        font-size: 12px;
+    }
 }

@@ -1,60 +1,61 @@
 @if (!onlyPreview) {
-<section class="m-b-16 m-t-16 m-r-16 flex flex-justify-end">
-  <button mat-flat-button>Dodaj fotografijo</button>
-</section>
+    <section class="m-b-16 m-t-16 m-r-16 flex flex-justify-end">
+        <button mat-flat-button>Dodaj fotografijo</button>
+    </section>
 }
 <section id="images">
-  @if (images().length === 0) {
-  <div>
-    <app-question-icon></app-question-icon>
-  </div>
-  <div class="p-l-8">
-    Ni fotografij.
-    <a>Dodaj fotografijo.</a>
-  </div>
-  } @else { @for (_ of getColumnsArray; track $index) {
-  <div class="column">
-    @for (image of (images() | imageArrayTransform: nrColumns:$index ); track
-    $index) {
-    <div class="card">
-      <app-responsive-image
-        [imageWidths]="[300, 600]"
-        [imagePath]="image.path"
-        renderSizes="
+    @if (images().length === 0) {
+        <div>
+            <app-question-icon></app-question-icon>
+        </div>
+        <div class="p-l-8">
+            Ni fotografij.
+            <a>Dodaj fotografijo.</a>
+        </div>
+    } @else {
+        @for (_ of getColumnsArray; track $index) {
+            <div class="column">
+                @for (image of images() | imageArrayTransform: nrColumns : $index; track $index) {
+                    <div class="card">
+                        <app-responsive-image
+                            [imageWidths]="[300, 600]"
+                            [imagePath]="image.path"
+                            renderSizes="
           (max-width: 768px) 156px,
           (max-width: 1024px) 224px,
           (max-width: 1528px) 228px,
           280px
         "
-        [maxIntrinsicWidth]="image.maxIntrinsicWidth"
-        [fallbackWidth]="600"
-        [imageAlt]="image.title"
-        (click)="onImageClick($index)"
-      ></app-responsive-image>
+                            [maxIntrinsicWidth]="image.maxIntrinsicWidth"
+                            [fallbackWidth]="600"
+                            [imageAlt]="image.title"
+                            (click)="onImageClick($index)"
+                        ></app-responsive-image>
 
-      <div class="title">{{ image.title }}</div>
-      @if (image.author) {
-      <div class="author">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            width="20"
-            height="20"
-            className="fill-current"
-          >
-            <path
-              d="M480-264q72 0 120-49t48-119q0-69-48-118.5T480-600q-72 0-120 49.5T312-432q0 70 48 119t120 49Zm0-72q-42 0-69-27t-27-68q0-40 27-68.5t69-28.5q42 0 69 28.5t27 68.5q0 41-27 68t-69 27ZM168-144q-29 0-50.5-21.5T96-216v-432q0-29 21.5-50.5T168-720h120l72-96h240l72 96h120q30 0 51 21.5t21 50.5v432q0 29-21 50.5T792-144H168Z"
-            />
-          </svg>
-        </div>
-        <div>
-          {{ image.author }}
-        </div>
-      </div>
-      }
-    </div>
+                        <div class="title">{{ image.title }}</div>
+                        @if (image.author) {
+                            <div class="author">
+                                <div>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 -960 960 960"
+                                        width="20"
+                                        height="20"
+                                        className="fill-current"
+                                    >
+                                        <path
+                                            d="M480-264q72 0 120-49t48-119q0-69-48-118.5T480-600q-72 0-120 49.5T312-432q0 70 48 119t120 49Zm0-72q-42 0-69-27t-27-68q0-40 27-68.5t69-28.5q42 0 69 28.5t27 68.5q0 41-27 68t-69 27ZM168-144q-29 0-50.5-21.5T96-216v-432q0-29 21.5-50.5T168-720h120l72-96h240l72 96h120q30 0 51 21.5t21 50.5v432q0 29-21 50.5T792-144H168Z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div>
+                                    {{ image.author }}
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
     }
-  </div>
-  } }
 </section>

@@ -1,20 +1,21 @@
 <section id="tabs">
-  <div>&nbsp;</div>
-  @for (tab of tabs; track $index) {
-  <div [class.active]="tab.slug === active()" (click)="setActiveTab(tab)">
-    @if (tab.icon==='calendar') {
-    <app-calendar-icon [active]="tab.slug === active()"></app-calendar-icon>
-    } @else if (tab.icon==='ascents') {
-    <app-ascents-icon [active]="tab.slug === active()"></app-ascents-icon>
-    } @else if (tab.icon==='statistics') {
-    <app-statistics-icon [active]="tab.slug === active()"></app-statistics-icon>
-    } @if (breakpointService.gtSm()) {
-    <span>
-      {{ tab.label }}
-    </span>
+    <div>&nbsp;</div>
+    @for (tab of tabs; track $index) {
+        <div [class.active]="tab.slug === active()" (click)="setActiveTab(tab)">
+            @if (tab.icon === 'calendar') {
+                <app-calendar-icon [active]="tab.slug === active()"></app-calendar-icon>
+            } @else if (tab.icon === 'ascents') {
+                <app-ascents-icon [active]="tab.slug === active()"></app-ascents-icon>
+            } @else if (tab.icon === 'statistics') {
+                <app-statistics-icon [active]="tab.slug === active()"></app-statistics-icon>
+            }
+            @if (breakpointService.gtSm) {
+                <span>
+                    {{ tab.label }}
+                </span>
+            }
+        </div>
+        <div>&nbsp;</div>
     }
-  </div>
-  <div>&nbsp;</div>
-  }
-  <div>&nbsp;</div>
+    <div>&nbsp;</div>
 </section>

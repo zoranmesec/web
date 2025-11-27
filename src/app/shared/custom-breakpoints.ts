@@ -1,115 +1,115 @@
 import { BREAKPOINT } from 'ng-flex-layout';
 
 export const CUSTOM_BREAKPOINTS = [
-  {
-    alias: 'xs',
-    mediaQuery: 'screen and (min-width: 0px) and (max-width:639px)',
-    overlapping: false,
-    priority: 1000,
-    suffix: 'Xs',
-  },
-  {
-    alias: 'sm',
-    mediaQuery: 'screen and (min-width: 640px) and (max-width: 767px)',
-    overlapping: false,
-    priority: 900,
-    suffix: 'Sm',
-  },
-  {
-    alias: 'md',
-    mediaQuery: 'screen and (min-width: 768px) and (max-width: 1023px)',
-    overlapping: false,
-    priority: 800,
-    suffix: 'Md',
-  },
-  {
-    alias: 'lg',
-    mediaQuery: 'screen and (min-width: 1024px) and (max-width: 1279px)',
-    overlapping: false,
-    priority: 700,
-    suffix: 'Lg',
-  },
-  {
-    alias: 'xl',
-    mediaQuery: 'screen and (min-width: 1280px) and (max-width: 1535px)',
-    overlapping: false,
-    priority: 600,
-    suffix: 'Xl',
-  },
-  {
-    alias: '2xl',
-    mediaQuery: 'screen and (min-width: 1536px)',
-    overlapping: false,
-    priority: 500,
-    suffix: '2Xl',
-  },
-  {
-    alias: 'lt-sm',
-    overlapping: true,
-    mediaQuery: 'screen and (max-width: 639.98px)',
-    priority: 950,
-    suffix: 'LtSm',
-  },
-  {
-    alias: 'lt-md',
-    overlapping: true,
-    mediaQuery: 'screen and (max-width: 767.98px)',
-    priority: 850,
-    suffix: 'LtMd',
-  },
-  {
-    alias: 'lt-lg',
-    overlapping: true,
-    mediaQuery: 'screen and (max-width: 1023.98px)',
-    priority: 750,
-    suffix: 'LtLg',
-  },
-  {
-    alias: 'lt-xl',
-    overlapping: true,
-    priority: 650,
-    mediaQuery: 'screen and (max-width: 1279.98px)',
-    suffix: 'LtXl',
-  },
-  {
-    alias: 'gt-xs',
-    overlapping: true,
-    mediaQuery: 'screen and (min-width: 639px)',
-    priority: -950,
-    suffix: 'GtXs',
-  },
-  {
-    alias: 'gt-sm',
-    overlapping: true,
-    mediaQuery: 'screen and (min-width: 767px)',
-    priority: -850,
-    suffix: 'GtSm',
-  },
-  {
-    alias: 'gt-md',
-    overlapping: true,
-    mediaQuery: 'screen and (min-width: 1023px)',
-    priority: -750,
-    suffix: 'GtMd',
-  },
-  {
-    alias: 'gt-lg',
-    overlapping: true,
-    mediaQuery: 'screen and (min-width: 1279px)',
-    priority: -650,
-    suffix: 'GtLg',
-  },
-  {
-    alias: 'gt-xl',
-    overlapping: true,
-    mediaQuery: 'screen and (min-width: 1535px)',
-    priority: -550,
-    suffix: 'GtXl',
-  },
+    {
+        alias: 'xs',
+        mediaQuery: 'screen and (min-width: 0px) and (max-width:639px)',
+        overlapping: false,
+        priority: 1000,
+        suffix: 'Xs'
+    },
+    {
+        alias: 'sm',
+        mediaQuery: 'screen and (min-width: 640px) and (max-width: 767px)',
+        overlapping: false,
+        priority: 900,
+        suffix: 'Sm'
+    },
+    {
+        alias: 'md',
+        mediaQuery: 'screen and (min-width: 768px) and (max-width: 1023px)',
+        overlapping: false,
+        priority: 800,
+        suffix: 'Md'
+    },
+    {
+        alias: 'lg',
+        mediaQuery: 'screen and (min-width: 1024px) and (max-width: 1279px)',
+        overlapping: false,
+        priority: 700,
+        suffix: 'Lg'
+    },
+    {
+        alias: 'xl',
+        mediaQuery: 'screen and (min-width: 1280px) and (max-width: 1535px)',
+        overlapping: false,
+        priority: 600,
+        suffix: 'Xl'
+    },
+    {
+        alias: '2xl',
+        mediaQuery: 'screen and (min-width: 1536px)',
+        overlapping: false,
+        priority: 500,
+        suffix: '2Xl'
+    },
+    {
+        alias: 'lt-sm',
+        overlapping: true,
+        mediaQuery: 'screen and (max-width: 639.98px)',
+        priority: 950,
+        suffix: 'LtSm'
+    },
+    {
+        alias: 'lt-md',
+        overlapping: true,
+        mediaQuery: 'screen and (max-width: 767.98px)',
+        priority: 850,
+        suffix: 'LtMd'
+    },
+    {
+        alias: 'lt-lg',
+        overlapping: true,
+        mediaQuery: 'screen and (max-width: 1023.98px)',
+        priority: 750,
+        suffix: 'LtLg'
+    },
+    {
+        alias: 'lt-xl',
+        overlapping: true,
+        priority: 650,
+        mediaQuery: 'screen and (max-width: 1279.98px)',
+        suffix: 'LtXl'
+    },
+    {
+        alias: 'gt-xs',
+        overlapping: true,
+        mediaQuery: 'screen and (min-width: 639px)',
+        priority: -950,
+        suffix: 'GtXs'
+    },
+    {
+        alias: 'gt-sm',
+        overlapping: true,
+        mediaQuery: 'screen and (min-width: 767px)',
+        priority: -850,
+        suffix: 'GtSm'
+    },
+    {
+        alias: 'gt-md',
+        overlapping: true,
+        mediaQuery: 'screen and (min-width: 1023px)',
+        priority: -750,
+        suffix: 'GtMd'
+    },
+    {
+        alias: 'gt-lg',
+        overlapping: true,
+        mediaQuery: 'screen and (min-width: 1279px)',
+        priority: -650,
+        suffix: 'GtLg'
+    },
+    {
+        alias: 'gt-xl',
+        overlapping: true,
+        mediaQuery: 'screen and (min-width: 1535px)',
+        priority: -550,
+        suffix: 'GtXl'
+    }
 ];
 
 export const CustomBreakpointsProvider = {
-  provide: BREAKPOINT,
-  useValue: CUSTOM_BREAKPOINTS,
-  multi: false,
+    provide: BREAKPOINT,
+    useValue: CUSTOM_BREAKPOINTS,
+    multi: false
 };

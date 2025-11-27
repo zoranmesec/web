@@ -1,80 +1,70 @@
 <div>
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline">
-      <mat-icon matPrefix class="my-icon">search</mat-icon>
-      <mat-label>{{ typeLabel }}</mat-label>
-      <input
-        #searchInput
-        type="text"
-        matInput
-        mat
-        placeholder="Vnesi ime"
-        formControlName="searchControl"
-        [matAutocomplete]="auto"
-        />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          [displayWith]="displayFn.bind(this)"
-          (optionSelected)="onOptionSelected($event.option.value)"
-          >
-          @if (error) {
-            <mat-option disabled
-              >Prišlo je do nepričakovane napake</mat-option
-              >
-          }
-
-          @if (!error) {
-            @if(loading) {
-              <mat-option disabled><app-loader></app-loader></mat-option>
-              } @if (searchResults?.crags) {
-              @if (searchResults?.crags.length) {
-                <mat-optgroup label="Plezališča">
-                  @for (crag of searchResults.crags; track crag) {
-                    <mat-option [value]="crag">
-                      {{ crag.name }}
-                    </mat-option>
-                  }
-                </mat-optgroup>
-              }
-              } @if (searchResults?.routes) {
-              @if (searchResults?.routes.length) {
-                <mat-optgroup label="Smeri">
-                  @for (route of searchResults.routes; track route) {
-                    <mat-option
-                      [value]="route"
-                      >
-                      {{ route.name }}
-                    </mat-option>
-                  }
-                </mat-optgroup>
-              }
-              } @if (searchResults?.sectors) {
-              @if (searchResults?.sectors.length) {
-                <mat-optgroup label="Sektorji">
-                  @for (sector of searchResults.sectors; track sector) {
-                    <mat-option
-                      [value]="sector"
-                      >
-                      {{ sector.name }}
-                    </mat-option>
-                  }
-                </mat-optgroup>
-              }
-            }
-            @if (searchResults?.users?.length) {
-              <mat-optgroup label="Uporabniki">
-                @for (user of searchResults.users; track user) {
-                  <mat-option [value]="user">
-                    {{ user.fullName }}
-                  </mat-option>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline">
+            <mat-icon matPrefix class="my-icon">search</mat-icon>
+            <mat-label>{{ typeLabel }}</mat-label>
+            <input #searchInput type="text" matInput mat placeholder="Vnesi ime" formControlName="searchControl" [matAutocomplete]="auto" />
+            <!-- eslint-disable @angular-eslint/template/no-call-expression -->
+            <mat-autocomplete
+            #auto="matAutocomplete"
+                [displayWith]="displayFn.bind(this)"
+                (optionSelected)="onOptionSelected($event.option.value)"
+            >
+                @if (error) {
+                    <mat-option disabled>Prišlo je do nepričakovane napake</mat-option>
                 }
-              </mat-optgroup>
-            }
-          }
-        </mat-autocomplete>
-        <button type="button" matSuffix mat-icon-button (click)="onClear()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+
+                @if (!error) {
+                    @if (loading) {
+                        <mat-option disabled><app-loader></app-loader></mat-option>
+                    }
+                    @if (searchResults?.crags) {
+                        @if (searchResults?.crags.length) {
+                            <mat-optgroup label="Plezališča">
+                                @for (crag of searchResults.crags; track crag) {
+                                    <mat-option [value]="crag">
+                                        {{ crag.name }}
+                                    </mat-option>
+                                }
+                            </mat-optgroup>
+                        }
+                    }
+                    @if (searchResults?.routes) {
+                        @if (searchResults?.routes.length) {
+                            <mat-optgroup label="Smeri">
+                                @for (route of searchResults.routes; track route) {
+                                    <mat-option [value]="route">
+                                        {{ route.name }}
+                                    </mat-option>
+                                }
+                            </mat-optgroup>
+                        }
+                    }
+                    @if (searchResults?.sectors) {
+                        @if (searchResults?.sectors.length) {
+                            <mat-optgroup label="Sektorji">
+                                @for (sector of searchResults.sectors; track sector) {
+                                    <mat-option [value]="sector">
+                                        {{ sector.name }}
+                                    </mat-option>
+                                }
+                            </mat-optgroup>
+                        }
+                    }
+                    @if (searchResults?.users?.length) {
+                        <mat-optgroup label="Uporabniki">
+                            @for (user of searchResults.users; track user) {
+                                <mat-option [value]="user">
+                                    {{ user.fullName }}
+                                </mat-option>
+                            }
+                        </mat-optgroup>
+                    }
+                }
+            </mat-autocomplete>
+            <button type="button" matSuffix mat-icon-button (click)="onClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
     </form>
-  </div>
+</div>

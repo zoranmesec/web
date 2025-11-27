@@ -1,5 +1,5 @@
 mutation CreateClubMemberByEmail($input: CreateClubMemberByEmailInput!) {
-  createClubMemberByEmail(input: $input) {
-    id
-  }
+    createClubMemberByEmail(input: $input) {
+        id
+    }
 }

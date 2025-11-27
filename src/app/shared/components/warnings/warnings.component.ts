@@ -5,27 +5,25 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Comment, User } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-warnings',
-  templateUrl: './warnings.component.html',
-  styleUrls: ['./warnings.component.scss'],
-  standalone: true,
-  imports: [CommonModule],
+    selector: 'app-warnings',
+    templateUrl: './warnings.component.html',
+    styleUrls: ['./warnings.component.scss'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class WarningsComponent implements OnInit, OnDestroy {
-  @Input() warnings: Comment[] = [];
+    @Input() warnings: Comment[] = [];
 
-  authSub: Subscription;
-  user: User;
+    authSub: Subscription;
+    user: User;
 
-  constructor(public authService: AuthService) {}
+    constructor(public authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.authSub = this.authService.currentUser.subscribe(
-      (user) => (this.user = user)
-    );
-  }
+    ngOnInit(): void {
+        this.authSub = this.authService.currentUser.subscribe((user) => (this.user = user));
+    }
 
-  ngOnDestroy(): void {
-    this.authSub.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.authSub.unsubscribe();
+    }
 }

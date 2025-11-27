@@ -1,112 +1,112 @@
 query RouteBySlug($cragSlug: String!, $routeSlug: String!) {
-  routeBySlug(cragSlug: $cragSlug, routeSlug: $routeSlug) {
-    id
-    slug
-    difficulty
-    defaultGradingSystem {
-      id
-    }
-    isProject
-    name
-    length
-    author
-    publishStatus
-    starRating
-    routeEvents {
-      id
-      eventDate
-      author
-      showFullDate
-      eventType
-    }
-    pitches {
-      difficulty
-      isProject
-      number
-      height
-    }
-    difficultyVotes {
-      user {
-        firstname
-        lastname
-      }
-      difficulty
-      created
-      updated
-      isBase
-      includedInCalculation
-    }
-    starRatingVotes {
-      stars
-      user {
-        firstname
-        lastname
-      }
-      created
-      updated
-    }
-    properties {
-      id
-      propertyType {
+    routeBySlug(cragSlug: $cragSlug, routeSlug: $routeSlug) {
         id
-        name
-        valueType
-      }
-      stringValue
-      textValue
-      numValue
-      author
-    }
-    comments {
-      id
-      type
-      user {
-        id
-        fullName
-      }
-      content
-      created
-      updated
-    }
-    images {
-      id
-      title
-      path
-      aspectRatio
-      maxIntrinsicWidth
-      author
-      user {
-        id
-      }
-    }
-    sector {
-      id
-      name
-      crag {
-        name
         slug
-        country {
-          slug
-          name
+        difficulty
+        defaultGradingSystem {
+            id
         }
-        peak {
-          name
-          slug
+        isProject
+        name
+        length
+        author
+        publishStatus
+        starRating
+        routeEvents {
+            id
+            eventDate
+            author
+            showFullDate
+            eventType
         }
-        routes {
-          id
-          slug
-          name
+        pitches {
+            difficulty
+            isProject
+            number
+            height
         }
-        area {
-          name
-          slug
+        difficultyVotes {
+            user {
+                firstname
+                lastname
+            }
+            difficulty
+            created
+            updated
+            isBase
+            includedInCalculation
         }
-      }
+        starRatingVotes {
+            stars
+            user {
+                firstname
+                lastname
+            }
+            created
+            updated
+        }
+        properties {
+            id
+            propertyType {
+                id
+                name
+                valueType
+            }
+            stringValue
+            textValue
+            numValue
+            author
+        }
+        comments {
+            id
+            type
+            user {
+                id
+                fullName
+            }
+            content
+            created
+            updated
+        }
+        images {
+            id
+            title
+            path
+            aspectRatio
+            maxIntrinsicWidth
+            author
+            user {
+                id
+            }
+        }
+        sector {
+            id
+            name
+            crag {
+                name
+                slug
+                country {
+                    slug
+                    name
+                }
+                peak {
+                    name
+                    slug
+                }
+                routes {
+                    id
+                    slug
+                    name
+                }
+                area {
+                    name
+                    slug
+                }
+            }
+        }
+        nrTicks
+        nrTries
+        nrClimbers
+        description
     }
-    nrTicks
-    nrTries
-    nrClimbers
-    description
-  }
 }

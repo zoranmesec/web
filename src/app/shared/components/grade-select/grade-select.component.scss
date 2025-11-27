@@ -1,18 +1,18 @@
 :host {
-  mat-form-field {
-    ::ng-deep {
-      .mat-mdc-text-field-wrapper {
-        background-color: white;
-      }
+    mat-form-field {
+        ::ng-deep {
+            .mat-mdc-text-field-wrapper {
+                background-color: white;
+            }
+        }
     }
-  }
 
-  .mdc-line-ripple::before {
-    border-bottom: none !important;
-  }
+    .mdc-line-ripple::before {
+        border-bottom: none !important;
+    }
 
-  app-minus-icon.enabled,
-  app-plus-icon.enabled {
-    cursor: pointer;
-  }
+    app-minus-icon.enabled,
+    app-plus-icon.enabled {
+        cursor: pointer;
+    }
 }

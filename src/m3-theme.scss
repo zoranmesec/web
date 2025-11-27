@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "@angular/material" as mat;
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 // $palettes: (
 //   primary: (
@@ -18,173 +18,175 @@
 // Note: Color palettes are generated from primary: #2B7FD9, secondary: #E5E5E5, tertiary: #F0B3AA, neutral: #E5E5E5, neutral variant: #E5E5E5, error: #D9422B
 // Note this is pure bs, most tokens are overriden in global styles
 $_palettes: (
-  primary: (
-    0: #000000,
-    10: #001c3a,
-    20: #00315e,
-    25: #003c71,
-    30: #004785,
-    35: #005399,
-    40: #171717,
-    50: #525252,
-    60: #e5e5e5,
-    70: #71adff,
-    80: #a5c8ff,
-    90: #d4e3ff,
-    95: #ebf1ff,
-    98: #f9f9ff,
-    99: #fdfcff,
-    100: #ffffff,
-  ),
-  secondary: (
-    0: #000000,
-    10: #171717,
-    20: #2f3131,
-    25: #3a3c3c,
-    30: #ffffff,
-    35: #aaccf0,
-    40: #2b7fd9,
-    50: #4b92df,
-    60: #256cb8,
-    70: #d5e5f7,
-    80: #c6c6c6,
-    90: #e2e2e2,
-    95: #f1f1f1,
-    98: #f5f5f5,
-    99: #fcfcfc,
-    100: #ffffff,
-  ),
-  tertiary: (
-    0: #000000,
-    10: #33110d,
-    20: #4c2520,
-    25: #59302a,
-    30: #663b35,
-    35: #744640,
-    40: #82524b,
-    50: #9d6a63,
-    60: #ba837b,
-    70: #d79d94,
-    80: #f5b8af,
-    90: #ffdad5,
-    95: #ffedea,
-    98: #fff8f7,
-    99: #fffbff,
-    100: #ffffff,
-  ),
-  neutral: (
-    0: #000000,
-    10: #171717,
-    20: #2f3131,
-    25: #3a3c3c,
-    30: #ffffff,
-    35: #515353,
-    40: #5d5f5f,
-    50: #ffffff,
-    60: #909191,
-    70: #ababab,
-    80: #c6c6c6,
-    90: #e2e2e2,
-    95: #f1f1f1,
-    98: #f5f5f5,
-    99: #fcfcfc,
-    100: #ffffff,
-    4: #0d0f0f,
-    6: #121414,
-    12: #1e2020,
-    17: #282a2b,
-    22: #333535,
-    24: #38393a,
-    87: #dadada,
-    92: #e8e8e8,
-    94: #eeeeee,
-    96: #f4f3f3,
-  ),
-  neutral-variant: (
-    0: #000000,
-    10: #171717,
-    20: #2f3131,
-    25: #3a3c3c,
-    30: #a3a3a3,
-    //input color
-    35: #515353,
-    40: #5d5f5f,
-    50: #767777,
-    //button outline
-    60: #737373,
-    //checkbox unselected focus
-    70: #ababab,
-    80: #c6c6c6,
-    90: #e2e2e2,
-    95: #f1f1f1,
-    98: #f5f5f5,
-    99: #fcfcfc,
-    100: #ffffff,
-  ),
-  error: (
-    0: #000000,
-    10: #3f0300,
-    20: #660700,
-    25: #7b0a00,
-    30: #900d00,
-    35: #a31a07,
-    40: #171717,
-    50: #d9422b,
-    60: #fb5a40,
-    70: #ff8a75,
-    80: #ffb4a6,
-    90: #fbecea,
-    95: #ffede9,
-    98: #fff8f6,
-    99: #fffbff,
-    100: #ffffff,
-  ),
+    primary: (
+        0: #000000,
+        10: #001c3a,
+        20: #00315e,
+        25: #003c71,
+        30: #004785,
+        35: #005399,
+        40: #171717,
+        50: #525252,
+        60: #e5e5e5,
+        70: #71adff,
+        80: #a5c8ff,
+        90: #d4e3ff,
+        95: #ebf1ff,
+        98: #f9f9ff,
+        99: #fdfcff,
+        100: #ffffff
+    ),
+    secondary: (
+        0: #000000,
+        10: #171717,
+        20: #2f3131,
+        25: #3a3c3c,
+        30: #ffffff,
+        35: #aaccf0,
+        40: #2b7fd9,
+        50: #4b92df,
+        60: #256cb8,
+        70: #d5e5f7,
+        80: #c6c6c6,
+        90: #e2e2e2,
+        95: #f1f1f1,
+        98: #f5f5f5,
+        99: #fcfcfc,
+        100: #ffffff
+    ),
+    tertiary: (
+        0: #000000,
+        10: #33110d,
+        20: #4c2520,
+        25: #59302a,
+        30: #663b35,
+        35: #744640,
+        40: #82524b,
+        50: #9d6a63,
+        60: #ba837b,
+        70: #d79d94,
+        80: #f5b8af,
+        90: #ffdad5,
+        95: #ffedea,
+        98: #fff8f7,
+        99: #fffbff,
+        100: #ffffff
+    ),
+    neutral: (
+        0: #000000,
+        10: #171717,
+        20: #2f3131,
+        25: #3a3c3c,
+        30: #ffffff,
+        35: #515353,
+        40: #5d5f5f,
+        50: #ffffff,
+        60: #909191,
+        70: #ababab,
+        80: #c6c6c6,
+        90: #e2e2e2,
+        95: #f1f1f1,
+        98: #f5f5f5,
+        99: #fcfcfc,
+        100: #ffffff,
+        4: #0d0f0f,
+        6: #121414,
+        12: #1e2020,
+        17: #282a2b,
+        22: #333535,
+        24: #38393a,
+        87: #dadada,
+        92: #e8e8e8,
+        94: #eeeeee,
+        96: #f4f3f3
+    ),
+    neutral-variant: (
+        0: #000000,
+        10: #171717,
+        20: #2f3131,
+        25: #3a3c3c,
+        30: #a3a3a3,
+        //input color
+        35: #515353,
+        40: #5d5f5f,
+        50: #767777,
+        //button outline
+        60: #737373,
+        //checkbox unselected focus
+        70: #ababab,
+        80: #c6c6c6,
+        90: #e2e2e2,
+        95: #f1f1f1,
+        98: #f5f5f5,
+        99: #fcfcfc,
+        100: #ffffff
+    ),
+    error: (
+        0: #000000,
+        10: #3f0300,
+        20: #660700,
+        25: #7b0a00,
+        30: #900d00,
+        35: #a31a07,
+        40: #171717,
+        50: #d9422b,
+        60: #fb5a40,
+        70: #ff8a75,
+        80: #ffb4a6,
+        90: #fbecea,
+        95: #ffede9,
+        98: #fff8f6,
+        99: #fffbff,
+        100: #ffffff
+    )
 );
 
 $_rest: (
-  secondary: map.get($_palettes, secondary),
-  neutral: map.get($_palettes, neutral),
-  neutral-variant: map.get($_palettes, neutral-variant),
-  error: map.get($_palettes, error),
+    secondary: map.get($_palettes, secondary),
+    neutral: map.get($_palettes, neutral),
+    neutral-variant: map.get($_palettes, neutral-variant),
+    error: map.get($_palettes, error)
 );
 $_primary: map.merge(map.get($_palettes, primary), $_rest);
 $_tertiary: map.merge(map.get($_palettes, tertiary), $_rest);
 $light-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: $_primary,
-      tertiary: $_tertiary,
-    ),
-    typography: (
-      plain-family: Poppins,
-      bold-weight: 800,
-      medium-weight: 500,
-      regular-weight: 400,
-    ),
-    density: (
-      scale: 0,
-    ),
-  )
+    (
+        color: (
+            theme-type: light,
+            primary: $_primary,
+            tertiary: $_tertiary
+        ),
+        typography: (
+            plain-family: Poppins,
+            bold-weight: 800,
+            medium-weight: 500,
+            regular-weight: 400
+        ),
+        density: (
+            scale: 0
+        )
+    )
 );
+
+@include mat.typography-hierarchy($light-theme);
 $dark-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: $_primary,
-      tertiary: $_tertiary,
-      use-system-variables: true,
-    system-variables-prefix: sys,
-    ),
-    typography: (
-      plain-family: Poppins,
-      brand-family: Open Sans,
-      bold-weight: 800,
-      medium-weight: 500,
-      regular-weight: 400,
-    ),
-    density: (
-      scale: 0,
-    ),
-  )
+    (
+        color: (
+            theme-type: dark,
+            primary: $_primary,
+            tertiary: $_tertiary,
+            use-system-variables: true,
+            system-variables-prefix: sys
+        ),
+        typography: (
+            plain-family: Poppins,
+            brand-family: Open Sans,
+            bold-weight: 800,
+            medium-weight: 500,
+            regular-weight: 400
+        ),
+        density: (
+            scale: 0
+        )
+    )
 );

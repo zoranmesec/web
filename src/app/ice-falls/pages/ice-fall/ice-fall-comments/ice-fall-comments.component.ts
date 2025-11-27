@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 
 interface IComment {
-  content: string;
-  user: {
-    firstname: string;
-    lastname: string;
-  };
-  type: string;
-  created: string;
+    content: string;
+    user: {
+        firstname: string;
+        lastname: string;
+    };
+    type: string;
+    created: string;
 }
 
 @Component({
@@ -18,30 +18,30 @@ interface IComment {
     standalone: false
 })
 export class IceFallCommentsComponent {
-  allComments: IComment[];
-  regularComments: IComment[];
-  conditions: IComment[];
+    allComments: IComment[];
+    regularComments: IComment[];
+    conditions: IComment[];
 
-  @Input() action: Subject<string>;
+    @Input() action: Subject<string>;
 
-  @Input() set comments(comments: IComment[]) {
-    this.allComments = comments;
+    @Input() set comments(comments: IComment[]) {
+        this.allComments = comments;
 
-    this.regularComments = [];
-    this.conditions = [];
+        this.regularComments = [];
+        this.conditions = [];
 
-    this.allComments.forEach((comment) => {
-      if (comment.type === 'condition') {
-        this.conditions.push(comment);
-      } else if (comment.type === 'comment') {
-        this.regularComments.push(comment);
-      }
-    });
-  }
+        this.allComments.forEach((comment) => {
+            if (comment.type === 'condition') {
+                this.conditions.push(comment);
+            } else if (comment.type === 'comment') {
+                this.regularComments.push(comment);
+            }
+        });
+    }
 
-  get comments(): IComment[] {
-    return this.allComments;
-  }
+    get comments(): IComment[] {
+        return this.allComments;
+    }
 
-  constructor() {}
+    
 }

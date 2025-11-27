@@ -8,65 +8,63 @@ import { DataError } from 'src/app/types/data-error';
 import { Club, MyClubsGQL, MyClubsQuery } from '../../../generated/graphql';
 
 @Component({
-  selector: 'app-clubs',
-  templateUrl: './clubs.component.html',
-  styleUrls: ['./clubs.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: false,
+    selector: 'app-clubs',
+    templateUrl: './clubs.component.html',
+    styleUrls: ['./clubs.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ClubsComponent implements OnInit, OnDestroy {
-  myClubs: Club[] = [];
-  loading = true;
-  error: DataError = null;
-  myClubsQuery: QueryRef<MyClubsQuery, any>;
-  myClubsSubscription: Subscription;
+    myClubs: Club[] = [];
+    loading = true;
+    error: DataError = null;
+    myClubsQuery: QueryRef<MyClubsQuery, any>;
+    myClubsSubscription: Subscription;
 
-  constructor(
-    private layoutService: LayoutService,
-    private myClubsGQL: MyClubsGQL,
-    private dialog: MatDialog
-  ) {}
+    constructor(
+        private layoutService: LayoutService,
+        private myClubsGQL: MyClubsGQL,
+        private dialog: MatDialog
+    ) {}
 
-  ngOnInit(): void {
-    this.myClubsQuery = this.myClubsGQL.watch();
-    this.myClubsSubscription = this.myClubsQuery.valueChanges.subscribe(
-      (result: any) => {
-        this.loading = false;
-        if (result.errors != null) {
-          this.error = {
-            message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.',
-          };
-        } else {
-          this.querySuccess(result.data);
-        }
-      }
-    );
-  }
+    ngOnInit(): void {
+        this.myClubsQuery = this.myClubsGQL.watch();
+        this.myClubsSubscription = this.myClubsQuery.valueChanges.subscribe((result: any) => {
+            this.loading = false;
+            if (result.errors !== null) {
+                this.error = {
+                    message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.'
+                };
+            } else {
+                this.querySuccess(result.data);
+            }
+        });
+    }
 
-  querySuccess(data: any) {
-    this.myClubs = data.myClubs;
+    querySuccess(data: any) {
+        this.myClubs = data.myClubs;
 
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Moj Profil',
-        path: '/moj-profil',
-      },
-      {
-        name: 'Moji Klubi',
-      },
-    ]);
-  }
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Moj Profil',
+                path: '/moj-profil'
+            },
+            {
+                name: 'Moji Klubi'
+            }
+        ]);
+    }
 
-  createClub() {
-    this.dialog
-      .open(ClubFormComponent)
-      .afterClosed()
-      .subscribe(() => {
-        this.myClubsQuery.refetch();
-      });
-  }
+    createClub() {
+        this.dialog
+            .open(ClubFormComponent)
+            .afterClosed()
+            .subscribe(() => {
+                this.myClubsQuery.refetch();
+            });
+    }
 
-  ngOnDestroy() {
-    this.myClubsSubscription.unsubscribe();
-  }
+    ngOnDestroy() {
+        this.myClubsSubscription.unsubscribe();
+    }
 }

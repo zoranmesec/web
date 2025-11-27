@@ -1,17 +1,17 @@
 @if (crag().images && crag().images.length > 0) {
-<div class="card no-border">
-  <app-responsive-image
-    [imageWidths]="[300, 600]"
-    [fallbackWidth]="600"
-    [imagePath]="crag().images[0].path"
-    renderSizes="
+    <div class="card no-border">
+        <app-responsive-image
+            [imageWidths]="[300, 600]"
+            [fallbackWidth]="600"
+            [imagePath]="crag().images[0].path"
+            renderSizes="
       (max-width: 600px) 100vw, 
       (max-width: 960px) 50vw,
     calc(50vw - 32px)"
-    [maxIntrinsicWidth]="crag().images[0].maxIntrinsicWidth"
-    [imageAlt]="crag().images[0].title"
-  ></app-responsive-image>
+            [maxIntrinsicWidth]="crag().images[0].maxIntrinsicWidth"
+            [imageAlt]="crag().images[0].title"
+        ></app-responsive-image>
 
-  <!-- TODO: Should have crag-cover-image field on crag instead of simply displaying first image? -->
-</div>
+        <!-- TODO: Should have crag-cover-image field on crag instead of simply displaying first image? -->
+    </div>
 }

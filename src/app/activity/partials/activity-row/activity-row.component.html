@@ -1,78 +1,58 @@
 <td>
-  {{ activity.date | date: "d. M. yyyy" }}
+    {{ activity.date | date: 'd. M. yyyy' }}
 </td>
 <td>
-  <a [routerLink]="['/plezalni-dnevnik', activity.id]">{{ type }}</a>
+    <a [routerLink]="['/plezalni-dnevnik', activity.id]">{{ type }}</a>
 </td>
 <td>
-  @if (activity.crag != null) {
-    <a
-      [routerLink]="['/plezalisce', activity.crag.slug]"
-      >{{ activity.crag.name }}</a
-      >
+    @if (activity.crag !== null) {
+        <a [routerLink]="['/plezalisce', activity.crag.slug]">{{ activity.crag.name }}</a>
     }
-    @if (!(activity.crag != null)) {
-      <span>{{ activity.name }}</span>
+    @if (!(activity.crag !== null)) {
+        <span>{{ activity.name }}</span>
     }
-  </td>
-  <td>
-    @if (activity.type == 'crag' && activity.crag != null) {
-      {{
-      activity.routes.length | pluralizeNoun: "smer"
-      }}
+</td>
+<td>
+    @if (activity.type === 'crag' && activity.crag !== null) {
+        {{ activity.routes.length | pluralizeNoun: 'smer' }}
     }
     @if (activity.duration) {
-      {{ activity.duration }} min
+        {{ activity.duration }} min
     }
-  </td>
-  <td>
+</td>
+<td>
     @if (highestDifficulty && highestDiffGradingSystemId) {
-      <app-grade
-        [difficulty]="highestDifficulty"
-        [gradingSystemId]="highestDiffGradingSystemId"
-      ></app-grade>
+        <app-grade [difficulty]="highestDifficulty" [gradingSystemId]="highestDiffGradingSystemId"></app-grade>
     }
-  </td>
-  <td>
+</td>
+<td>
     @if (highestLeadClimbedDifficulty && highestLeadClimbedGradingSystemId) {
-      <app-grade
-        [difficulty]="highestLeadClimbedDifficulty"
-        [gradingSystemId]="highestLeadClimbedGradingSystemId"
-      ></app-grade>
+        <app-grade [difficulty]="highestLeadClimbedDifficulty" [gradingSystemId]="highestLeadClimbedGradingSystemId"></app-grade>
     }
-  </td>
-  <td>
-    {{ totalLength ? totalLength + " m" : "" }}
-  </td>
+</td>
+<td>
+    {{ totalLength ? totalLength + ' m' : '' }}
+</td>
 
-  <td class="tools">
+<td class="tools">
     <button mat-icon-button [mat-menu-trigger-for]="menu">
-      <mat-icon>more_vert</mat-icon>
+        <mat-icon>more_vert</mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['/plezalni-dnevnik', activity.id]">
-        <span>Odpri vnos</span>
-      </button>
-      @if (activity.crag != null) {
-        <button
-          mat-menu-item
-          (click)="rowAction.next({ item: activity, action: 'filterByCrag' })"
-          >
-          <span>Vsi vnosi za to plezališče</span>
+        <button mat-menu-item [routerLink]="['/plezalni-dnevnik', activity.id]">
+            <span>Odpri vnos</span>
         </button>
-      }
-      <button
-        mat-menu-item
-        [routerLink]="['/plezalni-dnevnik/uredi/', activity.id]"
-        >
-        <span>Uredi vnos</span>
-      </button>
-      <button
-        mat-menu-item
-        (click)="rowAction.next({ item: activity, action: 'delete' })"
-        >
-        <span>Odstrani vnos</span>
-      </button>
+        @if (activity.crag !== null) {
+            <button mat-menu-item (click)="rowAction.next({ item: activity, action: 'filterByCrag' })">
+                <span>Vsi vnosi za to plezališče</span>
+            </button>
+        }
+        <button mat-menu-item [routerLink]="['/plezalni-dnevnik/uredi/', activity.id]">
+            <span>Uredi vnos</span>
+        </button>
+        <button mat-menu-item (click)="rowAction.next({ item: activity, action: 'delete' })">
+            <span>Odstrani vnos</span>
+        </button>
     </mat-menu>
-  </td>
+</td>

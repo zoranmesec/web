@@ -1,18 +1,12 @@
 <div class="whole-page-wrap">
-  <app-header></app-header>
-  <app-breadcrumbs></app-breadcrumbs>
-  <router-outlet></router-outlet>
-  <footer>
-    <div class="container text-center py-16">
-      <a [routerLink]="['/o-plezanje-net']">O plezanje.net</a> |
-      <a [routerLink]="['/dnevnik-sprememb']">Dnevnik sprememb</a> |
-      <a
-        href="mailto:info@plezanje.net"
-        target="_blank"
-        rel="noopener noreferrer"
-        >info&#64;plezanje.net</a
-      >
-      <div class="mt-4">© www.plezanje.net, 2004-{{ nowYear }}</div>
-    </div>
-  </footer>
+    <app-header></app-header>
+    <app-breadcrumbs></app-breadcrumbs>
+    <router-outlet></router-outlet>
+    <footer>
+        <div class="container text-center py-16">
+            <a [routerLink]="['/o-plezanje-net']">O plezanje.net</a> | <a [routerLink]="['/dnevnik-sprememb']">Dnevnik sprememb</a> |
+            <a href="mailto:info@plezanje.net" target="_blank" rel="noopener noreferrer">info&#64;plezanje.net</a>
+            <div class="mt-4">© www.plezanje.net, 2004-{{ nowYear }}</div>
+        </div>
+    </footer>
 </div>

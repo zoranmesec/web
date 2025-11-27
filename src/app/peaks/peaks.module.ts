@@ -12,18 +12,7 @@ import { PeaksCountryComponent } from './peaks-country/peaks-country.component';
 import { PeakCragsComponent } from './peak-crags/peak-crags.component';
 
 @NgModule({
-  declarations: [
-    PeaksCountriesComponent,
-    PeaksCountryComponent,
-    PeakCragsComponent,
-  ],
-  imports: [
-    CommonModule,
-    PeaksRoutingModule,
-    MatCardModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    FlexLayoutModule,
-  ],
+    declarations: [PeaksCountriesComponent, PeaksCountryComponent, PeakCragsComponent],
+    imports: [CommonModule, PeaksRoutingModule, MatCardModule, MatSelectModule, MatFormFieldModule, FlexLayoutModule]
 })
 export class PeaksModule {}

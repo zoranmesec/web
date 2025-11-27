@@ -4,31 +4,31 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-publish-status-hint',
-  templateUrl: './publish-status-hint.component.html',
-  styleUrls: ['./publish-status-hint.component.scss'],
-  standalone: true,
-  imports: [CommonModule],
+    selector: 'app-publish-status-hint',
+    templateUrl: './publish-status-hint.component.html',
+    styleUrls: ['./publish-status-hint.component.scss'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class PublishStatusHintComponent implements OnInit, OnDestroy {
-  @Input() entityType: string;
-  @Input() publishStatus: string;
-  @Input() previewMode = false;
+    @Input() entityType: string;
+    @Input() publishStatus: string;
+    @Input() previewMode = false;
 
-  isAdmin: boolean;
-  loading = true;
-  userSub: Subscription;
+    isAdmin: boolean;
+    loading = true;
+    userSub: Subscription;
 
-  constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.userSub = this.authService.currentUser.subscribe((user) => {
-      this.loading = false;
-      this.isAdmin = user?.roles.includes('admin');
-    });
-  }
+    ngOnInit(): void {
+        this.userSub = this.authService.currentUser.subscribe((user) => {
+            this.loading = false;
+            this.isAdmin = user?.roles.includes('admin');
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.userSub.unsubscribe();
+    }
 }

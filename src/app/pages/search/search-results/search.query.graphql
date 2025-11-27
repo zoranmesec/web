@@ -1,102 +1,102 @@
 query Search($query: String) {
-  search(input: $query) {
-    crags {
-      __typename
-      id
-      name
-      slug
-      nrRoutes
-      orientation
-      minDifficulty
-      maxDifficulty
-      defaultGradingSystem {
-        id
-      }
-      country {
-        id
-        slug
-      }
-      type
-    }
-    routes {
-      __typename
-      id
-      slug
-      name
-      difficulty
-      defaultGradingSystem {
-        id
-      }
-      isProject
-      length
-      crag {
-        id
-        name
-        slug
-        type
-        country {
-          id
-          slug
+    search(input: $query) {
+        crags {
+            __typename
+            id
+            name
+            slug
+            nrRoutes
+            orientation
+            minDifficulty
+            maxDifficulty
+            defaultGradingSystem {
+                id
+            }
+            country {
+                id
+                slug
+            }
+            type
         }
-      }
-    }
-    sectors {
-      __typename
-      id
-      name
-      crag {
-        id
-        name
-        slug
-        country {
-          id
-          slug
-        }
-        type
-      }
-    }
-    comments {
-      __typename
-      id
-      content
-      crag {
-        id
-        name
-        slug
-        country {
-          id
-          slug
-        }
-        type
-      }
-      route {
-        __typename
-        id
-        slug
-        name
-        crag {
-          id
-          name
-          slug
-          type
-          country {
+        routes {
+            __typename
             id
             slug
-          }
+            name
+            difficulty
+            defaultGradingSystem {
+                id
+            }
+            isProject
+            length
+            crag {
+                id
+                name
+                slug
+                type
+                country {
+                    id
+                    slug
+                }
+            }
         }
-      }
-      user {
-        id
-        fullName
-      }
-      created
-    }
+        sectors {
+            __typename
+            id
+            name
+            crag {
+                id
+                name
+                slug
+                country {
+                    id
+                    slug
+                }
+                type
+            }
+        }
+        comments {
+            __typename
+            id
+            content
+            crag {
+                id
+                name
+                slug
+                country {
+                    id
+                    slug
+                }
+                type
+            }
+            route {
+                __typename
+                id
+                slug
+                name
+                crag {
+                    id
+                    name
+                    slug
+                    type
+                    country {
+                        id
+                        slug
+                    }
+                }
+            }
+            user {
+                id
+                fullName
+            }
+            created
+        }
 
-    # Searching for users is temporarily disabled.
-    # users {
-    #   __typename
-    #   id
-    #   fullName
-    # }
-  }
+        # Searching for users is temporarily disabled.
+        # users {
+        #   __typename
+        #   id
+        #   fullName
+        # }
+    }
 }

@@ -9,15 +9,7 @@ import { FlexLayoutModule } from 'ng-flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    MatSelectModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    FlexLayoutModule,
-    CommonModule,
-    IceFallsRoutingModule,
-  ],
+    declarations: [],
+    imports: [MatSelectModule, MatIconModule, MatFormFieldModule, MatButtonModule, FlexLayoutModule, CommonModule, IceFallsRoutingModule]
 })
 export class IceFallsModule {}

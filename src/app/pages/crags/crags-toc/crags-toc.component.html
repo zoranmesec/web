@@ -1,173 +1,164 @@
 <section id="filter" fxLayout="column" fxLayoutGap="12px">
-  <div class="flex flex-justify-space-between top">
-    <div class="flex flex-row flex-align-center">
-      <div>
-        <mat-icon class="p-t-4">tune</mat-icon>
-      </div>
-      <div>
-        <span class="p-l-4">Filtriraj</span>
-      </div>
+    <div class="flex flex-justify-space-between top">
+        <div class="flex flex-row flex-align-center">
+            <div>
+                <mat-icon class="p-t-4">tune</mat-icon>
+            </div>
+            <div>
+                <span class="p-l-4">Filtriraj</span>
+            </div>
+        </div>
+        <div class="close-icon" (click)="closeFilters()">
+            <mat-icon class="map-icon">close</mat-icon>
+        </div>
     </div>
-    <div class="close-icon" (click)="closeFilters()">
-      <mat-icon class="map-icon">close</mat-icon>
-    </div>
-  </div>
-  <mat-accordion multi="true" displayMode="flat" [formGroup]="cragForm">
-    <mat-expansion-panel expanded="">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Država </mat-panel-title>
-      </mat-expansion-panel-header>
-      <ul>
-        @for (country of countries; track $index) { @if ($index<5 &&
-          !showAllCountries) {
-          <li>
-            @if (country.slug === currentCountrySlug) {
-              <div class="active-country flex">
-                <div>{{ country.name }}</div>
-                <span class="p-l-4">{{ country.nrCrags }}</span>
-              </div>
-            } @else {
-
-              <a
-                [class.active-country]="country.slug === currentCountrySlug"
-                (click)="changeCountry(country.slug)"
-                class="flex"
-                >
-                <div>{{ country.name }}</div>
-                <span class="p-l-4">{{ country.nrCrags }}</span>
-              </a>
+    <mat-accordion multi="true" displayMode="flat" [formGroup]="cragForm">
+        <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+                <mat-panel-title> Država </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                @for (country of countries; track $index) {
+                    @if ($index < 5 && !showAllCountries) {
+                        <li>
+                            @if (country.slug === currentCountrySlug) {
+                                <div class="active-country flex">
+                                    <div>{{ country.name }}</div>
+                                    <span class="p-l-4">{{ country.nrCrags }}</span>
+                                </div>
+                            } @else {
+                                <a
+                                    [class.active-country]="country.slug === currentCountrySlug"
+                                    (click)="changeCountry(country.slug)"
+                                    class="flex"
+                                >
+                                    <div>{{ country.name }}</div>
+                                    <span class="p-l-4">{{ country.nrCrags }}</span>
+                                </a>
+                            }
+                        </li>
+                    } @else if (showAllCountries) {
+                        <li>
+                            @if (country.slug === currentCountrySlug) {
+                                <div>{{ country.name }}</div>
+                                <span class="p-l-4">{{ country.nrCrags }}</span>
+                            } @else {
+                                <a
+                                    [class.show-all]="country.slug === currentCountrySlug"
+                                    (click)="changeCountry(country.slug)"
+                                    class="flex"
+                                >
+                                    <div>{{ country.name }}</div>
+                                    <span class="p-l-4">{{ country.nrCrags }}</span>
+                                </a>
+                            }
+                        </li>
+                    }
+                }
+            </ul>
+            @if (!showAllCountries) {
+                <div (click)="showAllCountries = true" class="show-all" fxLayout="row wrap" fxLayoutAlign="left flex-justify-start">
+                    Prikaži vse
+                </div>
             }
-          </li>
-        } @else if (showAllCountries) {
-          <li>
-            @if (country.slug === currentCountrySlug) {
-              <div>{{ country.name }}</div>
-              <span class="p-l-4">{{ country.nrCrags }}</span>
-            } @else {
-
-              <a
-                [class.show-all]="country.slug === currentCountrySlug"
-                (click)="changeCountry(country.slug)"
-                class="flex"
-                >
-                <div>{{ country.name }}</div>
-                <span class="p-l-4">{{ country.nrCrags }}</span>
-              </a>
-            }
-          </li>
-          } }
-        </ul>
-        @if (!showAllCountries) {
-          <div
-            (click)="showAllCountries = true"
-            class="show-all"
-            fxLayout="row wrap"
-            fxLayoutAlign="left flex-justify-start"
-            >
-            Prikaži vse
-          </div>
-        }
-      </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="activatedAreas.length > 0">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Območje </mat-panel-title>
-        </mat-expansion-panel-header>
-        <ul formArrayName="areas">
-          @for (area of country.areas; track $index) {
-            <li>
-              <label class="checkbox-container">
-                <input
-                  type="checkbox"
-                  [checked]="cragForm.controls['areas'].controls[area.slug].value"
-                  [formControlName]="area.slug"
-                  (change)="changeArea(area.slug)"
-                  />
-                  <span class="checkmark"></span>
-                  <span class="checkmark-label">{{ area.name }}</span>
-                </label>
-              </li>
-            }
-          </ul>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="activatedAreas.length > 0">
+            <mat-expansion-panel-header>
+                <mat-panel-title> Območje </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul formArrayName="areas">
+                @for (area of country.areas; track $index) {
+                    <li>
+                        <label class="checkbox-container">
+                            <input
+                                type="checkbox"
+                                [checked]="cragForm.controls['areas'].controls[area.slug].value"
+                                [formControlName]="area.slug"
+                                (change)="changeArea(area.slug)"
+                            />
+                            <span class="checkmark"></span>
+                            <span class="checkmark-label">{{ area.name }}</span>
+                        </label>
+                    </li>
+                }
+            </ul>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="activatedRouteTypes.length > 0">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Tip smeri </mat-panel-title>
-          </mat-expansion-panel-header>
-          <ul>
-            @for (routeType of routeTypes; track $index) {
-              <li>
-                <label class="checkbox-container">
-                  <input
-                    type="checkbox"
-                    [checked]="cragForm.controls[routeType.id].value"
-                    [formControlName]="routeType.id"
-                    (change)="changeType(routeType.slug)"
-                    />
-                    <span class="checkmark"></span>
-                    <span class="checkmark-label">{{ routeType.label }}</span>
-                  </label>
-                </li>
-              }
-            </ul>
-          </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
             <mat-expansion-panel-header>
-              <mat-panel-title>Orientacija</mat-panel-title>
+                <mat-panel-title> Tip smeri </mat-panel-title>
             </mat-expansion-panel-header>
             <ul>
-              @for (orientation of orientations; track $index) {
-                <li>
-                  <label class="checkbox-container">
-                    <input
-                      type="checkbox"
-                      [checked]="cragForm.controls[orientation.value].value"
-                      [formControlName]="orientation.value"
-                      (change)="changeOrientation(orientation.value)"
-                      />
-                      <span class="checkmark"></span>
-                      <span class="checkmark-label">{{ orientation.label }}</span>
-                    </label>
-                  </li>
+                @for (routeType of routeTypes; track $index) {
+                    <li>
+                        <label class="checkbox-container">
+                            <input
+                                type="checkbox"
+                                [checked]="cragForm.controls[routeType.id].value"
+                                [formControlName]="routeType.id"
+                                (change)="changeType(routeType.slug)"
+                            />
+                            <span class="checkmark"></span>
+                            <span class="checkmark-label">{{ routeType.label }}</span>
+                        </label>
+                    </li>
                 }
-              </ul>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
-              <mat-expansion-panel-header>
+            </ul>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Orientacija</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                @for (orientation of orientations; track $index) {
+                    <li>
+                        <label class="checkbox-container">
+                            <input
+                                type="checkbox"
+                                [checked]="cragForm.controls[orientation.value].value"
+                                [formControlName]="orientation.value"
+                                (change)="changeOrientation(orientation.value)"
+                            />
+                            <span class="checkmark"></span>
+                            <span class="checkmark-label">{{ orientation.label }}</span>
+                        </label>
+                    </li>
+                }
+            </ul>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
+            <mat-expansion-panel-header>
                 <mat-panel-title>Težavnost</mat-panel-title>
-              </mat-expansion-panel-header>
+            </mat-expansion-panel-header>
 
-              med
-              <app-grade-select
+            med
+            <app-grade-select
                 [control]="cragForm.controls['minGrade']"
                 label="Izberi oceno"
                 emptyText="Brez"
                 gradingSystemId="french"
                 [noHint]="true"
                 [focusDifficulty]="null"
-              ></app-grade-select>
-              in
-              <app-grade-select
+            ></app-grade-select>
+            in
+            <app-grade-select
                 [control]="cragForm.controls['maxGrade']"
                 emptyText="Brez"
                 label="Izberi oceno"
                 gradingSystemId="french"
                 [noHint]="true"
                 [focusDifficulty]="null"
-              ></app-grade-select>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <div
-            class="flex flex-justify-space-between bottom show-all"
-            (click)="removeAllFilters()"
-            >
-            <div class="flex flex-row flex-align-center">
-              <div class="close-icon">
+            ></app-grade-select>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="flex flex-justify-space-between bottom show-all" (click)="removeAllFilters()">
+        <div class="flex flex-row flex-align-center">
+            <div class="close-icon">
                 <app-refresh-icon></app-refresh-icon>
-              </div>
-              <div>
-                <span class="p-l-4">Ponastavi vse</span>
-              </div>
             </div>
-          </div>
-        </section>
+            <div>
+                <span class="p-l-4">Ponastavi vse</span>
+            </div>
+        </div>
+    </div>
+</section>

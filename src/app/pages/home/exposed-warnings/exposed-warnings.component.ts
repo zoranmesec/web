@@ -1,94 +1,84 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { Subscription, switchMap, take } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Subscription, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
+import SwiperCore, { Autoplay, Pagination } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
 import { Comment, ExposedWarningsGQL } from '../../../../generated/graphql';
 import { DataError } from '../../../types/data-error';
 import { LoadingSpinnerService } from '../loading-spinner.service';
-import SwiperCore, { Autoplay, Pagination } from 'swiper';
-import { SwiperComponent } from 'swiper/angular';
-import { AuthService } from 'src/app/auth/auth.service';
-import { CommonModule } from '@angular/common';
 
 SwiperCore.use([Pagination, Autoplay]);
 
 @Component({
-  selector: 'app-exposed-warnings',
-  templateUrl: './exposed-warnings.component.html',
-  styleUrls: ['./exposed-warnings.component.scss'],
-  imports: [CommonModule],
+    selector: 'app-exposed-warnings',
+    templateUrl: './exposed-warnings.component.html',
+    styleUrls: ['./exposed-warnings.component.scss'],
+    imports: [CommonModule]
 })
-export class ExposedWarningsComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  @Output() errorEvent = new EventEmitter<DataError>();
+export class ExposedWarningsComponent implements OnInit, AfterViewInit, OnDestroy {
+    @Output() errorEvent = new EventEmitter<DataError>();
 
-  subscription: Subscription;
+    subscription: Subscription;
 
-  warnings: Comment[];
+    warnings: Comment[];
 
-  @ViewChild('swiper', { static: false }) swiper: SwiperComponent;
-  swiperObserver: IntersectionObserver;
+    @ViewChild('swiper', { static: false }) swiper: SwiperComponent;
+    swiperObserver: IntersectionObserver;
 
-  constructor(
-    private exposedWarnings: ExposedWarningsGQL,
-    private loadingSpinnerService: LoadingSpinnerService,
-    private authService: AuthService
-  ) {}
+    constructor(
+        private exposedWarnings: ExposedWarningsGQL,
+        private loadingSpinnerService: LoadingSpinnerService,
+        private authService: AuthService
+    ) {}
 
-  ngAfterViewInit(): void {
-    // add observer so that the slider is stopped when out of view (to prevent flickering of content)
-    this.swiperObserver = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          this.swiper.swiperRef.autoplay.start();
-        } else {
-          this.swiper.swiperRef.autoplay.stop();
-        }
-      },
-      {
-        root: null,
-        threshold: 1,
-      }
-    );
-    const swiperEl = document.querySelector('swiper');
-    this.swiperObserver.observe(swiperEl);
-  }
+    ngAfterViewInit(): void {
+        // add observer so that the slider is stopped when out of view (to prevent flickering of content)
+        this.swiperObserver = new IntersectionObserver(
+            (entries) => {
+                const [entry] = entries;
+                if (entry.isIntersecting) {
+                    this.swiper.swiperRef.autoplay.start();
+                } else {
+                    this.swiper.swiperRef.autoplay.stop();
+                }
+            },
+            {
+                root: null,
+                threshold: 1
+            }
+        );
+        const swiperEl = document.querySelector('swiper');
+        this.swiperObserver.observe(swiperEl);
+    }
 
-  ngOnInit(): void {
-    this.subscription = this.authService.currentUser
-      .pipe(
-        switchMap((user) => {
-          this.loadingSpinnerService.pushLoader();
-          return this.exposedWarnings.fetch();
-        })
-      )
-      .subscribe({
-        next: (result) => {
-          this.loadingSpinnerService.popLoader();
-          this.warnings = <Comment[]>result.data.exposedWarnings;
-        },
-        error: () => {
-          this.loadingSpinnerService.popLoader();
-          this.queryError();
-        },
-      });
-  }
+    ngOnInit(): void {
+        this.subscription = this.authService.currentUser
+            .pipe(
+                switchMap(() => {
+                    this.loadingSpinnerService.pushLoader();
+                    return this.exposedWarnings.fetch();
+                })
+            )
+            .subscribe({
+                next: (result) => {
+                    this.loadingSpinnerService.popLoader();
+                    this.warnings = result.data.exposedWarnings as Comment[];
+                },
+                error: () => {
+                    this.loadingSpinnerService.popLoader();
+                    this.queryError();
+                }
+            });
+    }
 
-  queryError() {
-    this.errorEvent.emit({
-      message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.',
-    });
-  }
+    queryError() {
+        this.errorEvent.emit({
+            message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.'
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.swiperObserver.disconnect();
-  }
+    ngOnDestroy(): void {
+        this.swiperObserver.disconnect();
+    }
 }

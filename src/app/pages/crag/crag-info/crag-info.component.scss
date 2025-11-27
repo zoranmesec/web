@@ -1,106 +1,106 @@
 :host {
-  a {
-    text-decoration: none;
-    color: var(--mat-sys-secondary);
-  }
-
-  mat-icon {
-    height: 20px !important;
-    width: 20px !important;
-    vertical-align: top;
-    padding-top: 2px;
-  }
-
-  section#info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 0 6px 0 6px;
+    a {
+        text-decoration: none;
+        color: var(--mat-sys-secondary);
+    }
 
     mat-icon {
-      height: 40px !important;
-      width: 40px !important;
-      margin: 4px;
+        height: 20px !important;
+        width: 20px !important;
+        vertical-align: top;
+        padding-top: 2px;
     }
 
-    div:not(:first-child) {
-      border-left: 1px solid var(--mat-sys-on-surface-variant);
-      padding-left: 16px;
-    }
-  }
+    section#info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 0 6px 0 6px;
 
-  section#notification {
-    display: flex;
-    align-items: flex-start;
-    justify-content: left;
-    box-sizing: content-box !important;
-  }
+        mat-icon {
+            height: 40px !important;
+            width: 40px !important;
+            margin: 4px;
+        }
 
-  section#description {
-    padding: 8px;
-  }
-
-  section#description > app-crag-image {
-    @media (min-width: 960px) {
-      min-width: 40%;
-      max-width: 40%;
-    }
-  }
-
-  section#charts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 0 6px 0 6px;
-    div:first-child {
-      flex-basis: calc(50vw - 32px);
-      flex-grow: 1;
-    }
-    div:nth-child(2) {
-      flex-basis: calc(50vw - 32px);
-      flex-grow: 1;
-    }
-  }
-
-  section#approach {
-    width: 100% !important;
-    position: relative;
-    margin-top: 16px;
-    padding-left: 8px;
-    padding-right: 8px;
-
-    .crag-map {
-      width: 100%;
+        div:not(:first-child) {
+            border-left: 1px solid var(--mat-sys-on-surface-variant);
+            padding-left: 16px;
+        }
     }
 
-    @media (max-width: 960px) {
-      div.access {
-        width: 100%;
-      }
+    section#notification {
+        display: flex;
+        align-items: flex-start;
+        justify-content: left;
+        box-sizing: content-box !important;
     }
 
-    @media (min-width: 960px) {
-      div.access {
-        flex-shrink: 1;
-        min-width: 40%;
-        max-width: 40%;
-      }
+    section#description {
+        padding: 8px;
     }
-  }
+
+    section#description > app-crag-image {
+        @media (min-width: 960px) {
+            min-width: 40%;
+            max-width: 40%;
+        }
+    }
+
+    section#charts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0 6px 0 6px;
+        div:first-child {
+            flex-basis: calc(50vw - 32px);
+            flex-grow: 1;
+        }
+        div:nth-child(2) {
+            flex-basis: calc(50vw - 32px);
+            flex-grow: 1;
+        }
+    }
+
+    section#approach {
+        width: 100% !important;
+        position: relative;
+        margin-top: 16px;
+        padding-left: 8px;
+        padding-right: 8px;
+
+        .crag-map {
+            width: 100%;
+        }
+
+        @media (max-width: 960px) {
+            div.access {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 960px) {
+            div.access {
+                flex-shrink: 1;
+                min-width: 40%;
+                max-width: 40%;
+            }
+        }
+    }
 }
 
 .card {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .label {
-  padding: 8px 0;
+    padding: 8px 0;
 }
 
 .row {
-  font-weight: 500;
+    font-weight: 500;
 }
 .content {
-  font-weight: normal;
-  padding: 10px 0;
+    font-weight: normal;
+    padding: 10px 0;
 }

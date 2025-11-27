@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-ice-fall-info',
@@ -6,10 +6,8 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./ice-fall-info.component.scss'],
     standalone: false
 })
-export class IceFallInfoComponent implements OnInit {
-  @Input() iceFall: any;
+export class IceFallInfoComponent{
+    @Input() iceFall: any;
 
-  constructor() {}
 
-  ngOnInit(): void {}
 }

@@ -1,41 +1,41 @@
 query SearchAutoComplete($searchInput: SearchInput) {
-  searchByInput(input: $searchInput) {
-    crags {
-      __typename
-      id
-      name
-      slug
-      type
-    }
+    searchByInput(input: $searchInput) {
+        crags {
+            __typename
+            id
+            name
+            slug
+            type
+        }
 
-    routes {
-      __typename
-      id
-      slug
-      name
-      crag {
-        id
-        slug
-        type
-      }
-    }
+        routes {
+            __typename
+            id
+            slug
+            name
+            crag {
+                id
+                slug
+                type
+            }
+        }
 
-    sectors {
-      __typename
-      id
-      name
-      crag {
-        id
-        slug
-        type
-      }
-    }
+        sectors {
+            __typename
+            id
+            name
+            crag {
+                id
+                slug
+                type
+            }
+        }
 
-    # Searching for users is temporarily disabled.
-    # users {
-    #   __typename
-    #   id
-    #   fullName
-    # }
-  }
+        # Searching for users is temporarily disabled.
+        # users {
+        #   __typename
+        #   id
+        #   fullName
+        # }
+    }
 }

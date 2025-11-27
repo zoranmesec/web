@@ -1,15 +1,15 @@
 query GradingSystems {
-  gradingSystems {
-    name
-    id
-    grades {
-      difficulty
-      name
-      id
+    gradingSystems {
+        name
+        id
+        grades {
+            difficulty
+            name
+            id
+        }
+        routeTypes {
+            id
+            name
+        }
     }
-    routeTypes {
-      id
-      name
-    }
-  }
 }

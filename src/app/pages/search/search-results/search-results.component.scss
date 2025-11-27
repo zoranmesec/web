@@ -1,13 +1,13 @@
 .row {
-  cursor: pointer;
-  .lastColumn {
-    text-align: right;
-  }
-  &.header {
-    cursor: default;
-  }
+    cursor: pointer;
+    .lastColumn {
+        text-align: right;
+    }
+    &.header {
+        cursor: default;
+    }
 }
 
 .results-tab {
-  margin-top: 20px;
+    margin-top: 20px;
 }

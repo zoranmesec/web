@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { DataError } from 'src/app/types/data-error';
 import { PopularCragsCardComponent } from './popular-crags-card/popular-crags-card.component';
 
-
 @Component({
     selector: 'app-popular-crags',
     templateUrl: './popular-crags.component.html',
@@ -11,19 +10,19 @@ import { PopularCragsCardComponent } from './popular-crags-card/popular-crags-ca
     imports: [PopularCragsCardComponent]
 })
 export class PopularCragsComponent implements OnInit {
-  constructor() {}
+    
 
-  @Output() errorEvent = new EventEmitter<DataError>();
+    @Output() errorEvent = new EventEmitter<DataError>();
 
-  oneWeekAgo: string;
-  oneMonthAgo: string;
+    oneWeekAgo: string;
+    oneMonthAgo: string;
 
-  ngOnInit(): void {
-    this.oneWeekAgo = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
-    this.oneMonthAgo = dayjs().subtract(1, 'month').format('YYYY-MM-DD');
-  }
+    ngOnInit(): void {
+        this.oneWeekAgo = dayjs().subtract(1, 'week').format('YYYY-MM-DD');
+        this.oneMonthAgo = dayjs().subtract(1, 'month').format('YYYY-MM-DD');
+    }
 
-  handleError(error: DataError) {
-    this.errorEvent.emit(error);
-  }
+    handleError(error: DataError) {
+        this.errorEvent.emit(error);
+    }
 }

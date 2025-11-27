@@ -1,70 +1,59 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { DataError } from 'src/app/types/data-error';
-import {
-  DifficultyVote,
-  LatestDifficultyVotesGQL,
-} from 'src/generated/graphql';
+import { DifficultyVote, LatestDifficultyVotesGQL } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-latest-difficulty-votes',
-  imports: [CommonModule],
-  templateUrl: './latest-difficulty-votes.component.html',
-  styleUrls: ['./latest-difficulty-votes.component.scss'],
+    selector: 'app-latest-difficulty-votes',
+    imports: [CommonModule],
+    templateUrl: './latest-difficulty-votes.component.html',
+    styleUrls: ['./latest-difficulty-votes.component.scss']
 })
 export class LatestDifficultyVotesComponent implements OnInit, OnDestroy {
-  @Output() errorEvent = new EventEmitter<DataError>();
+    @Output() errorEvent = new EventEmitter<DataError>();
 
-  loading = true;
-  subscriptions: Subscription[] = [];
-  difficultyVotes: DifficultyVote[] = [];
+    loading = true;
+    subscriptions: Subscription[] = [];
+    difficultyVotes: DifficultyVote[] = [];
 
-  constructor(
-    private authService: AuthService,
-    private latestDiffcultyVotesGQL: LatestDifficultyVotesGQL,
-    private loadingSpinnerService: LoadingSpinnerService
-  ) {}
+    constructor(
+        private authService: AuthService,
+        private latestDiffcultyVotesGQL: LatestDifficultyVotesGQL,
+        private loadingSpinnerService: LoadingSpinnerService
+    ) {}
 
-  ngOnInit(): void {
-    const sub = this.authService.currentUser
-      .pipe(
-        switchMap((user) => {
-          this.loadingSpinnerService.pushLoader();
-          return this.latestDiffcultyVotesGQL.fetch({
-            variables: { input: { pageSize: 10 } },
-          });
-        })
-      )
-      .subscribe({
-        next: (result) => {
-          this.loadingSpinnerService.popLoader();
-          this.loading = false;
-          this.difficultyVotes = <DifficultyVote[]>(
-            result.data.latestDifficultyVotes.items
-          );
-        },
-        error: () => this.queryError(),
-      });
+    ngOnInit(): void {
+        const sub = this.authService.currentUser
+            .pipe(
+                switchMap((_user) => {
+                    this.loadingSpinnerService.pushLoader();
+                    return this.latestDiffcultyVotesGQL.fetch({
+                        variables: { input: { pageSize: 10 } }
+                    });
+                })
+            )
+            .subscribe({
+                next: (result) => {
+                    this.loadingSpinnerService.popLoader();
+                    this.loading = false;
+                    this.difficultyVotes = result.data.latestDifficultyVotes.items as DifficultyVote[];
+                },
+                error: () => this.queryError()
+            });
 
-    this.subscriptions.push(sub);
-  }
+        this.subscriptions.push(sub);
+    }
 
-  queryError() {
-    this.errorEvent.emit({
-      message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.',
-    });
-  }
+    queryError() {
+        this.errorEvent.emit({
+            message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.'
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((sub) => sub.unsubscribe());
+    }
 }

@@ -1,7 +1,7 @@
 query ActivityFiltersRoute($id: String!) {
-  route(id: $id) {
-    id
-    name
-    slug
-  }
+    route(id: $id) {
+        id
+        name
+        slug
+    }
 }

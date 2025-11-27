@@ -1,26 +1,26 @@
 :host {
-  .distribution-bar {
-    height: 20px;
-    display: block;
-  }
+    .distribution-bar {
+        height: 20px;
+        display: block;
+    }
 
-  .star-rating-start {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
+    .star-rating-start {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
 
-  .star-rating-end {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
+    .star-rating-end {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
 
-  .star-rating-0 {
-    background-color: #d4d4d4;
-  }
-  .star-rating-1 {
-    background-color: #8ab9ea;
-  }
-  .star-rating-2 {
-    background-color: #4b92df;
-  }
+    .star-rating-0 {
+        background-color: #d4d4d4;
+    }
+    .star-rating-1 {
+        background-color: #8ab9ea;
+    }
+    .star-rating-2 {
+        background-color: #4b92df;
+    }
 }

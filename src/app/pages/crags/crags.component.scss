@@ -1,159 +1,159 @@
-@use "@angular/material" as mat;
-@use "./../../../m3-theme.scss" as m3-theme;
+@use '@angular/material' as mat;
+@use './../../../m3-theme.scss' as m3-theme;
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
-@use "./../../../styles/global.scss" as global;
+@use './../../../styles/global.scss' as global;
 :host {
-  flex-direction: column !important;
-  mat-form-field {
-    display: flex;
-    height: 40px;
-    align-items: center;
-    align-self: center;
-    justify-content: center;
-    padding: 12px 16px 0 0;
-    width: 300px !important;
-
-    @media only screen and (max-width: global.$breakpoint-md) {
-      width: 100vw !important;
-      padding-left: 0px !important;
-      padding-right: 0px !important;
-    }
-
-    ::ng-deep {
-      .mdc-text-field {
+    flex-direction: column !important;
+    mat-form-field {
+        display: flex;
         height: 40px;
-      }
-      .mat-mdc-form-field-subscript-wrapper {
-        display: none !important;
-      }
-    }
-  }
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+        padding: 12px 16px 0 0;
+        width: 300px !important;
 
-  section#title {
-    height: 100px;
-    padding: 0 16px 16px 16px;
-    background-color: var(--mat-sys-surface);
-    align-items: center;
-    display: flex;
-    text-align: center;
-    border-bottom: 1px solid $grey;
-  }
-  section#crag-map-container {
-    position: relative;
-    height: 600px;
-    @media only screen and (max-width: global.$breakpoint-xl) {
-      height: 360px !important;
-    }
-
-    .crag-map {
-      position: absolute;
-      height: 360px;
-      width: 100%;
-    }
-  }
-
-  section#options {
-    height: 40px !important;
-    margin-left: -16px !important;
-    flex-wrap: wrap;
-
-    flex-flow: wrap;
-    box-sizing: border-box;
-    display: flex;
-    place-content: center space-between;
-    align-items: center;
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-      place-content: center space-around;
-    }
-
-    .border-right {
-      border-right: 1px solid $grey !important;
-      padding: 0 4px 0 4px;
-      height: 40px !important;
-    }
-
-    button {
-      padding-right: 8px !important;
-      @media only screen and (max-width: global.$breakpoint-lg) {
-        mat-icon {
-          margin-left: 8px !important;
+        @media only screen and (max-width: global.$breakpoint-md) {
+            width: 100vw !important;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
         }
-      }
+
+        ::ng-deep {
+            .mdc-text-field {
+                height: 40px;
+            }
+            .mat-mdc-form-field-subscript-wrapper {
+                display: none !important;
+            }
+        }
+    }
+
+    section#title {
+        height: 100px;
+        padding: 0 16px 16px 16px;
+        background-color: var(--mat-sys-surface);
+        align-items: center;
+        display: flex;
+        text-align: center;
+        border-bottom: 1px solid $grey;
+    }
+    section#crag-map-container {
+        position: relative;
+        height: 600px;
+        @media only screen and (max-width: global.$breakpoint-xl) {
+            height: 360px !important;
+        }
+
+        .crag-map {
+            position: absolute;
+            height: 360px;
+            width: 100%;
+        }
+    }
+
+    section#options {
+        height: 40px !important;
+        margin-left: -16px !important;
+        flex-wrap: wrap;
+
+        flex-flow: wrap;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center space-between;
+        align-items: center;
+
+        @media only screen and (max-width: global.$breakpoint-lg) {
+            place-content: center space-around;
+        }
+
+        .border-right {
+            border-right: 1px solid $grey !important;
+            padding: 0 4px 0 4px;
+            height: 40px !important;
+        }
+
+        button {
+            padding-right: 8px !important;
+            @media only screen and (max-width: global.$breakpoint-lg) {
+                mat-icon {
+                    margin-left: 8px !important;
+                }
+            }
+        }
+
+        @media only screen and (max-width: global.$breakpoint-lg) {
+            .border-right {
+                padding: 0 !important;
+            }
+        }
+    }
+
+    section#crag-list {
+        ::ng-deep {
+            .crag-row > div {
+                flex-basis: 25%;
+            }
+        }
+    }
+
+    button {
+        border: 3px solid #ffffff;
+        border-radius: 8px;
     }
 
     @media only screen and (max-width: global.$breakpoint-lg) {
-      .border-right {
-        padding: 0 !important;
-      }
+        button {
+            padding: 0 !important;
+        }
     }
-  }
 
-  section#crag-list {
-    ::ng-deep {
-      .crag-row > div {
-        flex-basis: 25%;
-      }
+    button:hover {
+        border: 3px solid #aaccf0;
+        border-radius: 8px;
     }
-  }
-
-  button {
-    border: 3px solid #ffffff;
-    border-radius: 8px;
-  }
-
-  @media only screen and (max-width: global.$breakpoint-lg) {
-    button {
-      padding: 0 !important;
+    button.dots {
+        padding: 0px !important;
     }
-  }
 
-  button:hover {
-    border: 3px solid #aaccf0;
-    border-radius: 8px;
-  }
-  button.dots {
-    padding: 0px !important;
-  }
-
-  .search-icon {
-    margin-right: 8px;
-    color: var(--mat-sys-primary);
-  }
-
-  .filter-chip {
-    align-items: center;
-    background-color: $light-blue;
-    border-radius: 6px;
-    padding: 4px 8px;
-    cursor: pointer;
-    margin-right: 8px;
-
-    mat-icon {
-      margin-left: 4px;
+    .search-icon {
+        margin-right: 8px;
+        color: var(--mat-sys-primary);
     }
-  }
 
-  .remove-all {
-    color: var(--mat-sys-secondary);
-    cursor: pointer;
-  }
+    .filter-chip {
+        align-items: center;
+        background-color: $light-blue;
+        border-radius: 6px;
+        padding: 4px 8px;
+        cursor: pointer;
+        margin-right: 8px;
 
-  .crag-link {
-    font-weight: var(--mat-sys-title-medium-weight) !important;
-  }
-
-  .no-results {
-    text-align: center;
-    width: 100%;
-    border-top: 1px solid $grey;
-    padding-top: 8px;
-    a {
-      color: var(--mat-sys-secondary);
-      text-decoration: none;
-      font-weight: var(--mat-sys-title-medium-weight);
+        mat-icon {
+            margin-left: 4px;
+        }
     }
-  }
+
+    .remove-all {
+        color: var(--mat-sys-secondary);
+        cursor: pointer;
+    }
+
+    .crag-link {
+        font-weight: var(--mat-sys-title-medium-weight) !important;
+    }
+
+    .no-results {
+        text-align: center;
+        width: 100%;
+        border-top: 1px solid $grey;
+        padding-top: 8px;
+        a {
+            color: var(--mat-sys-secondary);
+            text-decoration: none;
+            font-weight: var(--mat-sys-title-medium-weight);
+        }
+    }
 }

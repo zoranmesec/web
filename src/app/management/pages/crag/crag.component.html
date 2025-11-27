@@ -1,44 +1,49 @@
 @if (!loading && error) {
-<div class="container py-8">Plezališče ne obstaja.</div>
-} @if (!loading && !error) {
+    <div class="container py-8">Plezališče ne obstaja.</div>
+}
+@if (!loading && !error) {
+    <section id="title">
+        <h1>
+            @if (crag) {
+                Urejanje plezališča
+            }
+            {{ heading }}
+        </h1>
+    </section>
 
-<section id="title">
-  <h1>@if (crag) { Urejanje plezališča }{{ heading }}</h1>
-</section>
+    <section id="tabs">
+        <div>&nbsp;</div>
+        <div class="flex flex-row flex-justify-center tabs">
+            <div>&nbsp;</div>
+            @for (tab of tabs; track $index) {
+                <div
+                    [class.active]="tab.slug === activeTab"
+                    [class.disabled]="isDisabledTab && tab.slug !== 'osnovni-podatki'"
+                    class="tab"
+                    (click)="setActiveTab(tab)"
+                >
+                    @if (tab.icon === 'routes') {
+                        <app-routes-icon
+                            [disabled]="isDisabledTab && tab.slug !== 'osnovni-podatki'"
+                            [active]="tab.slug === activeTab"
+                        ></app-routes-icon>
+                    } @else if (tab.icon === 'info') {
+                        <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
+                    }
+                    <span fxHide.lt-md>
+                        {{ tab.label }}
+                    </span>
+                </div>
+                <div>&nbsp;</div>
+            }
+        </div>
+        <div>&nbsp;</div>
+    </section>
+    <section id="form" class="flex flex-row flex-justify-center w-100">
+        <app-crag-form [crag]="crag"></app-crag-form>
+    </section>
 
-<section id="tabs">
-  <div>&nbsp;</div>
-  <div class="flex flex-row flex-justify-center tabs">
-    <div>&nbsp;</div>
-    @for (tab of tabs; track $index) {
-    <div
-      [class.active]="tab.slug === activeTab"
-      [class.disabled]="isDisabledTab && tab.slug !== 'osnovni-podatki'"
-      class="tab"
-      (click)="setActiveTab(tab)"
-    >
-      @if (tab.icon==='routes') {
-      <app-routes-icon
-        [disabled]="isDisabledTab && tab.slug !== 'osnovni-podatki'"
-        [active]="tab.slug === activeTab"
-      ></app-routes-icon>
-      } @else if (tab.icon==='info') {
-      <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
-      }
-      <span fxHide.lt-md>
-        {{ tab.label }}
-      </span>
-    </div>
-    <div>&nbsp;</div>
-    }
-  </div>
-  <div>&nbsp;</div>
-</section>
-<section id="form" class="flex flex-row flex-justify-center w-100">
-  <app-crag-form [crag]="crag"></app-crag-form>
-</section>
-
-<!-- <div>
+    <!-- <div>
   <div class="white-back mt-16">
     <div
       class="container py-8"

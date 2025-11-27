@@ -1,42 +1,42 @@
 <mat-accordion>
-  <mat-expansion-panel expanded="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Glasovi o težavnosti </mat-panel-title>
-    </mat-expansion-panel-header>
-    @if(grades.length === 0) {
-      <div class="p-16">Za to smer še ni oddanih glasov o težavnosti.</div>
-    } @else {
-      <app-distribution-chart
-        class="m-t-16"
-        [distribution]="gradesDistribution"
-        [useGreyBackground]="false"
-        [useColorBars]="false"
-      ></app-distribution-chart>
-      <div class="grades-list p-t-8">
-        @for (grade of grades; track grade) {
-          <div
-            [class.grade-included-in-calc]="grade.includedInCalculation"
-            [class.grade-not-included-in-calc]="!grade.includedInCalculation"
-            class="flex flex-row p-4"
-            >
-            <app-grade
-              class="grade"
-              [difficulty]="grade.difficulty"
-              [gradingSystemId]="gradingSystemId"
-              [legacy]="true"
-            ></app-grade>
-            <div class="grade-user p-l-8">
-              @if (grade.isBase && !grade.user) {
-                Bazna ocena
-              }
-              @if (grade.user) {
-                {{ grade.user.firstname + " " + grade.user.lastname }}
-              }
+    <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title> Glasovi o težavnosti </mat-panel-title>
+        </mat-expansion-panel-header>
+        @if (grades.length === 0) {
+            <div class="p-16">Za to smer še ni oddanih glasov o težavnosti.</div>
+        } @else {
+            <app-distribution-chart
+                class="m-t-16"
+                [distribution]="gradesDistribution"
+                [useGreyBackground]="false"
+                [useColorBars]="false"
+            ></app-distribution-chart>
+            <div class="grades-list p-t-8">
+                @for (grade of grades; track grade) {
+                    <div
+                        [class.grade-included-in-calc]="grade.includedInCalculation"
+                        [class.grade-not-included-in-calc]="!grade.includedInCalculation"
+                        class="flex flex-row p-4"
+                    >
+                        <app-grade
+                            class="grade"
+                            [difficulty]="grade.difficulty"
+                            [gradingSystemId]="gradingSystemId"
+                            [legacy]="true"
+                        ></app-grade>
+                        <div class="grade-user p-l-8">
+                            @if (grade.isBase && !grade.user) {
+                                Bazna ocena
+                            }
+                            @if (grade.user) {
+                                {{ grade.user.firstname + ' ' + grade.user.lastname }}
+                            }
+                        </div>
+                        <div class="grade-date">{{ grade.created | date: 'd. M. yyyy' }}</div>
+                    </div>
+                }
             </div>
-            <div class="grade-date">{{ grade.created | date : "d. M. yyyy" }}</div>
-          </div>
         }
-      </div>
-    }
-  </mat-expansion-panel>
+    </mat-expansion-panel>
 </mat-accordion>

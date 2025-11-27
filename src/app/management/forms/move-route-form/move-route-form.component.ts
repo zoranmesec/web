@@ -1,180 +1,151 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-} from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Subscription, switchMap } from 'rxjs';
-import {
-  Crag,
-  ManagementMoveRouteGetRouteGQL,
-  ManagementMoveRouteToSectorGQL,
-  Route,
-  Sector,
-} from 'src/generated/graphql';
+import { Crag, ManagementMoveRouteGetRouteGQL, ManagementMoveRouteToSectorGQL, Route, Sector } from 'src/generated/graphql';
 
 export interface MoveRouteFormComponentData {
-  route: Route;
-  crag: Crag;
-  withinSector?: Sector;
+    route: Route;
+    crag: Crag;
+    withinSector?: Sector;
 }
 
 @Component({
-  selector: 'app-move-route-form',
-  templateUrl: './move-route-form.component.html',
-  styleUrls: ['./move-route-form.component.scss'],
-  imports: [MatDialogActions, FormsModule, ReactiveFormsModule],
+    selector: 'app-move-route-form',
+    templateUrl: './move-route-form.component.html',
+    styleUrls: ['./move-route-form.component.scss'],
+    imports: [MatDialogActions, FormsModule, ReactiveFormsModule]
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
-  form = new UntypedFormGroup({
-    targetSector: new UntypedFormControl(null, Validators.required),
-    targetRoute: new UntypedFormControl(null),
-    primarySelection: new UntypedFormControl(null),
-  });
-  crag: Crag;
-  saving = false;
-  subscriptions: Subscription[] = [];
-  targetSectors: Sector[];
-  targetSector: Sector;
+    form = new UntypedFormGroup({
+        targetSector: new UntypedFormControl(null, Validators.required),
+        targetRoute: new UntypedFormControl(null),
+        primarySelection: new UntypedFormControl(null)
+    });
+    crag: Crag;
+    saving = false;
+    subscriptions: Subscription[] = [];
+    targetSectors: Sector[];
+    targetSector: Sector;
 
-  sourceRoute: Route;
-  targetRoute: Route;
+    sourceRoute: Route;
+    targetRoute: Route;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: MoveRouteFormComponentData,
-    private apollo: Apollo,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<MoveRouteFormComponent>,
-    private managementMoveRouteGetRouteGQL: ManagementMoveRouteGetRouteGQL,
-    private managementMoveRouteToSectorGQL: ManagementMoveRouteToSectorGQL
-  ) {}
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public data: MoveRouteFormComponentData,
+        private apollo: Apollo,
+        private router: Router,
+        private snackBar: MatSnackBar,
+        private dialogRef: MatDialogRef<MoveRouteFormComponent>,
+        private managementMoveRouteGetRouteGQL: ManagementMoveRouteGetRouteGQL,
+        private managementMoveRouteToSectorGQL: ManagementMoveRouteToSectorGQL
+    ) {}
 
-  ngOnInit(): void {
-    this.crag = this.data.crag;
-    this.targetSectors = this.data.crag.sectors
-      .filter(({ id }) => id != this.data.route.sector.id)
-      .map((sector) => ({
-        ...sector,
-        routes: sector.routes.filter(
-          ({ publishStatus, pitches, id }) =>
-            publishStatus == 'published' && pitches.length == 0
-        ),
-      }));
+    ngOnInit(): void {
+        this.crag = this.data.crag;
+        this.targetSectors = this.data.crag.sectors
+            .filter(({ id }) => id !== this.data.route.sector.id)
+            .map((sector) => ({
+                ...sector,
+                routes: sector.routes.filter(({ publishStatus, pitches }) => publishStatus === 'published' && pitches.length === 0)
+            }));
 
-    if (this.data.withinSector) {
-      this.targetSector = this.data.withinSector;
-      this.form.controls.targetSector.setValue({
-        ...this.targetSector,
-        routes: this.targetSector.routes.filter(
-          ({ publishStatus, pitches, id }) =>
-            publishStatus == 'published' &&
-            pitches.length == 0 &&
-            id != this.data.route.id
-        ),
-      });
+        if (this.data.withinSector) {
+            this.targetSector = this.data.withinSector;
+            this.form.controls.targetSector.setValue({
+                ...this.targetSector,
+                routes: this.targetSector.routes.filter(
+                    ({ publishStatus, pitches, id }) => publishStatus === 'published' && pitches.length === 0 && id !== this.data.route.id
+                )
+            });
+        }
+
+        const targetSectorSub = this.form.controls.targetSector.valueChanges.subscribe((sector) => {
+            const sameNameRouteInTargetSector = sector.routes.find((route: Route) => route.name === this.data.route.name);
+            this.targetRoute = null;
+            if (sameNameRouteInTargetSector) {
+                this.form.controls.targetRoute.setValue(sameNameRouteInTargetSector);
+            }
+        });
+        this.subscriptions.push(targetSectorSub);
+
+        const sourceRouteSub = this.managementMoveRouteGetRouteGQL
+            .fetch({
+                variables: { id: this.data.route.id }
+            })
+            .subscribe(({ data }) => {
+                this.sourceRoute = data.route as Route;
+            });
+        this.subscriptions.push(sourceRouteSub);
+
+        const targetRouteSub = this.form.controls.targetRoute.valueChanges
+            .pipe(
+                switchMap((route) =>
+                    route !== null
+                        ? this.managementMoveRouteGetRouteGQL.fetch({
+                              variables: { id: route.id }
+                          })
+                        : Promise.resolve(null)
+                )
+            )
+            .subscribe((result) => {
+                this.targetRoute = null;
+                if (result !== null) {
+                    this.targetRoute = result.data.route as Route;
+
+                    this.form.controls.primarySelection.setValue(this.targetRoute.created > this.sourceRoute.created ? 'source' : 'target');
+                }
+            });
+        this.subscriptions.push(targetRouteSub);
     }
 
-    const targetSectorSub =
-      this.form.controls.targetSector.valueChanges.subscribe((sector) => {
-        const sameNameRouteInTargetSector = sector.routes.find(
-          (route: Route) => route.name === this.data.route.name
-        );
-        this.targetRoute = null;
-        if (sameNameRouteInTargetSector) {
-          this.form.controls.targetRoute.setValue(sameNameRouteInTargetSector);
-        }
-      });
-    this.subscriptions.push(targetSectorSub);
+    hasBaseDiff(route: Route): boolean {
+        return !!route.difficultyVotes.find(({ isBase }) => isBase);
+    }
+    getBaseDiff(route: Route): number {
+        return route.difficultyVotes.find(({ isBase }) => isBase)?.difficulty;
+    }
 
-    const sourceRouteSub = this.managementMoveRouteGetRouteGQL
-      .fetch({
-        variables: { id: this.data.route.id },
-      })
-      .subscribe(({ data }) => {
-        this.sourceRoute = data.route as Route;
-      });
-    this.subscriptions.push(sourceRouteSub);
+    getNrNonBaseDiffVotes(route: Route): number {
+        return route.difficultyVotes.filter(({ isBase }) => !isBase).length;
+    }
 
-    const targetRouteSub = this.form.controls.targetRoute.valueChanges
-      .pipe(
-        switchMap((route) =>
-          route != null
-            ? this.managementMoveRouteGetRouteGQL.fetch({
-                variables: { id: route.id },
-              })
-            : Promise.resolve(null)
-        )
-      )
-      .subscribe((result) => {
-        this.targetRoute = null;
-        if (result != null) {
-          this.targetRoute = result.data.route as Route;
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    }
 
-          this.form.controls.primarySelection.setValue(
-            this.targetRoute.created > this.sourceRoute.created
-              ? 'source'
-              : 'target'
-          );
-        }
-      });
-    this.subscriptions.push(targetRouteSub);
-  }
+    save(): void {
+        this.saving = true;
 
-  hasBaseDiff(route: Route): boolean {
-    return !!route.difficultyVotes.find(({ isBase }) => isBase);
-  }
-  getBaseDiff(route: Route): number {
-    return route.difficultyVotes.find(({ isBase }) => isBase)?.difficulty;
-  }
+        const success = () => {
+            this.apollo.client.resetStore().then(() => {
+                this.dialogRef.close();
+            });
+        };
+        const error = () => {
+            this.snackBar.open('Pri premikanju je prišlo do napake', null, {
+                panelClass: 'error',
+                duration: 3000
+            });
+        };
 
-  getNrNonBaseDiffVotes(route: Route): number {
-    return route.difficultyVotes.filter(({ isBase }) => !isBase).length;
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
-
-  save(): void {
-    this.saving = true;
-
-    const success = () => {
-      this.apollo.client.resetStore().then(() => {
-        this.dialogRef.close();
-      });
-    };
-    const error = () => {
-      this.snackBar.open('Pri premikanju je prišlo do napake', null, {
-        panelClass: 'error',
-        duration: 3000,
-      });
-    };
-
-    this.managementMoveRouteToSectorGQL
-      .mutate({
-        variables: {
-          input: {
-            id: this.data.route.id,
-            targetRouteId: this.form.value.targetRoute?.id,
-            sectorId: this.form.controls.targetSector.value.id,
-            primaryRoute: this.form.controls.primarySelection.value,
-          },
-        },
-      })
-      .subscribe({
-        next: success,
-        error: error,
-      });
-  }
+        this.managementMoveRouteToSectorGQL
+            .mutate({
+                variables: {
+                    input: {
+                        id: this.data.route.id,
+                        targetRouteId: this.form.value.targetRoute?.id,
+                        sectorId: this.form.controls.targetSector.value.id,
+                        primaryRoute: this.form.controls.primarySelection.value
+                    }
+                }
+            })
+            .subscribe({
+                next: success,
+                error: error
+            });
+    }
 }

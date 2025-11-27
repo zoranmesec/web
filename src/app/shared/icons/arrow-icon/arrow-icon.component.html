@@ -1,26 +1,9 @@
-@if (direction()==='left') {
-<svg
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path d="M14 18L8 12L14 6L15.4 7.4L10.8 12L15.4 16.6L14 18Z" fill="#171717" />
-</svg>
-
-} @else if (direction()==='right') {
-<svg
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M9.99998 18L16 12L9.99998 6L8.59998 7.4L13.2 12L8.59998 16.6L9.99998 18Z"
-    fill="#171717"
-  />
-</svg>
-
+@if ((direction | signalPipe) === 'left') {
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 18L8 12L14 6L15.4 7.4L10.8 12L15.4 16.6L14 18Z" fill="#171717" />
+    </svg>
+} @else if ((direction | signalPipe) === 'right') {
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.99998 18L16 12L9.99998 6L8.59998 7.4L13.2 12L8.59998 16.6L9.99998 18Z" fill="#171717" />
+    </svg>
 }

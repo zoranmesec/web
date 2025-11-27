@@ -1,22 +1,22 @@
 .nr {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 a.row {
-  text-decoration: none;
-  color: #000;
+    text-decoration: none;
+    color: #000;
 
-  &.disabled {
-    color: #0000008a;
-    &:hover {
-      color: #0000008a;
-      background: none;
+    &.disabled {
+        color: #0000008a;
+        &:hover {
+            color: #0000008a;
+            background: none;
+        }
     }
-  }
 }
 .mat-form-field {
-  width: 100%;
+    width: 100%;
 }
 .mat-form-field-infix {
-  width: auto;
+    width: auto;
 }

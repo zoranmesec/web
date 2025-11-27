@@ -1,42 +1,30 @@
-@if(commentForm) {
-<form [formGroup]="commentForm">
-  <div class="flex flex-column">
-    <div>
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label
-          >{{ this.comment ? "Uredi" : "Vnesi" }} komentar ali
-          opozorilo.</mat-label
-        >
-        <textarea
-          matInput
-          formControlName="content"
-          [placeholder]="`${this.comment ? 'Uredi' : 'Vnesi'} komentar ali opozorilo.`"
-        ></textarea>
-        @if (commentForm.get('content')?.hasError('minlength')) {
-        <mat-error>Komentar je prekratek.</mat-error>
-        }
-      </mat-form-field>
-    </div>
-    <div class="flex flex-row flex-justify-space-between flex-wrap">
-      <div class="m-b-8">
-        <mat-radio-group class="filter-group" formControlName="commentType">
-          <mat-radio-button value="comment" color="var(--mat-sys-secondary)"
-            >komentar</mat-radio-button
-          >
-          <mat-radio-button
-            class="p-l-16"
-            value="condition"
-            color="var(--mat-sys-secondary)"
-            >opozorilo</mat-radio-button
-          >
-        </mat-radio-group>
-      </div>
-      <div>
-        <button mat-flat-button (click)="save()">
-          {{ this.comment ? "Uredi" : "Objavi" }} komentar
-        </button>
-      </div>
-    </div>
-  </div>
-</form>
+@if (commentForm) {
+    <form [formGroup]="commentForm">
+        <div class="flex flex-column">
+            <div>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>{{ this.comment ? 'Uredi' : 'Vnesi' }} komentar ali opozorilo.</mat-label>
+                    <textarea
+                        matInput
+                        formControlName="content"
+                        [placeholder]="`${this.comment ? 'Uredi' : 'Vnesi'} komentar ali opozorilo.`"
+                    ></textarea>
+                    @if (contentControlHasError) {
+                        <mat-error>Komentar je prekratek.</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row flex-justify-space-between flex-wrap">
+                <div class="m-b-8">
+                    <mat-radio-group class="filter-group" formControlName="commentType">
+                        <mat-radio-button value="comment" color="var(--mat-sys-secondary)">komentar</mat-radio-button>
+                        <mat-radio-button class="p-l-16" value="condition" color="var(--mat-sys-secondary)">opozorilo</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div>
+                    <button mat-flat-button (click)="save()">{{ this.comment ? 'Uredi' : 'Objavi' }} komentar</button>
+                </div>
+            </div>
+        </div>
+    </form>
 }

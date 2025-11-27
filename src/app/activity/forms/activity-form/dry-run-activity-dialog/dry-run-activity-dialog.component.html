@@ -1,85 +1,67 @@
 <div mat-dialog-title>Potrditev avtomatske spremembe tipa vzponov</div>
 <mat-dialog-content>
-  <p>
-    Nekatere smeri, ki jih želiš vnesti v dnevnik, imaš v dnevniku že zabeležene
-    s kasnejšimi datumi vzpona in z načini vzpona, ki so glede na trenutni vnos
-    nemogoči.
-  </p>
-  <p>
-    Načini vzponov pri teh vnosih bodo zato avtomatsko spremenjeni kot sledi:
-  </p>
+    <p>
+        Nekatere smeri, ki jih želiš vnesti v dnevnik, imaš v dnevniku že zabeležene s kasnejšimi datumi vzpona in z načini vzpona, ki so
+        glede na trenutni vnos nemogoči.
+    </p>
+    <p>Načini vzponov pri teh vnosih bodo zato avtomatsko spremenjeni kot sledi:</p>
 
-  @if(breakpointService.gtSm()) {
-  <table>
-    <thead>
-      <tr>
-        <th>Datum</th>
-        <th>Ime smeri</th>
-        <th>Sprememba</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (sideEffect of data.dryRunSideEffects; track $index) {
-      <tr>
-        <td>
-          {{ sideEffect.before.date | date : "d. M. yyyy" }}
-        </td>
-        <td>
-          {{ sideEffect.before.route.name }}
-        </td>
-        <td class="flex flex-row flex-align-center flex-justify-center">
-          <app-ascent-type
-            [value]="sideEffect.before.ascentType"
-            displayType="icon"
-          ></app-ascent-type>
-          <app-arrow-right-icon class="m-r-8"></app-arrow-right-icon>
-          <app-ascent-type
-            [value]="sideEffect.after.ascentType"
-            displayType="icon"
-          ></app-ascent-type>
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
-  } @else { @for (sideEffect of data.dryRunSideEffects; track $index) {
-  <mat-divider></mat-divider>
-  <div class="flex flex-column p-t-8 p-b-8">
-    <div class="flex flex-row change-row">
-      <div>Datum</div>
-      <div>{{ sideEffect.before.date | date : "d. M. yyyy" }}</div>
-    </div>
-    <div class="flex flex-row change-row">
-      <div>Ime smeri</div>
-      <div>{{ sideEffect.before.route.name }}</div>
-    </div>
-    <div class="flex flex-row change-row">
-      <div>Sprememba</div>
-      <div class="flex flex-row flex-align-center flex-justify-center">
-        <app-ascent-type
-          [value]="sideEffect.before.ascentType"
-          displayType="icon"
-        ></app-ascent-type>
-        <app-arrow-right-icon class="m-r-8"></app-arrow-right-icon>
-        <app-ascent-type
-          [value]="sideEffect.after.ascentType"
-          displayType="icon"
-        ></app-ascent-type>
-      </div>
-    </div>
-  </div>
+    @if (breakpointService.gtSm) {
+        <table>
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Ime smeri</th>
+                    <th>Sprememba</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (sideEffect of data.dryRunSideEffects; track $index) {
+                    <tr>
+                        <td>
+                            {{ sideEffect.before.date | date: 'd. M. yyyy' }}
+                        </td>
+                        <td>
+                            {{ sideEffect.before.route.name }}
+                        </td>
+                        <td class="flex flex-row flex-align-center flex-justify-center">
+                            <app-ascent-type [value]="sideEffect.before.ascentType" displayType="icon"></app-ascent-type>
+                            <app-arrow-right-icon class="m-r-8"></app-arrow-right-icon>
+                            <app-ascent-type [value]="sideEffect.after.ascentType" displayType="icon"></app-ascent-type>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } @else {
+        @for (sideEffect of data.dryRunSideEffects; track $index) {
+            <mat-divider></mat-divider>
+            <div class="flex flex-column p-t-8 p-b-8">
+                <div class="flex flex-row change-row">
+                    <div>Datum</div>
+                    <div>{{ sideEffect.before.date | date: 'd. M. yyyy' }}</div>
+                </div>
+                <div class="flex flex-row change-row">
+                    <div>Ime smeri</div>
+                    <div>{{ sideEffect.before.route.name }}</div>
+                </div>
+                <div class="flex flex-row change-row">
+                    <div>Sprememba</div>
+                    <div class="flex flex-row flex-align-center flex-justify-center">
+                        <app-ascent-type [value]="sideEffect.before.ascentType" displayType="icon"></app-ascent-type>
+                        <app-arrow-right-icon class="m-r-8"></app-arrow-right-icon>
+                        <app-ascent-type [value]="sideEffect.after.ascentType" displayType="icon"></app-ascent-type>
+                    </div>
+                </div>
+            </div>
+        }
 
-  }
+        <mat-divider></mat-divider>
+    }
 
-  <mat-divider></mat-divider>
-
-  }
-
-  <p>Ali želiš kljub temu potrditi vnos?</p>
+    <p>Ali želiš kljub temu potrditi vnos?</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button type="button" mat-button [mat-dialog-close]="false">Prekliči</button>
-  <button mat-flat-button cdkFocusInitial [mat-dialog-close]="true">
-    Potrdi
-  </button>
+    <button type="button" mat-button [mat-dialog-close]="false">Prekliči</button>
+    <button mat-flat-button cdkFocusInitial [mat-dialog-close]="true">Potrdi</button>
 </mat-dialog-actions>

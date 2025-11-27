@@ -1,22 +1,22 @@
 query SearchAutoCompleteRoutes($searchInput: SearchInput) {
-  searchByInput(input: $searchInput) {
-    routes {
-      __typename
-      id
-      slug
-      name
-      crag {
-        id
-        slug
-        type
-      }
-    }
+    searchByInput(input: $searchInput) {
+        routes {
+            __typename
+            id
+            slug
+            name
+            crag {
+                id
+                slug
+                type
+            }
+        }
 
-    # Searching for users is temporarily disabled.
-    # users {
-    #   __typename
-    #   id
-    #   fullName
-    # }
-  }
+        # Searching for users is temporarily disabled.
+        # users {
+        #   __typename
+        #   id
+        #   fullName
+        # }
+    }
 }

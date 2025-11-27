@@ -1,7 +1,7 @@
 query Profile {
-  profile {
-    id
-    email
-    roles
-  }
+    profile {
+        id
+        email
+        roles
+    }
 }

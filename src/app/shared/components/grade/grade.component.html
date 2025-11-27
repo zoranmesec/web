@@ -1,21 +1,15 @@
 @if (grade) {
-  <div class="flex flex-row align-items-center">
-    <span class="grade-name">{{ grade.name }}</span>
-    @if (showModifier && grade.modifier == 1) {
-      <span
-        class="grade-modifier hard m-t-8"
-        [ngClass]="{ disabled }"
-        >
-        <mat-icon>arrow_drop_up</mat-icon>
-      </span>
-    }
-    @if (showModifier && grade.modifier == -1) {
-      <span
-        class="grade-modifier soft"
-        [ngClass]="{ disabled }"
-        >
-        <mat-icon>arrow_drop_down</mat-icon>
-      </span>
-    }
-  </div>
+    <div class="flex flex-row align-items-center">
+        <span class="grade-name">{{ grade.name }}</span>
+        @if (showModifier && grade.modifier === 1) {
+            <span class="grade-modifier hard m-t-8" [ngClass]="{ disabled }">
+                <mat-icon>arrow_drop_up</mat-icon>
+            </span>
+        }
+        @if (showModifier && grade.modifier === -1) {
+            <span class="grade-modifier soft" [ngClass]="{ disabled }">
+                <mat-icon>arrow_drop_down</mat-icon>
+            </span>
+        }
+    </div>
 }

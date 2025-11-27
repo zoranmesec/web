@@ -1,58 +1,58 @@
-@use "@angular/material" as mat;
-@use "./../../../../../m3-theme.scss" as m3-theme;
-@use "./../../../../../styles/global.scss" as global;
+@use '@angular/material' as mat;
+@use './../../../../../m3-theme.scss' as m3-theme;
+@use './../../../../../styles/global.scss' as global;
 $grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
 $border-color: rgba(0, 0, 0, 0.08); // very light gray
 $table-header-text-color: #0000008a; // light gray
 
 :host {
-  .change-row > div:first-child {
-    color: $grey;
-    flex-basis: 45%;
-  }
+    .change-row > div:first-child {
+        color: $grey;
+        flex-basis: 45%;
+    }
 }
 
 .mat-dialog-content {
-  max-width: 600px;
+    max-width: 600px;
 }
 
 span {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 p {
-  margin-top: 16px;
+    margin-top: 16px;
 }
 
 table {
-  margin-top: 16px;
-  width: 100%;
+    margin-top: 16px;
+    width: 100%;
 
-  tr {
-    &:hover {
-      background: #f6f9ff;
+    tr {
+        &:hover {
+            background: #f6f9ff;
+        }
+        td,
+        th {
+            text-align: left;
+            height: 42px;
+            line-height: 1.25rem;
+            padding: 1px 16px;
+            border-bottom: 1px solid $border-color;
+            border-top: 1px solid $border-color;
+
+            vertical-align: middle;
+
+            &:last-child {
+                text-align: center;
+            }
+        }
+
+        th {
+            font-weight: 400;
+            color: $table-header-text-color;
+            background-color: #fff;
+        }
     }
-    td,
-    th {
-      text-align: left;
-      height: 42px;
-      line-height: 1.25rem;
-      padding: 1px 16px;
-      border-bottom: 1px solid $border-color;
-      border-top: 1px solid $border-color;
-
-      vertical-align: middle;
-
-      &:last-child {
-        text-align: center;
-      }
-    }
-
-    th {
-      font-weight: 400;
-      color: $table-header-text-color;
-      background-color: #fff;
-    }
-  }
 }

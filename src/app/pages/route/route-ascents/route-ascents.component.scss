@@ -1,27 +1,27 @@
-@use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
-  mat-expansion-panel {
-    box-shadow: none !important;
-    margin-bottom: 8px !important;
-    background: none !important;
-  }
-  mat-expansion-panel:hover {
-    background: none !important;
-  }
-  mat-expansion-panel-header {
-    border-bottom: 1px solid $grey;
-  }
+    mat-expansion-panel {
+        box-shadow: none !important;
+        margin-bottom: 8px !important;
+        background: none !important;
+    }
+    mat-expansion-panel:hover {
+        background: none !important;
+    }
+    mat-expansion-panel-header {
+        border-bottom: 1px solid $grey;
+    }
 
-  .mat-expansion-panel-body {
-    padding-top: 16px !important;
-  }
+    .mat-expansion-panel-body {
+        padding-top: 16px !important;
+    }
 
-  .info-row .label {
-    max-width: 150px !important;
-    min-width: 100px !important;
-  }
+    .info-row .label {
+        max-width: 150px !important;
+        min-width: 100px !important;
+    }
 }

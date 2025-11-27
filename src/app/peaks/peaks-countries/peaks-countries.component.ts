@@ -10,43 +10,43 @@ import { PeaksCountriesGQL, PeaksCountriesQuery } from 'src/generated/graphql';
     standalone: false
 })
 export class PeaksCountriesComponent implements OnInit, OnDestroy {
-  constructor(
-    private layoutService: LayoutService,
-    private peaksCountriesGQL: PeaksCountriesGQL
-  ) {}
+    constructor(
+        private layoutService: LayoutService,
+        private peaksCountriesGQL: PeaksCountriesGQL
+    ) {}
 
-  loading = true;
-  error = false;
-  subscription: Subscription;
+    loading = true;
+    error = false;
+    subscription: Subscription;
 
-  peaksCountries: PeaksCountriesQuery['countries'];
+    peaksCountries: PeaksCountriesQuery['countries'];
 
-  ngOnInit(): void {
-    this.subscription = this.peaksCountriesGQL.fetch().subscribe({
-      next: (result) => {
-        this.peaksCountries = result.data.countries;
-        this.setBreadcrumbs();
-        this.loading = false;
-      },
-      error: () => {
-        this.error = true;
-      },
-    });
-  }
+    ngOnInit(): void {
+        this.subscription = this.peaksCountriesGQL.fetch().subscribe({
+            next: (result) => {
+                this.peaksCountries = result.data.countries;
+                this.setBreadcrumbs();
+                this.loading = false;
+            },
+            error: () => {
+                this.error = true;
+            }
+        });
+    }
 
-  private setBreadcrumbs() {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Alpinizem',
-        path: '/alpinizem',
-      },
-      {
-        name: 'Vrhovi',
-      },
-    ]);
-  }
+    private setBreadcrumbs() {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Alpinizem',
+                path: '/alpinizem'
+            },
+            {
+                name: 'Vrhovi'
+            }
+        ]);
+    }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

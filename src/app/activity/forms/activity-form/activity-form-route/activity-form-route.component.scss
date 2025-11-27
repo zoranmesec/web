@@ -1,104 +1,104 @@
-@use "@angular/material" as mat;
-@use "./../../../../../m3-theme.scss" as m3-theme;
-@use "./../../../../../styles/global.scss" as global;
+@use '@angular/material' as mat;
+@use './../../../../../m3-theme.scss' as m3-theme;
+@use './../../../../../styles/global.scss' as global;
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
-  @include mat.divider-overrides(
-    (
-      color: $grey,
-    )
-  );
-  section {
-    padding: 16px;
-  }
-
-  section#notes {
-    mat-form-field {
-      width: 100%;
-    }
-  }
-
-  .border-right {
-    border-right: 1px solid $grey;
-  }
-
-  @media only screen and (max-width: global.$breakpoint-md) {
+    @include mat.divider-overrides(
+        (
+            color: $grey
+        )
+    );
     section {
-      padding: 8px;
+        padding: 16px;
     }
-  }
 
-  .grade-select {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    app-grade-select {
-      width: 200px;
+    section#notes {
+        mat-form-field {
+            width: 100%;
+        }
     }
-  }
 
-  mat-checkbox {
-    ::ng-deep {
-      .mdc-checkbox__background {
-        background-color: var(--mat-sys-surface-container-lowest);
-        border-radius: 6px !important;
-      }
-
-      .mat-internal-form-field > label {
-        padding-left: 8px;
-      }
+    .border-right {
+        border-right: 1px solid $grey;
     }
-  }
 
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-
-    mat-radio-button {
-      margin-bottom: 8px;
+    @media only screen and (max-width: global.$breakpoint-md) {
+        section {
+            padding: 8px;
+        }
     }
-  }
+
+    .grade-select {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        app-grade-select {
+            width: 200px;
+        }
+    }
+
+    mat-checkbox {
+        ::ng-deep {
+            .mdc-checkbox__background {
+                background-color: var(--mat-sys-surface-container-lowest);
+                border-radius: 6px !important;
+            }
+
+            .mat-internal-form-field > label {
+                padding-left: 8px;
+            }
+        }
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0;
+        align-items: flex-start;
+
+        mat-radio-button {
+            margin-bottom: 8px;
+        }
+    }
 }
 
 mat-option {
-  span {
-    display: flex;
-    align-items: center;
-  }
+    span {
+        display: flex;
+        align-items: center;
+    }
 
-  // icon inside mat-select should be smaller
-  mat-icon.mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-  }
+    // icon inside mat-select should be smaller
+    mat-icon.mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+    }
 }
 
 // mat trigger label is handled differently because flex somehow increases row height...
 .mat-select.star-rating {
-  .mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    bottom: 3px;
-  }
-  span.icon-text {
-    margin-left: 20px;
-  }
+    .mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        bottom: 3px;
+    }
+    span.icon-text {
+        margin-left: 20px;
+    }
 }
 
 .mat-hint.star-rating-hint {
-  display: flex;
-  align-items: center;
-
-  span:last-child {
-    font-weight: 500;
     display: flex;
-  }
+    align-items: center;
+
+    span:last-child {
+        font-weight: 500;
+        display: flex;
+    }
 }

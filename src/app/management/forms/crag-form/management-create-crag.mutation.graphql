@@ -1,5 +1,5 @@
 mutation ManagementCreateCrag($input: CreateCragInput!) {
-  createCrag(input: $input) {
-    id
-  }
+    createCrag(input: $input) {
+        id
+    }
 }

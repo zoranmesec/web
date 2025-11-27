@@ -7,29 +7,29 @@ import { StatisticsHomeComponent } from './pages/statistics-home/statistics-home
 import { CommentsHistoryComponent } from './pages/comments-history/comments-history.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: StatisticsHomeComponent,
-  },
-  {
-    path: 'ocene',
-    component: DifficultyVotesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'vzponi',
-    component: AscentsHistoryComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'komentarji',
-    component: CommentsHistoryComponent,
-    canActivate: [AuthGuard],
-  },
+    {
+        path: '',
+        component: StatisticsHomeComponent
+    },
+    {
+        path: 'ocene',
+        component: DifficultyVotesComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'vzponi',
+        component: AscentsHistoryComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'komentarji',
+        component: CommentsHistoryComponent,
+        canActivate: [AuthGuard]
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class StatisticsRoutingModule {}

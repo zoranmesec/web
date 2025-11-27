@@ -1,12 +1,19 @@
-<div class="flex flex-row">
-  @if (value() === 2) {
-  <mat-icon [title]="starRatingEnum.TWO_STARS"> star </mat-icon>
-  @if (showLabel()) {<span class="p-l-4">{{ starRatingEnum.TWO_STARS }}</span>
-  } } @else if (value() === 1) {
+@if (value()!==null) {
 
-  <mat-icon [title]="starRatingEnum.ONE_STAR"> star_border </mat-icon>@if
-  (showLabel()) {<span class="p-l-4">{{ starRatingEnum.ONE_STAR }}</span> } }
-  @else if (value()===0 && !doNotShowZeroLabel()) {
-  <span class="p-l-4">{{ starRatingEnum.ZERO_STARS }}</span>
-  }
-</div>
+    <div class="flex flex-row">
+        @if ((value | signalPipe) === 2) {
+            <mat-icon [title]="starRatingEnum.TWO_STARS"> star </mat-icon>
+            @if (showLabel | signalPipe) {
+                <span class="p-l-4">{{ starRatingEnum.TWO_STARS }}</span>
+            }
+        } @else if ((value | signalPipe) === 1) {
+            <mat-icon [title]="starRatingEnum.ONE_STAR"> star_border </mat-icon>
+            @if (showLabel | signalPipe) {
+                <span class="p-l-4">{{ starRatingEnum.ONE_STAR }}</span>
+            }
+        } @else if ((value | signalPipe) === 0 && !doNotShowZeroLabel | signalPipe) {
+            <span class="p-l-4">{{ starRatingEnum.ZERO_STARS }}</span>
+        }
+    </div>
+    
+}

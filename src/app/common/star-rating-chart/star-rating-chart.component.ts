@@ -1,34 +1,30 @@
-
-import { AfterViewInit, Component, input, OnChanges } from '@angular/core';
+import { Component, input, OnChanges } from '@angular/core';
 import { StarRatingComponent } from 'src/app/shared/components/star-rating/star-rating.component';
 
 export interface IStarRatingChartDistribution {
-  stars: number;
-  value: number;
+    stars: number;
+    value: number;
 }
 
 @Component({
-  selector: 'app-star-rating-chart',
-  templateUrl: './star-rating-chart.component.html',
-  styleUrls: ['./star-rating-chart.component.scss'],
-  standalone: true,
-  imports: [StarRatingComponent],
+    selector: 'app-star-rating-chart',
+    templateUrl: './star-rating-chart.component.html',
+    styleUrls: ['./star-rating-chart.component.scss'],
+    standalone: true,
+    imports: [StarRatingComponent]
 })
 export class StarRatingChartComponent implements OnChanges {
-  distribution = input.required<IStarRatingChartDistribution[]>();
+    distribution = input.required<IStarRatingChartDistribution[]>();
 
-  protected sum: number = 0;
+    protected sum = 0;
 
-  constructor() {}
+    
 
-  ngOnChanges(): void {
-    if (!this.distribution()) {
-      return;
+    ngOnChanges(): void {
+        if (!this.distribution()) {
+            return;
+        }
+
+        this.sum = this.distribution().reduce((acc, element) => acc + element.value, 0);
     }
-
-    this.sum = this.distribution().reduce(
-      (acc, element) => acc + element.value,
-      0
-    );
-  }
 }

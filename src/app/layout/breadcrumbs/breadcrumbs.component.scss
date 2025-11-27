@@ -1,17 +1,17 @@
 section {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  height: 24px;
-  background-color: var(--mat-sys-surface);
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    height: 24px;
+    background-color: var(--mat-sys-surface);
 }
 .sep {
-  font-size: 9px;
-  padding: 0 4px;
+    font-size: 9px;
+    padding: 0 4px;
 }
 a {
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }

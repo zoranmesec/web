@@ -1,67 +1,52 @@
 @if (meId) {
-  <div class="container mt-16">
-    <div class="card">
-      <table class="card-table">
-        <tr class="row header">
-          <td>Ime in priimek</td>
-          <td></td>
-        </tr>
-        @for (member of (club$ | async).members; track member) {
-          <tr class="row">
-            <td>
-              <span
-                [class.pending]="member.status === 'pending'"
-            [matTooltip]="
-              member.status === 'pending'
-                ? 'Uporabnik mora potrditi svoje članstvo v klubu'
-                : null
-            "
-                >
-                {{ member.user.fullName }}
-              </span>
-            </td>
-            <td class="tools">
-              @if (
-                member.status === 'active' ||
-                ((clubService.amClubAdmin$ | async) && member.user.id !== meId)
-                ) {
-                <button
-                  mat-icon-button
-                  [mat-menu-trigger-for]="menu"
-                  >
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-              }
-              <mat-menu #menu="matMenu">
-                @if (member.status === 'active') {
-                  <button
-                    mat-menu-item
-              [routerLink]="[
-                '/moj-profil/moji-klubi',
-                (club$ | async).slug,
-                'vzponi',
-                { userId: member.user.id }
-              ]"
-                    >
-                    <span>Vsi vzponi tega člana</span>
-                  </button>
+    <div class="container mt-16">
+        <div class="card">
+            <table class="card-table">
+                <tr class="row header">
+                    <td>Ime in priimek</td>
+                    <td></td>
+                </tr>
+                @for (member of (club$ | async).members; track member) {
+                    <tr class="row">
+                        <td>
+                            <span
+                                [class.pending]="member.status === 'pending'"
+                                [matTooltip]="member.status === 'pending' ? 'Uporabnik mora potrditi svoje članstvo v klubu' : null"
+                            >
+                                {{ member.user.fullName }}
+                            </span>
+                        </td>
+                        <td class="tools">
+                            @if (member.status === 'active' || ((clubService.amClubAdmin$ | async) && member.user.id !== meId)) {
+                                <button mat-icon-button [mat-menu-trigger-for]="menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            }
+                            <mat-menu #menu="matMenu">
+                                @if (member.status === 'active') {
+                                    <button
+                                        mat-menu-item
+                                        [routerLink]="[
+                                            '/moj-profil/moji-klubi',
+                                            (club$ | async).slug,
+                                            'vzponi',
+                                            { userId: member.user.id }
+                                        ]"
+                                    >
+                                        <span>Vsi vzponi tega člana</span>
+                                    </button>
+                                }
+                                @if ((clubService.amClubAdmin$ | async) && member.user.id !== meId) {
+                                    <button mat-menu-item (click)="deleteMember(member.id, member.user.fullName)">
+                                        <mat-icon>delete_outline</mat-icon>
+                                        <span>Odstrani člana</span>
+                                    </button>
+                                }
+                            </mat-menu>
+                        </td>
+                    </tr>
                 }
-                @if (
-                  (clubService.amClubAdmin$ | async) && member.user.id !== meId
-                  ) {
-                  <button
-                    mat-menu-item
-                    (click)="deleteMember(member.id, member.user.fullName)"
-                    >
-                    <mat-icon>delete_outline</mat-icon>
-                    <span>Odstrani člana</span>
-                  </button>
-                }
-              </mat-menu>
-            </td>
-          </tr>
-        }
-      </table>
+            </table>
+        </div>
     </div>
-  </div>
 }

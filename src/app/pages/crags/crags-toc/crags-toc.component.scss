@@ -1,102 +1,102 @@
-@use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
-@use "./../../../../styles/global.scss" as global;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
+@use './../../../../styles/global.scss' as global;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
 :host {
-  section#filter {
-    border-radius: 8px;
-    margin: 0 24px 24px 0;
-    background-color: var(--mat-sys-surface);
-    width: 344px !important;
-    padding: 8px;
-
-    div.top {
-      padding: 12px 16px;
-      border-bottom: 1px solid $grey;
-    }
-
-    div.bottom {
-      padding: 12px 16px;
-      border-radius: 8px;
-    }
-  }
-
-  @media only screen and (max-width: global.$breakpoint-lg) {
     section#filter {
-      position: absolute;
+        border-radius: 8px;
+        margin: 0 24px 24px 0;
+        background-color: var(--mat-sys-surface);
+        width: 344px !important;
+        padding: 8px;
+
+        div.top {
+            padding: 12px 16px;
+            border-bottom: 1px solid $grey;
+        }
+
+        div.bottom {
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
     }
-  }
 
-  .map-icon {
-    margin-right: 4px;
-    vertical-align: top;
-    line-height: 16px;
-  }
-
-  .close-icon {
-    cursor: pointer;
-    padding-top: 8px;
-  }
-
-  a.row {
-    text-decoration: none;
-    color: #000;
-    &:hover {
-      background: #f6f9ff;
+    @media only screen and (max-width: global.$breakpoint-lg) {
+        section#filter {
+            position: absolute;
+        }
     }
-    &.active {
-      cursor: default;
-      background: #f6f9ff;
+
+    .map-icon {
+        margin-right: 4px;
+        vertical-align: top;
+        line-height: 16px;
     }
-  }
-  .show-all {
-    color: var(--mat-sys-secondary);
-    font-weight: var(--mat-sys-display-medium-weight);
-    text-align: center;
-    cursor: pointer;
-    border: 3px solid var(--mat-sys-surface);
-  }
 
-  .show-all:hover {
-    border: 3px solid $light-blue;
-    border-radius: 8px;
-  }
-
-  .active-country {
-    color: var(--mat-sys-secondary);
-  }
-  .mat-form-field {
-    width: 100%;
-  }
-  .mat-form-field-infix {
-    width: auto;
-  }
-
-  mat-accordion {
-    ::ng-deep {
-      .mat-expansion-panel {
-        box-shadow: none;
-        border-bottom: 1px solid $grey;
-      }
+    .close-icon {
+        cursor: pointer;
+        padding-top: 8px;
     }
-  }
 
-  mat-checkbox {
-    ::ng-deep {
-      .mdc-checkbox__background {
-        background-color: var(--mat-sys-surface-container-lowest);
-        border-radius: 6px !important;
-      }
-
-      .mat-internal-form-field > label {
-        padding-left: 8px;
-      }
+    a.row {
+        text-decoration: none;
+        color: #000;
+        &:hover {
+            background: #f6f9ff;
+        }
+        &.active {
+            cursor: default;
+            background: #f6f9ff;
+        }
     }
-  }
+    .show-all {
+        color: var(--mat-sys-secondary);
+        font-weight: var(--mat-sys-display-medium-weight);
+        text-align: center;
+        cursor: pointer;
+        border: 3px solid var(--mat-sys-surface);
+    }
 
-  ul > li {
-    margin-bottom: 8px;
-  }
+    .show-all:hover {
+        border: 3px solid $light-blue;
+        border-radius: 8px;
+    }
+
+    .active-country {
+        color: var(--mat-sys-secondary);
+    }
+    .mat-form-field {
+        width: 100%;
+    }
+    .mat-form-field-infix {
+        width: auto;
+    }
+
+    mat-accordion {
+        ::ng-deep {
+            .mat-expansion-panel {
+                box-shadow: none;
+                border-bottom: 1px solid $grey;
+            }
+        }
+    }
+
+    mat-checkbox {
+        ::ng-deep {
+            .mdc-checkbox__background {
+                background-color: var(--mat-sys-surface-container-lowest);
+                border-radius: 6px !important;
+            }
+
+            .mat-internal-form-field > label {
+                padding-left: 8px;
+            }
+        }
+    }
+
+    ul > li {
+        margin-bottom: 8px;
+    }
 }

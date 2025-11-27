@@ -1,9 +1,9 @@
 query MyCragSummary($input: FindActivityRoutesInput) {
-  myCragSummary(input: $input) {
-    ascentType
-    route {
-      id
-      slug
+    myCragSummary(input: $input) {
+        ascentType
+        route {
+            id
+            slug
+        }
     }
-  }
 }

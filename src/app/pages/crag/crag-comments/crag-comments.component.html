@@ -1,13 +1,10 @@
 <main class="m-l-8 m-r-8">
-  <section id="form" class="m-b-16 m-t-16">
-    <app-comment-form
-      [entity]="crag"
-      (commentSaved)="onCommentSaved($event)"
-    ></app-comment-form>
-  </section>
-  <section id="comments">
-    @for (comment of comments; track comment) {
-      <app-comment [comment]="comment"></app-comment>
-    }
-  </section>
+    <section id="form" class="m-b-16 m-t-16">
+        <app-comment-form [entity]="crag" (commentSaved)="onCommentSaved($event)"></app-comment-form>
+    </section>
+    <section id="comments">
+        @for (comment of comments; track comment) {
+            <app-comment [comment]="comment"></app-comment>
+        }
+    </section>
 </main>

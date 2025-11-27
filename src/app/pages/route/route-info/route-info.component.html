@@ -1,134 +1,126 @@
 <mat-accordion>
-  <mat-expansion-panel expanded="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Osnovni podatki </mat-panel-title>
-    </mat-expansion-panel-header>
-    <table class="p-t-16">
-      <tr>
-        <td class="label">Težavnost:</td>
-        <td>
-          @if (route.isProject) {
-            <span>P</span>
-          }
-          @if (!route.isProject) {
-            <app-grade
-              [difficulty]="route.difficulty"
-              [gradingSystemId]="route.defaultGradingSystem.id"
-              [showModifier]="true"
-            ></app-grade>
-          }
-        </td>
-      </tr>
-      @if (route.pitches.length > 0) {
-        <tr>
-          <td class="label">Raztežaji:</td>
-          <td>
-            @for (pitch of route.pitches; track pitch; let isLast = $last) {
-              <text
-                >@if (pitch.isProject) {
-                <span>P</span>
-              }
-              @if (!pitch.isProject) {
-                <app-grade
-                  [difficulty]="pitch.difficulty"
-                  [gradingSystemId]="route.defaultGradingSystem.id"
-                  [showModifier]="true"
-                  ></app-grade
-                  >
-                  }{{ isLast ? "" : ", " }}</text
-                  >
-                }
-              </td>
-            </tr>
-          }
-
-          <!-- Route length -->
-          <tr>
-            <td class="label">Dolžina:</td>
-            <td>{{ route.length }} m</td>
-          </tr>
-
-          <!-- Route author -->
-          @if (route.author) {
+    <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title> Osnovni podatki </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table class="p-t-16">
             <tr>
-              <td class="label">Avtor:</td>
-              <td>{{ route.author }}</td>
+                <td class="label">Težavnost:</td>
+                <td>
+                    @if (route.isProject) {
+                        <span>P</span>
+                    }
+                    @if (!route.isProject) {
+                        <app-grade
+                            [difficulty]="route.difficulty"
+                            [gradingSystemId]="route.defaultGradingSystem.id"
+                            [showModifier]="true"
+                        ></app-grade>
+                    }
+                </td>
             </tr>
-          }
+            @if (route.pitches.length > 0) {
+                <tr>
+                    <td class="label">Raztežaji:</td>
+                    <td>
+                        @for (pitch of route.pitches; track pitch; let isLast = $last) {
+                            <text>
+                                @if (pitch.isProject) {
+                                    <span>P</span>
+                                }
+                                @if (!pitch.isProject) {
+                                    <app-grade
+                                        [difficulty]="pitch.difficulty"
+                                        [gradingSystemId]="route.defaultGradingSystem.id"
+                                        [showModifier]="true"
+                                    ></app-grade>
+                                }
+                                {{ isLast ? '' : ', ' }}</text
+                            >
+                        }
+                    </td>
+                </tr>
+            }
 
-          <!-- Route star rating -->
-          @if (route.starRating > 0) {
+            <!-- Route length -->
             <tr>
-              <td class="label">Lepota:</td>
-              <td>
-                <app-star-rating
-                  [value]="route.starRating"
-                  [showLabel]="true"
-                ></app-star-rating>
-              </td>
+                <td class="label">Dolžina:</td>
+                <td>{{ route.length }} m</td>
             </tr>
-            } @if (route.sector.name.length>0) {
+
+            <!-- Route author -->
+            @if (route.author) {
+                <tr>
+                    <td class="label">Avtor:</td>
+                    <td>{{ route.author }}</td>
+                </tr>
+            }
+
+            <!-- Route star rating -->
+            @if (route.starRating > 0) {
+                <tr>
+                    <td class="label">Lepota:</td>
+                    <td>
+                        <app-star-rating [value]="route.starRating" [showLabel]="true"></app-star-rating>
+                    </td>
+                </tr>
+            }
+            @if (route.sector.name.length > 0) {
+                <tr>
+                    <td class="label">Sektor:</td>
+                    <td>{{ route.sector.name }}</td>
+                </tr>
+            }
+
             <tr>
-              <td class="label">Sektor:</td>
-              <td>{{ route.sector.name }}</td>
+                <td class="label">Plezališče:</td>
+                <td>{{ route.sector.crag.name }}</td>
             </tr>
-          }
 
-          <tr>
-            <td class="label">Plezališče:</td>
-            <td>{{ route.sector.crag.name }}</td>
-          </tr>
+            @if (route.sector.crag.area) {
+                <tr>
+                    <td class="label">Območje:</td>
+                    <td>{{ route.sector.crag.area.name }}</td>
+                </tr>
+            }
 
-          @if (route.sector.crag.area) {
             <tr>
-              <td class="label">Območje:</td>
-              <td>{{ route.sector.crag.area.name }}</td>
+                <td class="label">Država:</td>
+                <td>{{ route.sector.crag.country.name }}</td>
             </tr>
-          }
 
-          <tr>
-            <td class="label">Država:</td>
-            <td>{{ route.sector.crag.country.name }}</td>
-          </tr>
+            @for (event of route.routeEvents; track event) {
+                <tr>
+                    <td class="label">{{ eventTypeMap[event.eventType] }}</td>
+                    <span>{{ event.author }} ({{ event.eventDate | date: (event.showFullDate ? 'd. M. Y' : 'Y') }}) </span>
+                </tr>
+            }
 
-          @for (event of route.routeEvents; track event) {
+            @for (property of route.properties; track property) {
+                <div class="flex flex-row flex-start info-row">
+                    <app-info-property [property]="property"></app-info-property>
+                </div>
+            }
+
             <tr>
-              <td class="label">{{ eventTypeMap[event.eventType] }}</td>
-              <span
-                >{{ event.author }} ({{
-                event.eventDate | date : (event.showFullDate ? "d. M. Y" : "Y")
-                }})
-              </span>
+                <td class="label">Število uspešnih vzponov:</td>
+                <td>{{ route.nrTicks }}</td>
             </tr>
-          }
 
-          @for (property of route.properties; track property) {
-            <div
-              class="flex flex-row flex-start info-row"
-              >
-              <app-info-property [property]="property"></app-info-property>
-            </div>
-          }
+            <tr>
+                <td class="label">Število poskusov:</td>
+                <td>{{ route.nrTries }}</td>
+            </tr>
 
-          <tr>
-            <td class="label">Število uspešnih vzponov:</td>
-            <td>{{ route.nrTicks }}</td>
-          </tr>
-
-          <tr>
-            <td class="label">Število poskusov:</td>
-            <td>{{ route.nrTries }}</td>
-          </tr>
-
-          <tr>
-            <td class="label">Število plezalcev:</td>
-            <td>{{ route.nrClimbers }}</td>
-          </tr>
+            <tr>
+                <td class="label">Število plezalcev:</td>
+                <td>{{ route.nrClimbers }}</td>
+            </tr>
         </table>
-      </mat-expansion-panel>
-    </mat-accordion>
+    </mat-expansion-panel>
+</mat-accordion>
 
-    <!-- <div class="card padding">
+<!-- <div class="card padding">
     <h4>Ocene uporabnikov</h4>
     <app-distribution-chart
       class="difficulty-votes-chart"

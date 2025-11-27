@@ -14,27 +14,27 @@ import { MatCard } from '@angular/material/card';
     imports: [RouterLink, MatCard]
 })
 export class ContributionComponent implements OnInit, OnDestroy {
-  @Input() contribution: Contribution;
-  @Input() link: string[];
-  @Input() depth: number = 0;
+    @Input() contribution: Contribution;
+    @Input() link: string[];
+    @Input() depth = 0;
 
-  entityTypeLabel = { crag: 'Plezališče', sector: 'Sektor', route: 'Smer' };
+    entityTypeLabel = { crag: 'Plezališče', sector: 'Sektor', route: 'Smer' };
 
-  user: User;
-  subscription: Subscription;
+    user: User;
+    subscription: Subscription;
 
-  constructor(
-    private authService: AuthService,
-    public contributionService: ContributionService
-  ) {}
+    constructor(
+        private authService: AuthService,
+        public contributionService: ContributionService
+    ) {}
 
-  ngOnInit(): void {
-    this.subscription = this.authService.currentUser.subscribe((user) => {
-      this.user = user;
-    });
-  }
+    ngOnInit(): void {
+        this.subscription = this.authService.currentUser.subscribe((user) => {
+            this.user = user;
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

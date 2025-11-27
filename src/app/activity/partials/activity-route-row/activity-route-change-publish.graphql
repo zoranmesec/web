@@ -1,8 +1,5 @@
-mutation ActivityRouteChangePublish(
-  $routes: [UpdateActivityRouteInput!]!
-  $activityId: String!
-) {
-  updateActivityRoute(routes: $routes, activityId: $activityId) {
-    publish
-  }
+mutation ActivityRouteChangePublish($routes: [UpdateActivityRouteInput!]!, $activityId: String!) {
+    updateActivityRoute(routes: $routes, activityId: $activityId) {
+        publish
+    }
 }

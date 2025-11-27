@@ -1,108 +1,108 @@
 query CragBySlug($crag: String!) {
-  cragBySlug(slug: $crag) {
-    id
-    slug
-    status
-    name
-    type
-    orientation
-    orientations
-    wallAngles
-    seasons
-    approachTime
-    lat
-    lon
-    access
-    description
-    activityByMonth
-    publishStatus
-    rainproof
-    peak {
-      name
-      slug
-    }
-    area {
-      id
-      name
-    }
-    country {
-      id
-      name
-      slug
-    }
-    sectors {
-      id
-      name
-      label
-      publishStatus
-      routes {
+    cragBySlug(slug: $crag) {
         id
-        name
         slug
-        difficulty
-        defaultGradingSystem {
-          id
+        status
+        name
+        type
+        orientation
+        orientations
+        wallAngles
+        seasons
+        approachTime
+        lat
+        lon
+        access
+        description
+        activityByMonth
+        publishStatus
+        rainproof
+        peak {
+            name
+            slug
         }
-        isProject
-        length
-        routeType {
-          id
+        area {
+            id
+            name
+        }
+        country {
+            id
+            name
+            slug
+        }
+        sectors {
+            id
+            name
+            label
+            publishStatus
+            routes {
+                id
+                name
+                slug
+                difficulty
+                defaultGradingSystem {
+                    id
+                }
+                isProject
+                length
+                routeType {
+                    id
+                }
+                comments {
+                    id
+                }
+                pitches {
+                    difficulty
+                    isProject
+                    number
+                    height
+                }
+                nrTicks
+                nrTries
+                nrClimbers
+                position
+                starRating
+                publishStatus
+            }
+            bouldersOnly
         }
         comments {
-          id
+            id
+            content
+            created
+            updated
+            type
+            exposedUntil
+            user {
+                id
+                fullName
+            }
         }
-        pitches {
-          difficulty
-          isProject
-          number
-          height
+        properties {
+            id
+            propertyType {
+                id
+                name
+                valueType
+            }
+            stringValue
+            textValue
+            numValue
+            author
         }
-        nrTicks
-        nrTries
-        nrClimbers
-        position
-        starRating
-        publishStatus
-      }
-      bouldersOnly
+        images {
+            id
+            title
+            path
+            aspectRatio
+            maxIntrinsicWidth
+            author
+            user {
+                id
+            }
+        }
+        user {
+            id
+        }
     }
-    comments {
-      id
-      content
-      created
-      updated
-      type
-      exposedUntil
-      user {
-        id
-        fullName
-      }
-    }
-    properties {
-      id
-      propertyType {
-        id
-        name
-        valueType
-      }
-      stringValue
-      textValue
-      numValue
-      author
-    }
-    images {
-      id
-      title
-      path
-      aspectRatio
-      maxIntrinsicWidth
-      author
-      user {
-        id
-      }
-    }
-    user {
-      id
-    }
-  }
 }

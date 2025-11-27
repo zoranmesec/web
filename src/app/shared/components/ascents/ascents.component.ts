@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FlexLayoutModule } from 'ng-flex-layout';
 import { ASCENT_TYPES } from 'src/app/common/activity.constants';
 import { Activity } from 'src/generated/graphql';
 
@@ -6,33 +7,31 @@ import { Activity } from 'src/generated/graphql';
     selector: 'app-ascents',
     templateUrl: './ascents.component.html',
     styleUrls: ['./ascents.component.scss'],
-    standalone: false
+    imports: [FlexLayoutModule],
+    standalone: true
 })
 export class AscentsComponent implements OnInit {
-  @Input() activities: Activity[];
-  @Input() forceCompact = false;
+    @Input() activities: Activity[];
+    @Input() forceCompact = false;
 
-  activityMainRows: { expanded: boolean }[] = [];
-  ascentTypes = ASCENT_TYPES;
-  noTopropeOnPage = false;
+    activityMainRows: { expanded: boolean }[] = [];
+    ascentTypes = ASCENT_TYPES;
+    noTopropeOnPage = false;
 
-  constructor() {}
+    
 
-  ngOnInit(): void {
-    this.activityMainRows = [];
+    ngOnInit(): void {
+        this.activityMainRows = [];
 
-    this.activities.forEach(() => {
-      this.activityMainRows.push({ expanded: false });
-    });
+        this.activities.forEach(() => {
+            this.activityMainRows.push({ expanded: false });
+        });
 
-    // We don't need to decide about this detail if compact view is forced
-    if (!this.forceCompact) {
-      this.noTopropeOnPage = !this.activities.some((activity) =>
-        activity.routes.some(
-          (route) =>
-            this.ascentTypes.find((at) => at.value === route.ascentType).topRope
-        )
-      );
+        // We don't need to decide about this detail if compact view is forced
+        if (!this.forceCompact) {
+            this.noTopropeOnPage = !this.activities.some((activity) =>
+                activity.routes.some((route) => this.ascentTypes.find((at) => at.value === route.ascentType).topRope)
+            );
+        }
     }
-  }
 }

@@ -1,48 +1,34 @@
 <mat-dialog-content>
-  <p>
-    {{ data.message }}
-  </p>
-  <form [formGroup]="loginForm" (submit)="login()">
     <p>
-      <mat-form-field class="no-hint" appearance="outline">
-        <mat-label>E-naslov</mat-label>
-        <input matInput type="email" [formControl]="loginForm.controls.email" />
-      </mat-form-field>
+        {{ data.message }}
     </p>
-    <p>
-      <mat-form-field appearance="outline">
-        <mat-label>Geslo</mat-label>
-        <input
-          matInput
-          type="password"
-          [formControl]="loginForm.controls.password"
-          />
-          <mat-hint align="end"
-            ><a href="#" (click)="passwordRecovery()"
-            >Pozabljeno geslo?</a
-            ></mat-hint
-            >
-          </mat-form-field>
+    <form [formGroup]="loginForm" (submit)="login()">
+        <p>
+            <mat-form-field class="no-hint" appearance="outline">
+                <mat-label>E-naslov</mat-label>
+                <input matInput type="email" [formControl]="loginForm.controls.email" />
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Geslo</mat-label>
+                <input matInput type="password" [formControl]="loginForm.controls.password" />
+                <mat-hint align="end"><a href="#" (click)="passwordRecovery()">Pozabljeno geslo?</a></mat-hint>
+            </mat-form-field>
         </p>
 
         <p fxLayout="row" fxLayoutAlign="center center" class="login-button">
-          @if (!loading) {
-            <button
-              mat-flat-button
-              color="primary"
-              [disabled]="!loginForm.valid"
-              >
-              PRIJAVA
-            </button>
-          }
-          @if (loading) {
-            <span class="loading">
-              <mat-spinner diameter="30"></mat-spinner>
-            </span>
-          }
+            @if (!loading) {
+                <button mat-flat-button color="primary" [disabled]="!loginForm.valid">PRIJAVA</button>
+            }
+            @if (loading) {
+                <span class="loading">
+                    <mat-spinner diameter="30"></mat-spinner>
+                </span>
+            }
         </p>
-      </form>
+    </form>
 
-      Še nimaš uporabniškega računa?<br />
-      <a [routerLink]="['/registracija']" mat-dialog-close>Registriraj se</a>
-    </mat-dialog-content>
+    Še nimaš uporabniškega računa?<br />
+    <a [routerLink]="['/registracija']" mat-dialog-close>Registriraj se</a>
+</mat-dialog-content>

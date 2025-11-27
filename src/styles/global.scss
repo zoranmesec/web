@@ -7,123 +7,123 @@ $breakpoint-2xl: 1535.98px;
 
 // TODO replace margin/padding util classes with a for loop that generates all these classes
 .my-8 {
-  margin-top: 8px;
-  margin-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .mt-4 {
-  margin-top: 4px;
+    margin-top: 4px;
 }
 
 .mt-8 {
-  margin-top: 8px;
+    margin-top: 8px;
 }
 
 p.mt-16,
 .mt-16 {
-  margin-top: 16px;
+    margin-top: 16px;
 }
 
 .mt-32 {
-  margin-top: 32px;
+    margin-top: 32px;
 }
 
 .mb-16 {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 .mb-8 {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .mb-32 {
-  margin-bottom: 32px;
+    margin-bottom: 32px;
 }
 .ml-4 {
-  margin-left: 4px;
+    margin-left: 4px;
 }
 .ml-16 {
-  margin-left: 16px;
+    margin-left: 16px;
 }
 
 .pt-1 {
-  padding-top: 1px;
+    padding-top: 1px;
 }
 .pt-8 {
-  padding-top: 8px;
+    padding-top: 8px;
 }
 .pr-4 {
-  padding-right: 4px;
+    padding-right: 4px;
 }
 .pr-8 {
-  padding-right: 8px;
+    padding-right: 8px;
 }
 
 .pb-8 {
-  padding-bottom: 8px;
+    padding-bottom: 8px;
 }
 .pl-8 {
-  padding-left: 8px;
+    padding-left: 8px;
 }
 
 .px-4 {
-  padding-left: 4px;
-  padding-right: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 .px-8 {
-  padding-left: 8px;
-  padding-right: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .py-8 {
-  padding-top: 8px;
-  padding-bottom: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 .py-16 {
-  padding-top: 16px;
-  padding-bottom: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .p-8 {
-  padding: 8px;
+    padding: 8px;
 }
 
 .p-16 {
-  padding: 16px;
+    padding: 16px;
 }
 
 // TODO END margin/spacing util classes
 
 .white-back {
-  background: #fff;
-  box-shadow: 0 2px 6px 0 #6494ff26;
+    background: #fff;
+    box-shadow: 0 2px 6px 0 #6494ff26;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 b {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .text-center {
-  text-align: center;
+    text-align: center;
 }
 
 .text-left {
-  text-align: left;
+    text-align: left;
 }
 
 .text-right {
-  text-align: right;
+    text-align: right;
 }
 
 .w-100 {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 .d-block {
-  display: block;
+    display: block;
 }

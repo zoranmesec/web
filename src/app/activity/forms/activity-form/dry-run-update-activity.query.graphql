@@ -1,20 +1,17 @@
-query DryRunUpdateActivity(
-  $input: UpdateActivityInput!
-  $routes: [UpdateActivityRouteInput!]!
-) {
-  dryRunUpdateActivity(input: $input, routes: $routes) {
-    before {
-      date
-      ascentType
-      routeId
-      route {
-        name
-      }
+query DryRunUpdateActivity($input: UpdateActivityInput!, $routes: [UpdateActivityRouteInput!]!) {
+    dryRunUpdateActivity(input: $input, routes: $routes) {
+        before {
+            date
+            ascentType
+            routeId
+            route {
+                name
+            }
+        }
+        after {
+            date
+            ascentType
+            routeId
+        }
     }
-    after {
-      date
-      ascentType
-      routeId
-    }
-  }
 }

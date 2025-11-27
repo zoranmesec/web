@@ -6,27 +6,27 @@ import { PeaksCountriesComponent } from './peaks-countries/peaks-countries.compo
 import { PeaksCountryComponent } from './peaks-country/peaks-country.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'drzave',
-    pathMatch: 'full',
-  },
-  {
-    path: 'drzave',
-    component: PeaksCountriesComponent,
-  },
-  {
-    path: 'drzava/:country',
-    component: PeaksCountryComponent,
-  },
-  {
-    path: 'vrh/:peak',
-    component: PeakCragsComponent,
-  },
+    {
+        path: '',
+        redirectTo: 'drzave',
+        pathMatch: 'full'
+    },
+    {
+        path: 'drzave',
+        component: PeaksCountriesComponent
+    },
+    {
+        path: 'drzava/:country',
+        component: PeaksCountryComponent
+    },
+    {
+        path: 'vrh/:peak',
+        component: PeakCragsComponent
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class PeaksRoutingModule {}

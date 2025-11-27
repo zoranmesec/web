@@ -1,3 +1,3 @@
 mutation ManagementDeleteCrag($id: String!) {
-  deleteCrag(id: $id)
+    deleteCrag(id: $id)
 }

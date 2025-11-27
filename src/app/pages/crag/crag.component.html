@@ -1,61 +1,53 @@
 @if (error) {
-  <app-data-error [error]="error"></app-data-error>
+    <app-data-error [error]="error"></app-data-error>
 }
 
 @if (loading) {
-  <app-loader></app-loader>
+    <app-loader></app-loader>
 }
 
 @if (!error && !loading) {
+    <section id="title">
+        <h1>{{ crag.name }}</h1>
+    </section>
+    <section id="tabs">
+        <div>&nbsp;</div>
+        @for (tab of tabs; track $index) {
+            <div [class.active]="tab.slug === activeTab" (click)="setActiveTab(tab)">
+                @if (tab.icon === 'route') {
+                    <app-routes-icon [active]="tab.slug === activeTab"></app-routes-icon>
+                } @else if (tab.icon === 'image') {
+                    <app-gallery-icon [active]="tab.slug === activeTab"></app-gallery-icon>
+                } @else if (tab.icon === 'info') {
+                    <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
+                } @else if (tab.icon === 'comment') {
+                    <app-comment-icon [active]="tab.slug === activeTab"></app-comment-icon>
+                }
 
-  <section id="title">
-    <h1>{{ crag.name }}</h1>
-  </section>
-  <section id="tabs">
-    <div>&nbsp;</div>
-    @for (tab of tabs; track $index) {
-      <div [class.active]="tab.slug === activeTab" (click)="setActiveTab(tab)">
-        @if (tab.icon==='route') {
-          <app-routes-icon [active]="tab.slug === activeTab"></app-routes-icon>
-        } @else if (tab.icon==='image') {
-          <app-gallery-icon [active]="tab.slug === activeTab"></app-gallery-icon>
-        } @else if (tab.icon==='info') {
-          <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
-        } @else if (tab.icon==='comment') {
-          <app-comment-icon [active]="tab.slug === activeTab"></app-comment-icon>
+                <span fxHide.lt-md>
+                    {{ tab.label }}
+                </span>
+            </div>
+            <div>&nbsp;</div>
+        }
+        <div>&nbsp;</div>
+    </section>
+    <section [class.m-16]="breakpointService.gtMd && activeTab !== 'galerija'">
+        @if (activeTab === 'info') {
+            <app-crag-info [crag]="crag"></app-crag-info>
+        }
+        @if (activeTab === 'smeri') {
+            <app-crag-routes [crag]="crag"></app-crag-routes>
         }
 
-        <span fxHide.lt-md>
-          {{ tab.label }}
-        </span>
-      </div>
-      <div>&nbsp;</div>
-    }
-    <div>&nbsp;</div>
-  </section>
-  <section [class.m-16]="breakpointService.gtMd() && activeTab !== 'galerija'">
-    @if (activeTab == 'info') {
-      <app-crag-info [crag]="crag"></app-crag-info>
-    }
-    @if (activeTab == 'smeri') {
-      <app-crag-routes [crag]="crag"></app-crag-routes>
-    }
+        @if (activeTab === 'komentarji') {
+            <app-crag-comments [crag]="crag" [action]="action$" class="m-t-16"></app-crag-comments>
+        }
 
-    @if (activeTab === 'komentarji') {
-      <app-crag-comments
-        [crag]="crag"
-        [action]="action$"
-        class="m-t-16"
-      ></app-crag-comments>
-    }
-
-    @if (activeTab === 'galerija') {
-      <app-crag-gallery
-        [crag]="crag"
-        [images]="crag.images"
-      ></app-crag-gallery>
-    }
-  </section>
+        @if (activeTab === 'galerija') {
+            <app-crag-gallery [crag]="crag" [images]="crag.images"></app-crag-gallery>
+        }
+    </section>
 }
 
 <!-- <app-warnings *ngIf="warnings" [warnings]="warnings"></app-warnings>

@@ -1,20 +1,20 @@
 mat-card {
-  border-radius: 0;
-  margin-bottom: 4px;
+    border-radius: 0;
+    margin-bottom: 4px;
 }
 
 .publish-status {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 .actions {
-  text-align: right;
-  white-space: nowrap;
-  button {
-    text-transform: uppercase;
-    margin-top: 8px;
-    &:last-child {
-      margin-left: 8px;
+    text-align: right;
+    white-space: nowrap;
+    button {
+        text-transform: uppercase;
+        margin-top: 8px;
+        &:last-child {
+            margin-left: 8px;
+        }
     }
-  }
 }

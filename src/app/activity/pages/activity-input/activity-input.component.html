@@ -1,36 +1,34 @@
 <mat-dialog-content class="mat-typography">
-  <div class="mt-16 flex flex-row flex-justify-space-between">
-    <div class="py-8">
-      <h2>Vnos v plezalni dnevnik</h2>
+    <div class="mt-16 flex flex-row flex-justify-space-between">
+        <div class="py-8">
+            <h2>Vnos v plezalni dnevnik</h2>
+        </div>
+        <div>
+            <mat-dialog-actions>
+                <button mat-button mat-dialog-close>Prekliči</button>
+            </mat-dialog-actions>
+        </div>
     </div>
-    <div>
-      <mat-dialog-actions>
-        <button mat-button mat-dialog-close>Prekliči</button>
-      </mat-dialog-actions>
+
+    <div class="container mt-16">
+        <app-activity-form
+            [crag]="crag"
+            [peak]="peak"
+            [iceFall]="iceFall"
+            [selectedRoutes]="routes"
+            [activity]="data.activity"
+            [formType]="data.activity !== undefined ? 'edit' : 'new'"
+            (onSave)="closeDialog()"
+        ></app-activity-form>
     </div>
-  </div>
 
-  <div class="container mt-16">
-    <app-activity-form
-      [crag]="crag"
-      [peak]="peak"
-      [iceFall]="iceFall"
-      [selectedRoutes]="routes"
-      [activity]="data.activity"
-      [formType]="data.activity !== undefined ? 'edit' : 'new'"
-      (onSave)="closeDialog()"
-    ></app-activity-form>
-  </div>
-
-  @if (type === 'crag' && !routes) {
-  <div class="container mt-16">
-    Izgleda, da nimaš izbranih smeri za vpis v dnevnik.
-    <br />
-    <br />
-    Vrni se <a [routerLink]="['/']">domov</a>, na
-    <a [routerLink]="['/plezalni-dnevnik']">plezalni dnevnik</a> ali na
-    <a [routerLink]="['/plezalisca/slovenija', { type: 'sport' }]">plezališča</a
-    >.
-  </div>
-  }
+    @if (type === 'crag' && !routes) {
+        <div class="container mt-16">
+            Izgleda, da nimaš izbranih smeri za vpis v dnevnik.
+            <br />
+            <br />
+            Vrni se <a [routerLink]="['/']">domov</a>, na <a [routerLink]="['/plezalni-dnevnik']">plezalni dnevnik</a> ali na
+            <a [routerLink]="['/plezalisca/slovenija', { type: 'sport' }]">plezališča</a>.
+        </div>
+    }
 </mat-dialog-content>

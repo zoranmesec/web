@@ -1,43 +1,43 @@
-@use "./../../../styles/global.scss" as global;
+@use './../../../styles/global.scss' as global;
 
 .crag-map-container {
-  position: relative;
-  height: 600px;
-  width: 100%;
-  @media only screen and (max-width: global.$breakpoint-xl) {
-    height: 360px !important;
-  }
+    position: relative;
+    height: 600px;
+    width: 100%;
+    @media only screen and (max-width: global.$breakpoint-xl) {
+        height: 360px !important;
+    }
 }
 .crag-map-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #crag-map-default {
-  height: 600px;
-  width: 100%;
-  @media only screen and (max-width: global.$breakpoint-xl) {
-    height: 360px !important;
-  }
+    height: 600px;
+    width: 100%;
+    @media only screen and (max-width: global.$breakpoint-xl) {
+        height: 360px !important;
+    }
 }
 
 .popup {
-  border-radius: 5px;
-  border: 1px solid grey;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 5px 10px 0px 10px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 5px 10px 0px 10px;
 }
 
 .ol-control.ol-unselectable.locate.location-active > button.map-button {
-  color: rgba(128, 0, 0.5);
+    color: rgba(128, 0, 0.5);
 }
 .ol-control.ol-unselectable.locate.location-active {
-  background-color: rgba(128, 0, 0.5);
+    background-color: rgba(128, 0, 0.5);
 }
 .locate {
-  top: 4em;
-  left: 0.5em;
+    top: 4em;
+    left: 0.5em;
 }

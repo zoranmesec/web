@@ -1,191 +1,171 @@
 <main [formGroup]="route">
-  <section>
-    <div>Način vzpona</div>
-    <div class="flex flex-row flex-justify-space-around flex-wrap m-t-8">
-      @for(ascentType of ascentTypes; track $index) { @if
-        (activityFormService.logPossible(myIndex, ascentType.value)) {
-        <app-ascent-type-option
-          [ascentType]="ascentType"
-          [selected]="route.controls.ascentType.value === ascentType.value"
-          (click)="route.controls.ascentType.setValue(ascentType.value)"
-        ></app-ascent-type-option>
-      } @else {
-        <app-ascent-type-option
-          [ascentType]="ascentType"
-          [disabled]="true"
-        ></app-ascent-type-option>
-        } }
-      </div>
-      <div class="m-t-8">
-        <label class="checkbox-container">
-          <input type="checkbox" formControlName="topRope" />
-          <span class="checkmark"></span>
-          <span class="checkmark-label"> Z varovanjem od zgoraj </span>
-        </label>
-      </div>
-    </section>
-    <mat-divider></mat-divider>
     <section>
-      <div>Ocena težavnosti</div>
-      <div class="m-t-8 grade-select">
-        <app-grade-select
-          class="m-t-8"
-          [control]="route.controls.votedDifficulty"
-          emptyText="Ne predlagaj ocene"
-          [gradingSystemId]="route.value.defaultGradingSystemId"
-          [noHint]="true"
-          [focusDifficulty]="route.value.difficulty"
-        ></app-grade-select>
-      </div>
-    </section>
-    <mat-divider></mat-divider>
-    <section>
-      <div>Lepote smeri</div>
-      <div>
-        <mat-radio-group class="filter-group" formControlName="votedStarRating">
-          <mat-radio-button value="2" color="var(--mat-sys-secondary)"
-            ><div class="flex flex-row flex-align-center">
-            <app-star-full-icon></app-star-full-icon>
-            <span class="p-t-4 p-l-8">Čudovita</span>
-          </div>
-        </mat-radio-button>
-        <mat-radio-button value="1" color="var(--mat-sys-secondary)"
-          ><div class="flex flex-row flex-align-center">
-          <app-star-empty-icon></app-star-empty-icon>
-          <span class="p-t-4 p-l-8">Lepa</span>
-        </div></mat-radio-button
-        >
-        <mat-radio-button value="0" color="var(--mat-sys-secondary)"
-          >Nič posebnega</mat-radio-button
-          >
-        </mat-radio-group>
-
-        @if(activityFormService.starRatingVotesForRoutes?.[route.value.routeId]) {
-
-          <div class="flex flex-row">
-            <span class="p-t-4">Tvoj trenutni glas:</span>
-            @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == 0) {
-              <span
-                class="ml-4"
-                ><span>Nič posebnega</span></span
-                >
-              }
-              @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == 1) {
-                <span
-                  class="ml-4"
-                  ><div class="flex flex-row flex-align-center">
-                  <app-star-empty-icon></app-star-empty-icon>
-                  <span class="p-t-4 p-l-8">Lepa</span>
-                </div></span
-                >
-              }
-              @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId] == 2) {
-                <span
-                  class="ml-4"
-                  ><div class="flex flex-row flex-align-center">
-                  <app-star-full-icon></app-star-full-icon>
-                  <span class="p-t-4 p-l-8">Čudovita</span>
-                </div></span
-                >
-              }
-            </div>
-
-          }
+        <div>Način vzpona</div>
+        <div class="flex flex-row flex-justify-space-around flex-wrap m-t-8">
+            @for (ascentType of ascentTypes; track $index) {
+                @if (activityFormService.logPossible(myIndex, ascentType.value)) {
+                    <app-ascent-type-option
+                        [ascentType]="ascentType"
+                        [selected]="route.controls.ascentType.value === ascentType.value"
+                        (click)="route.controls.ascentType.setValue(ascentType.value)"
+                    ></app-ascent-type-option>
+                } @else {
+                    <app-ascent-type-option [ascentType]="ascentType" [disabled]="true"></app-ascent-type-option>
+                }
+            }
         </div>
-      </section>
-      <mat-divider></mat-divider>
-      <section>
+        <div class="m-t-8">
+            <label class="checkbox-container">
+                <input type="checkbox" formControlName="topRope" />
+                <span class="checkmark"></span>
+                <span class="checkmark-label"> Z varovanjem od zgoraj </span>
+            </label>
+        </div>
+    </section>
+    <mat-divider></mat-divider>
+    <section>
+        <div>Ocena težavnosti</div>
+        <div class="m-t-8 grade-select">
+            <app-grade-select
+                class="m-t-8"
+                [control]="route.controls.votedDifficulty"
+                emptyText="Ne predlagaj ocene"
+                [gradingSystemId]="route.value.defaultGradingSystemId"
+                [noHint]="true"
+                [focusDifficulty]="route.value.difficulty"
+            ></app-grade-select>
+        </div>
+    </section>
+    <mat-divider></mat-divider>
+    <section>
+        <div>Lepote smeri</div>
+        <div>
+            <mat-radio-group class="filter-group" formControlName="votedStarRating">
+                <mat-radio-button value="2" color="var(--mat-sys-secondary)"
+                    ><div class="flex flex-row flex-align-center">
+                        <app-star-full-icon></app-star-full-icon>
+                        <span class="p-t-4 p-l-8">Čudovita</span>
+                    </div>
+                </mat-radio-button>
+                <mat-radio-button value="1" color="var(--mat-sys-secondary)"
+                    ><div class="flex flex-row flex-align-center">
+                        <app-star-empty-icon></app-star-empty-icon>
+                        <span class="p-t-4 p-l-8">Lepa</span>
+                    </div></mat-radio-button
+                >
+                <mat-radio-button value="0" color="var(--mat-sys-secondary)">Nič posebnega</mat-radio-button>
+            </mat-radio-group>
+
+            @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId]) {
+                <div class="flex flex-row">
+                    <span class="p-t-4">Tvoj trenutni glas:</span>
+                    @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId] === 0) {
+                        <span class="ml-4"><span>Nič posebnega</span></span>
+                    }
+                    @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId] === 1) {
+                        <span class="ml-4"
+                            ><div class="flex flex-row flex-align-center">
+                                <app-star-empty-icon></app-star-empty-icon>
+                                <span class="p-t-4 p-l-8">Lepa</span>
+                            </div></span
+                        >
+                    }
+                    @if (activityFormService.starRatingVotesForRoutes?.[route.value.routeId] === 2) {
+                        <span class="ml-4"
+                            ><div class="flex flex-row flex-align-center">
+                                <app-star-full-icon></app-star-full-icon>
+                                <span class="p-t-4 p-l-8">Čudovita</span>
+                            </div></span
+                        >
+                    }
+                </div>
+            }
+        </div>
+    </section>
+    <mat-divider></mat-divider>
+    <section>
         <div>Vidnost</div>
         <div>
-          <mat-radio-group class="filter-group" formControlName="publish">
-            @for (option of publishOptions; track $index) {
-
-              <mat-radio-button
-                [value]="option.value"
-                color="var(--mat-sys-secondary)"
-                >{{ option.label }}
-              </mat-radio-button>
-
-            }
-          </mat-radio-group>
+            <mat-radio-group class="filter-group" formControlName="publish">
+                @for (option of publishOptions; track $index) {
+                    <mat-radio-button [value]="option.value" color="var(--mat-sys-secondary)">{{ option.label }} </mat-radio-button>
+                }
+            </mat-radio-group>
         </div>
         <div class="footnote">
-          *Tvoji predlogi o težavnosti in lepoti smeri bodo v vsakem primeru javno
-          objavljeni (če jih podaš) ne glede na izbrano vidnost zabeleženih vzponov.
+            *Tvoji predlogi o težavnosti in lepoti smeri bodo v vsakem primeru javno objavljeni (če jih podaš) ne glede na izbrano vidnost
+            zabeleženih vzponov.
         </div>
-      </section>
-      <mat-divider></mat-divider>
-      <section class="m-b-16" id="notes">
+    </section>
+    <mat-divider></mat-divider>
+    <section class="m-b-16" id="notes">
         <div>Opomba</div>
         <div class="w-100">
-          <mat-form-field appearance="outline">
-            <textarea
-              matInput
-              formControlName="notes"
-              [rows]="activity ? 3 : 6"
-            ></textarea>
-            <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
-          </mat-form-field>
+            <mat-form-field appearance="outline">
+                <textarea matInput formControlName="notes" [rows]="activity ? 3 : 6"></textarea>
+                <mat-hint>Opombe bodo vidne samo tebi</mat-hint>
+            </mat-form-field>
         </div>
-      </section>
-      <mat-divider></mat-divider>
-      <section class="flex flex-row flex-justify-space-between">
+    </section>
+    <mat-divider></mat-divider>
+    <section class="flex flex-row flex-justify-space-between">
         <div class="flex flex-row">
-          @if(!first) {
-            <div class="m-4 p-r-16 border-right">
-              @if (!first) {
-                <button
-                  type="button"
-                  mat-icon-button
-                  (click)="activityFormService.moveRoute(myIndex, -1)"
-                  [disabled]="route.disabled"
-                  matTooltip="Premakni navzgor"
-                  >
-                  <app-arrow-up-icon></app-arrow-up-icon>
-                </button>
-              }
-            </div>
-            } @if(!last) {
-            <div class="p-t-4 p-l-8">
-              @if (!last) {
-                <button
-                  type="button"
-                  mat-icon-button
-                  (click)="activityFormService.moveRoute(myIndex, 1)"
-                  [disabled]="route.disabled"
-                  matTooltip="Premakni navzdol"
-                  >
-                  <app-arrow-down-icon></app-arrow-down-icon>
-                </button>
-              }
-            </div>
-          }
-        </div>
-        <div class="flex flex-row">
-          <div class="m-4 p-r-16 border-right">
-            <button
-              type="button"
-              mat-icon-button
-              (click)="activityFormService.duplicateRoute(myIndex)"
-              [disabled]="route.disabled"
-              matTooltip="Dodaj ponovitev"
-              >
-              <app-add-round-icon></app-add-round-icon>
-            </button>
-          </div>
-          <div class="p-t-4 p-l-8">
-            @if (this.activityFormService.numOfRoutes > 1) {
-              <button
-                type="button"
-                mat-icon-button
-                (click)="activityFormService.removeRouteAt(myIndex)"
-                [disabled]="route.disabled"
-                matTooltip="Odstrani"
-                >
-                <app-delete-icon></app-delete-icon>
-              </button>
+            @if (!first) {
+                <div class="m-4 p-r-16 border-right">
+                    @if (!first) {
+                        <button
+                            type="button"
+                            mat-icon-button
+                            (click)="activityFormService.moveRoute(myIndex, -1)"
+                            [disabled]="route.disabled"
+                            matTooltip="Premakni navzgor"
+                        >
+                            <app-arrow-up-icon></app-arrow-up-icon>
+                        </button>
+                    }
+                </div>
             }
-          </div>
+            @if (!last) {
+                <div class="p-t-4 p-l-8">
+                    @if (!last) {
+                        <button
+                            type="button"
+                            mat-icon-button
+                            (click)="activityFormService.moveRoute(myIndex, 1)"
+                            [disabled]="route.disabled"
+                            matTooltip="Premakni navzdol"
+                        >
+                            <app-arrow-down-icon></app-arrow-down-icon>
+                        </button>
+                    }
+                </div>
+            }
         </div>
-      </section>
-    </main>
+        <div class="flex flex-row">
+            <div class="m-4 p-r-16 border-right">
+                <button
+                    type="button"
+                    mat-icon-button
+                    (click)="activityFormService.duplicateRoute(myIndex)"
+                    [disabled]="route.disabled"
+                    matTooltip="Dodaj ponovitev"
+                >
+                    <app-add-round-icon></app-add-round-icon>
+                </button>
+            </div>
+            <div class="p-t-4 p-l-8">
+                @if (this.activityFormService.numOfRoutes > 1) {
+                    <button
+                        type="button"
+                        mat-icon-button
+                        (click)="activityFormService.removeRouteAt(myIndex)"
+                        [disabled]="route.disabled"
+                        matTooltip="Odstrani"
+                    >
+                        <app-delete-icon></app-delete-icon>
+                    </button>
+                }
+            </div>
+        </div>
+    </section>
+</main>

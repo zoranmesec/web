@@ -9,13 +9,13 @@ import { LayoutService } from 'src/app/services/layout.service';
     imports: [RouterLink]
 })
 export class AlpinismComponent implements OnInit {
-  constructor(private layoutService: LayoutService) {}
+    constructor(private layoutService: LayoutService) {}
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Alpinizem',
-      },
-    ]);
-  }
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Alpinizem'
+            }
+        ]);
+    }
 }

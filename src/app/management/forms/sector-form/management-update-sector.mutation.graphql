@@ -1,5 +1,5 @@
 mutation ManagementUpdateSector($input: UpdateSectorInput!) {
-  updateSector(input: $input) {
-    id
-  }
+    updateSector(input: $input) {
+        id
+    }
 }

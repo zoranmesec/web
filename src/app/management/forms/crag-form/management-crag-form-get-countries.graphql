@@ -1,10 +1,10 @@
 query ManagementCragFormGetCountries($input: FindCountriesInput) {
-  countries(input: $input) {
-    id
-    name
-    areas {
-      id
-      name
+    countries(input: $input) {
+        id
+        name
+        areas {
+            id
+            name
+        }
     }
-  }
 }

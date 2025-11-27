@@ -1,37 +1,24 @@
 <div class="crag-map-container">
-  <div [id]="'crag-map-' + id" [style]="{ 'height.px': height }"></div>
-  @if (mapOverlay) {
-    <div
-      class="crag-map-overlay"
-      (click)="mapOverlay = false"
-    ></div>
-  }
+    <div [id]="'crag-map-' + id" [style]="{ 'height.px': height }"></div>
+    @if (mapOverlay) {
+        <div class="crag-map-overlay" (click)="mapOverlay = false"></div>
+    }
 </div>
 <div #popup class="popup" [hidden]="true" title="Plezališče">
-  <div>
-    <p>
-      <a [routerLink]="['/plezalisce/', selectedCrag?.slug]">{{
-        selectedCrag?.name
-      }}</a>
-    </p>
-    <p>
-      @if (selectedCrag?.nrRoutes) {
-        <span>
-          <b>Število smeri:</b> {{ selectedCrag?.nrRoutes }},
-        </span>
-      }
-      @if (selectedCrag?.orientation) {
-        <span>
-          <b>Orientacija:</b> {{ selectedCrag?.orientation }}
-        </span>
-      }
-    </p>
-  </div>
+    <div>
+        <p>
+            <a [routerLink]="['/plezalisce/', selectedCrag?.slug]">{{ selectedCrag?.name }}</a>
+        </p>
+        <p>
+            @if (selectedCrag?.nrRoutes) {
+                <span> <b>Število smeri:</b> {{ selectedCrag?.nrRoutes }}, </span>
+            }
+            @if (selectedCrag?.orientation) {
+                <span> <b>Orientacija:</b> {{ selectedCrag?.orientation }} </span>
+            }
+        </p>
+    </div>
 </div>
-<div
-  #locate
-  class="ol-control ol-unselectable locate"
-  (click)="locateMe($event)"
-  >
-  <button title="Locate me" class="map-button">◎</button>
+<div #locate class="ol-control ol-unselectable locate" (click)="locateMe($event)">
+    <button title="Locate me" class="map-button">◎</button>
 </div>

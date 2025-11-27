@@ -9,45 +9,45 @@ import { CragSectorsComponent } from './pages/crag-sectors/crag-sectors.componen
 import { CragComponent } from './pages/crag/crag.component';
 
 const routes: Routes = [
-  {
-    path: 'uredi-plezalisce/:crag',
-    component: CragComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'uredi-plezalisce/:crag/sektorji',
-    component: CragSectorsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'uredi-sektor/:sector',
-    component: CragSectorRoutesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'dodaj-plezalisce',
-    component: CragComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'prispevki',
-    component: ContributionsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'drzave',
-    component: CountriesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'drzava/:country/podrocja',
-    component: AreasComponent,
-    canActivate: [AuthGuard],
-  },
+    {
+        path: 'uredi-plezalisce/:crag',
+        component: CragComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'uredi-plezalisce/:crag/sektorji',
+        component: CragSectorsComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'uredi-sektor/:sector',
+        component: CragSectorRoutesComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'dodaj-plezalisce',
+        component: CragComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'prispevki',
+        component: ContributionsComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'drzave',
+        component: CountriesComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'drzava/:country/podrocja',
+        component: AreasComponent,
+        canActivate: [AuthGuard]
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class ManagementRoutingModule {}

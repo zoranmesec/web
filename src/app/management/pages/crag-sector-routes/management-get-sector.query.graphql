@@ -1,77 +1,77 @@
 query ManagementGetSector($id: String!) {
-  sector(id: $id) {
-    id
-    label
-    name
-    crag {
-      id
-      slug
-      name
-      country {
-        name
-        id
-        slug
-      }
-      defaultGradingSystem {
-        id
-      }
-      sectors {
+    sector(id: $id) {
         id
         label
         name
-        routes {
-          id
-          name
-          difficulty
-          defaultGradingSystem {
+        crag {
             id
+            slug
             name
-          }
-          publishStatus
-          pitches {
-            id
-          }
+            country {
+                name
+                id
+                slug
+            }
+            defaultGradingSystem {
+                id
+            }
+            sectors {
+                id
+                label
+                name
+                routes {
+                    id
+                    name
+                    difficulty
+                    defaultGradingSystem {
+                        id
+                        name
+                    }
+                    publishStatus
+                    pitches {
+                        id
+                    }
+                }
+            }
         }
-      }
+        routes {
+            author
+            difficulty
+            id
+            slug
+            length
+            name
+            publishStatus
+            isProject
+            position
+            created
+            sector {
+                id
+                publishStatus
+            }
+            routeType {
+                id
+                name
+            }
+            defaultGradingSystem {
+                id
+                name
+            }
+            difficulty
+            difficultyVotes {
+                difficulty
+                isBase
+            }
+            pitches {
+                difficulty
+                height
+                id
+                number
+            }
+            user {
+                id
+            }
+            nrTries
+        }
     }
-    routes {
-      author
-      difficulty
-      id
-      slug
-      length
-      name
-      publishStatus
-      isProject
-      position
-      created
-      sector {
-        id
-        publishStatus
-      }
-      routeType {
-        id
-        name
-      }
-      defaultGradingSystem {
-        id
-        name
-      }
-      difficulty
-      difficultyVotes {
-        difficulty
-        isBase
-      }
-      pitches {
-        difficulty
-        height
-        id
-        number
-      }
-      user {
-        id
-      }
-      nrTries
-    }
-  }
 }

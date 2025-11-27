@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-statistics-home',
@@ -6,11 +6,6 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./statistics-home.component.scss'],
     standalone: false
 })
-export class StatisticsHomeComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class StatisticsHomeComponent  {
 
 }

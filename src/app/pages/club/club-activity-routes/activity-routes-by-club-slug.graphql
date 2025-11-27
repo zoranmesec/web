@@ -1,45 +1,42 @@
-query ActivityRoutesByClubSlug(
-  $clubSlug: String!
-  $input: FindActivityRoutesInput
-) {
-  activityRoutesByClubSlug(clubSlug: $clubSlug, input: $input) {
-    items {
-      date
-      user {
-        id
-        fullName
-      }
-      ascentType
+query ActivityRoutesByClubSlug($clubSlug: String!, $input: FindActivityRoutesInput) {
+    activityRoutesByClubSlug(clubSlug: $clubSlug, input: $input) {
+        items {
+            date
+            user {
+                id
+                fullName
+            }
+            ascentType
 
-      id
-      publish
-      route {
-        crag {
-          country {
-            slug
-          }
-          slug
-          name
-          id
+            id
+            publish
+            route {
+                crag {
+                    country {
+                        slug
+                    }
+                    slug
+                    name
+                    id
+                }
+                id
+                slug
+                name
+                difficulty
+                defaultGradingSystem {
+                    id
+                }
+            }
+            pitch {
+                number
+                difficulty
+            }
         }
-        id
-        slug
-        name
-        difficulty
-        defaultGradingSystem {
-          id
+        meta {
+            itemCount
+            pageCount
+            pageNumber
+            pageSize
         }
-      }
-      pitch {
-        number
-        difficulty
-      }
     }
-    meta {
-      itemCount
-      pageCount
-      pageNumber
-      pageSize
-    }
-  }
 }

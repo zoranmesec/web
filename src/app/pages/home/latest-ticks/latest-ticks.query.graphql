@@ -1,30 +1,30 @@
 query LatestTicks($latestN: Int, $inLastNDays: Int) {
-  latestTicks(latestN: $latestN, inLastNDays: $inLastNDays) {
-    activity {
-      date
-      type
-    }
-    ascentType
-    route {
-      difficulty
-      defaultGradingSystem {
-        id
-      }
-      name
-      crag {
-        name
-        country {
-          slug
-          name
+    latestTicks(latestN: $latestN, inLastNDays: $inLastNDays) {
+        activity {
+            date
+            type
         }
-        slug
-      }
-      id
-      slug
+        ascentType
+        route {
+            difficulty
+            defaultGradingSystem {
+                id
+            }
+            name
+            crag {
+                name
+                country {
+                    slug
+                    name
+                }
+                slug
+            }
+            id
+            slug
+        }
+        user {
+            fullName
+            gender
+        }
     }
-    user {
-      fullName
-      gender
-    }
-  }
 }

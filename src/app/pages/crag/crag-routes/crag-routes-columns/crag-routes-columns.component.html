@@ -1,77 +1,66 @@
 <section id="columns" fxLayout="column" fxLayoutGap="12px">
-  <div class="flex flex-justify-space-between top">
-    <div class="flex flex-row flex-align-center">
-      <div>
-        <app-columns-icon></app-columns-icon>
-      </div>
-      <div>
-        <span class="p-l-4">Izberi stolpce</span>
-      </div>
+    <div class="flex flex-justify-space-between top">
+        <div class="flex flex-row flex-align-center">
+            <div>
+                <app-columns-icon></app-columns-icon>
+            </div>
+            <div>
+                <span class="p-l-4">Izberi stolpce</span>
+            </div>
+        </div>
+        <div class="close-icon" (click)="closeFilters()">
+            <app-close-icon></app-close-icon>
+        </div>
     </div>
-    <div class="close-icon" (click)="closeFilters()">
-      <app-close-icon></app-close-icon>
-    </div>
-  </div>
-  @if (columnForm) {
-    <div class="p-16">
-      <form [formGroup]="columnForm">
-        <ul>
-          @for (column of allColumnsArray; track $index) {
-            <li>
-              <label class="checkbox-container">
-                <input type="checkbox" [formControlName]="column.field" />
-                <span class="checkmark"></span
-                  >@if (column.field === 'starRating') {
-                  <span class="checkmark-label"
-                    ><mat-icon>star</mat-icon>{{ column.selectLabel }}</span
-                    >
-                    }@if (column.field === 'multipitch') {
-                    <span class="checkmark-label"
-                      ><mat-icon svgIcon="multipitch"></mat-icon
-                      >{{ column.selectLabel }}</span
-                      >
-                      }@if (column.field === 'comments') {
-                      <span class="checkmark-label"
-                        ><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span
-                        >
-                        }@if (column.field === 'myAscents') {
-                        <span class="checkmark-label"
-                          ><mat-icon>check</mat-icon>{{ column.selectLabel }}</span
-                          >
-                          }@if (
-                          column.field !== 'starRating' &&
-                          column.field !== 'multipitch' &&
-                          column.field !== 'comments' &&
-                          column.field !== 'myAscents'
-                          ) {
-                          <span
-                            class="checkmark-label"
-                            >{{ column.selectLabel }}</span
-                            >
-                          }
-                        </label>
-                        <!--
+    @if (columnForm) {
+        <div class="p-16">
+            <form [formGroup]="columnForm">
+                <ul>
+                    @for (column of allColumnsArray; track $index) {
+                        <li>
+                            <label class="checkbox-container">
+                                <input type="checkbox" [formControlName]="column.field" />
+                                <span class="checkmark"></span>
+                                @if (column.field === 'starRating') {
+                                    <span class="checkmark-label"><mat-icon>star</mat-icon>{{ column.selectLabel }}</span>
+                                }
+                                @if (column.field === 'multipitch') {
+                                    <span class="checkmark-label"><mat-icon svgIcon="multipitch"></mat-icon>{{ column.selectLabel }}</span>
+                                }
+                                @if (column.field === 'comments') {
+                                    <span class="checkmark-label"><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span>
+                                }
+                                @if (column.field === 'myAscents') {
+                                    <span class="checkmark-label"><mat-icon>check</mat-icon>{{ column.selectLabel }}</span>
+                                }
+                                @if (
+                                    column.field !== 'starRating' &&
+                                    column.field !== 'multipitch' &&
+                                    column.field !== 'comments' &&
+                                    column.field !== 'myAscents'
+                                ) {
+                                    <span class="checkmark-label">{{ column.selectLabel }}</span>
+                                }
+                            </label>
+                            <!--
                         <input type="checkbox" />
                         <span class="checkmark"></span>
                       </label> -->
-                    </li>
-                  }
+                        </li>
+                    }
                 </ul>
-              </form>
-            </div>
-          }
+            </form>
+        </div>
+    }
 
-          <div
-            class="flex flex-justify-space-between bottom show-all"
-            (click)="resetColumns()"
-            >
-            <div class="flex flex-row flex-align-center reset-all">
-              <div class="close-icon">
+    <div class="flex flex-justify-space-between bottom show-all" (click)="resetColumns()">
+        <div class="flex flex-row flex-align-center reset-all">
+            <div class="close-icon">
                 <mat-icon class="map-icon">refresh</mat-icon>
-              </div>
-              <div>
-                <span class="p-l-4">Ponastavi vse</span>
-              </div>
             </div>
-          </div>
-        </section>
+            <div>
+                <span class="p-l-4">Ponastavi vse</span>
+            </div>
+        </div>
+    </div>
+</section>

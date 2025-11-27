@@ -1,57 +1,57 @@
-@use "./../../../../styles/global.scss" as global;
+@use './../../../../styles/global.scss' as global;
 
 :host {
-  a {
-    text-decoration: none;
-    color: var(--mat-sys-secondary);
-  }
-
-  section#images {
-    margin-top: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    justify-content: center;
-  }
-
-  /* Create four equal columns that sits next to each other */
-  .column {
-    padding: 16px;
-  }
-
-  .card {
-    vertical-align: middle;
-
-    @media only screen and (min-width: global.$breakpoint-2xl) {
-      width: 280px;
+    a {
+        text-decoration: none;
+        color: var(--mat-sys-secondary);
     }
 
-    @media only screen and (min-width: global.$breakpoint-lg) and (max-width: global.$breakpoint-2xl) {
-      width: 228px;
+    section#images {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        justify-content: center;
     }
 
-    @media only screen and (min-width: global.$breakpoint-md) and (max-width: global.$breakpoint-lg) {
-      width: 224px;
+    /* Create four equal columns that sits next to each other */
+    .column {
+        padding: 16px;
     }
 
-    @media only screen and (max-width: global.$breakpoint-md) {
-      width: 156px;
-    }
+    .card {
+        vertical-align: middle;
 
-    & {
-      padding: 16px 0 0 0;
+        @media only screen and (min-width: global.$breakpoint-2xl) {
+            width: 280px;
+        }
+
+        @media only screen and (min-width: global.$breakpoint-lg) and (max-width: global.$breakpoint-2xl) {
+            width: 228px;
+        }
+
+        @media only screen and (min-width: global.$breakpoint-md) and (max-width: global.$breakpoint-lg) {
+            width: 224px;
+        }
+
+        @media only screen and (max-width: global.$breakpoint-md) {
+            width: 156px;
+        }
+
+        & {
+            padding: 16px 0 0 0;
+        }
+        app-responsive-image {
+            cursor: pointer;
+        }
+        .title {
+            padding-top: 4px;
+        }
+        .author {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
     }
-    app-responsive-image {
-      cursor: pointer;
-    }
-    .title {
-      padding-top: 4px;
-    }
-    .author {
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: start;
-    }
-  }
 }

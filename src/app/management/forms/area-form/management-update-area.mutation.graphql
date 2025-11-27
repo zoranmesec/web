@@ -1,5 +1,5 @@
 mutation ManagementUpdateArea($input: UpdateAreaInput!) {
-  updateArea(input: $input) {
-    id
-  }
+    updateArea(input: $input) {
+        id
+    }
 }

@@ -1,105 +1,94 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LayoutService } from 'src/app/services/layout.service';
-import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RegisterGQL } from 'src/generated/graphql';
-import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
+import { LayoutService } from 'src/app/services/layout.service';
+import { RegisterGQL } from 'src/generated/graphql';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-  standalone: false,
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  loading = false;
-  success = false;
+    loading = false;
+    success = false;
 
-  form = new UntypedFormGroup({
-    email: new UntypedFormControl('', [Validators.required, Validators.email]),
-    password: new UntypedFormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
-    firstname: new UntypedFormControl('', [Validators.required]),
-    lastname: new UntypedFormControl('', [Validators.required]),
-    gender: new UntypedFormControl(''),
-    // conditions: new FormControl(false, [Validators.requiredTrue]),
-  });
-
-  subscription: Subscription;
-
-  constructor(
-    private layoutService: LayoutService,
-    private snackbar: MatSnackBar,
-    private registerGQL: RegisterGQL,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Registracija',
-      },
-    ]);
-
-    this.subscription = this.authService.currentUser.subscribe((user) => {
-      // user just logged in, navigate to home
-      if (user !== null) {
-        this.router.navigate(['/']);
-      }
+    form = new UntypedFormGroup({
+        email: new UntypedFormControl('', [Validators.required, Validators.email]),
+        password: new UntypedFormControl('', [Validators.required, Validators.minLength(8)]),
+        firstname: new UntypedFormControl('', [Validators.required]),
+        lastname: new UntypedFormControl('', [Validators.required]),
+        gender: new UntypedFormControl('')
+        // conditions: new FormControl(false, [Validators.requiredTrue]),
     });
-  }
 
-  register() {
-    this.loading = true;
+    subscription: Subscription;
 
-    const value = this.form.value;
+    constructor(
+        private layoutService: LayoutService,
+        private snackbar: MatSnackBar,
+        private registerGQL: RegisterGQL,
+        private authService: AuthService,
+        private router: Router
+    ) {}
 
-    this.registerGQL
-      .mutate({
-        variables: {
-          input: {
-            email: value.email,
-            password: value.password,
-            firstname: value.firstname,
-            lastname: value.lastname,
-            gender: value.gender,
-          },
-        },
-      })
-      .subscribe({
-        next: () => {
-          this.success = true;
-        },
-        error: (error) => {
-          this.loading = false;
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Registracija'
+            }
+        ]);
 
-          let message =
-            'Registracija ni bila uspešna. Preverite vnešene podatke.';
-          if (
-            error.message != null &&
-            error.message == 'duplicate_entity_field'
-          ) {
-            message = 'Uporabniški račun za ta e-naslov že obstaja.';
-          }
+        this.subscription = this.authService.currentUser.subscribe((user) => {
+            // user just logged in, navigate to home
+            if (user !== null) {
+                this.router.navigate(['/']);
+            }
+        });
+    }
 
-          this.snackbar.open(message, null, {
-            panelClass: 'error',
-            duration: 3000,
-          });
-        },
-      });
-  }
+    register() {
+        this.loading = true;
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+        const value = this.form.value;
+
+        this.registerGQL
+            .mutate({
+                variables: {
+                    input: {
+                        email: value.email,
+                        password: value.password,
+                        firstname: value.firstname,
+                        lastname: value.lastname,
+                        gender: value.gender
+                    }
+                }
+            })
+            .subscribe({
+                next: () => {
+                    this.success = true;
+                },
+                error: (error) => {
+                    this.loading = false;
+
+                    let message = 'Registracija ni bila uspešna. Preverite vnešene podatke.';
+                    if (error.message !== null && error.message === 'duplicate_entity_field') {
+                        message = 'Uporabniški račun za ta e-naslov že obstaja.';
+                    }
+
+                    this.snackbar.open(message, null, {
+                        panelClass: 'error',
+                        duration: 3000
+                    });
+                }
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

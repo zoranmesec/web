@@ -1,119 +1,104 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ErrorLike } from '@apollo/client';
 import { Subject } from 'rxjs';
-import {
-  Area,
-  Comment,
-  IceFall,
-  IceFallBySlugGQL,
-  IceFallBySlugQuery,
-} from '../../../../generated/graphql';
+import { Area, Comment, IceFall, IceFallBySlugGQL, IceFallBySlugQuery } from '../../../../generated/graphql';
 import { AuthService } from '../../../auth/auth.service';
 import { LayoutService } from '../../../services/layout.service';
 import { CommentFormComponent } from '../../../shared/components/comment-form/comment-form.component';
 import { DataError } from '../../../types/data-error';
 import { IceFallsBreadcrumbs } from '../../utils/ice-falls-breadcrumbs';
-import { ErrorLike } from '@apollo/client';
 
 @Component({
-  selector: 'app-ice-fall',
-  templateUrl: './ice-fall.component.html',
-  styleUrls: ['./ice-fall.component.scss'],
-  standalone: false,
+    selector: 'app-ice-fall',
+    templateUrl: './ice-fall.component.html',
+    styleUrls: ['./ice-fall.component.scss'],
+    standalone: false
 })
 export class IceFallComponent implements OnInit {
-  loading: boolean = true;
-  error: DataError = null;
-  iceFall: IceFall;
-  comments: Comment[];
-  conditions: Comment[];
+    loading = true;
+    error: DataError = null;
+    iceFall: IceFall;
+    comments: Comment[];
+    conditions: Comment[];
 
-  action = new Subject<string>();
+    action = new Subject<string>();
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private layoutService: LayoutService,
-    private iceFallBySlugGQL: IceFallBySlugGQL,
-    private authService: AuthService,
-    private dialog: MatDialog
-  ) {}
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private layoutService: LayoutService,
+        private iceFallBySlugGQL: IceFallBySlugGQL,
+        private authService: AuthService,
+        private dialog: MatDialog
+    ) {}
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
-      this.iceFallBySlugGQL
-        .watch({
-          variables: { slug: params.icefall },
-        })
-        .valueChanges.subscribe((result) => {
-          this.loading = false;
+    ngOnInit(): void {
+        this.activatedRoute.params.subscribe((params: Params) => {
+            this.iceFallBySlugGQL
+                .watch({
+                    variables: { slug: params.icefall }
+                })
+                .valueChanges.subscribe((result) => {
+                    this.loading = false;
 
-          if (result.error != null) {
-            this.queryError(result.error);
-          } else {
-            this.querySuccess(result.data as IceFallBySlugQuery);
-          }
+                    if (result.error !== null) {
+                        this.queryError(result.error);
+                    } else {
+                        this.querySuccess(result.data as IceFallBySlugQuery);
+                    }
+                });
         });
-    });
 
-    this.action.subscribe((action) => {
-      switch (action) {
-        case 'add-comment':
-          this.addComment('comment');
-          break;
-        case 'add-condition':
-          this.addComment('condition');
-          break;
-      }
-    });
-  }
-
-  queryError(error: ErrorLike): void {
-    if (error.message === 'entity_not_found') {
-      this.error = {
-        message: 'Slap ne obstaja v bazi.',
-      };
-
-      return;
+        this.action.subscribe((action) => {
+            switch (action) {
+                case 'add-comment':
+                    this.addComment('comment');
+                    break;
+                case 'add-condition':
+                    this.addComment('condition');
+                    break;
+            }
+        });
     }
 
-    this.error = {
-      message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.',
-    };
-  }
+    queryError(error: ErrorLike): void {
+        if (error.message === 'entity_not_found') {
+            this.error = {
+                message: 'Slap ne obstaja v bazi.'
+            };
 
-  querySuccess(data: IceFallBySlugQuery): void {
-    this.iceFall = <IceFall>data.iceFallBySlug;
-    this.comments = this.iceFall?.comments.filter(
-      (comment) => comment.type === 'comment'
-    );
+            return;
+        }
 
-    this.conditions = this.iceFall?.comments.filter(
-      (comment) => comment.type === 'condition'
-    );
+        this.error = {
+            message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.'
+        };
+    }
 
-    this.layoutService.$breadcrumbs.next(
-      new IceFallsBreadcrumbs(
-        <Area>this.iceFall.area,
-        <IceFall>this.iceFall
-      ).build()
-    );
-  }
+    querySuccess(data: IceFallBySlugQuery): void {
+        this.iceFall = data.iceFallBySlug as IceFall;
+        this.comments = this.iceFall?.comments.filter((comment) => comment.type === 'comment');
 
-  addComment(type: string) {
-    this.authService.guardedAction({}).then((success) => {
-      if (success) {
-        this.dialog
-          .open(CommentFormComponent, {
-            data: {
-              iceFall: this.iceFall,
-              type: type,
-            },
-            autoFocus: false,
-          })
-          .afterClosed()
-          .subscribe(() => {});
-      }
-    });
-  }
+        this.conditions = this.iceFall?.comments.filter((comment) => comment.type === 'condition');
+
+        this.layoutService.$breadcrumbs.next(new IceFallsBreadcrumbs(this.iceFall.area as Area, this.iceFall as IceFall).build());
+    }
+
+    addComment(type: string) {
+        this.authService.guardedAction({}).then((success) => {
+            if (success) {
+                this.dialog
+                    .open(CommentFormComponent, {
+                        data: {
+                            iceFall: this.iceFall,
+                            type: type
+                        },
+                        autoFocus: false
+                    })
+                    .afterClosed()
+                    .subscribe(() => {this.iceFallBySlugGQL.fetch({ variables: { slug: this.iceFall.slug } });});
+            }
+        });
+    }
 }

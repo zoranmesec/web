@@ -1,15 +1,15 @@
 query ClubById($clubId: String!) {
-  club(id: $clubId) {
-    id
-    slug
-    name
-    members {
-      id
-      admin
-      user {
+    club(id: $clubId) {
         id
-        fullName
-      }
+        slug
+        name
+        members {
+            id
+            admin
+            user {
+                id
+                fullName
+            }
+        }
     }
-  }
 }

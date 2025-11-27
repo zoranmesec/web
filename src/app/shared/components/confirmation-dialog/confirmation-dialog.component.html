@@ -1,13 +1,11 @@
 <h2 mat-dialog-title>{{ data.title }}</h2>
 <mat-dialog-content>
-  {{ data.message }}
-  @if (data.finePrint) {
-  <div class="fine-print" [innerHtml]="data.finePrint"></div>
-  }
+    {{ data.message }}
+    @if (data.finePrint) {
+        <div class="fine-print" [innerHtml]="data.finePrint"></div>
+    }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button type="button" mat-button [mat-dialog-close]="null">Prekliči</button>
-  <button mat-flat-button cdkFocusInitial [mat-dialog-close]="true">
-    Potrdi
-  </button>
+    <button type="button" mat-button [mat-dialog-close]="null">Prekliči</button>
+    <button mat-flat-button cdkFocusInitial [mat-dialog-close]="true">Potrdi</button>
 </mat-dialog-actions>

@@ -1,103 +1,84 @@
 <section id="filter" fxLayout="column" fxLayoutGap="12px">
-  <div class="flex flex-justify-space-between top">
-    <div class="flex flex-row flex-align-center">
-      <div>
-        <mat-icon class="p-t-4">tune</mat-icon>
-      </div>
-      <div>
-        <span class="p-l-4">Filtriraj</span>
-      </div>
-    </div>
-    <div class="close-icon" (click)="closeFilters()">
-      <mat-icon class="map-icon">close</mat-icon>
-    </div>
-  </div>
-  @if (filtersForm) {
-  <form [formGroup]="filtersForm">
-    <mat-accordion multi="true" displayMode="flat">
-      <mat-expansion-panel expanded="">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Glede na moje poskuse </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-radio-group class="filter-group" formControlName="myAscents">
-          <mat-radio-button value="all" color="var(--mat-sys-secondary)"
-            >Vse</mat-radio-button
-          >
-          <mat-radio-button value="climbed" color="var(--mat-sys-secondary)"
-            >Preplezane</mat-radio-button
-          >
-          <mat-radio-button value="attempted" color="var(--mat-sys-secondary)"
-            >Poskušane</mat-radio-button
-          >
-          <mat-radio-button value="notClimbed" color="var(--mat-sys-secondary)"
-            >Nepreplezane</mat-radio-button
-          >
-          <mat-radio-button
-            value="notAttempted"
-            color="var(--mat-sys-secondary)"
-            >Neposkušane</mat-radio-button
-          >
-        </mat-radio-group>
-      </mat-expansion-panel>
-      <mat-expansion-panel expanded="" formGroupName="starRating">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Glede na lepoto </mat-panel-title>
-        </mat-expansion-panel-header>
-        <label class="checkbox-container">
-          <input type="checkbox" formControlName="2" value="2" />
-          <span class="checkmark"></span>
-          <span class="checkmark-label"> Čudovita </span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox" formControlName="1" value="1" />
-          <span class="checkmark"></span>
-          <span class="checkmark-label"> Lepa </span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox" formControlName="0" value="0" />
-          <span class="checkmark"></span>
-          <span class="checkmark-label"> Nič posebnega </span>
-        </label>
-      </mat-expansion-panel>
-      @if (allGrades.length > 0) {
-      <mat-expansion-panel expanded="">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Glede na težavnost </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-slider
-          [min]="allGrades[0]?.difficulty"
-          [max]="allGrades[allGrades.length - 1]?.difficulty"
-          step="50"
-          discrete
-          [displayWith]="formatLabel.bind(this)"
-        >
-          <input formControlName="minDifficulty" matSliderStartThumb />
-          <input formControlName="maxDifficulty" matSliderEndThumb />
-        </mat-slider>
-        <div class="flex flex-row flex-justify-space-between">
-          <span>{{
-            formatLabel(filtersForm.controls.minDifficulty.value)
-          }}</span>
-          <span>{{
-            formatLabel(filtersForm.controls.maxDifficulty.value)
-          }}</span>
+    <div class="flex flex-justify-space-between top">
+        <div class="flex flex-row flex-align-center">
+            <div>
+                <mat-icon class="p-t-4">tune</mat-icon>
+            </div>
+            <div>
+                <span class="p-l-4">Filtriraj</span>
+            </div>
         </div>
-      </mat-expansion-panel>
-      }
-    </mat-accordion>
-  </form>
-  }
-  <div
-    class="flex flex-justify-space-between bottom show-all"
-    (click)="removeAllFilters()"
-  >
-    <div class="flex flex-row flex-align-center">
-      <div class="close-icon">
-        <mat-icon class="map-icon">refresh</mat-icon>
-      </div>
-      <div>
-        <span class="p-l-4">Ponastavi vse</span>
-      </div>
+        <div class="close-icon" (click)="closeFilters()">
+            <mat-icon class="map-icon">close</mat-icon>
+        </div>
     </div>
-  </div>
+    @if (filtersForm) {
+        <form [formGroup]="filtersForm">
+            <mat-accordion multi="true" displayMode="flat">
+                <mat-expansion-panel expanded="">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Glede na moje poskuse </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-radio-group class="filter-group" formControlName="myAscents">
+                        <mat-radio-button value="all" color="var(--mat-sys-secondary)">Vse</mat-radio-button>
+                        <mat-radio-button value="climbed" color="var(--mat-sys-secondary)">Preplezane</mat-radio-button>
+                        <mat-radio-button value="attempted" color="var(--mat-sys-secondary)">Poskušane</mat-radio-button>
+                        <mat-radio-button value="notClimbed" color="var(--mat-sys-secondary)">Nepreplezane</mat-radio-button>
+                        <mat-radio-button value="notAttempted" color="var(--mat-sys-secondary)">Neposkušane</mat-radio-button>
+                    </mat-radio-group>
+                </mat-expansion-panel>
+                <mat-expansion-panel expanded="" formGroupName="starRating">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Glede na lepoto </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <label class="checkbox-container">
+                        <input type="checkbox" formControlName="2" value="2" />
+                        <span class="checkmark"></span>
+                        <span class="checkmark-label"> Čudovita </span>
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" formControlName="1" value="1" />
+                        <span class="checkmark"></span>
+                        <span class="checkmark-label"> Lepa </span>
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" formControlName="0" value="0" />
+                        <span class="checkmark"></span>
+                        <span class="checkmark-label"> Nič posebnega </span>
+                    </label>
+                </mat-expansion-panel>
+                @if (allGrades.length > 0) {
+                    <mat-expansion-panel expanded="">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Glede na težavnost </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-slider
+                            [min]="allGrades[0]?.difficulty"
+                            [max]="allGrades[allGrades.length - 1]?.difficulty"
+                            step="50"
+                            discrete
+                            [displayWith]="formatLabel.bind(this)"
+                        >
+                            <input formControlName="minDifficulty" matSliderStartThumb />
+                            <input formControlName="maxDifficulty" matSliderEndThumb />
+                        </mat-slider>
+                        <div class="flex flex-row flex-justify-space-between">
+                            <span>{{ formatLabel(filtersForm.controls.minDifficulty.value) }}</span>
+                            <span>{{ formatLabel(filtersForm.controls.maxDifficulty.value) }}</span>
+                        </div>
+                    </mat-expansion-panel>
+                }
+            </mat-accordion>
+        </form>
+    }
+    <div class="flex flex-justify-space-between bottom show-all" (click)="removeAllFilters()">
+        <div class="flex flex-row flex-align-center">
+            <div class="close-icon">
+                <mat-icon class="map-icon">refresh</mat-icon>
+            </div>
+            <div>
+                <span class="p-l-4">Ponastavi vse</span>
+            </div>
+        </div>
+    </div>
 </section>

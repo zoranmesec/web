@@ -1,45 +1,34 @@
-<div
-  [class]="'distribution-container-' + direction()"
-  [class.grey-background]="useGreyBackground()"
-  class="w-100 m-t-16"
->
-  @if (direction() === 'horizontal') { @for (element of distribution(); track
-  $index) {
-  <div class="distribution-bar-label">
-    {{ element.label }}
-  </div>
-  <div class="distribution-bar">
-    <div
-      class="distribution-bar-inner"
-      [style.width.%]="(element.value / maxValue) * 100"
-      [style.background-color]="
-        (element.value / maxValue) * 100 | barColor : useColorBars()
-      "
-    ></div>
-    <div class="p-l-4">{{ element.value }}</div>
-  </div>
-  } } @if (direction() === 'vertical') {
-  <div class="distribution-bars w-100">
-    @for (element of distribution(); track $index) {
-    <div
-      class="distribution-bar"
-      [style.height.%]="(element.value / maxValue) * 100"
-    >
-      <div>{{ element.value }}</div>
-      <div
-        class="distribution-bar-inner"
-        [style.background-color]="(element.value / maxValue) * 100 | barColor"
-      ></div>
-    </div>
+<div [class]="'distribution-container-' + direction()" [class.grey-background]="useGreyBackground()" class="w-100 m-t-16">
+    @if (direction() === 'horizontal') {
+        @for (element of distribution(); track $index) {
+            <div class="distribution-bar-label">
+                {{ element.label }}
+            </div>
+            <div class="distribution-bar">
+                <div
+                    class="distribution-bar-inner"
+                    [style.width.%]="(element.value / maxValue) * 100"
+                    [style.background-color]="(element.value / maxValue) * 100 | barColor: useColorBars()"
+                ></div>
+                <div class="p-l-4">{{ element.value }}</div>
+            </div>
+        }
     }
-  </div>
-  <div class="distribution-bars-labels w-100">
-    @for (element of distribution(); track $index) {
-
-    <div class="distribution-bar-label">
-      {{ element.label }}
-    </div>
+    @if (direction() === 'vertical') {
+        <div class="distribution-bars w-100">
+            @for (element of distribution(); track $index) {
+                <div class="distribution-bar" [style.height.%]="(element.value / maxValue) * 100">
+                    <div>{{ element.value }}</div>
+                    <div class="distribution-bar-inner" [style.background-color]="(element.value / maxValue) * 100 | barColor"></div>
+                </div>
+            }
+        </div>
+        <div class="distribution-bars-labels w-100">
+            @for (element of distribution(); track $index) {
+                <div class="distribution-bar-label">
+                    {{ element.label }}
+                </div>
+            }
+        </div>
     }
-  </div>
-  }
 </div>

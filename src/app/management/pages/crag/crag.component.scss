@@ -1,87 +1,87 @@
-@use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
-  section#title {
-    height: 100px;
-    padding: 0 16px 16px 16px;
-    background-color: var(--mat-sys-surface);
-    align-items: center;
-    display: flex;
-    text-align: center;
-  }
-  section#tabs {
-    height: 42px;
-    padding: 0;
-    background-color: var(--mat-sys-surface);
-    align-items: center;
-    display: flex;
-    text-align: center;
-    align-items: stretch;
-    justify-content: space-between;
-    font-weight: var(--mat-sys-label-large-weight);
-
-    div:last-child,
-    div:first-child {
-      border-bottom: $grey 1px solid !important;
-      height: 42px;
-      width: 20%;
+    section#title {
+        height: 100px;
+        padding: 0 16px 16px 16px;
+        background-color: var(--mat-sys-surface);
+        align-items: center;
+        display: flex;
+        text-align: center;
     }
+    section#tabs {
+        height: 42px;
+        padding: 0;
+        background-color: var(--mat-sys-surface);
+        align-items: center;
+        display: flex;
+        text-align: center;
+        align-items: stretch;
+        justify-content: space-between;
+        font-weight: var(--mat-sys-label-large-weight);
 
-    .tabs {
-      width: 60%;
-    }
+        div:last-child,
+        div:first-child {
+            border-bottom: $grey 1px solid !important;
+            height: 42px;
+            width: 20%;
+        }
 
-    .tabs > div:nth-child(2n) {
-      background-color: var(--mat-sys-surface);
-      height: 42px;
-      border-bottom: $grey 1px solid !important;
-      display: flex;
-      width: 180px !important;
-      justify-content: center;
-      align-items: center;
-      padding: 0 16px 0 16px;
-      cursor: pointer;
-    }
+        .tabs {
+            width: 60%;
+        }
 
-    .tabs > div:nth-child(2n + 1) {
-      width: 16px;
-      background-color: var(--mat-sys-surface);
-      height: 42px;
-      border-bottom: $grey 1px solid !important;
-    }
+        .tabs > div:nth-child(2n) {
+            background-color: var(--mat-sys-surface);
+            height: 42px;
+            border-bottom: $grey 1px solid !important;
+            display: flex;
+            width: 180px !important;
+            justify-content: center;
+            align-items: center;
+            padding: 0 16px 0 16px;
+            cursor: pointer;
+        }
 
-    .tabs > div.active {
-      background-color: var(--mat-sys-surface-bright);
-      height: 42px;
-      border: 1px solid $grey;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      background-color: white;
-      border-bottom: none !important;
-      padding: 0 8px 0 8px;
-      color: var(--mat-sys-secondary);
-    }
+        .tabs > div:nth-child(2n + 1) {
+            width: 16px;
+            background-color: var(--mat-sys-surface);
+            height: 42px;
+            border-bottom: $grey 1px solid !important;
+        }
 
-    .tabs > div.disabled {
-      color: var(--mat-sys-on-surface-variant) !important;
-      cursor: auto !important;
-    }
+        .tabs > div.active {
+            background-color: var(--mat-sys-surface-bright);
+            height: 42px;
+            border: 1px solid $grey;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            background-color: white;
+            border-bottom: none !important;
+            padding: 0 8px 0 8px;
+            color: var(--mat-sys-secondary);
+        }
 
-    .mat-icon {
-      vertical-align: middle;
-      height: 18px !important;
-      width: 18px !important;
-    }
+        .tabs > div.disabled {
+            color: var(--mat-sys-on-surface-variant) !important;
+            cursor: auto !important;
+        }
 
-    span {
-      padding-left: 8px;
+        .mat-icon {
+            vertical-align: middle;
+            height: 18px !important;
+            width: 18px !important;
+        }
+
+        span {
+            padding-left: 8px;
+        }
     }
-  }
 }
 
 .routes {
-  padding: 0 16px;
+    padding: 0 16px;
 }

@@ -1,73 +1,64 @@
 <mat-card [style]="{ 'margin-left.px': depth * 16 }">
-  <!-- Entity type label || Publish status -->
-  <div fxLayout="row" fxLayoutAlign="space-between">
-    <div>{{ entityTypeLabel[contribution.entity] }}</div>
-    <div
-      [class]="{
-        warn: contribution.publishStatus === 'draft',
-        notice: contribution.publishStatus === 'in_review'
-      }"
-      class="publish-status"
-    >
-      {{
-        contributionService.publishStatuses[contribution.publishStatus]
-          .statusLabel
-      }}
-    </div>
-  </div>
-
-  <!-- Info || Actions -->
-  <div
-    fxLayout="column"
-    fxLayout.gt-xs="row"
-    fxLayoutAlign.gt-xs="space-between end"
-    fxLayoutGap.gt-xs="8px"
-  >
-    <!-- Info block -->
-    <div>
-      <div [style.gt-xs]="{ display: 'inline-block' }">
-        <a [routerLink]="link">{{ contribution[contribution.entity].name }}</a>
-      </div>
-
-      @if (depth === 0 && contribution.entity === 'sector') {
-      <span>
-        <span fxHide fxShow.gt-xs>,</span>
-        {{ contribution.sector.crag.name }}
-      </span>
-      } @if (depth === 0 && contribution.entity === 'route') {
-      <span>
-        <span fxHide fxShow.gt-xs>,</span>
-        @if (contribution.route.sector.name) {
-        {{ contribution.route.sector.name }}, }
-        {{ contribution.route.crag.name }}
-      </span>
-      } @if (user.roles.includes('admin')) {
-      <div class="contributor">
-        @if (user.id === contribution.user.id) { Tvoj prispevek } @else {
-        Prispeval {{ contribution.user.fullName }}
-        }
-      </div>
-      }
+    <!-- Entity type label || Publish status -->
+    <div fxLayout="row" fxLayoutAlign="space-between">
+        <div>{{ entityTypeLabel[contribution.entity] }}</div>
+        <div
+            [class]="{
+                warn: contribution.publishStatus === 'draft',
+                notice: contribution.publishStatus === 'in_review'
+            }"
+            class="publish-status"
+        >
+            {{ contributionService.publishStatuses[contribution.publishStatus].statusLabel }}
+        </div>
     </div>
 
-    <!-- Actions block -->
-    <div class="actions">
-      @for ( nextStatus of contributionService.nextPossiblePublishStatuses(
-      contribution[contribution.entity] ); track $index) {
-      <button
-        mat-stroked-button
-        [disabled]="!nextStatus.enabled"
-        (click)="
-          contributionService.updatePublishStatus(
-            contribution[contribution.entity],
-            nextStatus.status
-          )
-        "
-        class="mt-8"
-      >
-        {{ contributionService.publishStatuses[nextStatus.status].actionLabel }}
-      </button>
-      }
+    <!-- Info || Actions -->
+    <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between end" fxLayoutGap.gt-xs="8px">
+        <!-- Info block -->
+        <div>
+            <div [style.gt-xs]="{ display: 'inline-block' }">
+                <a [routerLink]="link">{{ contribution[contribution.entity].name }}</a>
+            </div>
+
+            @if (depth === 0 && contribution.entity === 'sector') {
+                <span>
+                    <span fxHide fxShow.gt-xs>,</span>
+                    {{ contribution.sector.crag.name }}
+                </span>
+            }
+            @if (depth === 0 && contribution.entity === 'route') {
+                <span>
+                    <span fxHide fxShow.gt-xs>,</span>
+                    @if (contribution.route.sector.name) {
+                        {{ contribution.route.sector.name }},
+                    }
+                    {{ contribution.route.crag.name }}
+                </span>
+            }
+            @if (user.roles.includes('admin')) {
+                <div class="contributor">
+                    @if (user.id === contribution.user.id) {
+                        Tvoj prispevek
+                    } @else {
+                        Prispeval {{ contribution.user.fullName }}
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Actions block -->
+        <div class="actions">
+            @for (nextStatus of contributionService.nextPossiblePublishStatuses(contribution[contribution.entity]); track $index) {
+                <button
+                    mat-stroked-button
+                    [disabled]="!nextStatus.enabled"
+                    (click)="contributionService.updatePublishStatus(contribution[contribution.entity], nextStatus.status)"
+                    class="mt-8"
+                >
+                    {{ contributionService.publishStatuses[nextStatus.status].actionLabel }}
+                </button>
+            }
+        </div>
     </div>
-  </div>
 </mat-card>

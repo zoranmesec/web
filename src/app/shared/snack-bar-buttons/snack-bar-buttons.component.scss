@@ -1,18 +1,18 @@
 :host {
-  .mat-mdc-icon-button.mat-mdc-button-base {
-    height: 40px !important;
-    width: 40px !important;
-  }
+    .mat-mdc-icon-button.mat-mdc-button-base {
+        height: 40px !important;
+        width: 40px !important;
+    }
 
-  .close-icon {
-    cursor: pointer;
-    padding-top: 8px;
-    color: var(--mat-sys-primary) !important;
-  }
+    .close-icon {
+        cursor: pointer;
+        padding-top: 8px;
+        color: var(--mat-sys-primary) !important;
+    }
 
-  .map-icon {
-    margin-right: 4px;
-    vertical-align: top;
-    line-height: 16px;
-  }
+    .map-icon {
+        margin-right: 4px;
+        vertical-align: top;
+        line-height: 16px;
+    }
 }

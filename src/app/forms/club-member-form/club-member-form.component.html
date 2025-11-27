@@ -1,35 +1,25 @@
 <mat-dialog-content>
-  <p>
-    Vnesi e-naslov uporabnika, ki ga želiš dodati v klub {{ data.clubName }}.
-  </p>
-  <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
-    <p>
-      <mat-form-field class="no-hint">
-        <mat-label>E-naslov uporabnika</mat-label>
-        <input matInput formControlName="email" id="email" required />
-      </mat-form-field>
-    </p>
-    <p>
-      <mat-checkbox fxLayout="row" fxLayoutAlign="start" formControlName="admin"
-        >Administrator</mat-checkbox
-        >
-      </p>
+    <p>Vnesi e-naslov uporabnika, ki ga želiš dodati v klub {{ data.clubName }}.</p>
+    <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
+        <p>
+            <mat-form-field class="no-hint">
+                <mat-label>E-naslov uporabnika</mat-label>
+                <input matInput formControlName="email" id="email" required />
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-checkbox fxLayout="row" fxLayoutAlign="start" formControlName="admin">Administrator</mat-checkbox>
+        </p>
 
-      <div class="button-w-loading">
-        @if (!loading) {
-          <button
-            mat-flat-button
-            color="primary"
-            [disabled]="!addMemberForm.valid"
-            >
-            DODAJ ČLANA
-          </button>
-        }
-        @if (loading) {
-          <span class="loading">
-            <mat-spinner diameter="30"></mat-spinner>
-          </span>
-        }
-      </div>
+        <div class="button-w-loading">
+            @if (!loading) {
+                <button mat-flat-button color="primary" [disabled]="!addMemberForm.valid">DODAJ ČLANA</button>
+            }
+            @if (loading) {
+                <span class="loading">
+                    <mat-spinner diameter="30"></mat-spinner>
+                </span>
+            }
+        </div>
     </form>
-  </mat-dialog-content>
+</mat-dialog-content>

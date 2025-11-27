@@ -1,34 +1,34 @@
 h2 {
-  background-color: transparent;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: normal;
-  margin-top: 32px;
-  margin-bottom: 16x;
-  padding: 0;
-  box-shadow: none;
+    background-color: transparent;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 32px;
+    margin-bottom: 16x;
+    padding: 0;
+    box-shadow: none;
 }
 .grade {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 .direction .mat-icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
-  display: block;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    display: block;
 }
 
 .row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  &:first-child {
-    border-top: none;
-  }
+    padding-top: 8px;
+    padding-bottom: 8px;
+    &:first-child {
+        border-top: none;
+    }
 }
 
 .mat-card {
-  border-radius: 0;
-  .mat-card-content {
-    margin-bottom: 0;
-  }
+    border-radius: 0;
+    .mat-card-content {
+        margin-bottom: 0;
+    }
 }

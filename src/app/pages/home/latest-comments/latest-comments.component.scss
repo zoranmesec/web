@@ -1,27 +1,27 @@
 h2 {
-  background-color: transparent;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: normal;
-  margin-top: 32px;
-  margin-bottom: 16px;
-  padding: 0;
-  box-shadow: none;
+    background-color: transparent;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    padding: 0;
+    box-shadow: none;
 }
 
 .comment-row {
-  padding: 16px;
+    padding: 16px;
 
-  &.first {
-    border-top: 0;
-  }
+    &.first {
+        border-top: 0;
+    }
 }
 
 // TODO Check if these rules could be applied accross the whole app
 .mat-card {
-  border-radius: 0;
+    border-radius: 0;
 
-  .mat-card-content {
-    margin-bottom: 0;
-  }
+    .mat-card-content {
+        margin-bottom: 0;
+    }
 }

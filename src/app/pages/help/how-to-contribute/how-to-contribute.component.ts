@@ -9,16 +9,16 @@ import { MatCard } from '@angular/material/card';
     imports: [MatCard]
 })
 export class HowToContributeComponent implements OnInit {
-  constructor(private layoutService: LayoutService) {}
+    constructor(private layoutService: LayoutService) {}
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Navodila',
-      },
-      {
-        name: 'Dodajanje prispevkov',
-      },
-    ]);
-  }
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Navodila'
+            },
+            {
+                name: 'Dodajanje prispevkov'
+            }
+        ]);
+    }
 }

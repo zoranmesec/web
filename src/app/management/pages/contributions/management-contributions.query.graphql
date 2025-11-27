@@ -1,65 +1,65 @@
 query ManagementContributions {
-  contributions {
-    user {
-      id
-      fullName
-    }
-    entity
-
-    crag {
-      id
-      name
-      slug
-      publishStatus
-      sectors {
-        publishStatus
-        routes {
-          publishStatus
+    contributions {
+        user {
+            id
+            fullName
         }
-      }
-      user {
-        id
-      }
-    }
+        entity
 
-    sector {
-      id
-      name
-      publishStatus
-      crag {
-        id
-        name
-        slug
-        publishStatus
-      }
-      routes {
-        publishStatus
-      }
-      user {
-        id
-      }
-    }
+        crag {
+            id
+            name
+            slug
+            publishStatus
+            sectors {
+                publishStatus
+                routes {
+                    publishStatus
+                }
+            }
+            user {
+                id
+            }
+        }
 
-    route {
-      id
-      name
-      slug
-      publishStatus
-      crag {
-        name
-        slug
-      }
-      sector {
-        id
-        name
-        publishStatus
-      }
-      user {
-        id
-      }
-    }
+        sector {
+            id
+            name
+            publishStatus
+            crag {
+                id
+                name
+                slug
+                publishStatus
+            }
+            routes {
+                publishStatus
+            }
+            user {
+                id
+            }
+        }
 
-    id
-    publishStatus
-  }
+        route {
+            id
+            name
+            slug
+            publishStatus
+            crag {
+                name
+                slug
+            }
+            sector {
+                id
+                name
+                publishStatus
+            }
+            user {
+                id
+            }
+        }
+
+        id
+        publishStatus
+    }
 }

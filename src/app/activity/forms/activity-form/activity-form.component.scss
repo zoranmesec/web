@@ -1,79 +1,79 @@
-@use "@angular/material" as mat;
-@use "./../../../../m3-theme.scss" as m3-theme;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
-@use "./../../../../styles/global.scss" as global;
+@use './../../../../styles/global.scss' as global;
 
 :host {
-  .fieldset {
-    column-gap: 16px;
-    flex-wrap: wrap;
-    mat-form-field {
-      flex-basis: calc(50% - 32px);
+    .fieldset {
+        column-gap: 16px;
+        flex-wrap: wrap;
+        mat-form-field {
+            flex-basis: calc(50% - 32px);
+        }
+
+        @media only screen and (max-width: global.$breakpoint-lg) {
+            mat-form-field {
+                flex-basis: calc(100% - 8px);
+            }
+        }
     }
 
-    @media only screen and (max-width: global.$breakpoint-lg) {
-      mat-form-field {
-        flex-basis: calc(100% - 8px);
-      }
-    }
-  }
+    mat-expansion-panel-header {
+        height: 68px !important;
 
-  mat-expansion-panel-header {
-    height: 68px !important;
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-      height: 40px !important;
-    }
-  }
-
-  mat-expansion-panel {
-    box-shadow: none !important;
-    margin-bottom: 8px !important;
-  }
-
-  mat-accordion > mat-expansion-panel:first-child {
-    border-top-left-radius: 8px !important;
-    border-top-right-radius: 8px !important;
-  }
-
-  mat-accordion > mat-expansion-panel:last-child {
-    border-bottom-left-radius: 8px !important;
-    border-bottom-right-radius: 8px !important;
-  }
-
-  ::ng-deep {
-    .mat-expansion-panel-content-wrapper {
-      background-color: white;
+        @media only screen and (max-width: global.$breakpoint-lg) {
+            height: 40px !important;
+        }
     }
 
-    .mat-expansion-panel-body {
-      padding: 0 !important;
+    mat-expansion-panel {
+        box-shadow: none !important;
+        margin-bottom: 8px !important;
     }
-  }
+
+    mat-accordion > mat-expansion-panel:first-child {
+        border-top-left-radius: 8px !important;
+        border-top-right-radius: 8px !important;
+    }
+
+    mat-accordion > mat-expansion-panel:last-child {
+        border-bottom-left-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
+    }
+
+    ::ng-deep {
+        .mat-expansion-panel-content-wrapper {
+            background-color: white;
+        }
+
+        .mat-expansion-panel-body {
+            padding: 0 !important;
+        }
+    }
 }
 
 .only-routes-checkbox {
-  padding: 14px 16px;
+    padding: 14px 16px;
 }
 
 .route {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  padding-bottom: 16px;
-  margin-bottom: 8px;
-  &:nth-last-child(2) {
-    border-bottom: none;
-  }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+    &:nth-last-child(2) {
+        border-bottom: none;
+    }
 }
 
 button {
-  margin-left: 8px;
+    margin-left: 8px;
 }
 .mat-radio-group {
-  span {
-    display: block;
-    font-size: 13px;
-    margin: 8px 28px;
-  }
+    span {
+        display: block;
+        font-size: 13px;
+        margin: 8px 28px;
+    }
 }

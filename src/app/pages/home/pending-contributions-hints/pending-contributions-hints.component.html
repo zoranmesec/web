@@ -1,30 +1,26 @@
 <div class="container">
-  @if (pendingDrafts?.length) {
-    <mat-card class="mt-16 warn">
-      V bazo si prispeval
-      {{ pendingDrafts.length | pluralizeNoun : "nov vnos" }}.
-      @if (!isAdmin) {
-        <a [routerLink]="['/urejanje/prispevki']"
-          >Predlagaj uredništvu objavo.</a
-          >
-        }
-        @if (isAdmin) {
-          <a [routerLink]="['/urejanje/prispevki']"
-            >Objavi {{ pendingDrafts.length | pluralizeNoun : "ga" }}.</a
-            >
-          }
+    @if (pendingDrafts?.length) {
+        <mat-card class="mt-16 warn">
+            V bazo si prispeval
+            {{ pendingDrafts.length | pluralizeNoun: 'nov vnos' }}.
+            @if (!isAdmin) {
+                <a [routerLink]="['/urejanje/prispevki']">Predlagaj uredništvu objavo.</a>
+            }
+            @if (isAdmin) {
+                <a [routerLink]="['/urejanje/prispevki']">Objavi {{ pendingDrafts.length | pluralizeNoun: 'ga' }}.</a>
+            }
         </mat-card>
-      }
+    }
 
-      @if (pendingInReviews?.length && isAdmin) {
+    @if (pendingInReviews?.length && isAdmin) {
         <mat-card class="mt-16 notice">
-          {{ pendingInReviews.length | pluralizeNoun : "uporabniški prispevek" }}
-          {{ pendingInReviews.length | pluralizeVerb : "čakati" }}
-          na objavo.
-          <a [routerLink]="['/urejanje/prispevki']"
-            >Preglej {{ pendingInReviews.length | pluralizeNoun : "ga" }} in
-            {{ pendingInReviews.length | pluralizeNoun : "ga" }} zavrni ali potrdi.</a
+            {{ pendingInReviews.length | pluralizeNoun: 'uporabniški prispevek' }}
+            {{ pendingInReviews.length | pluralizeVerb: 'čakati' }}
+            na objavo.
+            <a [routerLink]="['/urejanje/prispevki']"
+                >Preglej {{ pendingInReviews.length | pluralizeNoun: 'ga' }} in {{ pendingInReviews.length | pluralizeNoun: 'ga' }} zavrni
+                ali potrdi.</a
             >
-          </mat-card>
-        }
-      </div>
+        </mat-card>
+    }
+</div>

@@ -1,17 +1,17 @@
 .warning {
-  padding: 12px;
-  background: #fff;
+    padding: 12px;
+    background: #fff;
 
-  ::ng-deep {
-    p:last-of-type {
-      margin-bottom: 0;
+    ::ng-deep {
+        p:last-of-type {
+            margin-bottom: 0;
+        }
     }
-  }
 }
 
 .author {
-  color: #00000080;
-  white-space: nowrap;
-  font-size: 13px;
-  padding: 3px 12px;
+    color: #00000080;
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 3px 12px;
 }

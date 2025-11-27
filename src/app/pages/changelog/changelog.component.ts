@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LayoutService } from 'src/app/services/layout.service';
 import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { LayoutService } from 'src/app/services/layout.service';
 
 @Component({
     selector: 'app-changelog',
@@ -11,13 +11,13 @@ import { Router, RouterLink } from '@angular/router';
     imports: [MatCard, MatIcon, RouterLink]
 })
 export class ChangelogComponent implements OnInit {
-  constructor(private layoutService: LayoutService) {}
+    constructor(private layoutService: LayoutService) {}
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Dnevnik sprememb',
-      },
-    ]);
-  }
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Dnevnik sprememb'
+            }
+        ]);
+    }
 }

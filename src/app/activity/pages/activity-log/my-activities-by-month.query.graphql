@@ -1,51 +1,51 @@
 query MyActivitiesByMonth($month: Float!, $year: Float!) {
-  myActivitiesByMonth(month: $month, year: $year) {
-    id
-    name
-    date
-    type
-    duration
-    partners
-    notes
-    routes {
-      ascentType
-      publish
-      id
-      notes
-      route {
-        name
-        difficulty
-        length
-        slug
+    myActivitiesByMonth(month: $month, year: $year) {
         id
-        routeType {
-          id
-          name
-          __typename
+        name
+        date
+        type
+        duration
+        partners
+        notes
+        routes {
+            ascentType
+            publish
+            id
+            notes
+            route {
+                name
+                difficulty
+                length
+                slug
+                id
+                routeType {
+                    id
+                    name
+                    __typename
+                }
+                crag {
+                    id
+                    slug
+                    __typename
+                }
+                defaultGradingSystem {
+                    id
+                    __typename
+                }
+                __typename
+            }
+            __typename
         }
         crag {
-          id
-          slug
-          __typename
-        }
-        defaultGradingSystem {
-          id
-          __typename
+            id
+            name
+            slug
+            country {
+                slug
+                __typename
+            }
+            __typename
         }
         __typename
-      }
-      __typename
     }
-    crag {
-      id
-      name
-      slug
-      country {
-        slug
-        __typename
-      }
-      __typename
-    }
-    __typename
-  }
 }

@@ -1,8 +1,5 @@
-mutation UpdateActivity(
-  $input: UpdateActivityInput!
-  $routes: [UpdateActivityRouteInput!]!
-) {
-  updateActivity(input: $input, routes: $routes) {
-    id
-  }
+mutation UpdateActivity($input: UpdateActivityInput!, $routes: [UpdateActivityRouteInput!]!) {
+    updateActivity(input: $input, routes: $routes) {
+        id
+    }
 }

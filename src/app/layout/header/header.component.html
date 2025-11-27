@@ -1,108 +1,75 @@
 <header>
-  <div
-    class="container p-16"
-    fxLayout="column"
-    fxLayout.gt-sm="row"
-    fxLayoutAlign="space-between"
-    >
-    <div
-      class="logo-and-burger"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-      >
-      <a class="logo-link" [routerLink]="['/']">
-        <img src="/assets/logo.gif" width="212" height="30" />
-      </a>
+    <div class="container p-16" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between">
+        <div class="logo-and-burger" fxLayout="row" fxLayoutAlign="space-between center">
+            <a class="logo-link" [routerLink]="['/']">
+                <img src="/assets/logo.gif" width="212" height="30" />
+            </a>
 
-      <button mat-icon-button fxHide.gt-sm (click)="toggleNavi()">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </div>
-
-    <nav
-      fxLayout="column"
-      fxLayoutAlign="start end"
-      fxLayout.gt-sm="row"
-      fxLayoutAlign.gt-sm="center center"
-      ([fxHide])="(!naviOpen)"
-      fxHide.lt-lg
-      >
-      <a [routerLink]="['/']"
-        ><mat-icon matPrefix class="my-icon">search</mat-icon></a
-        >
-        @if(currentUrl.startsWith('/plezalisca') ){
-          <div class="active">Plezališča</div>
-
-        } @else{
-
-          <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
-          } @if(currentUrl.startsWith('/alpinizem') ){
-          <a class="active" [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
-
-        } @else{
-          <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
-          } @if(currentUrl.startsWith('/plezalni-dnevnik') ){
-          <div class="active">Plezalni dnevnik</div>
-
-        } @else{
-          <a [routerLink]="['/plezalni-dnevnik/vzponi']">Plezalni dnevnik</a>
-        }
-        @if (!(user != null)) {
-          <a (click)="login()">Prijava</a>
-        }
-        @if (user != null) {
-          <a
-            fxHide
-            fxShow.gt-sm
-            [matMenuTriggerFor]="authMenu"
-            >
-            {{ user?.fullName }}
-          </a>
-        }
-        @if (user != null) {
-          <a
-            mat-button
-            fxHide.gt-sm
-            [routerLink]="['/moj-profil']"
-            >Moj profil</a
-            >
-          }
-          @if (user?.roles.includes('admin')) {
-            <a
-              mat-button
-              fxHide.gt-sm
-              [matMenuTriggerFor]="managementMenu"
-              >Administracija</a
-              >
-            }
-            @if (user != null) {
-              <a mat-button fxHide.gt-sm (click)="logout()"
-                >Odjava</a
-                >
-              }
-            </nav>
-          </div>
-        </header>
-
-        <mat-menu #alpinismMenu="matMenu">
-          <a mat-menu-item [routerLink]="['/alpinizem/slapovi']">Slapovi</a>
-          <a mat-menu-item [routerLink]="['/alpinizem/vrhovi/drzave']">Vrhovi</a>
-        </mat-menu>
-
-        <mat-menu #authMenu="matMenu" class="border-grey">
-          <a mat-menu-item [routerLink]="['/moj-profil']">Moj profil</a>
-          @if (user?.roles.includes('admin')) {
-            <a
-              mat-menu-item
-              [matMenuTriggerFor]="managementMenu"
-              >Administracija</a
-              >
-            }
-            <button mat-menu-item (click)="logout()">
-              <span>Odjava</span>
+            <button mat-icon-button fxHide.gt-sm (click)="toggleNavi()">
+                <mat-icon>menu</mat-icon>
             </button>
-          </mat-menu>
+        </div>
 
-          <mat-menu #managementMenu="matMenu">
-            <a mat-menu-item [routerLink]="['/urejanje/drzave']">Države in področja</a>
-          </mat-menu>
+        <nav
+            fxLayout="column"
+            fxLayoutAlign="start end"
+            fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="center center"
+            [fxHide]="naviOpen"
+            fxHide.lt-lg
+        >
+            <a [routerLink]="['/']"><mat-icon matPrefix class="my-icon">search</mat-icon></a>
+            @if (currentUrl.startsWith('/plezalisca')) {
+                <div class="active">Plezališča</div>
+            } @else {
+                <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
+            }
+            @if (currentUrl.startsWith('/alpinizem')) {
+                <a class="active" [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+            } @else {
+                <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+            }
+            @if (currentUrl.startsWith('/plezalni-dnevnik')) {
+                <div class="active">Plezalni dnevnik</div>
+            } @else {
+                <a [routerLink]="['/plezalni-dnevnik/vzponi']">Plezalni dnevnik</a>
+            }
+            @if (!(user !== null)) {
+                <a (click)="login()">Prijava</a>
+            }
+            @if (user !== null) {
+                <a fxHide fxShow.gt-sm [matMenuTriggerFor]="authMenu">
+                    {{ user?.fullName }}
+                </a>
+            }
+            @if (user !== null) {
+                <a mat-button fxHide.gt-sm [routerLink]="['/moj-profil']">Moj profil</a>
+            }
+            @if (user?.roles.includes('admin')) {
+                <a mat-button fxHide.gt-sm [matMenuTriggerFor]="managementMenu">Administracija</a>
+            }
+            @if (user !== null) {
+                <a mat-button fxHide.gt-sm (click)="logout()">Odjava</a>
+            }
+        </nav>
+    </div>
+</header>
+
+<mat-menu #alpinismMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/alpinizem/slapovi']">Slapovi</a>
+    <a mat-menu-item [routerLink]="['/alpinizem/vrhovi/drzave']">Vrhovi</a>
+</mat-menu>
+
+<mat-menu #authMenu="matMenu" class="border-grey">
+    <a mat-menu-item [routerLink]="['/moj-profil']">Moj profil</a>
+    @if (user?.roles.includes('admin')) {
+        <a mat-menu-item [matMenuTriggerFor]="managementMenu">Administracija</a>
+    }
+    <button mat-menu-item (click)="logout()">
+        <span>Odjava</span>
+    </button>
+</mat-menu>
+
+<mat-menu #managementMenu="matMenu">
+    <a mat-menu-item [routerLink]="['/urejanje/drzave']">Države in področja</a>
+</mat-menu>

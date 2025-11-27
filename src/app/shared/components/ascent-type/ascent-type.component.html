@@ -1,23 +1,30 @@
+@if(ascentType() !== undefined) {
+
 <div class="flex flex-row">
-  @if (displayType() === 'icon' || displayType() === 'iconAndText') {
-  <div
-    [ngClass]="{
-      'fixed-icons-width': fixedIconsWidth()
-    }"
-    class="flex flex-row"
-  >
-    <app-ascent-type-icon [ascentType]="ascentType()"></app-ascent-type-icon>
-  </div>
-  } @if (displayType() === 'text' || displayType() === 'iconAndText') { @if
-  (ascentType()) {
-  <div [ngClass]="{ 'ml-4': displayType() === 'iconAndText' }">
-    {{ ascentType().label }} @if (ascentType().topRope) {
-    <span> (top rope)</span>
+    @if (displayType() === 'icon' || displayType() === 'iconAndText') {
+        <div
+            [ngClass]="{
+                'fixed-icons-width': fixedIconsWidth()
+            }"
+            class="flex flex-row"
+        >
+            <app-ascent-type-icon [ascentType]="ascentType()"></app-ascent-type-icon>
+        </div>
     }
-  </div>
-  } @if (ascentType() === null) {
-  <span
-    ><i>{{ type }}</i></span
-  >
-  } }
+    @if (displayType() === 'text' || displayType() === 'iconAndText') {
+        @if (ascentType()) {
+            <div [ngClass]="{ 'ml-4': displayType() === 'iconAndText' }">
+                {{ ascentType().label }}
+                @if (ascentType().topRope) {
+                    <span> (top rope)</span>
+                }
+            </div>
+        }
+        @if (ascentType() === null) {
+            <span
+                ><i>{{ type }}</i></span
+            >
+        }
+    }
 </div>
+}

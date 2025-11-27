@@ -1,28 +1,18 @@
 <div fxLayout="row" fxLayoutAlign="space-between">
-  <h2>Zadnji komentarji</h2>
+    <h2>Zadnji komentarji</h2>
 </div>
 
 @if (!loading) {
-  <mat-card>
-    <mat-card-content>
-      @for (comment of comments; track comment; let first = $first) {
-        <div
-          class="row comment-row"
-          [class.first]="first"
-          >
-          <app-comment
-            [comment]="comment"
-            [commentType]="comment.type"
-            previewMode="true"
-            showRouteLink="true"
-          ></app-comment>
-        </div>
-      }
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button [routerLink]="['/pregledi/komentarji']">
-        Prikaži več komentarjev
-      </button>
-    </mat-card-actions>
-  </mat-card>
+    <mat-card>
+        <mat-card-content>
+            @for (comment of comments; track comment; let first = $first) {
+                <div class="row comment-row" [class.first]="first">
+                    <app-comment [comment]="comment" [commentType]="comment.type" previewMode="true" showRouteLink="true"></app-comment>
+                </div>
+            }
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button [routerLink]="['/pregledi/komentarji']">Prikaži več komentarjev</button>
+        </mat-card-actions>
+    </mat-card>
 }

@@ -1,9 +1,9 @@
 :host {
-  display: block;
-  width: 40px !important;
-  height: 40px !important;
+    display: block;
+    width: 40px !important;
+    height: 40px !important;
 
-  svg.active path {
-    fill: var(--mat-sys-secondary);
-  }
+    svg.active path {
+        fill: var(--mat-sys-secondary);
+    }
 }

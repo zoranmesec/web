@@ -1,28 +1,28 @@
 .clubs-list-container .mat-list-base {
-  padding-top: 0;
-  .mat-list-item .mat-list-item-content {
-    justify-content: space-between;
-    .primary-text {
-      padding-left: 16px;
-      font-size: 14px;
+    padding-top: 0;
+    .mat-list-item .mat-list-item-content {
+        justify-content: space-between;
+        .primary-text {
+            padding-left: 16px;
+            font-size: 14px;
+        }
+        .metadata {
+            padding-left: 16px;
+            font-size: 12px;
+        }
     }
-    .metadata {
-      padding-left: 16px;
-      font-size: 12px;
-    }
-  }
 }
 .card {
-  min-height: auto;
+    min-height: auto;
 }
 
 .clubs-actions {
-  .mat-button-wrapper {
-    display: flex;
-    align-items: center;
-    .mat-icon {
-      margin-left: -4px;
-      margin-right: 3px;
+    .mat-button-wrapper {
+        display: flex;
+        align-items: center;
+        .mat-icon {
+            margin-left: -4px;
+            margin-right: 3px;
+        }
     }
-  }
 }

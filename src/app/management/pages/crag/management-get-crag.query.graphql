@@ -1,37 +1,37 @@
 query ManagementGetCrag($id: String!) {
-  crag(id: $id) {
-    slug
-    type
-    publishStatus
-    isHidden
-    orientation
-    defaultGradingSystem {
-      id
-    }
-    name
-    lon
-    lat
-    id
-    description
-    access
-    area {
-      id
-      name
-    }
-    country {
-      name
-      id
-      slug
-    }
-    user {
-      id
-    }
-    created
-    sectors {
-      id
-      routes {
+    crag(id: $id) {
+        slug
+        type
+        publishStatus
+        isHidden
+        orientation
+        defaultGradingSystem {
+            id
+        }
+        name
+        lon
+        lat
         id
-      }
+        description
+        access
+        area {
+            id
+            name
+        }
+        country {
+            name
+            id
+            slug
+        }
+        user {
+            id
+        }
+        created
+        sectors {
+            id
+            routes {
+                id
+            }
+        }
     }
-  }
 }

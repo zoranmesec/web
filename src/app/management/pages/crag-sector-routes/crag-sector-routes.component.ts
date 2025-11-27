@@ -8,210 +8,193 @@ import { Apollo } from 'apollo-angular';
 import { combineLatest, filter, Subscription, switchMap, take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import {
-  Crag,
-  ManagementDeleteRouteGQL,
-  ManagementGetSectorGQL,
-  ManagementSaveRoutePositionGQL,
-  Route,
-  Sector,
+    Crag,
+    ManagementDeleteRouteGQL,
+    ManagementGetSectorGQL,
+    ManagementSaveRoutePositionGQL,
+    Route,
+    Sector
 } from '../../../../generated/graphql';
 import { LayoutService } from '../../../services/layout.service';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MoveRouteFormComponent } from '../../forms/move-route-form/move-route-form.component';
-import {
-  RouteFormComponent,
-  RouteFormValues,
-} from '../../forms/route-form/route-form.component';
+import { RouteFormComponent, RouteFormValues } from '../../forms/route-form/route-form.component';
 import { CragAdminBreadcrumbs } from '../../utils/crag-admin-breadcrumbs';
 import { ContributionService } from '../contributions/contribution/contribution.service';
 
-interface TmpRoute {
-  id: string;
-  pos: number;
-  newPos: number;
-}
 
 @Component({
-  selector: 'app-crag-sector-routes',
-  templateUrl: './crag-sector-routes.component.html',
-  styleUrls: ['./crag-sector-routes.component.scss'],
-  standalone: false,
+    selector: 'app-crag-sector-routes',
+    templateUrl: './crag-sector-routes.component.html',
+    styleUrls: ['./crag-sector-routes.component.scss'],
+    standalone: false
 })
 export class CragSectorRoutesComponent implements OnInit, OnDestroy {
-  loading: boolean = true;
-  savingPositions: boolean = false;
-  heading: string = '';
+    loading = true;
+    savingPositions = false;
+    heading = '';
 
-  crag: Crag;
-  sector: Sector;
-  routes: Route[];
+    crag: Crag;
+    sector: Sector;
+    routes: Route[];
 
-  subscriptions: Subscription[] = [];
+    subscriptions: Subscription[] = [];
 
-  user: User;
-  fullAccess = false;
+    user: User;
+    fullAccess = false;
 
-  constructor(
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private authService: AuthService,
-    private activatedRoute: ActivatedRoute,
-    private layoutService: LayoutService,
-    private sectorGQL: ManagementGetSectorGQL,
-    private savePositionGQL: ManagementSaveRoutePositionGQL,
-    private deleteRouteGQL: ManagementDeleteRouteGQL,
-    private apollo: Apollo,
-    public contributionService: ContributionService
-  ) {}
+    constructor(
+        private snackBar: MatSnackBar,
+        private dialog: MatDialog,
+        private authService: AuthService,
+        private activatedRoute: ActivatedRoute,
+        private layoutService: LayoutService,
+        private sectorGQL: ManagementGetSectorGQL,
+        private savePositionGQL: ManagementSaveRoutePositionGQL,
+        private deleteRouteGQL: ManagementDeleteRouteGQL,
+        private apollo: Apollo,
+        public contributionService: ContributionService
+    ) {}
 
-  ngOnInit(): void {
-    const sub = combineLatest([
-      this.activatedRoute.params.pipe(
-        filter((params) => params.sector != null),
-        switchMap(
-          (params) =>
-            this.sectorGQL.watch({
-              variables: { id: params.sector },
-            }).valueChanges
-        )
-      ),
-      this.authService.currentUser.asObservable(),
-    ]).subscribe(([result, user]) => {
-      this.loading = false;
+    ngOnInit(): void {
+        const sub = combineLatest([
+            this.activatedRoute.params.pipe(
+                filter((params) => params.sector !== null),
+                switchMap(
+                    (params) =>
+                        this.sectorGQL.watch({
+                            variables: { id: params.sector }
+                        }).valueChanges
+                )
+            ),
+            this.authService.currentUser.asObservable()
+        ]).subscribe(([result, user]) => {
+            this.loading = false;
 
-      this.sector = <Sector>result.data.sector;
-      this.crag = <Crag>this.sector.crag;
+            this.sector = result.data.sector as Sector;
+            this.crag = this.sector.crag as Crag;
 
-      this.routes = [...(<Route[]>result.data.sector.routes)];
+            this.routes = [...(result.data.sector.routes as Route[])];
 
-      this.heading = `${this.crag.name}${
-        this.sector.label || this.sector.name ? ', ' : ''
-      }${this.sector.label}${
-        this.sector.label && this.sector.name ? ' -' : ''
-      } ${this.sector.name}`;
+            this.heading = `${this.crag.name}${this.sector.label || this.sector.name ? ', ' : ''}${this.sector.label}${
+                this.sector.label && this.sector.name ? ' -' : ''
+            } ${this.sector.name}`;
 
-      this.layoutService.$breadcrumbs.next(
-        new CragAdminBreadcrumbs(this.crag).build()
-      );
+            this.layoutService.$breadcrumbs.next(new CragAdminBreadcrumbs(this.crag).build());
 
-      this.user = user;
-    });
-    this.subscriptions.push(sub);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
-
-  // A route can be edited by admin (always) or by a user if it's his contribution and still in status draft
-  canEdit(route: Route): boolean {
-    return this.user.roles.includes('admin') || route.publishStatus === 'draft';
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousIndex == event.currentIndex) return;
-
-    const data = {
-      id: this.routes[event.previousIndex].id,
-      position:
-        event.currentIndex > event.previousIndex
-          ? this.routes[event.currentIndex].position + 1
-          : this.routes[event.currentIndex].position,
-    };
-
-    // move in FE to see changes even before BE responds
-    moveItemInArray(this.routes, event.previousIndex, event.currentIndex);
-
-    this.savingPositions = true;
-
-    this.savePositionGQL
-      .mutate({ variables: { input: data }, fetchPolicy: 'no-cache' })
-      .subscribe(() => {
-        this.apollo.client.resetStore().then(() => {
-          this.savingPositions = false;
-          this.snackBar.open('Vrstni red smeri je bil shranjen', null, {
-            duration: 2000,
-          });
+            this.user = user;
         });
-      });
-  }
-
-  add(values: RouteFormValues = {}): void {
-    if (values.defaultGradingSystemId == null) {
-      values.defaultGradingSystemId = this.crag.defaultGradingSystem.id;
+        this.subscriptions.push(sub);
     }
-    this.dialog
-      .open(RouteFormComponent, {
-        data: {
-          values: {
-            ...values,
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((sub) => sub.unsubscribe());
+    }
+
+    // A route can be edited by admin (always) or by a user if it's his contribution and still in status draft
+    canEdit(route: Route): boolean {
+        return this.user.roles.includes('admin') || route.publishStatus === 'draft';
+    }
+
+    drop(event: CdkDragDrop<string[]>) {
+        if (event.previousIndex === event.currentIndex) return;
+
+        const data = {
+            id: this.routes[event.previousIndex].id,
             position:
-              values.position != null
-                ? values.position
-                : this.routes.length == 0
-                ? 1
-                : this.routes[this.routes.length - 1].position + 1,
-            sectorId: this.sector.id,
-          },
-        },
-      })
-      .afterClosed()
-      .pipe(
-        take(1),
-        filter((values?: RouteFormValues) => values && values.addAnother)
-      )
-      .subscribe((values: RouteFormValues) => this.add(values));
-  }
+                event.currentIndex > event.previousIndex
+                    ? this.routes[event.currentIndex].position + 1
+                    : this.routes[event.currentIndex].position
+        };
 
-  edit(route: Route): void {
-    this.dialog.open(RouteFormComponent, { data: { route: route } });
-  }
+        // move in FE to see changes even before BE responds
+        moveItemInArray(this.routes, event.previousIndex, event.currentIndex);
 
-  moveToSector(route: Route): void {
-    this.dialog.open(MoveRouteFormComponent, {
-      data: { route: route, crag: this.crag },
-    });
-  }
+        this.savingPositions = true;
 
-  mergeWithRoute(route: Route): void {
-    this.dialog.open(MoveRouteFormComponent, {
-      data: { route: route, crag: this.crag, withinSector: this.sector },
-    });
-  }
-
-  remove(sector: Sector): void {
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: 'Si prepričan_a, da želiš izbrisati to smer?',
-        },
-      })
-      .afterClosed()
-      .pipe(
-        take(1),
-        filter((value) => value != null),
-        switchMap(() =>
-          this.deleteRouteGQL.mutate({ variables: { id: sector.id } })
-        )
-      )
-      .subscribe({
-        next: () => {
-          this.apollo.client.resetStore().then(() => {
-            this.snackBar.open('Smer je bila izbrisana', null, {
-              duration: 2000,
+        this.savePositionGQL.mutate({ variables: { input: data }, fetchPolicy: 'no-cache' }).subscribe(() => {
+            this.apollo.client.resetStore().then(() => {
+                this.savingPositions = false;
+                this.snackBar.open('Vrstni red smeri je bil shranjen', null, {
+                    duration: 2000
+                });
             });
-          });
-        },
-        error: (error) => {
-          if (error.message === 'route_has_log_entries') {
-            error.message =
-              'Smeri ni mogoče izbrisati, ker ima zabeležene vzpone.';
-          }
-          this.snackBar.open(error.message, null, {
-            panelClass: 'error',
-            duration: 3000,
-          });
-        },
-      });
-  }
+        });
+    }
+
+    add(values: RouteFormValues = {}): void {
+        if (values.defaultGradingSystemId === null) {
+            values.defaultGradingSystemId = this.crag.defaultGradingSystem.id;
+        }
+        this.dialog
+            .open(RouteFormComponent, {
+                data: {
+                    values: {
+                        ...values,
+                        position:
+                            values.position !== null
+                                ? values.position
+                                : this.routes.length === 0
+                                  ? 1
+                                  : this.routes[this.routes.length - 1].position + 1,
+                        sectorId: this.sector.id
+                    }
+                }
+            })
+            .afterClosed()
+            .pipe(
+                take(1),
+                filter((values?: RouteFormValues) => values && values.addAnother)
+            )
+            .subscribe((values: RouteFormValues) => this.add(values));
+    }
+
+    edit(route: Route): void {
+        this.dialog.open(RouteFormComponent, { data: { route: route } });
+    }
+
+    moveToSector(route: Route): void {
+        this.dialog.open(MoveRouteFormComponent, {
+            data: { route: route, crag: this.crag }
+        });
+    }
+
+    mergeWithRoute(route: Route): void {
+        this.dialog.open(MoveRouteFormComponent, {
+            data: { route: route, crag: this.crag, withinSector: this.sector }
+        });
+    }
+
+    remove(sector: Sector): void {
+        this.dialog
+            .open(ConfirmationDialogComponent, {
+                data: {
+                    message: 'Si prepričan_a, da želiš izbrisati to smer?'
+                }
+            })
+            .afterClosed()
+            .pipe(
+                take(1),
+                filter((value) => value !== null),
+                switchMap(() => this.deleteRouteGQL.mutate({ variables: { id: sector.id } }))
+            )
+            .subscribe({
+                next: () => {
+                    this.apollo.client.resetStore().then(() => {
+                        this.snackBar.open('Smer je bila izbrisana', null, {
+                            duration: 2000
+                        });
+                    });
+                },
+                error: (error) => {
+                    if (error.message === 'route_has_log_entries') {
+                        error.message = 'Smeri ni mogoče izbrisati, ker ima zabeležene vzpone.';
+                    }
+                    this.snackBar.open(error.message, null, {
+                        panelClass: 'error',
+                        duration: 3000
+                    });
+                }
+            });
+    }
 }

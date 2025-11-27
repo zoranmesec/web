@@ -1,153 +1,118 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import {
-  DistributionChartComponent,
-  IDistribution,
-} from 'src/app/common/distribution-chart/distribution-chart.component';
-import {
-  RouteCommentsGQL,
-  RouteCommentsQuery,
-  RouteDifficultyVotesGQL,
-  RouteDifficultyVotesQuery,
-} from 'src/generated/graphql';
-import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { DistributionChartComponent, IDistribution } from 'src/app/common/distribution-chart/distribution-chart.component';
 import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
+import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
+import { RouteCommentsGQL, RouteCommentsQuery, RouteDifficultyVotesGQL, RouteDifficultyVotesQuery } from 'src/generated/graphql';
 
 import { RouteCommentsComponent } from '../../route/route-comments/route-comments.component';
 
 @Component({
-  selector: 'app-crag-route-preview',
-  templateUrl: './crag-route-preview.component.html',
-  styleUrls: ['./crag-route-preview.component.scss'],
-  imports: [
-    PublishStatusHintComponent,
-    DistributionChartComponent,
-    RouteCommentsComponent,
-  ],
+    selector: 'app-crag-route-preview',
+    templateUrl: './crag-route-preview.component.html',
+    styleUrls: ['./crag-route-preview.component.scss'],
+    imports: [PublishStatusHintComponent, DistributionChartComponent, RouteCommentsComponent]
 })
 export class CragRoutePreviewComponent implements OnChanges {
-  gradeDistribution: IDistribution[] = [];
-  gradeDistributionLoading: boolean;
-  routeComments: Record<string, string | any>[];
-  routeCommentsLoading: boolean;
+    gradeDistribution: IDistribution[] = [];
+    gradeDistributionLoading: boolean;
+    routeComments: Record<string, string | any>[];
+    routeCommentsLoading: boolean;
 
-  childViewsInitialized = {};
-  _routeCommentsInitialized: boolean | null;
-  _routeGradesInitialized: boolean | null;
+    childViewsInitialized = {};
+    _routeCommentsInitialized: boolean | null;
+    _routeGradesInitialized: boolean | null;
 
-  @Input() routeId: string;
-  @Input() publishStatus = 'published';
-  @Output() heightChangeEvent = new EventEmitter<number>();
-  @ViewChild('container') container: ElementRef;
+    @Input() routeId: string;
+    @Input() publishStatus = 'published';
+    @Output() heightChangeEvent = new EventEmitter<number>();
+    @ViewChild('container') container: ElementRef;
 
-  constructor(
-    private routeCommentsGQL: RouteCommentsGQL,
-    private routeDifficultyVotesGQL: RouteDifficultyVotesGQL,
-    private gradeDistributionService: GradeDistributionService
-  ) {}
+    constructor(
+        private routeCommentsGQL: RouteCommentsGQL,
+        private routeDifficultyVotesGQL: RouteDifficultyVotesGQL,
+        private gradeDistributionService: GradeDistributionService
+    ) {}
 
-  ngOnChanges(): void {
-    if (this.routeId) {
-      this.fetchDifficultyVotesDistribution(this.routeId);
-      this.fetchRouteComments(this.routeId);
-    }
-  }
-
-  fetchDifficultyVotesDistribution(routeId: string): void {
-    this.gradeDistributionLoading = true;
-
-    this.routeDifficultyVotesGQL
-      .watch({ variables: { routeId } })
-      .valueChanges.subscribe((result) => {
-        this.gradeDistributionLoading = false;
-
-        if (!result.error) {
-          this.routeDiffVotesQuerySuccess(
-            result.data as RouteDifficultyVotesQuery
-          );
-        } else {
-          console.error('Error fetching route difficulty votes');
+    ngOnChanges(): void {
+        if (this.routeId) {
+            this.fetchDifficultyVotesDistribution(this.routeId);
+            this.fetchRouteComments(this.routeId);
         }
-      });
-  }
-
-  routeDiffVotesQuerySuccess(queryData: RouteDifficultyVotesQuery): void {
-    this.gradeDistributionService
-      .getDistribution(
-        queryData.route.difficultyVotes,
-        queryData.route.defaultGradingSystem.id
-      )
-      .then((dist: IDistribution[]) => {
-        this.gradeDistribution = dist;
-      });
-
-    if (this.gradeDistribution.length) {
-      this.routeGradesInitialized = false;
-    } else {
-      this.routeGradesInitialized = null;
     }
-  }
 
-  fetchRouteComments(routeId: string): void {
-    this.routeCommentsLoading = true;
+    fetchDifficultyVotesDistribution(routeId: string): void {
+        this.gradeDistributionLoading = true;
 
-    this.routeCommentsGQL
-      .watch({ variables: { routeId: routeId } })
-      .valueChanges.subscribe((result) => {
-        this.routeCommentsLoading = false;
+        this.routeDifficultyVotesGQL.watch({ variables: { routeId } }).valueChanges.subscribe((result) => {
+            this.gradeDistributionLoading = false;
 
-        if (!result.error) {
-          this.routeCommentsQuerySuccess(result.data as RouteCommentsQuery);
+            if (!result.error) {
+                this.routeDiffVotesQuerySuccess(result.data as RouteDifficultyVotesQuery);
+            } else {
+                console.error('Error fetching route difficulty votes');
+            }
+        });
+    }
+
+    routeDiffVotesQuerySuccess(queryData: RouteDifficultyVotesQuery): void {
+        this.gradeDistributionService
+            .getDistribution(queryData.route.difficultyVotes, queryData.route.defaultGradingSystem.id)
+            .then((dist: IDistribution[]) => {
+                this.gradeDistribution = dist;
+            });
+
+        if (this.gradeDistribution.length) {
+            this.routeGradesInitialized = false;
         } else {
-          console.error('Error fetching route comments');
+            this.routeGradesInitialized = null;
         }
-      });
-  }
-
-  routeCommentsQuerySuccess(queryData: RouteCommentsQuery): void {
-    this.routeComments = queryData.route.comments;
-
-    if (this.routeComments.length) {
-      this.routeCommentsInitialized = false;
-    } else {
-      this.routeCommentsInitialized = null;
     }
-  }
 
-  get routeGradesInitialized() {
-    return this._routeGradesInitialized;
-  }
+    fetchRouteComments(routeId: string): void {
+        this.routeCommentsLoading = true;
 
-  get routeCommentsInitialized() {
-    return this._routeCommentsInitialized;
-  }
+        this.routeCommentsGQL.watch({ variables: { routeId: routeId } }).valueChanges.subscribe((result) => {
+            this.routeCommentsLoading = false;
 
-  set routeGradesInitialized(value: boolean | null) {
-    this._routeGradesInitialized = value;
-    this.afterChildInitialized();
-  }
-
-  set routeCommentsInitialized(value: boolean | null) {
-    this._routeCommentsInitialized = value;
-    this.afterChildInitialized();
-  }
-
-  afterChildInitialized() {
-    if (
-      ![this.routeCommentsInitialized, this.routeGradesInitialized].some(
-        (childInitialized) => childInitialized === false
-      )
-    ) {
-      this.heightChangeEvent.emit(
-        (this.container.nativeElement as HTMLDivElement).clientHeight
-      );
+            if (!result.error) {
+                this.routeCommentsQuerySuccess(result.data as RouteCommentsQuery);
+            } else {
+                console.error('Error fetching route comments');
+            }
+        });
     }
-  }
+
+    routeCommentsQuerySuccess(queryData: RouteCommentsQuery): void {
+        this.routeComments = queryData.route.comments;
+
+        if (this.routeComments.length) {
+            this.routeCommentsInitialized = false;
+        } else {
+            this.routeCommentsInitialized = null;
+        }
+    }
+
+    get routeGradesInitialized() {
+        return this._routeGradesInitialized;
+    }
+    set routeGradesInitialized(value: boolean | null) {
+        this._routeGradesInitialized = value;
+        this.afterChildInitialized();
+    }
+
+    get routeCommentsInitialized() {
+        return this._routeCommentsInitialized;
+    }
+
+
+    set routeCommentsInitialized(value: boolean | null) {
+        this._routeCommentsInitialized = value;
+        this.afterChildInitialized();
+    }
+
+    afterChildInitialized() {
+        if (![this.routeCommentsInitialized, this.routeGradesInitialized].some((childInitialized) => childInitialized === false)) {
+            this.heightChangeEvent.emit((this.container.nativeElement as HTMLDivElement).clientHeight);
+        }
+    }
 }

@@ -1,13 +1,13 @@
 <section id="breadcrumbs">
-  <a [routerLink]="['/']">Plezanje.net</a>
+    <a [routerLink]="['/']">Plezanje.net</a>
 
-  @for (bc of breadcrumbs; track $index) {
-  <span class="sep"> / </span>
-  @if (bc.path) {
-  <a [routerLink]="bc.params ? [bc.path, bc.params] : [bc.path]">{{
-    bc.name
-  }}</a>
-  } @if (!bc.path) {
-  <span>{{ bc.name }}</span>
-  } }
+    @for (bc of breadcrumbs; track $index) {
+        <span class="sep"> / </span>
+        @if (bc.path) {
+            <a [routerLink]="bc.params ? [bc.path, bc.params] : [bc.path]">{{ bc.name }}</a>
+        }
+        @if (!bc.path) {
+            <span>{{ bc.name }}</span>
+        }
+    }
 </section>

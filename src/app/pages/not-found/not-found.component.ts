@@ -10,17 +10,17 @@ import { DataErrorComponent } from 'src/app/shared/components/data-error/data-er
     imports: [DataErrorComponent]
 })
 export class NotFoundComponent implements OnInit {
-  error: DataError = {
-    message: 'Iskane strani ni bilo mogoče najti.',
-  };
+    error: DataError = {
+        message: 'Iskane strani ni bilo mogoče najti.'
+    };
 
-  constructor(private layoutService: LayoutService) {}
+    constructor(private layoutService: LayoutService) {}
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Napaka',
-      },
-    ]);
-  }
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Napaka'
+            }
+        ]);
+    }
 }

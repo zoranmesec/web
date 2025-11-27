@@ -1,138 +1,89 @@
 @if (!loading) {
-  <div>
-    <div class="white-back mt-16">
-      <div
-        class="container py-8"
-        fxLayout="row"
-        fxLayoutAlign="space-between center"
-        fxLayout.lt-sm="column"
-        >
-        <div>
-          @if (crag) {
-            <div class="subheading">Urejanje sektorjev</div>
-          }
-          <h1>{{ heading }}</h1>
-        </div>
-        <a
-          mat-button
-          color="primary"
-          [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id]"
-          >Uredi plezališče</a
-          >
-        </div>
-      </div>
-      <div class="container p15 mt-16">
-        <div
-          cdkDropList
-          (cdkDropListDropped)="drop($event)"
-          [class.saving]="savingPositions"
-          >
-          @for (sector of sectors; track sector; let i = $index) {
-            <div
-              cdkDrag
-              [cdkDragDisabled]="!canEdit(sector)"
-              >
-              <div
-                fxLayout="row"
-                fxLayoutAlign="start center"
-                fxLayout.lt-sm="column"
-                class="sector mt-8"
-          [ngClass]="{
-            warn: sector.publishStatus === 'draft',
-            notice: sector.publishStatus === 'in_review',
-            disabled: !canEdit(sector)
-          }"
-                >
-                <div class="name" fxFlex="100" fxFlex.lt-sm>
-                  <span>{{ sector.label }}</span> {{ sector.name }}
+    <div>
+        <div class="white-back mt-16">
+            <div class="container py-8" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.lt-sm="column">
+                <div>
+                    @if (crag) {
+                        <div class="subheading">Urejanje sektorjev</div>
+                    }
+                    <h1>{{ heading }}</h1>
                 </div>
-                <div fxFlex>
-                  <a
-                    mat-button
-                    color="primary"
-                    [routerLink]="['/urejanje/uredi-sektor/', sector.id]"
-                    >Uredi smeri</a
-                    >
-                  </div>
-                  @if (canEdit(sector)) {
-                    <div
-                      class="tools"
-                      fxLayout="row"
-                      fxLayoutAlign="start center"
-                      >
-                      @if (user.roles.includes('admin')) {
-                        <button
-                          mat-icon-button
-                          matTooltip="Orodja"
-                          [matMenuTriggerFor]="optionsMenu"
-                          [matMenuTriggerData]="{ sector: sector }"
-                          >
-                          <mat-icon>more_vert</mat-icon>
-                        </button>
-                      }
-                      <button mat-icon-button (click)="edit(sector)" matTooltip="Uredi">
-                        <mat-icon>edit</mat-icon>
-                      </button>
-                      <button
-                        mat-icon-button
-                        matTooltip="Spremeni vrstni red"
-                        cdkDragHandle
-                        >
-                        <mat-icon>sort</mat-icon>
-                      </button>
-                      <button
-                        mat-icon-button
-                        (click)="remove(sector)"
-                        matTooltip="Odstrani"
-                        >
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                    </div>
-                  }
-                  <!-- If a sector is not published, show possible publishStatus change buttons -->
-                  @if (canEdit(sector)) {
-                    <div
-                      fxFlex
-                      ngClass.lt-sm="mb-8"
-                      class="publish-status-actions"
-                      >
-                      @for (
-                        nextStatus of contributionService.nextPossiblePublishStatuses(
-                        sector
-                        ); track contributionService.statusButtonsTrackBy($index,
-                        nextStatus)) {
-                        <button
-                          mat-stroked-button
-                          [disabled]="!nextStatus.enabled"
-              (click)="
-                contributionService.updatePublishStatus(
-                  sector,
-                  nextStatus.status
-                )
-              "
-                          >
-                          {{
-                          contributionService.publishStatuses[nextStatus.status]
-                          .actionLabel
-                          }}
-                        </button>
-                      }
-                    </div>
-                  }
-                </div>
-              </div>
-            }
-            <div class="buttons mt-16">
-              <button mat-button color="primary" (click)="add()">Dodaj sektor</button>
+                <a mat-button color="primary" [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id]">Uredi plezališče</a>
             </div>
-            <mat-menu #optionsMenu="matMenu">
-              <ng-template matMenuContent let-sector="sector">
-                <button mat-menu-item (click)="moveToCrag(sector)">
-                  Premakni v drugo plezališče
-                </button>
-              </ng-template>
-            </mat-menu>
-          </div>
         </div>
-      </div>
-    }
+        <div class="container p15 mt-16">
+            <div cdkDropList (cdkDropListDropped)="drop($event)" [class.saving]="savingPositions">
+                @for (sector of sectors; track sector; let i = $index) {
+                    <div cdkDrag [cdkDragDisabled]="!canEdit(sector)">
+                        <div
+                            fxLayout="row"
+                            fxLayoutAlign="start center"
+                            fxLayout.lt-sm="column"
+                            class="sector mt-8"
+                            [ngClass]="{
+                                warn: sector.publishStatus === 'draft',
+                                notice: sector.publishStatus === 'in_review',
+                                disabled: !canEdit(sector)
+                            }"
+                        >
+                            <div class="name" fxFlex="100" fxFlex.lt-sm>
+                                <span>{{ sector.label }}</span> {{ sector.name }}
+                            </div>
+                            <div fxFlex>
+                                <a mat-button color="primary" [routerLink]="['/urejanje/uredi-sektor/', sector.id]">Uredi smeri</a>
+                            </div>
+                            @if (canEdit(sector)) {
+                                <div class="tools" fxLayout="row" fxLayoutAlign="start center">
+                                    @if (user.roles.includes('admin')) {
+                                        <button
+                                            mat-icon-button
+                                            matTooltip="Orodja"
+                                            [matMenuTriggerFor]="optionsMenu"
+                                            [matMenuTriggerData]="{ sector: sector }"
+                                        >
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                    }
+                                    <button mat-icon-button (click)="edit(sector)" matTooltip="Uredi">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Spremeni vrstni red" cdkDragHandle>
+                                        <mat-icon>sort</mat-icon>
+                                    </button>
+                                    <button mat-icon-button (click)="remove(sector)" matTooltip="Odstrani">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            }
+                            <!-- If a sector is not published, show possible publishStatus change buttons -->
+                            @if (canEdit(sector)) {
+                                <div fxFlex ngClass.lt-sm="mb-8" class="publish-status-actions">
+                                    @for (
+                                        nextStatus of contributionService.nextPossiblePublishStatuses(sector);
+                                        track contributionService.statusButtonsTrackBy($index, nextStatus)
+                                    ) {
+                                        <button
+                                            mat-stroked-button
+                                            [disabled]="!nextStatus.enabled"
+                                            (click)="contributionService.updatePublishStatus(sector, nextStatus.status)"
+                                        >
+                                            {{ contributionService.publishStatuses[nextStatus.status].actionLabel }}
+                                        </button>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                <div class="buttons mt-16">
+                    <button mat-button color="primary" (click)="add()">Dodaj sektor</button>
+                </div>
+                <mat-menu #optionsMenu="matMenu">
+                    <ng-template matMenuContent let-sector="sector">
+                        <button mat-menu-item (click)="moveToCrag(sector)">Premakni v drugo plezališče</button>
+                    </ng-template>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+}

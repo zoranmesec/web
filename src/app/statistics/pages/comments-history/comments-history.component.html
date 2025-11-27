@@ -1,42 +1,37 @@
 <div class="white-back mt-16">
-  <div class="container py-8">
-    <h1>Zgodovina komentarjev</h1>
-  </div>
+    <div class="container py-8">
+        <h1>Zgodovina komentarjev</h1>
+    </div>
 </div>
 
 @if (error) {
-  <app-data-error [error]="error"></app-data-error>
+    <app-data-error [error]="error"></app-data-error>
 }
 
 @if (!error) {
-  <div class="container mt-16">
-    <div class="card has-loader">
-      @if (loading) {
-        <div class="card-loader">
-          <app-loader></app-loader>
+    <div class="container mt-16">
+        <div class="card has-loader">
+            @if (loading) {
+                <div class="card-loader">
+                    <app-loader></app-loader>
+                </div>
+            }
+            @for (comment of comments; track comment) {
+                <div class="row comment-row">
+                    <app-comment [comment]="comment" [commentType]="comment.type" previewMode="true" showRouteLink="true"></app-comment>
+                </div>
+            }
         </div>
-      }
-      @for (comment of comments; track comment) {
-        <div class="row comment-row">
-          <app-comment
-            [comment]="comment"
-            [commentType]="comment.type"
-            previewMode="true"
-            showRouteLink="true"
-          ></app-comment>
-        </div>
-      }
+        @if (pagination !== null) {
+            <mat-paginator
+                hidePageSize
+                showFirstLastButtons
+                [length]="pagination.itemCount"
+                [pageIndex]="pagination.pageNumber - 1"
+                [pageSize]="pagination.pageSize"
+                (page)="onPageChange($event)"
+            >
+            </mat-paginator>
+        }
     </div>
-    @if (pagination != null) {
-      <mat-paginator
-        hidePageSize
-        showFirstLastButtons
-        [length]="pagination.itemCount"
-        [pageIndex]="pagination.pageNumber - 1"
-        [pageSize]="pagination.pageSize"
-        (page)="onPageChange($event)"
-        >
-      </mat-paginator>
-    }
-  </div>
 }

@@ -1,36 +1,36 @@
 query LatestImages($latest: Int!) {
-  latestImages(latest: $latest) {
-    id
-    path
-    title
-    aspectRatio
-    maxIntrinsicWidth
-    user {
-      id
-      fullName
-    }
-    crag {
-      id
-      name
-      slug
-      country {
+    latestImages(latest: $latest) {
         id
-        slug
-      }
-    }
-    route {
-      id
-      name
-      slug
-      crag {
-        id
-        name
-        slug
-        country {
-          id
-          slug
+        path
+        title
+        aspectRatio
+        maxIntrinsicWidth
+        user {
+            id
+            fullName
         }
-      }
+        crag {
+            id
+            name
+            slug
+            country {
+                id
+                slug
+            }
+        }
+        route {
+            id
+            name
+            slug
+            crag {
+                id
+                name
+                slug
+                country {
+                    id
+                    slug
+                }
+            }
+        }
     }
-  }
 }

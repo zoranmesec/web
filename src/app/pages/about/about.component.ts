@@ -9,13 +9,13 @@ import { MatCard } from '@angular/material/card';
     imports: [MatCard]
 })
 export class AboutComponent implements OnInit {
-  constructor(private layoutService: LayoutService) {}
+    constructor(private layoutService: LayoutService) {}
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'O plezanje.net',
-      },
-    ]);
-  }
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'O plezanje.net'
+            }
+        ]);
+    }
 }

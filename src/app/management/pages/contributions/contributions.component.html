@@ -1,92 +1,65 @@
 <div class="white-back mt-16">
-  <div
-    class="container py-8"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    fxLayout.lt-sm="column"
-    >
-    <div>
-      <h1>Odprti prispevki</h1>
+    <div class="container py-8" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.lt-sm="column">
+        <div>
+            <h1>Odprti prispevki</h1>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container mt-16">
-  @if (loading) {
-    <app-loader></app-loader>
-  }
+    @if (loading) {
+        <app-loader></app-loader>
+    }
 
-  @if (!loading && error) {
-    <div>Pri nalaganju je prišlo do napake.</div>
-  }
+    @if (!loading && error) {
+        <div>Pri nalaganju je prišlo do napake.</div>
+    }
 
-  @if (!loading && !error) {
-    <div>
-      <!-- Crags and all their descendants -->
-      @for (cragContribution of contributionsTree.crags; track cragContribution) {
-        <app-contribution
-          [contribution]="cragContribution"
-          [link]="['/plezalisce', cragContribution.crag.slug]"
-        ></app-contribution>
-        @for (sectorContribution of cragContribution.children; track sectorContribution) {
-          <app-contribution
-            [contribution]="sectorContribution"
-            [link]="['/plezalisce', sectorContribution.sector.crag.slug]"
-            [depth]="1"
-          ></app-contribution>
-          @for (routeContribution of sectorContribution.children; track routeContribution) {
-            <app-contribution
-              [contribution]="routeContribution"
-            [link]="[
-              '/plezalisce',
-              routeContribution.route.crag.slug,
-              'smer',
-              routeContribution.route.slug
-            ]"
-              [depth]="2"
-            ></app-contribution>
-          }
-        }
-      }
-      <!-- Orphaned sectors and all their children routes -->
-      @for (sectorContribution of contributionsTree.sectors; track sectorContribution) {
-        <div
-          class="mt-16"
-          >
-          <app-contribution
-            [contribution]="sectorContribution"
-            [link]="['/plezalisce', sectorContribution.sector.crag.slug]"
-          ></app-contribution>
-          @for (routeContribution of sectorContribution.children; track routeContribution) {
-            <app-contribution
-              [contribution]="routeContribution"
-          [link]="[
-            '/plezalisce',
-            routeContribution.route.crag.slug,
-            'smer',
-            routeContribution.route.slug
-          ]"
-              [depth]="1"
-            ></app-contribution>
-          }
+    @if (!loading && !error) {
+        <div>
+            <!-- Crags and all their descendants -->
+            @for (cragContribution of contributionsTree.crags; track cragContribution) {
+                <app-contribution [contribution]="cragContribution" [link]="['/plezalisce', cragContribution.crag.slug]"></app-contribution>
+                @for (sectorContribution of cragContribution.children; track sectorContribution) {
+                    <app-contribution
+                        [contribution]="sectorContribution"
+                        [link]="['/plezalisce', sectorContribution.sector.crag.slug]"
+                        [depth]="1"
+                    ></app-contribution>
+                    @for (routeContribution of sectorContribution.children; track routeContribution) {
+                        <app-contribution
+                            [contribution]="routeContribution"
+                            [link]="['/plezalisce', routeContribution.route.crag.slug, 'smer', routeContribution.route.slug]"
+                            [depth]="2"
+                        ></app-contribution>
+                    }
+                }
+            }
+            <!-- Orphaned sectors and all their children routes -->
+            @for (sectorContribution of contributionsTree.sectors; track sectorContribution) {
+                <div class="mt-16">
+                    <app-contribution
+                        [contribution]="sectorContribution"
+                        [link]="['/plezalisce', sectorContribution.sector.crag.slug]"
+                    ></app-contribution>
+                    @for (routeContribution of sectorContribution.children; track routeContribution) {
+                        <app-contribution
+                            [contribution]="routeContribution"
+                            [link]="['/plezalisce', routeContribution.route.crag.slug, 'smer', routeContribution.route.slug]"
+                            [depth]="1"
+                        ></app-contribution>
+                    }
+                </div>
+            }
+            <!-- Orphaned routes -->
+            @for (routeContribution of contributionsTree.routes; track routeContribution) {
+                <div class="mt-16">
+                    <app-contribution
+                        [contribution]="routeContribution"
+                        [link]="['/plezalisce', routeContribution.route.crag.slug, 'smer', routeContribution.route.slug]"
+                    ></app-contribution>
+                </div>
+            }
         </div>
-      }
-      <!-- Orphaned routes -->
-      @for (routeContribution of contributionsTree.routes; track routeContribution) {
-        <div
-          class="mt-16"
-          >
-          <app-contribution
-            [contribution]="routeContribution"
-        [link]="[
-          '/plezalisce',
-          routeContribution.route.crag.slug,
-          'smer',
-          routeContribution.route.slug
-        ]"
-          ></app-contribution>
-        </div>
-      }
-    </div>
-  }
+    }
 </div>

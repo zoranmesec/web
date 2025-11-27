@@ -9,58 +9,57 @@ import { PendingContributionsHintsComponent } from './pending-contributions-hint
 import { SearchComponent } from '../search/search.component';
 import { ExposedWarningsComponent } from './exposed-warnings/exposed-warnings.component';
 import { LatestAscentsComponent } from './latest-ascents/latest-ascents.component';
-import { LatestDifficultyVotesComponent } from './latest-difficulty-votes/latest-difficulty-votes.component';
 import { LatestCommentsComponent } from './latest-comments/latest-comments.component';
+import { LatestDifficultyVotesComponent } from './latest-difficulty-votes/latest-difficulty-votes.component';
 import { PopularCragsComponent } from './popular-crags/popular-crags.component';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
+    standalone: true,
     imports: [
-    PendingContributionsHintsComponent,
-    SearchComponent,
-    ExposedWarningsComponent,
-    LatestAscentsComponent,
-    LatestDifficultyVotesComponent,
-    LatestCommentsComponent,
-    PopularCragsComponent
-]
+        PendingContributionsHintsComponent,
+        SearchComponent,
+        ExposedWarningsComponent,
+        LatestAscentsComponent,
+        LatestDifficultyVotesComponent,
+        LatestCommentsComponent,
+        PopularCragsComponent
+    ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  error: DataError;
-  loading = true;
-  subscription: Subscription;
+    error: DataError;
+    loading = true;
+    subscription: Subscription;
 
-  constructor(
-    private layoutService: LayoutService,
-    public loadingSpinnerService: LoadingSpinnerService
-  ) {}
+    constructor(
+        private layoutService: LayoutService,
+        public loadingSpinnerService: LoadingSpinnerService
+    ) {}
 
-  ngOnInit(): void {
-    console.log('Home component initialized');
-    this.subscription = this.loadingSpinnerService.showLoader$
-      .pipe(delay(0))
-      .subscribe((isLoading) => (this.loading = isLoading));
+    ngOnInit(): void {
+        console.log('Home component initialized');
+        this.subscription = this.loadingSpinnerService.showLoader$.pipe(delay(0)).subscribe((isLoading) => (this.loading = isLoading));
 
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Prva stran',
-      },
-    ]);
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Prva stran'
+            }
+        ]);
 
-    this.layoutService.setTitle();
-  }
+        this.layoutService.setTitle();
+    }
 
-  handleError(error: DataError) {
-    console.log('Error in home component:', error);
-    this.error = error;
-  }
+    handleError(error: DataError) {
+        console.log('Error in home component:', error);
+        this.error = error;
+    }
 
-  ngOnDestroy(): void {
-    // TODO: this fixes a bug where the spinner is not hidden. should be further inspected to find out the reason why this happens. login when clicking any auth protected page. then navigate back to home to reproduce the endless spinenr...
-    this.loadingSpinnerService.resetLoaders();
+    ngOnDestroy(): void {
+        // TODO: this fixes a bug where the spinner is not hidden. should be further inspected to find out the reason why this happens. login when clicking any auth protected page. then navigate back to home to reproduce the endless spinenr...
+        this.loadingSpinnerService.resetLoaders();
 
-    this.subscription.unsubscribe();
-  }
+        this.subscription.unsubscribe();
+    }
 }

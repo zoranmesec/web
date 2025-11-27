@@ -1,8 +1,8 @@
 query MyClubs {
-  myClubs {
-    id
-    slug
-    name
-    nrMembers
-  }
+    myClubs {
+        id
+        slug
+        name
+        nrMembers
+    }
 }

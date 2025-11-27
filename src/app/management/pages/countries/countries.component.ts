@@ -10,31 +10,28 @@ import { CountriesGQL, Country } from 'src/generated/graphql';
     standalone: false
 })
 export class CountriesComponent implements OnInit, OnDestroy {
-  subscriptions: Subscription[] = [];
-  countries: Country[];
+    subscriptions: Subscription[] = [];
+    countries: Country[];
 
-  constructor(
-    private countriesGQL: CountriesGQL,
-    private layoutService: LayoutService
-  ) {}
+    constructor(
+        private countriesGQL: CountriesGQL,
+        private layoutService: LayoutService
+    ) {}
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.next([
-      {
-        name: 'Seznam držav',
-      },
-    ]);
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.next([
+            {
+                name: 'Seznam držav'
+            }
+        ]);
 
-    this.countriesGQL.watch().valueChanges.subscribe(({ data }) => {
-      this.countries = [...(data.countries as Country[])].sort((a, b) =>
-        a.name > b.name ? 1 : -1
-      );
-    });
-  }
+        this.countriesGQL.watch().valueChanges.subscribe(({ data }) => {
+            this.countries = [...(data.countries as Country[])].sort((a, b) => (a.name > b.name ? 1 : -1));
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((sub) => sub.unsubscribe());
+    }
 
-  add(): void {}
 }

@@ -1,33 +1,17 @@
-<div
-  [class.active]="
-    sortIndication === 'highlight' && currentlySortedField === field
-  "
-  >
-  @if (label) {
-    {{ label }}
-  }
-  @if (icon) {
-    <mat-icon> {{ icon }} </mat-icon>
-  }
-  @if (svgIcon) {
-    <mat-icon [svgIcon]="svgIcon"></mat-icon>
-  }
-  @if (sortIndication === 'arrows') {
-    <mat-icon
-    [class.active]="
-      currentlySortedField === field && currentSortDirection === 1
-    "
-      class="sort-arrow"
-      >north</mat-icon
-      >
+<div [class.active]="sortIndication === 'highlight' && currentlySortedField === field">
+    @if (label) {
+        {{ label }}
+    }
+    @if (icon) {
+        <mat-icon> {{ icon }} </mat-icon>
+    }
+    @if (svgIcon) {
+        <mat-icon [svgIcon]="svgIcon"></mat-icon>
     }
     @if (sortIndication === 'arrows') {
-      <mat-icon
-    [class.active]="
-      currentlySortedField == field && currentSortDirection === -1
-    "
-        class="sort-arrow"
-        >south</mat-icon
-        >
-      }
-    </div>
+        <mat-icon [class.active]="currentlySortedField === field && currentSortDirection === 1" class="sort-arrow">north</mat-icon>
+    }
+    @if (sortIndication === 'arrows') {
+        <mat-icon [class.active]="currentlySortedField === field && currentSortDirection === -1" class="sort-arrow">south</mat-icon>
+    }
+</div>

@@ -4,7 +4,6 @@ import { LayoutService } from '../../services/layout.service';
 import { Breadcrumb } from '../../types/breadcrumb';
 import { RouterLink } from '@angular/router';
 
-
 @Component({
     selector: 'app-breadcrumbs',
     templateUrl: './breadcrumbs.component.html',
@@ -12,15 +11,13 @@ import { RouterLink } from '@angular/router';
     imports: [RouterLink]
 })
 export class BreadcrumbsComponent implements OnInit {
-  constructor(private layoutService: LayoutService) {}
+    constructor(private layoutService: LayoutService) {}
 
-  breadcrumbs: Array<Breadcrumb> = [];
+    breadcrumbs: Breadcrumb[] = [];
 
-  ngOnInit(): void {
-    this.layoutService.$breadcrumbs.subscribe(
-      (breadcrumbs: Array<Breadcrumb>) => {
-        this.breadcrumbs = breadcrumbs;
-      }
-    );
-  }
+    ngOnInit(): void {
+        this.layoutService.$breadcrumbs.subscribe((breadcrumbs: Breadcrumb[]) => {
+            this.breadcrumbs = breadcrumbs;
+        });
+    }
 }

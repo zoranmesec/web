@@ -1,5 +1,5 @@
 mutation ManagementCreateArea($input: CreateAreaInput!) {
-  createArea(input: $input) {
-    id
-  }
+    createArea(input: $input) {
+        id
+    }
 }

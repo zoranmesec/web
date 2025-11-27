@@ -1,58 +1,36 @@
 <div fxLayout="row" fxLayoutAlign="space-between">
-  <h2>Zadnji predlogi ocen</h2>
+    <h2>Zadnji predlogi ocen</h2>
 </div>
 
 <ng-template #route let-vote="vote">
-  <a
-    [routerLink]="[
-      '/plezalisce',
-      vote.route.crag.slug,
-      'smer',
-      vote.route.slug
-    ]"
-  >
-    {{ vote.route.name }}
-  </a>
+    <a [routerLink]="['/plezalisce', vote.route.crag.slug, 'smer', vote.route.slug]">
+        {{ vote.route.name }}
+    </a>
 </ng-template>
 
 <ng-template #crag let-vote="vote">
-  <a [routerLink]="['/plezalisce', vote.route.crag.slug]">
-    {{ vote.route.crag.name }}</a
-  >
+    <a [routerLink]="['/plezalisce', vote.route.crag.slug]"> {{ vote.route.crag.name }}</a>
 </ng-template>
 
 <ng-template #date let-vote="vote">
-  <span>{{ vote.created | date : "d. M. yyyy" }}</span>
+    <span>{{ vote.created | date: 'd. M. yyyy' }}</span>
 </ng-template>
 
 <ng-template #user let-vote="vote">
-  <span>{{ vote.user.fullName }}</span>
+    <span>{{ vote.user.fullName }}</span>
 </ng-template>
 
 <ng-template #avgGrade let-vote="vote">
-  <app-grade
-    [difficulty]="vote.route.difficulty"
-    [gradingSystemId]="vote.route.defaultGradingSystem.id"
-    [showModifier]="true"
-  >
-  </app-grade>
+    <app-grade [difficulty]="vote.route.difficulty" [gradingSystemId]="vote.route.defaultGradingSystem.id" [showModifier]="true">
+    </app-grade>
 </ng-template>
 
 <ng-template #proposedGrade let-vote="vote">
-  <app-grade
-    [difficulty]="vote.difficulty"
-    [gradingSystemId]="vote.route.defaultGradingSystem.id"
-    [showModifier]="false"
-  >
-  </app-grade>
+    <app-grade [difficulty]="vote.difficulty" [gradingSystemId]="vote.route.defaultGradingSystem.id" [showModifier]="false"> </app-grade>
 </ng-template>
 
 <ng-template #directionIndicator let-vote="vote">
-  <mat-icon inline>{{
-    vote.difficulty > vote.route.difficulty + 25
-      ? "north_east"
-      : vote.difficulty < vote.route.difficulty - 25
-      ? "south_east"
-      : "east"
-  }}</mat-icon>
+    <mat-icon inline>{{
+        vote.difficulty > vote.route.difficulty + 25 ? 'north_east' : vote.difficulty < vote.route.difficulty - 25 ? 'south_east' : 'east'
+    }}</mat-icon>
 </ng-template>
