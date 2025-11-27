@@ -2,35 +2,35 @@ import { Registry } from '../types/registry';
 
 export const ORIENTATIONS: Registry[] = [
     {
-        value: 'N',
+        value: 'north',
         label: 'Sever'
     },
     {
-        value: 'NE',
+        value: 'northeast',
         label: 'Severovzhod'
     },
     {
-        value: 'E',
+        value: 'east',
         label: 'Vzhod'
     },
     {
-        value: 'SE',
+        value: 'southeast',
         label: 'Jugovzhod'
     },
     {
-        value: 'S',
+        value: 'south',
         label: 'Jug'
     },
     {
-        value: 'SW',
+        value: 'southwest',
         label: 'Jugozahod'
     },
     {
-        value: 'W',
+        value: 'west',
         label: 'Zahod'
     },
     {
-        value: 'NW',
+        value: 'northwest',
         label: 'Severozahod'
     }
 ];

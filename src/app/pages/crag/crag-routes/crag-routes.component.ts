@@ -572,7 +572,7 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
     }
 
     // Preserve original property order, when using keyvalue pipe in template
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     originalOrder = (_a: KeyValue<any, any>, _b: KeyValue<any, any>): number => {
         return 0;
     };

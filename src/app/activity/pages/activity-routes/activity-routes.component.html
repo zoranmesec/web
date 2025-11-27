@@ -131,14 +131,14 @@
                             <app-search
                                 [searchType]="searchTypes.Crag"
                                 [forCrag]="forCrag"
-                                (onSelected)="onCragSelected($event)"
+                                (selectResult)="onCragSelected($event)"
                             ></app-search>
                             <app-search
                                 [searchType]="searchTypes.Route"
                                 [disabled]="!routeSearchEnabled"
                                 [forRoute]="forRoute"
                                 [forCrag]="forCrag"
-                                (onSelected)="onRouteSelected($event)"
+                                (selectResult)="onRouteSelected($event)"
                             ></app-search>
                         </mat-expansion-panel>
 

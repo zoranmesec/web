@@ -79,12 +79,12 @@
         <main class="mt-8 flex flex-row">
             <section class="m-t-4">
                 @if (showFilters) {
-                    <app-crag-routes-filters (close)="showFilters = !showFilters"></app-crag-routes-filters>
+                    <app-crag-routes-filters (closePanel)="showFilters = !showFilters"></app-crag-routes-filters>
                 }
                 @if (showColumnSelection) {
                     <app-crag-routes-columns
                         [columns]="allColumns"
-                        (close)="showColumnSelection = !showColumnSelection"
+                        (closePanel)="showColumnSelection = !showColumnSelection"
                         (columns)="onSelectedColumnsChange($event)"
                     ></app-crag-routes-columns>
                 }

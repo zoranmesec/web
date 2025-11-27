@@ -99,7 +99,7 @@ export const allColumns: Record<string, ColumnType> = {
 })
 export class CragRoutesColumnsComponent implements OnDestroy {
     @Output() columns = new EventEmitter<Record<string, ColumnType>>();
-    @Output() close = new EventEmitter<void>();
+    @Output() closePanel = new EventEmitter<void>();
 
     subscriptions: Subscription[] = [];
 
@@ -146,9 +146,8 @@ export class CragRoutesColumnsComponent implements OnDestroy {
         return Object.values(this.allColumns);
     }
 
-
     closeFilters() {
-        this.close.emit();
+        this.closePanel.emit();
     }
 
     protected resetColumns() {

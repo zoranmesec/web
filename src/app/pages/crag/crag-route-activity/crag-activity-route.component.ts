@@ -1,21 +1,21 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { QueryRef } from 'apollo-angular';
+import { Subscription, take } from 'rxjs';
+import { ASCENT_TYPES, PUBLISH_OPTIONS } from 'src/app/common/activity.constants';
+import { DataError } from 'src/app/types/data-error';
+import { FindActivityRoutesInput, MyActivityRoutesGQL, MyActivityRoutesQuery } from 'src/generated/graphql';
+import { FilteredTable } from '../../../common/filtered-table';
 export interface DialogData {
     routeId: string;
     routeName: string;
 }
-import { QueryRef } from 'apollo-angular';
-import { Subscription, take } from 'rxjs';
-import { DataError } from 'src/app/types/data-error';
-import { ASCENT_TYPES, PUBLISH_OPTIONS } from 'src/app/common/activity.constants';
-import { FindActivityRoutesInput, MyActivityRoutesQuery, MyActivityRoutesGQL } from 'src/generated/graphql';
-import { FilteredTable } from '../../../common/filtered-table';
 
 import { MatButtonModule } from '@angular/material/button';
 import { CragActivityRouteRowComponent } from './crag-activity-route-row/crag-activity-route-row.component';
 
 @Component({
-    selector: 'crag-activity-route',
+    selector: 'app-crag-activity-route',
     templateUrl: './crag-activity-route.component.html',
     styleUrls: ['./crag-activity-route.component.scss'],
     standalone: true,

@@ -17,12 +17,10 @@ import { Comment, Route } from 'src/generated/graphql';
 export class RouteCommentsComponent implements AfterViewInit, OnChanges {
     comments: Comment[];
 
-    @Output() onViewInit = new EventEmitter<void>();
+    @Output() viewInit = new EventEmitter<void>();
     @Input() action$: Subject<string>;
     @Input() route: Route;
     @Input() previewMode = false;
-
-    
 
     addComment(actionType: string) {
         this.action$.next(actionType);
@@ -34,7 +32,7 @@ export class RouteCommentsComponent implements AfterViewInit, OnChanges {
 
     ngAfterViewInit(): void {
         // this is used when this component is a child of CragRoutePreviewComponent which measures the height after view init
-        this.onViewInit.emit();
+        this.viewInit.emit();
     }
 
     protected onCommentSaved(_$event: any): void {

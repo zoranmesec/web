@@ -25,6 +25,7 @@ import { LayoutService } from './services/layout.service';
 import { ScrollService } from './services/scroll.service';
 import { CustomBreakpointsProvider } from './shared/custom-breakpoints';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 declare let gtag: Function;
 
 const formFieldAppearance: MatFormFieldDefaultOptions = {

@@ -14,15 +14,12 @@ export class AscentPublishOptionComponent implements OnInit, OnChanges {
 
     publishOption: Registry;
 
-    
-
     ngOnInit(): void {
         this.publishOption = PUBLISH_OPTIONS.find((at) => at.value === this.value());
     }
 
     ngOnChanges(changes): void {
         if (changes.value) {
-            console.log('AscentPublishOptionComponent value changed:', this.value(), changes.value);
             this.publishOption = PUBLISH_OPTIONS.find((at) => at.value === this.value());
         }
     }

@@ -35,7 +35,7 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
 })
 export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     @Input() country: Country;
-    @Output() close = new EventEmitter<void>();
+    @Output() closePanel = new EventEmitter<void>();
     countries: CountriesTocQuery['countries'];
 
     showAllCountries = false;
@@ -148,14 +148,11 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnInit(): void {
-        this.countriesTocGQL
-            .watch()
-            .valueChanges.subscribe((result) => {
-                if (result.data) {
-                    
-                    this.countries = result.data.countries as CountriesTocQuery['countries'];
-                }
-    });
+        this.countriesTocGQL.watch().valueChanges.subscribe((result) => {
+            if (result.data) {
+                this.countries = result.data.countries as CountriesTocQuery['countries'];
+            }
+        });
 
         this.cragForm.controls['minGrade'].valueChanges.subscribe((value) => {
             if (value) {
@@ -187,7 +184,7 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     closeFilters() {
-        this.close.emit();
+        this.closePanel.emit();
     }
 
     changeArea(slug: string) {

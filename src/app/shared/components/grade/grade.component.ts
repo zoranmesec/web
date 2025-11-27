@@ -1,36 +1,39 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, input, OnChanges } from '@angular/core';
 // import { Grade } from '../grade';
-import { GradingSystemsService, IGrade } from '../../services/grading-systems.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { SignalPipe } from '../../pipes/signal.pipe';
+import { GradingSystemsService, IGrade } from '../../services/grading-systems.service';
 
 @Component({
     selector: 'app-grade',
     templateUrl: './grade.component.html',
     styleUrls: ['./grade.component.scss'],
-    imports: [CommonModule, MatIconModule],
-    standalone: true
+    imports: [CommonModule, MatIconModule, SignalPipe],
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GradeComponent implements OnInit {
-    @Input() difficulty: number;
-    @Input() gradingSystemId: string;
-    @Input() showModifier = false;
-    @Input() legacy = false;
-    @Input() disabled = false;
+export class GradeComponent implements OnChanges {
+    difficulty = input.required<number>();
+    gradingSystemId = input.required<string>();
+    showModifier = input<boolean>(false);
+    legacy = input<boolean>(false);
+    disabled = input<boolean>(false);
 
-    // grade: Grade;
     grade: IGrade;
     modifier = 0;
 
     gradeLetters = ['a', 'a+', 'b', 'b+', 'c', 'c+'];
 
-    constructor(private GradingSystemsService: GradingSystemsService) {}
+    constructor(
+        private GradingSystemsService: GradingSystemsService,
+        private changeDetectorRef: ChangeDetectorRef
+    ) {}
 
-    ngOnInit(): void {
-        if (this.difficulty !== null) {
-            this.GradingSystemsService.diffToGrade(this.difficulty, this.gradingSystemId, this.legacy).then((grade) => {
-                this.grade = grade;
-            });
+    async ngOnChanges(_changes): Promise<void> {
+        if (this.difficulty() !== null) {
+            this.grade = await this.GradingSystemsService.diffToGrade(this.difficulty(), this.gradingSystemId(), this.legacy());
+            this.changeDetectorRef.markForCheck();
         }
     }
 }

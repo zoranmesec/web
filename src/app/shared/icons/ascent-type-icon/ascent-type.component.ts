@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, input, OnChanges } from '@angular/core';
 import { AscentType } from 'src/app/types/ascent-type';
 
 @Component({
@@ -8,8 +8,14 @@ import { AscentType } from 'src/app/types/ascent-type';
     styleUrl: './ascent-type-icon.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AscentTypeIconComponent {
+export class AscentTypeIconComponent implements OnChanges {
     ascentType = input.required<AscentType>();
     active = input<boolean>(false);
     size = input<'small' | 'regular'>('regular');
+
+    constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
+
+    ngOnChanges() {
+        this.changeDetectorRef.markForCheck();
+    }
 }

@@ -18,7 +18,7 @@
             [selectedRoutes]="routes"
             [activity]="data.activity"
             [formType]="data.activity !== undefined ? 'edit' : 'new'"
-            (onSave)="closeDialog()"
+            (saveActivity)="closeDialog()"
         ></app-activity-form>
     </div>
 

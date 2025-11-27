@@ -19,7 +19,7 @@ import { CragRoutesFiltersService } from '../crag-routes-filters.service';
     imports: [MatIconModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatRadioModule, FlexLayoutModule, MatSliderModule]
 })
 export class CragRoutesFiltersComponent implements OnDestroy, OnInit {
-    @Output() close = new EventEmitter<void>();
+    @Output() closePanel = new EventEmitter<void>();
 
     subscriptions: Subscription[] = [];
     gradingSystemId = 'french';
@@ -94,7 +94,7 @@ export class CragRoutesFiltersComponent implements OnDestroy, OnInit {
     }
 
     closeFilters() {
-        this.close.emit();
+        this.closePanel.emit();
     }
 
     protected removeAllFilters() {

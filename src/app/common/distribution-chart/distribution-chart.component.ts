@@ -21,11 +21,9 @@ export class DistributionChartComponent implements OnChanges, AfterViewInit {
     useGreyBackground = input<boolean>(true);
     useColorBars = input<boolean>(true);
 
-    @Output() onViewInit = new EventEmitter<void>();
+    @Output() viewInit = new EventEmitter<void>();
 
     maxValue: number;
-
-    
 
     ngOnChanges(): void {
         if (!this.distribution()) {
@@ -44,6 +42,6 @@ export class DistributionChartComponent implements OnChanges, AfterViewInit {
 
     ngAfterViewInit(): void {
         // this is used when this component is a child of CragRoutePreviewComponent which measures the height after view init
-        this.onViewInit.emit();
+        this.viewInit.emit();
     }
 }

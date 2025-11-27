@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -340,27 +339,10 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
 
     constructor(
         private authService: AuthService,
-        private matIconRegistry: MatIconRegistry,
-        private domSanitizer: DomSanitizer,
+
         private gradingSystemsService: GradingSystemsService,
         protected breakpointService: BreakpointService
-    ) {
-        this.addSvgIcon('rainproof');
-        this.addSvgIcon('winter');
-        this.addSvgIcon('autumn');
-        this.addSvgIcon('summer');
-        this.addSvgIcon('spring');
-        this.addSvgIcon('roof');
-        this.addSvgIcon('overhang');
-        this.addSvgIcon('vertical');
-        this.addSvgIcon('slab');
-        this.addSvgIcon('approach');
-        this.addSvgIcon('north');
-        this.addSvgIcon('south');
-        this.addSvgIcon('wall');
-        this.addSvgIcon('walk');
-        this.addSvgIcon('parking');
-    }
+    ) {}
 
     async ngOnInit(): Promise<void> {
         // await this.init();
@@ -419,10 +401,5 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
             : [];
 
         this.crags$.next([this.crag()]);
-    }
-
-    private addSvgIcon(name: string) {
-        const url = this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/icons/' + name + '.svg');
-        this.matIconRegistry.addSvgIcon(name, url);
     }
 }

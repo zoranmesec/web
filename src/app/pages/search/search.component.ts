@@ -50,7 +50,7 @@ export class SearchComponent implements OnDestroy, OnChanges {
     forCrag = input<Crag | null>();
     forRoute = input<Route | null>();
     disabled = input<boolean>(false);
-    onSelected = output<Route | User | Crag | Sector | Comment>();
+    selectResult = output<Route | User | Crag | Sector | Comment>();
 
     constructor(
         private router: Router,
@@ -183,7 +183,7 @@ export class SearchComponent implements OnDestroy, OnChanges {
 
     onClear() {
         this.searchForm.controls.searchControl.setValue('');
-        this.onSelected.emit(null);
+        this.selectResult.emit(null);
     }
 
     // should never come to this, because onOptionSelected is triggered and user is redirected before this happens
@@ -210,39 +210,44 @@ export class SearchComponent implements OnDestroy, OnChanges {
     onOptionSelected(optionValue: Route | User | Crag | Sector | Comment) {
         switch (optionValue.__typename) {
             case 'Crag':
-                const crag = optionValue;
+                {
+                    const crag = optionValue;
 
-                if (this.onSelected) {
-                    this.onSelected.emit(crag);
-                    return;
+                    if (this.selectResult) {
+                        this.selectResult.emit(crag);
+                        return;
+                    }
+                    this.router.navigate(crag.type === 'alpine' ? ['/alpinizem/stena', crag.slug] : ['/plezalisce', crag.slug]);
                 }
-                this.router.navigate(crag.type === 'alpine' ? ['/alpinizem/stena', crag.slug] : ['/plezalisce', crag.slug]);
-
                 break;
 
             case 'Route':
-                const route = optionValue;
-                if (this.onSelected) {
-                    this.onSelected.emit(route);
-                    return;
+                {
+                    const route = optionValue;
+                    if (this.selectResult) {
+                        this.selectResult.emit(route);
+                        return;
+                    }
+                    this.router.navigate(
+                        route.crag.type === 'alpine'
+                            ? ['/alpinizem/stena', route.crag.slug, 'smer', route.slug]
+                            : ['/plezalisce', route.crag.slug, 'smer', route.slug]
+                    );
                 }
-                this.router.navigate(
-                    route.crag.type === 'alpine'
-                        ? ['/alpinizem/stena', route.crag.slug, 'smer', route.slug]
-                        : ['/plezalisce', route.crag.slug, 'smer', route.slug]
-                );
                 break;
 
             case 'Sector':
-                const sector = optionValue;
+                {
+                    const sector = optionValue;
 
-                if (this.onSelected) {
-                    this.onSelected.emit(sector);
-                    return;
+                    if (this.selectResult) {
+                        this.selectResult.emit(sector);
+                        return;
+                    }
+                    this.router.navigate(
+                        sector.crag.type === 'alpine' ? ['/alpinizem/stena', sector.crag.slug] : ['/plezalisce', sector.crag.slug]
+                    );
                 }
-                this.router.navigate(
-                    sector.crag.type === 'alpine' ? ['/alpinizem/stena', sector.crag.slug] : ['/plezalisce', sector.crag.slug]
-                );
                 break;
 
             // not used until we implement user profile pages

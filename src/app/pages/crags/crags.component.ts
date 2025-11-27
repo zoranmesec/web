@@ -14,10 +14,9 @@ import { DataError } from '../../types/data-error';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ErrorLike } from '@apollo/client';
 import { MapComponent } from 'src/app/common/map/map.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
@@ -96,13 +95,8 @@ export class CragsComponent implements OnInit {
         private scrollService: ScrollService,
         private searchService: SearchService,
         private cragsFiltersService: CragsFiltersService,
-        private matIconRegistry: MatIconRegistry,
-        private domSanitizer: DomSanitizer,
         protected breakpointService: BreakpointService
-    ) {
-        const url = this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/icons/orientation.svg');
-        this.matIconRegistry.addSvgIcon('orientation', url);
-    }
+    ) {}
 
     ngOnInit(): void {
         this.layoutService.$breadcrumbs.next([
@@ -220,7 +214,7 @@ export class CragsComponent implements OnInit {
             searchTerm = this.searchService.ignoreAccents(searchTerm);
 
             const regExp = new RegExp(searchTerm);
-          
+
             this.filteredCrags = this.country.crags.filter((crag) => regExp.test(crag.name.toLowerCase()));
         }
 

@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 @if (breakpointService.gtMd) {
     @if (columns().date && displayType() !== 'activity' && displayType() !== 'activityForm') {
         <div>
@@ -62,52 +63,54 @@
             <app-ascent-publish-option [value]="route().publish"></app-ascent-publish-option>
         </div>
     }
-    <div *ngIf="rowAction()">
-        <div [mat-menu-trigger-for]="menu" class="sortable w-100 flex flex-row flex-justify-end">
-            <app-more-icon></app-more-icon>
+    @if (rowAction()) {
+        <div>
+            <div [mat-menu-trigger-for]="menu" class="sortable w-100 flex flex-row flex-justify-end">
+                <app-more-icon></app-more-icon>
+            </div>
+
+            <mat-menu #menu="matMenu">
+                @if (route().activity && displayType() !== 'activity' && displayType() !== 'activityForm') {
+                    <button mat-menu-item type="button" [routerLink]="['/plezalni-dnevnik', route().activity.id]">
+                        <span>Odpri plezalni dan</span>
+                    </button>
+                }
+                @if (displayType() !== 'activityForm') {
+                    <button
+                        mat-menu-item
+                        type="button"
+                        [routerLink]="['/plezalni-dnevnik/vzponi', { routeId: route().route.id, cragId: route().route.crag.id }]"
+                    >
+                        <span>Vsi vzponi za to smer</span>
+                    </button>
+                }
+                @if (displayType() !== 'activityForm') {
+                    <button mat-menu-item type="button" [routerLink]="['/plezalni-dnevnik/vzponi', { cragId: route().route.crag.id }]">
+                        <span>Vsi vzponi v tem plezališču</span>
+                    </button>
+                }
+                <button mat-menu-item type="button" [mat-menu-trigger-for]="publishMenu">
+                    <span>Spremeni vidnost</span>
+                </button>
+                <button mat-menu-item type="button" (click)="rowAction().next({ item: route(), action: 'delete' })">
+                    <span>Odstrani vzpon</span>
+                </button>
+            </mat-menu>
+
+            <mat-menu #publishMenu="matMenu">
+                @for (publishOption of publishOptions; track $index) {
+                    <button
+                        mat-menu-item
+                        type="button"
+                        [disabled]="publishOption.value === route().publish"
+                        (click)="changePublish(publishOption.value)"
+                    >
+                        <span>{{ publishOption.label }}</span>
+                    </button>
+                }
+            </mat-menu>
         </div>
-
-        <mat-menu #menu="matMenu">
-            @if (route().activity && displayType() !== 'activity' && displayType() !== 'activityForm') {
-                <button mat-menu-item type="button" [routerLink]="['/plezalni-dnevnik', route().activity.id]">
-                    <span>Odpri plezalni dan</span>
-                </button>
-            }
-            @if (displayType() !== 'activityForm') {
-                <button
-                    mat-menu-item
-                    type="button"
-                    [routerLink]="['/plezalni-dnevnik/vzponi', { routeId: route().route.id, cragId: route().route.crag.id }]"
-                >
-                    <span>Vsi vzponi za to smer</span>
-                </button>
-            }
-            @if (displayType() !== 'activityForm') {
-                <button mat-menu-item type="button" [routerLink]="['/plezalni-dnevnik/vzponi', { cragId: route().route.crag.id }]">
-                    <span>Vsi vzponi v tem plezališču</span>
-                </button>
-            }
-            <button mat-menu-item type="button" [mat-menu-trigger-for]="publishMenu">
-                <span>Spremeni vidnost</span>
-            </button>
-            <button mat-menu-item type="button" (click)="rowAction().next({ item: route(), action: 'delete' })">
-                <span>Odstrani vzpon</span>
-            </button>
-        </mat-menu>
-
-        <mat-menu #publishMenu="matMenu">
-            @for (publishOption of publishOptions; track $index) {
-                <button
-                    mat-menu-item
-                    type="button"
-                    [disabled]="publishOption.value === route().publish"
-                    (click)="changePublish(publishOption.value)"
-                >
-                    <span>{{ publishOption.label }}</span>
-                </button>
-            }
-        </mat-menu>
-    </div>
+    }
 } @else if (breakpointService.ltLg) {
     <div>
         <div class="w-100 flex flex-column">

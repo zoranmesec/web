@@ -107,12 +107,12 @@
             <main class="mt-8 flex flex-row">
                 <section [class.hidden]="breakpointService.ltMd" class="m-t-4">
                     @if (showFilters && country) {
-                        <app-crags-toc [country]="country" (close)="showFilters = !showFilters"></app-crags-toc>
+                        <app-crags-toc [country]="country" (closePanel)="showFilters = !showFilters"></app-crags-toc>
                     }
                 </section>
                 <section [class.hidden]="breakpointService.gtSm" class="m-t-4">
                     @if (!showFilters && country) {
-                        <app-crags-toc [country]="country" (close)="showFilters = !showFilters"></app-crags-toc>
+                        <app-crags-toc [country]="country" (closePanel)="showFilters = !showFilters"></app-crags-toc>
                     }
                 </section>
                 <section id="crag-list" class="flex flex-column w-100">
@@ -210,9 +210,6 @@
                                             </div>
                                             @if (crag.orientation !== null && crag.orientation !== 'none') {
                                                 <div class="flex flex-row flex-justify-start">
-                                                    <div>
-                                                        <mat-icon svgIcon="orientation" class="map-icon"></mat-icon>
-                                                    </div>
                                                     <div>
                                                         <span>{{ crag.orientation | orientation: 'short' }}</span>
                                                     </div>

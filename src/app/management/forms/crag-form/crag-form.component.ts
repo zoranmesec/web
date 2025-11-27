@@ -40,6 +40,16 @@ import { WallAngle as FormattedWallAngle } from 'src/app/types/wall-angle';
 import { SeasonOptionComponent } from './season-option/season-option.component';
 import { WallAngleOptionComponent } from './wall-angle-option/wall-angle-option.component';
 
+export interface SeasonData {
+    season: Season;
+    formattedSeason: FormattedSeason;
+}
+
+export interface WallAngleData {
+    wallAngle: WallAngle;
+    formattedWallAngle: FormattedWallAngle;
+}
+
 @Component({
     selector: 'app-crag-form',
     templateUrl: './crag-form.component.html',
@@ -106,10 +116,7 @@ export class CragFormComponent implements OnInit, OnDestroy {
     ];
 
     orientations: Registry[] = ORIENTATIONS;
-    protected wallAngles: {
-        wallAngle: WallAngle;
-        formattedWallAngle: FormattedWallAngle;
-    }[] = [
+    protected wallAngles: WallAngleData[] = [
         {
             wallAngle: WallAngle.Vertical,
             formattedWallAngle: FormattedWallAngle.vertical
@@ -122,7 +129,7 @@ export class CragFormComponent implements OnInit, OnDestroy {
         { wallAngle: WallAngle.Roof, formattedWallAngle: FormattedWallAngle.roof }
     ];
 
-    protected seasons: { season: Season; formattedSeason: FormattedSeason }[] = [
+    protected seasons: SeasonData[] = [
         { season: Season.Spring, formattedSeason: FormattedSeason.spring },
         { season: Season.Summer, formattedSeason: FormattedSeason.summer },
         { season: Season.Autumn, formattedSeason: FormattedSeason.autumn },
@@ -179,13 +186,17 @@ export class CragFormComponent implements OnInit, OnDestroy {
                 wallAngles: []
             });
         }
+        const countrySub = this.cragForm.controls.countryId.valueChanges.subscribe((v) => {
+            this.countryChanged(v);
+        });
+        this.subscriptions.push(countrySub);
 
         this.gradingSystemsService.getGradingSystems().then((gradingSystems) => {
             this.gradingSystems = gradingSystems as GradingSystem[];
         });
 
         const routeSub = this.activatedRoute.params.subscribe((params) => {
-            if (params.country !== null) {
+            if (params.country !== undefined) {
                 this.cragForm.patchValue({
                     countryId: params.country
                 });
@@ -202,11 +213,6 @@ export class CragFormComponent implements OnInit, OnDestroy {
                 this.countries = result.data.countries;
                 this.countryChanged(this.cragForm.value.countryId);
             });
-
-        const countrySub = this.cragForm.controls.countryId.valueChanges.subscribe((v) => {
-            this.countryChanged(v);
-        });
-        this.subscriptions.push(countrySub);
     }
 
     ngOnDestroy(): void {
@@ -214,9 +220,12 @@ export class CragFormComponent implements OnInit, OnDestroy {
     }
 
     countryChanged(value: string) {
+        if (value === undefined) {
+            return;
+        }
         const c = this.countries.find((country) => country.id === value);
 
-        if (c !== null) {
+        if (c !== undefined) {
             this.areas = c !== null ? c.areas : [];
         }
 
@@ -235,7 +244,7 @@ export class CragFormComponent implements OnInit, OnDestroy {
         this.loading = true;
 
         let mutation: Observable<MutateResult>;
-   
+
         if (this.crag !== undefined) {
             const value = { ...this.cragForm.value, id: this.crag.id };
             this.cragForm.disable();

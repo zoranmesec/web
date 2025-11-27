@@ -13,7 +13,7 @@
             <mat-form-field class="no-hint" appearance="outline">
                 <mat-label>Država</mat-label>
                 <mat-select formControlName="countryId">
-                    @for (country of countries; track country) {
+                    @for (country of countries; track $index) {
                         <mat-option [value]="country.id">{{ country.name }} </mat-option>
                     }
                 </mat-select>
@@ -44,7 +44,7 @@
                     }
                 </mat-select>
 
-                <mat-select formControlName="orientation" multiple>
+                <mat-select formControlName="orientations" multiple>
                     @for (orientation of orientations; track orientation) {
                         <mat-option [value]="orientation.value">{{ orientation.label }} </mat-option>
                     }
@@ -96,9 +96,8 @@
         <div class="flex flex-row flex-justify-center gap-16">
             @for (wallAngle of wallAngles; track $index) {
                 <app-wall-angle-option
-                    [wallAngle]="wallAngle.formattedWallAngle"
-                    [selected]="cragForm.controls.wallAngles.value === wallAngle.wallAngle"
-                    (click)="cragForm.controls.wallAngles.setValue([wallAngle.wallAngle])"
+                    [wallAngleData]="wallAngle"
+                    [wallAngleFormControl]="cragForm.controls.wallAngles"
                 ></app-wall-angle-option>
             }
         </div>
@@ -122,7 +121,7 @@
         <div>
             <mat-form-field appearance="outline" class="no-hint">
                 <mat-label>Usmerjenost</mat-label>
-                <mat-select formControlName="orientation" multiple>
+                <mat-select formControlName="orientations" multiple>
                     @for (orientation of orientations; track orientation) {
                         <mat-option [value]="orientation.value">{{ orientation.label }} </mat-option>
                     }
@@ -135,11 +134,7 @@
         <div>Sezona</div>
         <div class="flex flex-row flex-justify-center gap-16">
             @for (season of seasons; track $index) {
-                <app-season-option
-                    [season]="season.formattedSeason"
-                    [selected]="cragForm.controls.seasons.value === season.season"
-                    (click)="cragForm.controls.seasons.setValue([season.season])"
-                ></app-season-option>
+                <app-season-option [seasonData]="season" [seasonFormControl]="cragForm.controls.seasons"></app-season-option>
             }
         </div>
     </div>

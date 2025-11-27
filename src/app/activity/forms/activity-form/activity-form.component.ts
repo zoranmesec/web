@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import dayjs from 'dayjs';
-import { concatMap, EMPTY, map, of, Subscription, switchMap } from 'rxjs';
+import { concatMap, EMPTY, map, Observer, of, Subscription, switchMap } from 'rxjs';
 import { CustomDateAdapter } from 'src/app/app.component';
 import { ACTIVITY_TYPES } from 'src/app/common/activity.constants';
 import { ActivitySelectionData } from 'src/app/pages/crag/crag-routes/crag-routes.component';
@@ -95,7 +95,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     // new - no activity yet, edit - edit activity fields but add no routes, add - add routes to existing activity
     @Input() formType: 'new' | 'edit' | 'add' = 'new';
 
-    @Output() onSave = new EventEmitter<boolean>();
+    @Output() saveActivity = new EventEmitter<boolean>();
 
     maxDate = new Date();
 
@@ -141,23 +141,13 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     ) {}
 
     async ngOnInit(): Promise<void> {
-        console.log('ActivityFormComponent ngOnInit', {
-            crag: this.crag,
-            peak: this.peak,
-            iceFall: this.iceFall,
-            activity: this.activity,
-            formType: this.formType,
-            selectedRoutes: this.selectedRoutes
-        });
         if (this.formType === 'edit') {
-            console.log('Editing activity:', this.activity);
             this.activityForm.controls.date.disable();
         }
 
         this.activityForm.controls.date.valueChanges
             .pipe(
                 switchMap((date) => {
-                    console.log(date);
                     const dt = date as Date;
                     // Disable all ascentType inputs, until we get users route touches before the newly selected date
                     this.routes.controls.forEach((routeFormGroup) => routeFormGroup.get('ascentType').disable({ emitEvent: false }));
@@ -245,7 +235,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                 })
                 .subscribe({
                     next: (response) => {
-                        const starRatingVotesForRoutes = {};
+                        const starRatingVotesForRoutes: Record<string, number> = {};
                         response.data.starRatingVotes.forEach((vote) => {
                             starRatingVotesForRoutes[vote.route.id] = vote.stars;
                         });
@@ -257,7 +247,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         }
 
         if (this.activity) {
-            console.log('switch date', this.activity);
             this.activityForm.patchValue({
                 date: this.activity.date,
                 notes: this.activity.notes,
@@ -461,33 +450,36 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                             .fetch({ variables: { input: editActivityInput, routes } })
                             .pipe(
                                 concatMap((result) => {
-                                    if (result.data.dryRunUpdateActivity.length) {
-                                        // If we got back some data, there will be changes in 'future' logs, so user needs to preview and confirm them
-                                        const dryRunSideEffects = result.data.dryRunUpdateActivity;
-                                        return this.dialog
-                                            .open(DryRunActivityDialogComponent, {
-                                                data: { dryRunSideEffects }
-                                            })
-                                            .afterClosed();
-                                    } else {
-                                        return of(true); // If no data from dryRun, then emit true and complete as if the dialog was opened and confirmed
+                                    if (result.data) {
+                                        if (result.data.dryRunUpdateActivity.length) {
+                                            // If we got back some data, there will be changes in 'future' logs, so user needs to preview and confirm them
+                                            const dryRunSideEffects = result.data.dryRunUpdateActivity;
+                                            return this.dialog
+                                                .open(DryRunActivityDialogComponent, {
+                                                    data: { dryRunSideEffects }
+                                                })
+                                                .afterClosed();
+                                        } else {
+                                            return of(true); // If no data from dryRun, then emit true and complete as if the dialog was opened and confirmed
+                                        }
                                     }
                                 }),
                                 concatMap((confirmed) => {
                                     if (confirmed) {
                                         // User confirmed autocorrect changes, so do the actual mutation now
                                         this.loading = true;
-                                        try {
-                                            return this.updateActivityGQL.mutate({
-                                                variables: { input: editActivityInput, routes },
-                                                refetchQueries: [
-                                                    namedOperations.Query.MyActivitiesByMonth,
-                                                    namedOperations.Query.MyActivityRoutes
-                                                ]
-                                            });
-                                        } catch (error) {
-                                            console.error('Error in updateActivityGQL mutation:', error);
+                                        const refetchQueries = [];
+                                        if (this.activity !== undefined) {
+                                            refetchQueries.push(namedOperations.Query.MyActivitiesByMonth);
+                                            refetchQueries.push(namedOperations.Query.MyActivityRoutes);
+                                        } else {
+                                            refetchQueries.push(namedOperations.Query.MyCragSummary);
                                         }
+
+                                        return this.updateActivityGQL.mutate({
+                                            variables: { input: editActivityInput, routes },
+                                            refetchQueries: refetchQueries
+                                        });
                                     } else {
                                         // User declined. Nothing to do. Make form active again and complete.
                                         this.activityForm.enable({ emitEvent: false });
@@ -506,26 +498,30 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                             ...activityInput,
                             id: this.activity.id
                         };
+                        console.log('Doing dry run update activity for adding routes:', addToActivityInput, routes);
                         this.dryRunUpdateActivityGQL
                             .fetch({ variables: { input: addToActivityInput, routes } })
                             .pipe(
                                 concatMap((result) => {
-                                    if (result.data.dryRunUpdateActivity.length) {
-                                        // If we got back some data, there will be changes in 'future' logs, so user needs to preview and confirm them
-                                        const dryRunSideEffects = result.data.dryRunUpdateActivity;
-                                        return this.dialog
-                                            .open(DryRunActivityDialogComponent, {
-                                                data: { dryRunSideEffects }
-                                            })
-                                            .afterClosed();
-                                    } else {
-                                        return of(true); // If no data from dryRun, theb emit true and complete as if the dialog was opened and confirmed
+                                    if (result.data) {
+                                        if (result.data.dryRunUpdateActivity.length) {
+                                            // If we got back some data, there will be changes in 'future' logs, so user needs to preview and confirm them
+                                            const dryRunSideEffects = result.data.dryRunUpdateActivity;
+                                            return this.dialog
+                                                .open(DryRunActivityDialogComponent, {
+                                                    data: { dryRunSideEffects }
+                                                })
+                                                .afterClosed();
+                                        } else {
+                                            return of(true); // If no data from dryRun, theb emit true and complete as if the dialog was opened and confirmed
+                                        }
                                     }
                                 }),
                                 concatMap((confirmed) => {
                                     if (confirmed) {
                                         // User confirmed autocorrect changes, so do the actual mutation now
                                         this.loading = true;
+
                                         return this.updateActivityGQL.mutate({
                                             variables: { input: addToActivityInput, routes },
                                             refetchQueries: [
@@ -557,16 +553,18 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                         .fetch({ variables: { input: createActivityInput, routes } })
                         .pipe(
                             concatMap((result) => {
-                                if (result.data.dryRunCreateActivity.length) {
-                                    // If we got back some data, there will be changes in 'future' logs, so user needs to preview and confirm them
-                                    const dryRunSideEffects = result.data.dryRunCreateActivity;
-                                    return this.dialog
-                                        .open(DryRunActivityDialogComponent, {
-                                            data: { dryRunSideEffects }
-                                        })
-                                        .afterClosed();
-                                } else {
-                                    return of(true); // If no data from dryRun, theb emit true and complete as if the dialog was opened and confirmed
+                                if (result.data) {
+                                    if (result.data.dryRunCreateActivity.length) {
+                                        // If we got back some data, there will be changes in 'future' logs, so user needs to preview and confirm them
+                                        const dryRunSideEffects = result.data.dryRunCreateActivity;
+                                        return this.dialog
+                                            .open(DryRunActivityDialogComponent, {
+                                                data: { dryRunSideEffects }
+                                            })
+                                            .afterClosed();
+                                    } else {
+                                        return of(true); // If no data from dryRun, theb emit true and complete as if the dialog was opened and confirmed
+                                    }
                                 }
                             }),
                             concatMap((confirmed) => {
@@ -580,6 +578,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                                     } else {
                                         refetchQueries.push(namedOperations.Query.MyCragSummary);
                                     }
+
                                     return this.createActivityGQL.mutate({
                                         variables: { input: createActivityInput, routes },
                                         refetchQueries: refetchQueries
@@ -600,10 +599,10 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getActivityMutationObserver() {
+    private getActivityMutationObserver(): Observer<any> {
         return {
             next: () => {
-                if (this.crag) {
+                if (this.crag !== undefined) {
                     this.localStorageService.removeItem('activity-selection');
 
                     if (this.formType === 'new') {
@@ -618,16 +617,20 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                         duration: 3000
                     }
                 );
-                this.onSave.emit(true);
+                this.saveActivity.emit(true);
             },
             error: (error) => {
                 console.error('Error saving activity:', error);
                 this.loading = false;
                 this.activityForm.enable();
-                this.snackBar.open('Vnosa ni bilo mogoče shraniti', null, {
-                    panelClass: 'error',
-                    duration: 3000
-                });
+                // this.snackBar.open('Vnosa ni bilo mogoče shraniti', null, {
+                //     panelClass: 'error',
+                //     duration: 3000
+                // });
+            },
+            complete: () => {
+                this.loading = false;
+                this.activityForm.enable();
             }
         };
     }
@@ -635,6 +638,6 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     successCragWithRoutes() {
         this.localStorageService.removeItem('activity-selection');
 
-        this.onSave.emit(true);
+        this.saveActivity.emit(true);
     }
 }

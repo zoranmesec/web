@@ -68,22 +68,24 @@ export class CragComponent implements OnInit, OnDestroy {
             )
             .subscribe({
                 next: (result) => {
-                    if (result === null) {
-                        this.layoutService.$breadcrumbs.next([
-                            {
-                                name: 'Dodajanje plezališča'
-                            }
-                        ]);
-                        this.heading = `Dodajanje plezališča`;
+                    if (result.data !== undefined) {
+                        if (result === null) {
+                            this.layoutService.$breadcrumbs.next([
+                                {
+                                    name: 'Dodajanje plezališča'
+                                }
+                            ]);
+                            this.heading = `Dodajanje plezališča`;
+                            this.loading = false;
+                            return;
+                        }
+
+                        this.crag = result.data.crag as Crag;
+
+                        this.layoutService.$breadcrumbs.next(new CragAdminBreadcrumbs(this.crag).build());
+                        this.heading = `${this.crag.name}`;
                         this.loading = false;
-                        return;
                     }
-
-                    this.crag = result.data.crag as Crag;
-
-                    this.layoutService.$breadcrumbs.next(new CragAdminBreadcrumbs(this.crag).build());
-                    this.heading = `${this.crag.name}`;
-                    this.loading = false;
                 },
                 error: () => {
                     this.loading = false;

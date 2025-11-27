@@ -6,16 +6,6 @@ import { GradeComponent } from 'src/app/shared/components/grade/grade.component'
 import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
 import { DifficultyVote } from 'src/generated/graphql';
 
-interface IGrade {
-    user: {
-        firstname: string;
-        lastname: string;
-    };
-    grade: number; // TODO difficulty instead of grade
-    created: string;
-    updated: string;
-}
-
 @Component({
     selector: 'app-route-grades',
     templateUrl: './route-grades.component.html',

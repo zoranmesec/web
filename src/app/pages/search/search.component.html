@@ -4,9 +4,8 @@
             <mat-icon matPrefix class="my-icon">search</mat-icon>
             <mat-label>{{ typeLabel }}</mat-label>
             <input #searchInput type="text" matInput mat placeholder="Vnesi ime" formControlName="searchControl" [matAutocomplete]="auto" />
-            <!-- eslint-disable @angular-eslint/template/no-call-expression -->
             <mat-autocomplete
-            #auto="matAutocomplete"
+                #auto="matAutocomplete"
                 [displayWith]="displayFn.bind(this)"
                 (optionSelected)="onOptionSelected($event.option.value)"
             >

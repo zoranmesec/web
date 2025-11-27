@@ -159,8 +159,8 @@ body {
         --mat-paginator-container-background-color: var(--mat-sys-on-secondary) !important;
         --mat-sys-body-large-line-height: 24px !important;
         --mat-dialog-supporting-text-color: var(--mat-sys-primary) !important;
-        --mat-pseudo-checkbox-full-selected-icon-color: orange !important;
-        --mat-pseudo-checkbox-minimal-selected-checkmark-color: orange !important;
+        --mat-pseudo-checkbox-full-selected-icon-color: var(--mat-sys-secondary) !important;
+        --mat-pseudo-checkbox-minimal-selected-checkmark-color: var(--mat-sys-secondary) !important;
         line-height: var(--mat-sys-body-large-line-height) !important;
     }
 

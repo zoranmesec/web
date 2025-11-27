@@ -41,7 +41,7 @@ header {
         font-weight: 500 !important;
         text-decoration: none;
         color: var(--mat-sys-secondary);
-        font: var(--mat-sys-body-small);
+        font-size: var(--mat-sys-body-large-size) !important;
         cursor: auto;
     }
 }
