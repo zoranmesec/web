@@ -11,7 +11,7 @@
         }
         @if (crag().approachTime) {
             <div class="flex flex-row flex-align-end">
-                <mat-icon svgIcon="walk" matTooltip="Dostop"></mat-icon>
+                <app-approach-icon></app-approach-icon>
                 <span class="value">{{ crag().approachTime }} min</span>
             </div>
         }
@@ -20,22 +20,22 @@
             <span class="value">{{ routeHeight.minHeight }} - {{ routeHeight.maxHeight }} m</span>
         </div>
         @if (crag().wallAngles && crag().wallAngles.length > 0) {
-            <div>
+            <div class="flex flex-row gap-16">
                 @for (angle of crag().wallAngles; track angle) {
-                    <mat-icon [matTooltip]="angle | wallAngle" [svgIcon]="angle"></mat-icon>
+                    <app-wall-angle-icon [wallAngle]="angle" [matTooltip]="angle | wallAngle"></app-wall-angle-icon>
                 }
             </div>
         }
         @if (crag().seasons && crag().seasons.length > 0) {
-            <div>
+            <div class="flex flex-row gap-16">
                 @for (season of crag().seasons; track season) {
-                    <mat-icon [svgIcon]="season" [matTooltip]="season | season"></mat-icon>
+                    <app-season-icon [season]="season" [matTooltip]="season | season"></app-season-icon>
                 }
             </div>
         }
         @if (crag().rainproof) {
             <div>
-                <mat-icon svgIcon="rainproof" matTooltip="Primerno za plezanje v dežju"></mat-icon>
+                <app-rainproof-icon matTooltip="Plezanje v dežju je možno"></app-rainproof-icon>
             </div>
         }
     </section>
@@ -113,12 +113,7 @@
             <app-distribution-chart [distribution]="attendanceDistribution"></app-distribution-chart>
         </div>
     </section>
-    <section
-        id="approach"
-        class="w-100 flex m-t-16"
-        [class.flex-row]="breakpointService.gtMd"
-        [class.flex-column]="breakpointService.ltLg"
-    >
+    <section id="approach" class="w-100 flex m-t-16" [class.flex-row]="breakpointService.gtMd" [class.flex-column]="breakpointService.ltLg">
         <div class="access">
             <h2>Dostop</h2>
             <div>

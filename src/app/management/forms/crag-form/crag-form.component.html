@@ -1,17 +1,17 @@
 <form [formGroup]="cragForm" (submit)="save()" class="card padding no-border m-t-32" [class]="crag?.publishStatus">
-    <div class="flex flex-row p-b-16">
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Ime plezališča</mat-label>
+    <div class="flex flex-row p-b-8 w-100">
+        <div class="w-100 flex flex-column">
+            <mat-label>Ime plezališča</mat-label>
+            <mat-form-field appearance="outline" class="m-t-8">
                 <input matInput cdkFocusInitial type="text" formControlName="name" />
             </mat-form-field>
         </div>
     </div>
 
-    <div class="flex flex-row gap-16 p-b-16">
-        <div>
-            <mat-form-field class="no-hint" appearance="outline">
-                <mat-label>Država</mat-label>
+    <div class="flex gap-16 p-b-8" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+        <div class="flex flex-column">
+            <mat-label>Država</mat-label>
+            <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
                 <mat-select formControlName="countryId">
                     @for (country of countries; track $index) {
                         <mat-option [value]="country.id">{{ country.name }} </mat-option>
@@ -21,9 +21,9 @@
         </div>
 
         @if (areas.length > 0) {
-            <div>
-                <mat-form-field class="no-hint" appearance="outline">
-                    <mat-label>Področje</mat-label>
+            <div class="flex flex-column">
+                <mat-label>Področje</mat-label>
+                <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
                     <mat-select formControlName="areaId">
                         @for (area of areas; track area) {
                             <mat-option [value]="area.id">{{ area.name }} </mat-option>
@@ -34,27 +34,21 @@
         }
     </div>
 
-    <div class="flex flex-row gap-16 p-b-16">
-        <div>
-            <mat-form-field class="no-hint" appearance="outline">
-                <mat-label>Vrsta plezanja</mat-label>
+    <div class="flex flex-row gap-16 p-b-8" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+        <div class="flex flex-column">
+            <mat-label>Vrsta plezanja</mat-label>
+            <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
                 <mat-select formControlName="type">
                     @for (type of types; track type) {
                         <mat-option [value]="type.value">{{ type.label }} </mat-option>
                     }
                 </mat-select>
-
-                <mat-select formControlName="orientations" multiple>
-                    @for (orientation of orientations; track orientation) {
-                        <mat-option [value]="orientation.value">{{ orientation.label }} </mat-option>
-                    }
-                </mat-select>
             </mat-form-field>
         </div>
 
-        <div>
-            <mat-form-field appearance="outline" fxFlex>
-                <mat-label>Privzeti sistem ocenjevanja</mat-label>
+        <div class="flex flex-column">
+            <mat-label>Privzeti sistem ocenjevanja</mat-label>
+            <mat-form-field appearance="outline" class="m-t-8">
                 <mat-select formControlName="defaultGradingSystemId">
                     @for (option of gradingSystems; track option) {
                         <mat-option [value]="option.id">{{ option.name }}</mat-option>
@@ -63,29 +57,29 @@
             </mat-form-field>
         </div>
     </div>
-    <div class="flex flex-row gap-16 p-b-16">
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Zemljepisna širina</mat-label>
+    <div class="flex flex-row gap-16 p-b-8" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+        <div class="flex flex-column">
+            <mat-label>Zemljepisna širina</mat-label>
+            <mat-form-field appearance="outline" class="m-t-8">
                 <input matInput type="number" formControlName="lat" (blur)="formatCoordinate($event, 'lat')" />
                 <mat-hint>Google koordinata, npr.: 45,96882</mat-hint>
             </mat-form-field>
         </div>
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Zemljepisna dolžina</mat-label>
+        <div class="flex flex-column">
+            <mat-label>Zemljepisna dolžina</mat-label>
+            <mat-form-field appearance="outline" class="m-t-8">
                 <input matInput type="number" formControlName="lon" (blur)="formatCoordinate($event, 'lon')" />
                 <mat-hint>Google koordinata, npr.: 14,00936</mat-hint>
             </mat-form-field>
         </div>
     </div>
 
-    <mat-divider></mat-divider>
+    <mat-divider class="m-t-16"></mat-divider>
 
-    <div class="m-t-32">
-        <div>
-            <mat-form-field appearance="outline" class="no-hint w-100">
-                <mat-label>Opis plezališča</mat-label>
+    <div class="m-t-16">
+        <div class="flex flex-column">
+            <mat-label>Opis plezališča</mat-label>
+            <mat-form-field appearance="outline" class="no-hint w-100 m-t-8">
                 <textarea matInput formControlName="description"></textarea>
             </mat-form-field>
         </div>
@@ -105,7 +99,7 @@
 
     <div class="flex flex-column m-t-16">
         <div>Plezanje v dežju</div>
-        <div class="">
+        <div class="m-t-8">
             <mat-radio-group class="filter-group" formControlName="rainproof">
                 <mat-radio-button [value]="true" color="var(--mat-sys-secondary)"
                     ><div class="flex flex-row flex-align-center">Je možno</div>
@@ -118,9 +112,9 @@
     <mat-divider class="m-t-16"></mat-divider>
 
     <div class="flex flex-row gap-16 m-t-32">
-        <div>
-            <mat-form-field appearance="outline" class="no-hint">
-                <mat-label>Usmerjenost</mat-label>
+        <div class="flex flex-column">
+            <mat-label>Usmerjenost</mat-label>
+            <mat-form-field appearance="outline" class="no-hint m-t-8">
                 <mat-select formControlName="orientations" multiple>
                     @for (orientation of orientations; track orientation) {
                         <mat-option [value]="orientation.value">{{ orientation.label }} </mat-option>
@@ -139,8 +133,39 @@
         </div>
     </div>
 
+    <mat-divider class="m-t-32"></mat-divider>
+    <div class="flex flex-row gap-16 p-b-16 m-t-32" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+        <div class="flex flex-column">
+            <mat-label>Koordinate parkirišča</mat-label>
+            <mat-form-field appearance="outline" class="m-t-8">
+                <input matInput type="number" formControlName="parking_lat" />
+                <mat-hint>Google koordinata, npr.: 45,96882</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column">
+            <mat-label>Dostop</mat-label>
+            <mat-form-field appearance="outline" class="m-t-8">
+                <input matInput type="number" formControlName="approachTime" />
+                <span matTextSuffix="">&nbsp; min</span>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="m-t-8">
+        <div>
+            <mat-label>Opis dostopa</mat-label>
+            <mat-form-field appearance="outline" class="no-hint w-100 m-t-8">
+                <textarea matInput formControlName="access"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+
     <div class="m-t-16">
-        <mat-checkbox formControlName="isHidden">Prikaži samo prijavljenim uporabnikom</mat-checkbox>
+        <label class="checkbox-container">
+            <input type="checkbox" formControlName="isHidden" />
+            <span class="checkmark"></span>
+            <span class="checkmark-label"> Prikaži samo prijavljenim uporabnikom </span>
+        </label>
     </div>
 
     <mat-divider class="m-t-32"></mat-divider>

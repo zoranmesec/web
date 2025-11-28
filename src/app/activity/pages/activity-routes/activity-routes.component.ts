@@ -44,6 +44,7 @@ import { SearchComponent, SearchType } from 'src/app/pages/search/search.compone
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { AscentTypeOptionComponent } from '../../forms/activity-form/activity-form-route/ascent-type-option/ascent-type-option.component';
@@ -83,7 +84,8 @@ const MAX_GRADE = 2100;
         MatRadioModule,
         MatSliderModule,
         SearchComponent,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        TitleComponent
     ]
 })
 export class ActivityRoutesComponent implements OnInit, OnDestroy {

@@ -1,17 +1,126 @@
-.sector {
-    background: #fff;
-    box-shadow: 0 2px 6px 0 #6494ff26;
-    padding: 4px 12px;
-    min-height: 52px;
+@use '@angular/material' as mat;
+@use './../../../../m3-theme.scss' as m3-theme;
 
-    .name {
-        font-weight: 500;
-        font-size: 16px;
-        padding: 12px 0;
+$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+:host {
+    .sector {
+        background-color: var(--mat-sys-surface);
+        padding: 4px 12px;
+        min-height: 52px;
+        cursor: move;
+
+        .name {
+            font-weight: 500;
+            font-size: 16px;
+            padding: 12px 0;
+        }
     }
 
-    .mat-icon-button:not(.mat-accent) {
-        color: #666;
+    section#tabs {
+        height: 42px;
+        padding: 0;
+        background-color: var(--mat-sys-surface);
+        align-items: center;
+        display: flex;
+        text-align: center;
+        align-items: stretch;
+        justify-content: space-between;
+        font-weight: var(--mat-sys-label-large-weight);
+
+        div:last-child,
+        div:first-child {
+            border-bottom: $grey 1px solid !important;
+            height: 42px;
+            width: 100%;
+        }
+
+        .tabs {
+            width: 60%;
+        }
+
+        .tabs > div:nth-child(2n) {
+            background-color: var(--mat-sys-surface);
+            height: 42px;
+            border-bottom: $grey 1px solid !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 16px 0 16px;
+            cursor: pointer;
+        }
+
+        .tabs > div:nth-child(2n + 1) {
+            width: 16px;
+            background-color: var(--mat-sys-surface);
+            height: 42px;
+            border-bottom: $grey 1px solid !important;
+        }
+
+        .tabs > div.active {
+            background-color: var(--mat-sys-surface-bright);
+            height: 42px;
+            border: 1px solid $grey;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            background-color: white;
+            border-bottom: none !important;
+            padding: 0 8px 0 8px;
+            color: var(--mat-sys-secondary);
+        }
+
+        .tab {
+            min-width: 170px;
+        }
+
+        .tabs > div.disabled {
+            color: var(--mat-sys-on-surface-variant) !important;
+            cursor: auto !important;
+        }
+
+        .mat-icon {
+            vertical-align: middle;
+            height: 18px !important;
+            width: 18px !important;
+        }
+
+        span {
+            padding-left: 8px;
+        }
+    }
+
+    section#sectors {
+        .tools > div {
+            border-right: 1px solid $grey;
+            padding: 16px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tools > div:last-child {
+            border-right: none;
+        }
+    }
+
+    .cdk-drag-preview {
+        border: none;
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow:
+            0 5px 5px -3px rgba(0, 0, 0, 0.2),
+            0 8px 10px 1px rgba(0, 0, 0, 0.14),
+            0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+    .cdk-drag-placeholder {
+        opacity: 0;
+    }
+    .cdk-drag-animating {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+    .example-box:last-child {
+        border: none;
+    }
+    .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     }
 }
 

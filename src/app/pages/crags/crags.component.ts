@@ -22,6 +22,7 @@ import { MapComponent } from 'src/app/common/map/map.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 import { RouteTypePipe } from 'src/app/shared/pipes/route-type.pipe';
 import { CragsFiltersService } from './crags-filters.service';
@@ -46,7 +47,8 @@ import { CragsTocComponent } from './crags-toc/crags-toc.component';
         FormsModule,
         ReactiveFormsModule,
         RouteTypePipe,
-        LoaderComponent
+        LoaderComponent,
+        TitleComponent
     ]
 })
 export class CragsComponent implements OnInit {

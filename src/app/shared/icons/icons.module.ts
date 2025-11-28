@@ -10,11 +10,14 @@ import { AscentTypeIconComponent } from './ascent-type-icon/ascent-type.componen
 import { AscentsIconComponent } from './ascents-icon/ascents-icon.component';
 
 import { SignalPipe } from '../pipes/signal.pipe';
+import { ApproachIconComponent } from './approach-icon/approach-icon.component';
 import { CalendarIconComponent } from './calendar-icon/calendar-icon.component';
 import { CloseIconComponent } from './close-icon/close-icon.component';
 import { ColumnsIconComponent } from './columns-icon/columns-icon.component';
 import { CommentIconComponent } from './comment-icon/comment-icon.component';
 import { DeleteIconComponent } from './delete-icon/delete-icon.component';
+import { DragIconComponent } from './drag-icon/drag-icon.component';
+import { EditIconComponent } from './edit-icon/edit-icon.component';
 import { GalleryIconComponent } from './gallery-icon/gallery-icon.component';
 import { HeightIconComponent } from './height-icon/height-icon.component';
 import { InfoIconComponent } from './info-icon/info-icon.component';
@@ -24,6 +27,7 @@ import { MoreIconComponent } from './more-icon/more-icon.component';
 import { OrientationIconComponent } from './orientation-icon/orientation-icon.component';
 import { PlusIconComponent } from './plus-icon/plus-icon.component';
 import { QuestionIconComponent } from './question-icon/question-icon.component';
+import { RainproofIconComponent } from './rainproof-icon/rainproof-icon.component';
 import { RefreshIconComponent } from './refresh-icon/refresh-icon.component';
 import { RoutesIconComponent } from './routes-icon/routes-icon.component';
 import { SeasonIconComponent } from './season-icon/season-icon.component';
@@ -64,7 +68,11 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         SeasonIconComponent,
         ArrowIconComponent,
         WallAngleIconComponent,
-        AscentTypeIconComponent
+        AscentTypeIconComponent,
+        ApproachIconComponent,
+        RainproofIconComponent,
+        DragIconComponent,
+        EditIconComponent
     ],
     imports: [SignalPipe, CommonModule],
     exports: [
@@ -97,7 +105,11 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         TodayIconComponent,
         ArrowRightIconComponent,
         WallAngleIconComponent,
-        SeasonIconComponent
+        SeasonIconComponent,
+        ApproachIconComponent,
+        RainproofIconComponent,
+        DragIconComponent,
+        EditIconComponent
     ]
 })
 export class IconsModule {}

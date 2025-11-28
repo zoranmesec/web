@@ -2,9 +2,7 @@
     <app-data-error [error]="error"></app-data-error>
 }
 
-<section id="title">
-    <h1>Plezalni dnevnik</h1>
-</section>
+<app-title [title]="'Plezalni dnevnik'"></app-title>
 <app-activity-header active="dnevnik"></app-activity-header>
 @if (loading) {
     <app-loader></app-loader>
@@ -64,11 +62,7 @@
                                 <div class="p-b-8">
                                     {{ day.day | date: 'd' : undefined : CmsLocale }}
                                 </div>
-                                <div
-                                    class="flex"
-                                    [class.flex-row]="breakpointService.ltMd"
-                                    [class.flex-column]="breakpointService.gtSm"
-                                >
+                                <div class="flex" [class.flex-row]="breakpointService.ltMd" [class.flex-column]="breakpointService.gtSm">
                                     @for (activity of day.activities; track $index) {
                                         <div class="flex flex-row sortable" (click)="openDay(day)" [class.p-t-8]="breakpointService.gtSm">
                                             <div class="p-r-8">

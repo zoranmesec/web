@@ -9,12 +9,18 @@ import {
     Sector
 } from 'src/generated/graphql';
 
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@sentry/angular';
 import { Apollo } from 'apollo-angular';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { LayoutService } from '../../../services/layout.service';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MoveSectorFormComponent } from '../../forms/move-sector-form/move-sector-form.component';
@@ -22,12 +28,12 @@ import { SectorFormComponent } from '../../forms/sector-form/sector-form.compone
 import { CragAdminBreadcrumbs } from '../../utils/crag-admin-breadcrumbs';
 import { ContributionService } from '../contributions/contribution/contribution.service';
 
-
 @Component({
     selector: 'app-crag-sectors',
     templateUrl: './crag-sectors.component.html',
     styleUrls: ['./crag-sectors.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [MatButtonModule, MatMenuModule, TitleComponent, IconsModule, CdkDropList, CdkDrag, MatTooltipModule]
 })
 export class CragSectorsComponent implements OnInit, OnDestroy {
     loading = true;
@@ -51,7 +57,9 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
         private savePositionGQL: ManagementSaveSectorPositionGQL,
         private deleteSectorGQL: ManagementDeleteSectorGQL,
         private apollo: Apollo,
-        public contributionService: ContributionService
+        public contributionService: ContributionService,
+        protected readonly breakpointService: BreakpointService,
+        private readonly router: Router
     ) {}
 
     ngOnInit(): void {
@@ -67,16 +75,18 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
             ),
             this.authService.currentUser.asObservable()
         ]).subscribe(([result, user]) => {
-            this.loading = false;
+            if (result.data !== undefined) {
+                this.loading = false;
 
-            this.crag = result.data.crag as Crag;
+                this.crag = result.data.crag as Crag;
 
-            this.user = user;
+                this.user = user;
 
-            this.heading = `${this.crag.name}`;
-            this.layoutService.$breadcrumbs.next(new CragAdminBreadcrumbs(this.crag).build());
+                this.heading = `${this.crag.name}`;
+                this.layoutService.$breadcrumbs.next(new CragAdminBreadcrumbs(this.crag).build());
 
-            this.sectors = [...(result.data.crag.sectors as Sector[])];
+                this.sectors = [...(result.data.crag.sectors as Sector[])];
+            }
         });
 
         this.subscriptions.push(sub);
@@ -87,6 +97,7 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
     }
 
     drop(event: CdkDragDrop<string[]>) {
+        console.log(event);
         if (event.previousIndex === event.currentIndex) return;
 
         const data = {
@@ -170,5 +181,9 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
                     });
                 }
             });
+    }
+
+    protected goToCrag(): void {
+        this.router.navigate(['/urejanje/uredi-plezalisce', this.crag.id]);
     }
 }

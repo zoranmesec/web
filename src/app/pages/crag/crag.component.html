@@ -7,9 +7,7 @@
 }
 
 @if (!error && !loading) {
-    <section id="title">
-        <h1>{{ crag.name }}</h1>
-    </section>
+    <app-title [title]="crag.name"></app-title>
     <section id="tabs">
         <div>&nbsp;</div>
         @for (tab of tabs; track $index) {

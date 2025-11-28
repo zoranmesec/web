@@ -6,9 +6,7 @@
     <app-loader></app-loader>
 }
 @if (!error && !loading) {
-    <section id="title">
-        <h1>{{ route.name }}</h1>
-    </section>
+    <app-title [title]="route.name"></app-title>
     <section id="navigation">
         <div class="flex flex-row flex-justify-space-between">
             <div class="flex flex-row">

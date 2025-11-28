@@ -4,7 +4,10 @@ query ManagementGetCrag($id: String!) {
         type
         publishStatus
         isHidden
-        orientation
+        orientations
+        wallAngles
+        seasons
+        rainproof
         defaultGradingSystem {
             id
         }

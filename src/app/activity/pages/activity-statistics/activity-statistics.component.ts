@@ -15,6 +15,7 @@ import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ACTIVITY_TYPES, ASCENT_TYPES } from 'src/app/common/activity.constants';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { TitleComponent as MyTitleComponent } from 'src/app/shared/components/title/title.component';
 import { AscentType } from 'src/app/types/ascent-type';
 import { DataError } from 'src/app/types/data-error';
 import { MyActivitiesStatisticsGQL, MyRoutesStatsGQL, StatsActivities, StatsRoutes } from 'src/generated/graphql';
@@ -36,7 +37,8 @@ echarts.use([BarChart, GridComponent, CanvasRenderer, TooltipComponent, LegendCo
         MatSelectModule,
         NgxEchartsDirective,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MyTitleComponent
     ],
     providers: [provideEchartsCore({ echarts })]
 })

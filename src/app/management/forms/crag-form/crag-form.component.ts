@@ -1,6 +1,5 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnDestroy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,6 +34,7 @@ import { ContributionService } from '../../pages/contributions/contribution/cont
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { Season as FormattedSeason } from 'src/app/types/season';
 import { WallAngle as FormattedWallAngle } from 'src/app/types/wall-angle';
 import { SeasonOptionComponent } from './season-option/season-option.component';
@@ -55,7 +55,6 @@ export interface WallAngleData {
     templateUrl: './crag-form.component.html',
     styleUrls: ['./crag-form.component.scss'],
     imports: [
-        MatCheckbox,
         MatDialogModule,
         MatSnackBarModule,
         MatSelectModule,
@@ -71,7 +70,7 @@ export interface WallAngleData {
         MatButtonModule
     ]
 })
-export class CragFormComponent implements OnInit, OnDestroy {
+export class CragFormComponent implements OnChanges, OnDestroy {
     @Input() crag: Crag;
 
     fb: FormBuilder = inject(FormBuilder);
@@ -90,8 +89,11 @@ export class CragFormComponent implements OnInit, OnDestroy {
         defaultGradingSystemId: this.fb.control(null, Validators.required),
         publishStatus: this.fb.control('draft'),
         wallAngles: this.fb.control<WallAngle[]>([]),
-        rainproof: this.fb.control(null),
-        seasons: this.fb.control<Season[]>([])
+        rainproof: this.fb.control<boolean | null>(null),
+        seasons: this.fb.control<Season[]>([]),
+        approachTime: this.fb.control<number | null>(null),
+        parking_lat: this.fb.control<number>({ value: 0, disabled: true }),
+        parking_lon: this.fb.control<number>(0)
     });
 
     loading = false;
@@ -117,11 +119,11 @@ export class CragFormComponent implements OnInit, OnDestroy {
 
     orientations: Registry[] = ORIENTATIONS;
     protected wallAngles: WallAngleData[] = [
+        { wallAngle: WallAngle.Slab, formattedWallAngle: FormattedWallAngle.slab },
         {
             wallAngle: WallAngle.Vertical,
             formattedWallAngle: FormattedWallAngle.vertical
         },
-        { wallAngle: WallAngle.Slab, formattedWallAngle: FormattedWallAngle.slab },
         {
             wallAngle: WallAngle.Overhang,
             formattedWallAngle: FormattedWallAngle.overhang
@@ -148,10 +150,11 @@ export class CragFormComponent implements OnInit, OnDestroy {
         private createCragGQL: ManagementCreateCragGQL,
         private deleteCragGQL: ManagementDeleteCragGQL,
         private apollo: Apollo,
-        public contributionService: ContributionService
+        public contributionService: ContributionService,
+        protected readonly breakpointService: BreakpointService
     ) {}
 
-    ngOnInit(): void {
+    ngOnChanges(): void {
         this.cragForm.disable();
 
         const userSub = this.authService.currentUser.subscribe((user) => {
@@ -182,10 +185,14 @@ export class CragFormComponent implements OnInit, OnDestroy {
                 ...this.crag,
                 countryId: this.crag.country?.id,
                 areaId: this.crag.area?.id,
-                defaultGradingSystemId: this.crag.defaultGradingSystem?.id,
-                wallAngles: []
+                defaultGradingSystemId: this.crag.defaultGradingSystem?.id
             });
         }
+
+        this.cragForm.valueChanges.subscribe(() => {
+            this.cragForm.markAsDirty();
+        });
+
         const countrySub = this.cragForm.controls.countryId.valueChanges.subscribe((v) => {
             this.countryChanged(v);
         });

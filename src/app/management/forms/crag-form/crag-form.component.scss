@@ -1,6 +1,11 @@
+@use './../../../../styles/global.scss' as global;
 :host {
     mat-form-field {
-        width: 300px;
+        width: 320px;
+
+        @media only screen and (max-width: global.$breakpoint-md) {
+            width: 100% !important;
+        }
     }
 
     mat-radio-button {

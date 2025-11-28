@@ -20,6 +20,7 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
 import { WarningsComponent } from 'src/app/shared/components/warnings/warnings.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { CragGalleryComponent } from '../crag/crag-gallery/crag-gallery.component';
@@ -52,7 +53,8 @@ import { RouteStarRatingsComponent } from './route-star-ratings/route-star-ratin
         MatExpansionModule,
         RouteStarRatingsComponent,
         RouterModule,
-        IconsModule
+        IconsModule,
+        TitleComponent
     ]
 })
 export class RouteComponent implements OnInit, OnDestroy {

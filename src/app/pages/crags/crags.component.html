@@ -1,8 +1,5 @@
 @if (!error) {
-    <section id="title">
-        <h1>Plezališča</h1>
-    </section>
-
+    <app-title [title]="'Plezališča'"></app-title>
     @if (!loading && showMap && country.code === 'SI') {
         <section id="crag-map-container mt-16">
             <div class="crag-map">

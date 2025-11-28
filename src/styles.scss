@@ -15,7 +15,7 @@
 // that you are using.
 
 html {
-    font-size: 16px;
+    font-size: 18.4px;
 }
 
 body {
@@ -32,7 +32,9 @@ body {
             container-vertical-padding: 8px,
             container-height: 40px,
             filled-active-indicator-height: 40px,
-            filled-focus-active-indicator-height: 40px
+            filled-focus-active-indicator-height: 40px,
+            outlined-outline-color: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30),
+            outlined-label-text-color: var(--mat-sys-primary)
         )
     );
 
@@ -63,7 +65,7 @@ body {
         (
             selected-icon-color: var(--mat-sys-secondary),
             selected-pressed-icon-color: white,
-            unselected-icon-color: var(--mat-sys-secondary),
+            unselected-icon-color: var(--mat-sys-outline-variant),
             unselected-focus-icon-color: var(--mat-sys-secondary),
             selected-focus-icon-color: var(--mat-sys-secondary),
             selected-hover-icon-color: mat.get-theme-color(m3-theme.$light-theme, secondary, 60)
@@ -162,11 +164,81 @@ body {
         --mat-pseudo-checkbox-full-selected-icon-color: var(--mat-sys-secondary) !important;
         --mat-pseudo-checkbox-minimal-selected-checkmark-color: var(--mat-sys-secondary) !important;
         line-height: var(--mat-sys-body-large-line-height) !important;
-    }
 
-    &.dark-theme {
-        @include mat.all-component-colors(m3-theme.$dark-theme);
-        @include mat.system-level-colors(m3-theme.$dark-theme);
+        --mat-sys-display-large: 400 3.562rem / 4rem Poppins;
+        --mat-sys-display-large-font: Poppins;
+        --mat-sys-display-large-line-height: 4rem;
+        --mat-sys-display-large-size: 3.562rem;
+        --mat-sys-display-large-tracking: -0.016rem;
+        --mat-sys-display-large-weight: 400;
+        --mat-sys-display-medium: 400 2.812rem / 3.25rem Poppins;
+        --mat-sys-display-medium-font: Poppins;
+        --mat-sys-display-medium-line-height: 3.25rem;
+        --mat-sys-display-medium-size: 2.812rem;
+        --mat-sys-display-medium-tracking: 0;
+        --mat-sys-display-medium-weight: 400;
+        --mat-sys-display-small: 400 2.25rem / 2.75rem Poppins;
+        --mat-sys-display-small-font: Poppins;
+        --mat-sys-display-small-line-height: 2.75rem;
+        --mat-sys-display-small-size: 2.25rem;
+        --mat-sys-display-small-tracking: 0;
+        --mat-sys-display-small-weight: 400;
+        --mat-sys-headline-large: 400 2rem / 2.5rem Poppins;
+        --mat-sys-headline-large-font: Poppins;
+        --mat-sys-headline-large-line-height: 2.5rem;
+        --mat-sys-headline-large-size: 2rem;
+        --mat-sys-headline-large-tracking: 0;
+        --mat-sys-headline-large-weight: 400;
+        --mat-sys-headline-medium: 400 1.75rem / 2.25rem Poppins;
+        --mat-sys-headline-medium-font: Poppins;
+        --mat-sys-headline-medium-line-height: 2.25rem;
+        --mat-sys-headline-medium-size: 1.75rem;
+        --mat-sys-headline-medium-tracking: 0;
+        --mat-sys-headline-medium-weight: 400;
+        --mat-sys-headline-small: 400 1.5rem / 2rem Poppins;
+        --mat-sys-headline-small-font: Poppins;
+        --mat-sys-headline-small-line-height: 2rem;
+        --mat-sys-headline-small-size: 1.5rem;
+        --mat-sys-headline-small-tracking: 0;
+        --mat-sys-headline-small-weight: 400;
+        --mat-sys-label-large: 500 0.875rem / 1.25rem Poppins;
+        --mat-sys-label-large-font: Poppins;
+        --mat-sys-label-large-line-height: 1.25rem;
+        --mat-sys-label-large-size: 0.875rem;
+        --mat-sys-label-large-tracking: 0.006rem;
+        --mat-sys-label-large-weight: 500;
+        --mat-sys-label-large-weight-prominent: 700;
+        --mat-sys-label-medium: 500 0.75rem / 1rem Poppins;
+        --mat-sys-label-medium-font: Poppins;
+        --mat-sys-label-medium-line-height: 1rem;
+        --mat-sys-label-medium-size: 0.75rem;
+        --mat-sys-label-medium-tracking: 0.031rem;
+        --mat-sys-label-medium-weight: 500;
+        --mat-sys-label-medium-weight-prominent: 700;
+        --mat-sys-label-small: 500 0.688rem / 1rem Poppins;
+        --mat-sys-label-small-font: Poppins;
+        --mat-sys-label-small-line-height: 1rem;
+        --mat-sys-label-small-size: 0.688rem;
+        --mat-sys-label-small-tracking: 0.031rem;
+        --mat-sys-label-small-weight: 500;
+        --mat-sys-title-large: 400 1.375rem / 1.75rem Poppins;
+        --mat-sys-title-large-font: Poppins;
+        --mat-sys-title-large-line-height: 1.75rem;
+        --mat-sys-title-large-size: 1.375rem;
+        --mat-sys-title-large-tracking: 0;
+        --mat-sys-title-large-weight: 400;
+        --mat-sys-title-medium: 500 1rem / 1.5rem Poppins;
+        --mat-sys-title-medium-font: Poppins;
+        --mat-sys-title-medium-line-height: 1.5rem;
+        --mat-sys-title-medium-size: 1rem;
+        --mat-sys-title-medium-tracking: 0.009rem;
+        --mat-sys-title-medium-weight: 500;
+        --mat-sys-title-small: 500 0.875rem / 1.25rem Poppins;
+        --mat-sys-title-small-font: Poppins;
+        --mat-sys-title-small-line-height: 1.25rem;
+        --mat-sys-title-small-size: 0.875rem;
+        --mat-sys-title-small-tracking: 0.006rem;
+        --mat-sys-title-small-weight: 500;
     }
 
     & {

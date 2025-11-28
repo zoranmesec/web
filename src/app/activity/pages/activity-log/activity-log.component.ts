@@ -18,6 +18,7 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { LayoutService } from 'src/app/services/layout.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { ActivityColorPipe } from 'src/app/shared/pipes/activity-color.pipe';
 import { ActivityLabelPipe } from 'src/app/shared/pipes/activity-label.pipe';
@@ -67,7 +68,8 @@ export interface RowAction {
         MatInputModule,
         ActivityRouteRowComponent,
         RouterModule,
-        MatMenuModule
+        MatMenuModule,
+        TitleComponent
     ]
 })
 export class ActivityLogComponent implements OnInit, OnDestroy {

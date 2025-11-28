@@ -20,6 +20,7 @@ import { DefaultShowHideDirective } from 'ng-flex-layout';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { DataErrorComponent } from 'src/app/shared/components/data-error/data-error.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { CragCommentsComponent } from './crag-comments/crag-comments.component';
 import { CragGalleryComponent } from './crag-gallery/crag-gallery.component';
@@ -42,7 +43,8 @@ import { CragRoutesComponent } from './crag-routes/crag-routes.component';
         DefaultShowHideDirective,
         IconsModule,
         LoaderComponent,
-        DataErrorComponent
+        DataErrorComponent,
+        TitleComponent
     ]
 })
 export class CragComponent implements OnInit, OnDestroy {
@@ -139,7 +141,6 @@ export class CragComponent implements OnInit, OnDestroy {
 
             this.cragSub = this.cragQuery.valueChanges.subscribe({
                 next: (result) => {
-                    
                     if (result.data === undefined) return;
 
                     this.loading = false;
@@ -154,7 +155,6 @@ export class CragComponent implements OnInit, OnDestroy {
                     }
                 },
                 error: (error) => {
-         
                     this.loading = false;
                     this.queryError(error);
                 }

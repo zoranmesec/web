@@ -1,11 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Component, inject, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
+import { FlexLayoutModule } from 'ng-flex-layout';
 import { AuthService } from 'src/app/auth/auth.service';
-import { ManagementCreateSectorGQL, ManagementUpdateSectorGQL, Sector } from '../../../../generated/graphql';
+import { CreateSectorInput, ManagementCreateSectorGQL, ManagementUpdateSectorGQL, Sector } from '../../../../generated/graphql';
 
 export interface SectorFormComponentData {
     sector?: Sector;
@@ -17,15 +20,16 @@ export interface SectorFormComponentData {
     selector: 'app-sector-form',
     templateUrl: './sector-form.component.html',
     styleUrls: ['./sector-form.component.scss'],
-    imports: [MatFormField, MatLabel, MatHint, MatDialogActions, FormsModule, ReactiveFormsModule]
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogActions, FlexLayoutModule, MatButtonModule]
 })
 export class SectorFormComponent implements OnInit {
     saving = false;
 
-    form = new UntypedFormGroup({
-        label: new UntypedFormControl(''),
-        name: new UntypedFormControl(''),
-        publishStatus: new UntypedFormControl('draft')
+    fb: FormBuilder = inject(FormBuilder);
+    form = this.fb.group({
+        label: this.fb.control({ value: '', disabled: true }, [Validators.required]),
+        name: new FormControl(''),
+        publishStatus: new FormControl('draft')
     });
 
     constructor(
@@ -71,6 +75,11 @@ export class SectorFormComponent implements OnInit {
                     error: error
                 });
         } else {
+            const input: CreateSectorInput = {
+                ...this.form.value,
+                position: this.data.position,
+                cragId: this.data.cragId
+            };
             this.createGQL
                 .mutate({
                     variables: {
