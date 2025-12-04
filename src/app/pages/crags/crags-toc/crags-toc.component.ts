@@ -41,7 +41,6 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     showAllCountries = false;
     currentCountrySlug: string | undefined = undefined;
     subscriptions: Subscription[] = [];
-    grades: any;
     activatedMinGrade: string | null = null;
     activatedMaxGrade: string | null = null;
 
@@ -52,7 +51,6 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         this.subscriptions.forEach((sub) => sub.unsubscribe());
     }
     cragForm!: FormGroup;
-    params: any;
 
     routeTypes = ROUTE_TYPES;
     orientations = ORIENTATIONS;
@@ -224,7 +222,7 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         );
     }
 
-    makeRoute(country: string, params: any = {}) {
+    makeRoute(country: string, params: Record<string, string | null> = {}) {
         return ['/plezalisca', country, this.routeParams(params)];
     }
 
@@ -243,8 +241,8 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         );
     }
 
-    routeParams(params: any): any {
-        params = { ...this.params, ...params };
+    routeParams(params: Record<string, string | null>): Record<string, string> {
+        params = { ...params };
 
         Object.keys(params).forEach((key) => {
             if (params[key] === null) {

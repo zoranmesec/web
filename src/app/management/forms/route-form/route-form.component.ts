@@ -1,7 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
 import { filter, Subscription } from 'rxjs';
@@ -28,25 +32,37 @@ export interface RouteFormValues {
     selector: 'app-route-form',
     templateUrl: './route-form.component.html',
     styleUrls: ['./route-form.component.scss'],
-    imports: [MatFormField, MatLabel, MatDialogActions, FormsModule, ReactiveFormsModule, GradeSelectComponent]
+    imports: [
+        MatFormFieldModule,
+        MatDialogModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        GradeSelectComponent,
+        MatButtonModule
+    ]
 })
 export class RouteFormComponent implements OnInit, OnDestroy {
     saving = false;
 
     editing = false;
 
-    form = new UntypedFormGroup({
-        id: new UntypedFormControl(),
-        name: new UntypedFormControl(null, Validators.required),
-        routeTypeId: new UntypedFormControl('sport', Validators.required),
-        length: new UntypedFormControl(),
-        defaultGradingSystemId: new UntypedFormControl('french', Validators.required),
-        isProject: new UntypedFormControl(false),
-        baseDifficulty: new UntypedFormControl(null, Validators.required),
-        position: new UntypedFormControl(),
-        sectorId: new UntypedFormControl(),
-        addAnother: new UntypedFormControl(false),
-        publishStatus: new UntypedFormControl('draft')
+    form = new FormGroup({
+        id: new FormControl(),
+        name: new FormControl(null, Validators.required),
+        routeTypeId: new FormControl('', Validators.required),
+        length: new FormControl(),
+        defaultGradingSystemId: new FormControl('french', Validators.required),
+        isProject: new FormControl(false),
+        baseDifficulty: new FormControl(null, Validators.required),
+        position: new FormControl(0),
+        sectorId: new FormControl(),
+        addAnother: new FormControl(false),
+        publishStatus: new FormControl('draft'),
+        author: new FormControl(''),
+        description: new FormControl('')
     });
 
     gradingSystems: GradingSystem[];
@@ -66,7 +82,7 @@ export class RouteFormComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) private data: RouteFormComponentData,
+        @Inject(MAT_DIALOG_DATA) protected data: RouteFormComponentData,
         private dialogRef: MatDialogRef<RouteFormComponent>,
         private gradingSystemsService: GradingSystemsService,
         private createGQL: ManagementCreateRouteGQL,
@@ -78,7 +94,7 @@ export class RouteFormComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.gradingSystemsService.getGradingSystems().then((gradingSystems) => {
             this.gradingSystems = gradingSystems as GradingSystem[];
-
+            console.log('GRADING SYSTEMS', this.gradingSystems);
             this.gradingSystemsLoaded();
         });
     }
@@ -131,6 +147,7 @@ export class RouteFormComponent implements OnInit, OnDestroy {
             }
         });
         this.subscriptions.push(typeSub);
+        this.form.controls.routeTypeId.setValue('sport');
 
         // length changes: set to null if string is empty
         const lengthSub = this.form.controls.length.valueChanges
@@ -151,7 +168,7 @@ export class RouteFormComponent implements OnInit, OnDestroy {
             this.form.patchValue(this.data.values);
         }
 
-        if (this.data.route) {
+        if (this.data.route !== undefined) {
             this.editing = true;
 
             if (!this.baseDifficultyEditable(this.data.route)) {
@@ -199,7 +216,7 @@ export class RouteFormComponent implements OnInit, OnDestroy {
 
         const success = () => {
             this.apollo.client.resetStore().then(() => {
-                const { routeTypeId, defaultGradingSystemId, status, position } = value;
+                const { routeTypeId, defaultGradingSystemId, position } = value;
 
                 this.dialogRef.close(
                     value.addAnother
@@ -207,7 +224,6 @@ export class RouteFormComponent implements OnInit, OnDestroy {
                               addAnother: true,
                               routeTypeId,
                               defaultGradingSystemId,
-                              status,
                               position: position + 1
                           }
                         : null
@@ -222,7 +238,7 @@ export class RouteFormComponent implements OnInit, OnDestroy {
             });
         };
 
-        if (this.data.route !== null) {
+        if (this.data.route !== undefined) {
             this.updateGQL
                 .mutate({
                     variables: {

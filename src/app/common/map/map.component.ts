@@ -17,6 +17,7 @@ import Icon from 'ol/style/Icon';
 import Style from 'ol/style/Style';
 import View from 'ol/View';
 import { BehaviorSubject } from 'rxjs';
+import { Crag } from 'src/generated/graphql';
 
 @Component({
     selector: 'app-map',
@@ -25,8 +26,8 @@ import { BehaviorSubject } from 'rxjs';
     imports: [RouterLink]
 })
 export class MapComponent implements OnInit, AfterViewInit {
-    @Input() crags: BehaviorSubject<any[]>;
-    @Input() crag: any;
+    @Input() crags: BehaviorSubject<Crag[]>;
+    @Input() crag: Crag;
     @Input() height = 360;
     @Input() id = 'default';
     @ViewChild('popup') popup;
@@ -39,7 +40,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     locationSource = new VectorSource();
 
     popupOverlay: OverlayPopup;
-    selectedCrag: any;
+    selectedCrag: Crag;
 
     lon = 14.9912767;
     lat = 46.1369805;
@@ -47,15 +48,13 @@ export class MapComponent implements OnInit, AfterViewInit {
 
     locateMeIsSet = false;
     positionWatch: number;
-    currentPosition: any;
+    currentPosition: GeolocationPosition;
 
     map: Map;
     mapOverlay = true;
 
-    
-
     ngOnInit(): void {
-        if (this.crag !== null && this.crag.lon !== null && this.crag.lat !== null) {
+        if (this.crag !== undefined && this.crag.lon !== undefined && this.crag.lat !== undefined) {
             this.lon = this.crag.lon;
             this.lat = this.crag.lat;
             this.zoom = 10;
@@ -193,5 +192,5 @@ export class MapComponent implements OnInit, AfterViewInit {
 }
 
 class AdvancedFeature extends Feature {
-    public crag: any;
+    public crag: Crag;
 }

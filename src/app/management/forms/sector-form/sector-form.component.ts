@@ -1,12 +1,11 @@
 import { Component, inject, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo } from 'apollo-angular';
-import { FlexLayoutModule } from 'ng-flex-layout';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CreateSectorInput, ManagementCreateSectorGQL, ManagementUpdateSectorGQL, Sector } from '../../../../generated/graphql';
 
@@ -20,21 +19,20 @@ export interface SectorFormComponentData {
     selector: 'app-sector-form',
     templateUrl: './sector-form.component.html',
     styleUrls: ['./sector-form.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogActions, FlexLayoutModule, MatButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogActions, MatButtonModule, MatDialogModule]
 })
 export class SectorFormComponent implements OnInit {
     saving = false;
 
     fb: FormBuilder = inject(FormBuilder);
     form = this.fb.group({
-        label: this.fb.control({ value: '', disabled: true }, [Validators.required]),
-        name: new FormControl(''),
-        publishStatus: new FormControl('draft')
+        label: this.fb.control({ value: '', disabled: false }, [Validators.required]),
+        publishStatus: this.fb.control('draft')
     });
 
     constructor(
         private authService: AuthService,
-        @Inject(MAT_DIALOG_DATA) private data: SectorFormComponentData,
+        @Inject(MAT_DIALOG_DATA) protected data: SectorFormComponentData,
         private createGQL: ManagementCreateSectorGQL,
         private updateGQL: ManagementUpdateSectorGQL,
         private apollo: Apollo,
@@ -43,7 +41,7 @@ export class SectorFormComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        if (this.data?.sector !== null) {
+        if (this.data?.sector !== undefined) {
             this.form.patchValue(this.data.sector);
         }
     }
@@ -65,7 +63,7 @@ export class SectorFormComponent implements OnInit {
             this.saving = false;
         };
 
-        if (this.data.sector !== null) {
+        if (this.data.sector !== undefined) {
             this.updateGQL
                 .mutate({
                     variables: { input: { ...this.form.value, id: this.data.sector.id } }
@@ -76,18 +74,16 @@ export class SectorFormComponent implements OnInit {
                 });
         } else {
             const input: CreateSectorInput = {
-                ...this.form.value,
                 position: this.data.position,
-                cragId: this.data.cragId
+                cragId: this.data.cragId,
+                name: '',
+                publishStatus: this.form.value.publishStatus,
+                label: this.form.value.label
             };
             this.createGQL
                 .mutate({
                     variables: {
-                        input: {
-                            ...this.form.value,
-                            position: this.data.position,
-                            cragId: this.data.cragId
-                        }
+                        input: input
                     }
                 })
                 .subscribe({

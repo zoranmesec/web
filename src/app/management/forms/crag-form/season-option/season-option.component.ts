@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { Season } from 'src/generated/graphql';
@@ -11,7 +11,7 @@ import { SeasonData } from '../crag-form.component';
     styleUrl: './season-option.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SeasonOptionComponent {
+export class SeasonOptionComponent implements OnInit {
     seasonData = input.required<SeasonData>();
 
     disabled = input<boolean>(false);
@@ -22,7 +22,18 @@ export class SeasonOptionComponent {
         this.active = !this.active;
     }
 
+    constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
+
+    ngOnInit(): void {
+        this.seasonFormControl().valueChanges.subscribe(() => {
+            this.changeDetectorRef.markForCheck();
+        });
+    }
+
     protected selectSeason() {
+        if (this.disabled()) {
+            return;
+        }
         const currentValues: Season[] = this.seasonFormControl().value || [];
         if (currentValues.includes(this.seasonData().season)) {
             // Remove season

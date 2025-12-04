@@ -4,6 +4,7 @@
     class="flex flex-column flex-align-center flex-justify-center p-8"
     [class.selected]="selected"
     [class.season-option-disabled]="disabled()"
+    [class.season-option-disabled-not-selected]="disabled() && !selected"
     [class.season-option]="!disabled()"
     (click)="selectSeason()"
 >

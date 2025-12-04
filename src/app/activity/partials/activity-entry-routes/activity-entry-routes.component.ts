@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { concatMap, filter, Subject, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ASCENT_TYPES } from 'src/app/common/activity.constants';
+import { ColumnDefinition } from 'src/app/common/filtered-table';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { GenderizeVerbPipe } from 'src/app/shared/pipes/genderize-verb.pipe';
 import { ActivityRoute, DeleteActivityRouteGQL, namedOperations } from 'src/generated/graphql';
+import { RowAction } from '../../pages/activity-routes/activity-routes.component';
 import { ActivityRouteRowComponent } from '../activity-route-row/activity-route-row.component';
-import { ColumnDefinition } from 'src/app/common/filtered-table';
 
 @Component({
     selector: 'app-activity-entry-routes',
@@ -22,7 +23,7 @@ export class ActivityEntryRoutesComponent implements OnInit {
     @Input() routes: ActivityRoute[];
     @Input() type: 'form' | 'view' = 'view';
 
-    rowAction$ = new Subject(); // source
+    rowAction$ = new Subject<RowAction>(); // source
 
     noNotes = false;
     noTopropeOnPage = false;
@@ -50,16 +51,17 @@ export class ActivityEntryRoutesComponent implements OnInit {
         // If none of the activity routes (ascents) have ascent type with toprope, save extra space for tr icon
         this.noTopropeOnPage = !this.routes.some((route) => this.ascentTypes.find((at) => at.value === route.ascentType).topRope);
 
-        this.rowAction$.subscribe((action: any) => {
+        this.rowAction$.subscribe((action: RowAction) => {
+            const activityRoute = action.item as ActivityRoute;
             switch (action.action) {
                 case 'filterByCrag':
-                    this.router.navigate(['/plezalni-dnevnik/vzponi', { cragId: action.item.route.crag.id }]);
+                    this.router.navigate(['/plezalni-dnevnik/vzponi', { cragId: activityRoute.route.crag.id }]);
                     break;
                 case 'filterByRoute':
-                    this.router.navigate(['/plezalni-dnevnik/vzponi', { routeId: action.item.route.id }]);
+                    this.router.navigate(['/plezalni-dnevnik/vzponi', { routeId: activityRoute.route.id }]);
                     break;
                 case 'delete':
-                    this.deleteActivityRoute(action.item);
+                    this.deleteActivityRoute(activityRoute);
                     break;
             }
         });

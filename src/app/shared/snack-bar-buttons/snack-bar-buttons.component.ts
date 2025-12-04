@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 
 export interface SnackBarData {
-    buttons: any[];
+    buttons: { label: string }[];
 }
 
 @Component({
@@ -14,12 +14,11 @@ export interface SnackBarData {
     styleUrls: ['./snack-bar-buttons.component.scss'],
     imports: [MatButtonModule, MatIconModule]
 })
-export class SnackBarButtonsComponent  {
+export class SnackBarButtonsComponent {
     constructor(
         @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData,
         public snackBarRef: MatSnackBarRef<SnackBarButtonsComponent>
     ) {}
-
 
     closeDialog() {
         this.snackBarRef.dismiss();

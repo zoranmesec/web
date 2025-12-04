@@ -1,8 +1,8 @@
 <div>
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline">
+        <mat-label>{{ typeLabel }}</mat-label>
+        <mat-form-field class="m-t-8">
             <mat-icon matPrefix class="my-icon">search</mat-icon>
-            <mat-label>{{ typeLabel }}</mat-label>
             <input #searchInput type="text" matInput mat placeholder="Vnesi ime" formControlName="searchControl" [matAutocomplete]="auto" />
             <mat-autocomplete
                 #auto="matAutocomplete"

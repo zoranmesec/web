@@ -1,5 +1,10 @@
 @if (this.allGrades) {
-    <div class="flex flex-row">
+    <div>
+        @if (label) {
+            <mat-label>{{ label }}</mat-label>
+        }
+    </div>
+    <div class="flex flex-row m-t-8">
         <div class="m-r-16 p-t-8">
             <app-minus-icon
                 (click)="decrementGrade()"
@@ -7,11 +12,8 @@
                 [class.enabled]="!control.disabled && canDecrement()"
             ></app-minus-icon>
         </div>
-        <div>
+        <div class="flex flex-column">
             <mat-form-field class="w-100" [class.no-hint]="noHint" appearance="outline">
-                @if (label) {
-                    <mat-label>{{ label }}</mat-label>
-                }
                 <mat-select [formControl]="control">
                     <mat-option>
                         <ngx-mat-select-search

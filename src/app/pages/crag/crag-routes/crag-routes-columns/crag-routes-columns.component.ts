@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { KeyValue } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -162,9 +161,4 @@ export class CragRoutesColumnsComponent implements OnDestroy {
         this.columnForm.controls['comments'].setValue(true);
         this.columnForm.controls['myAscents'].setValue(true);
     }
-
-    // Preserve original property order, when using keyvalue pipe in template
-    originalOrder = (_a: KeyValue<any, any>, _b: KeyValue<any, any>): number => {
-        return 0;
-    };
 }

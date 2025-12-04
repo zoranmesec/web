@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ObservableQuery } from '@apollo/client';
 import { QueryRef } from 'apollo-angular';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, switchMap, take } from 'rxjs/operators';
@@ -13,7 +14,11 @@ import {
     ActivityRoute,
     ActivityRoutesByClubSlugGQL,
     ActivityRoutesByClubSlugQuery,
-    Club
+    Club,
+    Exact,
+    FindActivityRoutesInput,
+    InputMaybe,
+    Scalars
 } from 'src/generated/graphql';
 import { ClubService } from '../club.service';
 
@@ -27,7 +32,10 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
     loading = true;
     error: DataError = null;
 
-    activityRoutesQuery: QueryRef<any, any>;
+    activityRoutesQuery: QueryRef<
+        ActivityRoutesByClubSlugQuery,
+        Exact<{ clubSlug: Scalars['String']['input']; input?: InputMaybe<FindActivityRoutesInput> }>
+    >;
 
     activityRoutes: ActivityRoutesByClubSlugQuery['activityRoutesByClubSlug']['items'];
     pagination: ActivityRoutesByClubSlugQuery['activityRoutesByClubSlug']['meta'];
@@ -136,11 +144,13 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
                 })
             )
             .subscribe({
-                next: (result: any) => {
-                    this.loading = false;
-                    this.ignoreFormChange = false;
+                next: (result: ObservableQuery.Result<ActivityRoutesByClubSlugQuery, 'complete' | 'empty' | 'streaming' | 'partial'>) => {
+                    if (result.data !== undefined) {
+                        this.loading = false;
+                        this.ignoreFormChange = false;
 
-                    this.querySuccess(result.data);
+                        this.querySuccess(result.data as ActivityRoutesByClubSlugQuery);
+                    }
                 },
                 error: (error) => {
                     this.clubService.emitError(error);
@@ -184,7 +194,7 @@ export class ClubActivityRoutesComponent implements OnInit, OnDestroy {
         });
     }
 
-    querySuccess(data: any) {
+    querySuccess(data: ActivityRoutesByClubSlugQuery) {
         this.activityRoutes = data.activityRoutesByClubSlug.items;
         this.pagination = data.activityRoutesByClubSlug.meta;
 

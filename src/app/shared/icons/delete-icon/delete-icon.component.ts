@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
     selector: 'app-delete-icon',
@@ -7,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrl: './delete-icon.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeleteIconComponent {}
+export class DeleteIconComponent {
+    disabled = input<boolean>(false);
+}

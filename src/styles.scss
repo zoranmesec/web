@@ -38,12 +38,35 @@ body {
         )
     );
 
+    @include mat.dialog-overrides(
+        (
+            headline-padding: 0
+        )
+    );
+
     @include mat.select-overrides(());
 
     @include mat.button-overrides(
         (
             outlined-label-text-size: 16px,
-            outlined-hover-state-layer-opacity: 0
+            outlined-hover-state-layer-opacity: 0,
+            outlined-outline-color: white,
+            outlined-horizontal-padding: 4px
+        )
+    );
+
+    @include mat.fab-overrides(
+        (
+            container-color: white,
+            container-elevation-shadow: none,
+            extended-focus-container-elevation-shadow: none,
+            focus-state-layer-opacity: 0,
+            foreground-color: var(--mat-sys-primary),
+            hover-container-elevation-shadow: none,
+            state-layer-color: white,
+            extended-pressed-container-elevation-shadow: none,
+            focus-container-elevation-shadow: none,
+            pressed-container-elevation-shadow: none
         )
     );
 
@@ -57,7 +80,17 @@ body {
     @include mat.checkbox-overrides(
         (
             selected-icon-color: var(--mat-sys-secondary),
-            unselected-icon-color: var(--mat-sys-secondary)
+            unselected-icon-color: var(--mat-sys-on-surface-variant),
+            unselected-hover-icon-color: var(--mat-sys-outline),
+            unselected-pressed-state-layer-opacity: 0,
+            unselected-hover-state-layer-opacity: 0,
+            unselected-focus-state-layer-opacity: 0,
+            selected-focus-state-layer-opacity: 0,
+            selected-hover-state-layer-opacity: 0,
+            selected-pressed-state-layer-opacity: 0,
+            selected-focus-icon-color: var(--mat-sys-secondary),
+            selected-hover-icon-color: var(--mat-sys-secondary),
+            state-layer-size: 20px
         )
     );
 
@@ -68,7 +101,8 @@ body {
             unselected-icon-color: var(--mat-sys-outline-variant),
             unselected-focus-icon-color: var(--mat-sys-secondary),
             selected-focus-icon-color: var(--mat-sys-secondary),
-            selected-hover-icon-color: mat.get-theme-color(m3-theme.$light-theme, secondary, 60)
+            selected-hover-icon-color: mat.get-theme-color(m3-theme.$light-theme, secondary, 60),
+            label-text-size: 16px
         )
     );
 
@@ -112,6 +146,9 @@ body {
     }
 
     .mat-mdc-menu-panel {
+        box-shadow: 0px 10px 15px -3px var(--mat-sys-on-surface-variant);
+
+        box-shadow: 0px 4px 6px -4px var(--mat-sys-on-surface-variant);
         border: 1px solid var(--mat-sys-on-surface-variant);
     }
 
@@ -137,22 +174,13 @@ body {
         color: var(--mat-sys-on-surface-variant);
     }
 
-    .mat-internal-form-field > label {
-        padding-left: 16px !important;
-    }
-
     & {
-        --mat-checkbox-state-layer-size: 40px;
-        // TODO replace hardcoded color with variable
-        --mat-checkbox-unselected-focus-icon-color: #737373;
-        --mat-checkbox-label-text-size: --mat-sys-body-large-size;
         --mat-form-field-filled-container-color: white;
         --mat-form-field-outlined-container-shape: 8px;
         --mat-select-panel-background-color: white;
         --mat-option-selected-state-label-text-color: var(--mat-sys-secondary);
         --mat-radio-checked-ripple-color: var(--mat-sys-secondary);
         --mat-radio-selected-icon-color: var(--mat-sys-secondary);
-        --mat-radio-label-text-size: var(--mat-sys-body-large-size) !important;
         --mat-snackbar-container-color: var(--mat-sys-surface) !important;
         --mat-button-filled-container-color: var(--mat-sys-secondary) !important;
         --mat-button-filled-container-shape: 8px !important;
@@ -161,8 +189,6 @@ body {
         --mat-paginator-container-background-color: var(--mat-sys-on-secondary) !important;
         --mat-sys-body-large-line-height: 24px !important;
         --mat-dialog-supporting-text-color: var(--mat-sys-primary) !important;
-        --mat-pseudo-checkbox-full-selected-icon-color: var(--mat-sys-secondary) !important;
-        --mat-pseudo-checkbox-minimal-selected-checkmark-color: var(--mat-sys-secondary) !important;
         line-height: var(--mat-sys-body-large-line-height) !important;
 
         --mat-sys-display-large: 400 3.562rem / 4rem Poppins;
@@ -273,7 +299,7 @@ body {
     position: inherit;
     height: 16px;
     width: 16px;
-    border: 1px solid mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
+    border: 1px solid var(--mat-sys-on-surface-variant);
     background-color: #ffffff;
     border-radius: 6px;
     display: block;
@@ -362,6 +388,7 @@ h2 {
     color: var(--mat-sys-primary);
     font: var(--mat-sys-headline-small);
     line-height: 28px;
+    padding: 0;
 }
 
 h3 {
@@ -541,6 +568,10 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
     text-decoration: underline;
 }
 
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
 .route-link {
     font-weight: var(--mat-sys-title-medium-weight) !important;
 }
@@ -555,3 +586,77 @@ $header-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 // mat-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
 //   background-color: var(--mat-sys-secondary) !important;
 // }
+
+button {
+    border: 3px solid #ffffff;
+    border-radius: 8px;
+}
+
+button.border {
+    border: 3px solid #ffffff !important;
+    border-radius: 8px !important;
+    font-weight: var(--mat-sys-display-medium-weight) !important;
+}
+
+button.border:hover {
+    border: 3px solid $light-blue !important;
+    border-radius: 8px !important;
+}
+
+.mat-mdc-menu-item {
+    border-left: 4px solid white !important;
+    border-radius: 0 !important;
+}
+
+.mat-mdc-menu-item:hover {
+    border-left: 4px solid #aaccf0 !important;
+    border-radius: 0 !important;
+}
+
+a.mat-mdc-menu-item:hover {
+    text-decoration: none !important;
+}
+
+.mdc-checkbox__background {
+    border-radius: 6px !important;
+    border-width: 1px !important;
+}
+
+.mdc-checkbox__checkmark {
+    left: 2.5px !important;
+    top: 3px !important;
+    width: 60% !important;
+}
+
+.status-draft,
+.warn {
+    background-color: #fbecea !important;
+
+    border-radius: 8px;
+}
+
+.status-in_review,
+.notice {
+    background-color: #fbf5ea !important;
+    border-radius: 8px;
+}
+
+.publish-status-actions {
+    color: var(--mat-sys-outline);
+}
+
+.dot {
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+}
+
+.dot.large {
+    height: 14px !important;
+    width: 14px !important;
+}
+.dot.extra-large {
+    height: 18px !important;
+    width: 18px !important;
+}

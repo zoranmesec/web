@@ -1,68 +1,97 @@
-<form class="form no-hints" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (submit)="save()">
-    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="stretch center" fxLayout.lt-md="column" fxLayoutAlign.lt-md="stretch">
-        <mat-form-field fxFlex>
-            <mat-label>Ime smeri</mat-label>
-            <input matInput formControlName="name" />
-        </mat-form-field>
-
-        @if (form.controls.routeTypeId.value !== 'boulder') {
-            <mat-form-field fxFlex>
-                <mat-label>Dolžina smeri</mat-label>
-                <input matInput formControlName="length" mask="9999" suffix=" m" />
-            </mat-form-field>
+<div class="p-32">
+    <h2 mat-dialog-title>
+        @if (this.data.route !== undefined) {
+            Urejanje smeri {{ this.data.route.name }}
+        } @else {
+            Dodajanje smeri
         }
-    </div>
-    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="stretch center" fxLayout.lt-md="column" fxLayoutAlign.lt-md="stretch">
-        <mat-form-field fxFlex>
-            <mat-label>Tip smeri</mat-label>
-            <mat-select formControlName="routeTypeId">
-                @for (option of typeOptions; track option) {
-                    <mat-option [value]="option.value">{{ option.label }}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field fxFlex>
-            <mat-label>Sistem ocenjevanja</mat-label>
-            <mat-select [formControl]="form.controls.defaultGradingSystemId">
-                @for (option of gradingSystemOptions; track option) {
-                    <mat-option [value]="option.id">{{ option.name }}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-    </div>
+    </h2>
 
-    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="stretch center" fxLayout.lt-md="column" fxLayoutAlign.lt-md="stretch">
-        <div fxLayout="column" fxFlex>
+    <form class="form no-hints" fxLayout="column" [formGroup]="form" (submit)="save()">
+        <div class="flex flex-column">
+            <mat-label>Ime smeri</mat-label>
+            <mat-form-field class="p-t-4" appearance="outline">
+                <input matInput formControlName="name" />
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column">
+            <mat-label>Tip smeri</mat-label>
+            <mat-form-field class="p-t-4" appearance="outline">
+                <mat-select formControlName="routeTypeId">
+                    @for (option of typeOptions; track option) {
+                        <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column">
+            <mat-label>Sistem ocenjevanja</mat-label>
+            <mat-form-field class="p-t-4" appearance="outline">
+                <mat-select [formControl]="form.controls.defaultGradingSystemId">
+                    @for (option of gradingSystemOptions; track option) {
+                        <mat-option [value]="option.id">{{ option.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <div>
+                <app-grade-select
+                    label="Bazna ocena"
+                    [control]="form.controls.baseDifficulty"
+                    [gradingSystemId]="form.value.defaultGradingSystemId"
+                ></app-grade-select>
+            </div>
+        </div>
+
+        <div>
             <mat-checkbox formControlName="isProject">Smer je projekt</mat-checkbox>
         </div>
-        <div fxFlex>
-            <app-grade-select
-                fxFlex
-                label="Bazna ocena"
-                [control]="form.controls.baseDifficulty"
-                [gradingSystemId]="form.value.defaultGradingSystemId"
-            ></app-grade-select>
-        </div>
-    </div>
 
-    <mat-dialog-actions fxLayout="column" fxLayoutAlign="center end" fxLayoutGap="8px">
-        @if (!editing) {
-            <div>
-                <mat-checkbox formControlName="addAnother">Dodaj še eno</mat-checkbox>
-            </div>
-        }
-        <div fxLayout="row" fxLayoutAlign="end center">
-            @if (!saving) {
-                <button mat-button [mat-dialog-close]="null">Prekliči</button>
-                @if (!saving) {
-                    <button type="submit" mat-button color="primary" [disabled]="!form.valid || form.pristine">Shrani</button>
-                }
-            }
-            @if (saving) {
-                <span class="loading">
-                    <mat-spinner diameter="30"></mat-spinner>
-                </span>
+        <div class="flex flex-column m-t-16">
+            @if (form.controls.routeTypeId.value !== 'boulder') {
+                <mat-label>Dolžina smeri</mat-label>
+                <mat-form-field class="p-t-4">
+                    <span matTextSuffix>&nbsp;m</span>
+                    <input matInput formControlName="length" />
+                </mat-form-field>
             }
         </div>
-    </mat-dialog-actions>
-</form>
+
+        <div class="flex flex-column">
+            <mat-label>Avtor</mat-label>
+            <mat-form-field class="p-t-4" appearance="outline">
+                <input matInput formControlName="author" />
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-column">
+            <mat-label>Opis smeri</mat-label>
+            <mat-form-field class="p-t-4" appearance="outline">
+                <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+        </div>
+        <div class="text-right">
+            @if (!editing) {
+                <div>
+                    <mat-checkbox formControlName="addAnother">Dodaj še eno</mat-checkbox>
+                </div>
+            }
+        </div>
+        <mat-dialog-actions fxLayout="column" fxLayoutAlign="center end" fxLayoutGap="8px">
+            <div fxLayout="row" fxLayoutAlign="end center">
+                @if (!saving) {
+                    <button mat-button [mat-dialog-close]="null">Prekliči</button>
+                    @if (!saving) {
+                        <button type="submit" mat-flat-button [disabled]="!form.valid || form.pristine">Shrani</button>
+                    }
+                }
+                @if (saving) {
+                    <span class="loading">
+                        <mat-spinner diameter="30"></mat-spinner>
+                    </span>
+                }
+            </div>
+        </mat-dialog-actions>
+    </form>
+</div>

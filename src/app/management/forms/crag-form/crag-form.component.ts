@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnChanges, OnDestroy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MutateResult } from '@apollo/client';
+import { ApolloClient, MutateResult } from '@apollo/client';
 import { User } from '@sentry/angular';
 import { Apollo } from 'apollo-angular';
 import { filter, Observable, Subscription, switchMap, take, tap } from 'rxjs';
@@ -23,6 +23,7 @@ import {
     ManagementCragFormGetCountriesGQL,
     ManagementCragFormGetCountriesQuery,
     ManagementCreateCragGQL,
+    ManagementCreateCragMutation,
     ManagementDeleteCragGQL,
     ManagementUpdateCragGQL,
     Orientation,
@@ -67,7 +68,8 @@ export interface WallAngleData {
         WallAngleOptionComponent,
         SeasonOptionComponent,
         MatRadioModule,
-        MatButtonModule
+        MatButtonModule,
+        MatDividerModule
     ]
 })
 export class CragFormComponent implements OnChanges, OnDestroy {
@@ -92,8 +94,8 @@ export class CragFormComponent implements OnChanges, OnDestroy {
         rainproof: this.fb.control<boolean | null>(null),
         seasons: this.fb.control<Season[]>([]),
         approachTime: this.fb.control<number | null>(null),
-        parking_lat: this.fb.control<number>({ value: 0, disabled: true }),
-        parking_lon: this.fb.control<number>(0)
+        parkingLat: this.fb.control<number>({ value: 0, disabled: true }),
+        parkingLon: this.fb.control<number>(0)
     });
 
     loading = false;
@@ -151,8 +153,13 @@ export class CragFormComponent implements OnChanges, OnDestroy {
         private deleteCragGQL: ManagementDeleteCragGQL,
         private apollo: Apollo,
         public contributionService: ContributionService,
-        protected readonly breakpointService: BreakpointService
+        protected readonly breakpointService: BreakpointService,
+        private readonly cdr: ChangeDetectorRef
     ) {}
+
+    get isAdmin() {
+        return this.user?.roles.includes('admin');
+    }
 
     ngOnChanges(): void {
         this.cragForm.disable();
@@ -191,6 +198,7 @@ export class CragFormComponent implements OnChanges, OnDestroy {
 
         this.cragForm.valueChanges.subscribe(() => {
             this.cragForm.markAsDirty();
+            this.cdr.markForCheck();
         });
 
         const countrySub = this.cragForm.controls.countryId.valueChanges.subscribe((v) => {
@@ -263,13 +271,13 @@ export class CragFormComponent implements OnChanges, OnDestroy {
         }
 
         mutation.pipe(take(1)).subscribe({
-            next: (result: any) => {
+            next: (result: ApolloClient.MutateResult<ManagementCreateCragMutation>) => {
                 this.snackBar.open('Podatki o plezališču so shranjeni', null, {
                     duration: 3000
                 });
 
                 this.apollo.client.resetStore().then(() => {
-                    if (this.crag === null && result.data?.createCrag?.id) {
+                    if (this.crag === undefined && result.data?.createCrag?.id) {
                         this.router.navigate(['/urejanje/uredi-plezalisce', result.data.createCrag.id]);
                     }
 

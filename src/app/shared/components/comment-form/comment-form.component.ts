@@ -64,7 +64,6 @@ export class CommentFormComponent implements OnInit {
         this.updateFormType();
 
         if (this.comment !== undefined) {
-
             this.commentForm.patchValue({
                 content: this.comment.content,
                 type: this.comment.type
@@ -179,7 +178,7 @@ export class CommentFormComponent implements OnInit {
                 refetchQueries: [namedOperations.Query.CragBySlug, namedOperations.Query.IceFallBySlug]
             })
             .subscribe({
-                next: (_result: any) => {
+                next: () => {
                     this.loading = false;
                 },
                 error: () => {
@@ -198,6 +197,6 @@ export class CommentFormComponent implements OnInit {
     }
 
     get contentControlHasError(): boolean {
-        return this.commentForm.get('content')?.hasError('minlength')
+        return this.commentForm.get('content')?.hasError('minlength');
     }
 }

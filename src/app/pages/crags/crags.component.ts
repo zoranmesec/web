@@ -63,8 +63,6 @@ export class CragsComponent implements OnInit {
 
     crags$ = new BehaviorSubject<CragsQuery['countryBySlug']['crags']>([]);
 
-    map: any;
-
     search = new FormControl();
 
     filteredCrags: CragsQuery['countryBySlug']['crags'] = [];
@@ -87,7 +85,6 @@ export class CragsComponent implements OnInit {
     protected selectedMinGrade: number | null = null;
     protected selectedMaxGrade: number | null = null;
     protected searchFieldVisible = true;
-    params: any;
     constructor(
         private authService: AuthService,
         private layoutService: LayoutService,
@@ -298,12 +295,12 @@ export class CragsComponent implements OnInit {
         );
     }
 
-    makeRoute(country: string, params: any = {}) {
+    makeRoute(country: string, params: Record<string, string | null> = {}) {
         return ['/plezalisca', country, this.routeParams(params)];
     }
 
-    routeParams(params: any): any {
-        params = { ...this.params, ...params };
+    routeParams(params: Record<string, string | null>): Record<string, string> {
+        params = { ...params };
 
         Object.keys(params).forEach((key) => {
             if (params[key] === null) {

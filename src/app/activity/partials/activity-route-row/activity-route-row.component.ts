@@ -13,7 +13,7 @@ import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascen
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { ActivityRoute, ActivityRouteChangePublishGQL, namedOperations } from 'src/generated/graphql';
-import { RowAction } from '../../pages/activity-log/activity-log.component';
+import { RowAction } from '../../pages/activity-routes/activity-routes.component';
 
 @Component({
     selector: '[app-activity-route-row]',

@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ObservableQuery } from '@apollo/client';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { ClubFormComponent } from 'src/app/forms/club-form/club-form.component';
 import { LayoutService } from 'src/app/services/layout.service';
 import { DataError } from 'src/app/types/data-error';
-import { Club, MyClubsGQL, MyClubsQuery } from '../../../generated/graphql';
+import { Club, Exact, MyClubsGQL, MyClubsQuery } from '../../../generated/graphql';
 
 @Component({
     selector: 'app-clubs',
@@ -18,8 +19,9 @@ export class ClubsComponent implements OnInit, OnDestroy {
     myClubs: Club[] = [];
     loading = true;
     error: DataError = null;
-    myClubsQuery: QueryRef<MyClubsQuery, any>;
+
     myClubsSubscription: Subscription;
+    myClubsQuery: QueryRef<MyClubsQuery, Exact<Record<string, never>>>;
 
     constructor(
         private layoutService: LayoutService,
@@ -29,20 +31,24 @@ export class ClubsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.myClubsQuery = this.myClubsGQL.watch();
-        this.myClubsSubscription = this.myClubsQuery.valueChanges.subscribe((result: any) => {
-            this.loading = false;
-            if (result.errors !== null) {
-                this.error = {
-                    message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.'
-                };
-            } else {
-                this.querySuccess(result.data);
+        this.myClubsSubscription = this.myClubsQuery.valueChanges.subscribe(
+            (result: ObservableQuery.Result<MyClubsQuery, 'empty' | 'complete' | 'streaming' | 'partial'>) => {
+                if (result.data !== undefined) {
+                    this.querySuccess(result.data as MyClubsQuery);
+                    this.loading = false;
+                }
+
+                if (result.error !== null) {
+                    this.error = {
+                        message: 'Prišlo je do nepričakovane napake pri zajemu podatkov.'
+                    };
+                }
             }
-        });
+        );
     }
 
-    querySuccess(data: any) {
-        this.myClubs = data.myClubs;
+    querySuccess(data: MyClubsQuery) {
+        this.myClubs = data.myClubs as Club[];
 
         this.layoutService.$breadcrumbs.next([
             {

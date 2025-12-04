@@ -6,7 +6,7 @@
                     class="border-right flex flex-row flex-align-center flex-center"
                     ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
                 >
-                    <button type="button" mat-stroked-button (click)="toggleFilterSelection()">
+                    <button type="button" class="border" mat-stroked-button (click)="toggleFilterSelection()">
                         <mat-icon>tune</mat-icon>
                         <span [class.hidden]="breakpointService.ltLg" class="p-l-8">
                             @if (showFilters) {
@@ -21,7 +21,7 @@
                     </button>
                 </div>
                 <div class="border-right flex flex-row flex-align-center flex-center">
-                    <button type="button" mat-stroked-button (click)="toggleColumnSelection()">
+                    <button type="button" mat-stroked-button class="border" (click)="toggleColumnSelection()">
                         <div class="flex flex-row">
                             <app-columns-icon></app-columns-icon>
                             <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Izberi stolpce</span>
@@ -59,7 +59,7 @@
                 <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
                     <mat-label>
                         <mat-icon class="search-icon">search</mat-icon>
-                        <span>Poišči po imenu123</span></mat-label
+                        <span>Poišči po imenu</span></mat-label
                     >
                     <input matInput [formControl]="search" autocomplete="off" />
                 </mat-form-field>

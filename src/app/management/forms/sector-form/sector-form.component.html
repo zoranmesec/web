@@ -1,27 +1,28 @@
 <div class="p-16">
-    <h2 mat-dialog-title>Dodajanje sektorja</h2>
-    <form [formGroup]="form" (submit)="save()">
-        <div
-            class="form"
-            fxLayout="row"
-            fxLayoutGap="12px"
-            fxLayoutAlign="stretch center"
-            fxLayout.lt-md="column"
-            fxLayoutAlign.lt-md="stretch"
-        >
-            <mat-form-field fxFlex appearance="outline">
-                <mat-label>Ime sektorja</mat-label>
-                <input matInput formControlName="name" />
+    <h2 mat-dialog-title>
+        @if (data?.sector !== undefined) {
+            Urejanje sektorja
+        } @else {
+            Dodajanje sektorja
+        }
+    </h2>
+    <form [formGroup]="form">
+        <div class="form flex flex-column gap-8">
+            <mat-label>Ime sektorja</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput formControlName="label" />
                 <mat-hint>npr. A - Centralni</mat-hint>
             </mat-form-field>
         </div>
         <mat-dialog-actions align="end">
-            <div fxLayout="row" fxLayoutAlign="end center">
+            <div>
                 @if (!saving) {
                     <button mat-flat-button [mat-dialog-close]="null">Prekliči</button>
                 }
                 @if (!saving) {
-                    <button type="submit" mat-flat-button color="primary" [disabled]="!form.valid || form.pristine">Shrani</button>
+                    <button type="submit" mat-flat-button color="primary" (click)="save()" [disabled]="!form.valid || form.pristine">
+                        Shrani
+                    </button>
                 }
                 @if (saving) {
                     <span class="loading">

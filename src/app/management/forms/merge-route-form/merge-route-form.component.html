@@ -1,0 +1,66 @@
+<div class="p-16">
+    <h2 mat-dialog-title>Združevanje dveh smeri</h2>
+</div>
+<form class="form no-hints" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (submit)="save()">
+    <mat-dialog-content>
+        <div>
+            <div>Izberi 'glavno smer', v kateri se bodo združili podatki obeh smeri.</div>
+
+            <div class="m-t-16 m-b-8">Glavna smer:</div>
+            <mat-radio-group formControlName="sourceRoute" class="flex flex-column gap-8">
+                <mat-radio-button [value]="data.primaryRoute">
+                    <div class="flex flex-row w-100">
+                        <span> {{ data.primaryRoute.name }},&nbsp;</span>
+                        <span class="ml-8">
+                            <app-grade
+                                [difficulty]="data.primaryRoute.difficulty"
+                                [gradingSystemId]="data.primaryRoute.defaultGradingSystem?.id"
+                                [showModifier]="true"
+                            ></app-grade>
+                        </span>
+                        @if (data.primaryRoute.length) {
+                            <span>,&nbsp;{{ data.primaryRoute.length }}m,&nbsp;</span>
+                        }
+                        <span>,&nbsp;{{ data.primaryRoute.created | date: 'd. M. yyyy' }}</span>
+                    </div>
+                </mat-radio-button>
+
+                <mat-radio-button [value]="data.secondaryRoute">
+                    <div class="flex flex-row w-100">
+                        {{ data.secondaryRoute.name }},&nbsp;
+                        <span class="ml-8">
+                            <app-grade
+                                [difficulty]="data.secondaryRoute.difficulty"
+                                [gradingSystemId]="data.secondaryRoute.defaultGradingSystem?.id"
+                                [showModifier]="true"
+                            ></app-grade>
+                        </span>
+                        @if (data.secondaryRoute.length) {
+                            <span>,&nbsp;{{ data.secondaryRoute.length }}m,&nbsp;</span>
+                        }
+                        <span>,&nbsp;{{ data.secondaryRoute.created | date: 'd. M. yyyy' }}</span>
+                    </div>
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="p-t-16">
+                Komentarji, vzponi, glasovi in fotografije se bodo združili. Ime, datum vnosa, bazna ocena, dolžina, avtor in opis se bodo
+                ohranili samo od ‘glavne smeri’
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <div>
+            @if (!saving) {
+                <button mat-button [mat-dialog-close]="null">Prekliči</button>
+                @if (!saving) {
+                    <button type="submit" mat-flat-button color="primary" [disabled]="!form.valid || form.pristine">Shrani</button>
+                }
+            }
+            @if (saving) {
+                <span class="loading">
+                    <mat-spinner diameter="30"></mat-spinner>
+                </span>
+            }
+        </div>
+    </mat-dialog-actions>
+</form>

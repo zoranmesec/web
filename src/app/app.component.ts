@@ -1,9 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 
 import { HeaderComponent } from './layout/header/header.component';
 
@@ -11,9 +8,8 @@ import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component
 
 import { LoginComponent } from './auth/login/login.component';
 
-import { DateAdapter, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
 
-import { Platform } from '@angular/cdk/platform';
 import { registerLocaleData } from '@angular/common';
 import localeSl from '@angular/common/locales/sl';
 import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
@@ -23,14 +19,9 @@ import { Subscription, filter, take } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { LayoutService } from './services/layout.service';
 import { ScrollService } from './services/scroll.service';
-import { CustomBreakpointsProvider } from './shared/custom-breakpoints';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 declare let gtag: Function;
-
-const formFieldAppearance: MatFormFieldDefaultOptions = {
-    appearance: 'fill'
-};
 
 export class CustomDateAdapter extends NativeDateAdapter {
     constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: string) {
@@ -39,6 +30,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
 
     getFirstDayOfWeek = () => 1;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     parse(value: any): Date {
         const arr = value.split('.');
         if (arr.length === 3) {
@@ -54,20 +46,6 @@ export class CustomDateAdapter extends NativeDateAdapter {
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './app.component.html',
     imports: [RouterLink, HeaderComponent, BreadcrumbsComponent, RouterModule],
-    providers: [
-        CustomBreakpointsProvider,
-        {
-            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-            useValue: formFieldAppearance
-        },
-
-        { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
-        {
-            provide: DateAdapter,
-            useClass: CustomDateAdapter,
-            deps: [MAT_DATE_LOCALE, Platform]
-        }
-    ],
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -81,15 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private dialog: MatDialog,
         private router: Router,
         private layoutService: LayoutService,
-        private matIconRegistry: MatIconRegistry,
-        private domSanitizer: DomSanitizer,
         private scrollService: ScrollService
-    ) {
-        this.matIconRegistry.addSvgIcon('multipitch', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/multipitch.svg'));
-        this.matIconRegistry.addSvgIcon('toprope', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/toprope.svg'));
-
-        this.matIconRegistry.registerFontClassAlias('matSymbols', 'material-symbols');
-    }
+    ) {}
 
     ngOnInit(): void {
         this.authService.initialize();

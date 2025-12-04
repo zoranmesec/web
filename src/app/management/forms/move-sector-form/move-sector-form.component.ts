@@ -1,6 +1,11 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
@@ -17,7 +22,16 @@ export interface MoveSectorFormComponentData {
     selector: 'app-move-sector-form',
     templateUrl: './move-sector-form.component.html',
     styleUrls: ['./move-sector-form.component.scss'],
-    imports: [ FormsModule, ReactiveFormsModule, MatDialogActions]
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        AsyncPipe
+    ]
 })
 export class MoveSectorFormComponent implements OnInit, OnDestroy {
     crags: Crag[];
@@ -28,12 +42,12 @@ export class MoveSectorFormComponent implements OnInit, OnDestroy {
     filteredCrags: Observable<Crag[]>;
     findCragControl = new UntypedFormControl('');
 
-    form = new UntypedFormGroup({
-        crag: new UntypedFormControl(null, Validators.required)
+    form = new FormGroup({
+        crag: new FormControl(null, Validators.required)
     });
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) private data: MoveSectorFormComponentData,
+        @Inject(MAT_DIALOG_DATA) protected data: MoveSectorFormComponentData,
         private cragsGQL: ManagementMoveSectorFormGetCragsGQL,
         private moveSectorGQL: ManagementMoveSectorToCragGQL,
         private apollo: Apollo,
@@ -43,6 +57,7 @@ export class MoveSectorFormComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        console.log(this.data);
         this.form.controls.crag.disable();
         const subscription = this.cragsGQL.fetch({ variables: { country: this.data.countrySlug } }).subscribe((result) => {
             this.crags = (result.data.countryBySlug.crags as Crag[]).filter(({ id }) => id !== this.data.crag.id);

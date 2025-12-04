@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PluralizeNoun } from 'src/app/shared/pipes/pluralize-noun.pipe';
+import { PluralizeVerb } from 'src/app/shared/pipes/pluralize-verb.pipe';
 import { Contribution, PendingContributionsGQL } from 'src/generated/graphql';
 import { LoadingSpinnerService } from '../loading-spinner.service';
 
@@ -8,7 +12,8 @@ import { LoadingSpinnerService } from '../loading-spinner.service';
     selector: 'app-pending-contributions-hints',
     templateUrl: './pending-contributions-hints.component.html',
     styleUrls: ['./pending-contributions-hints.component.scss'],
-    imports: []
+    imports: [PluralizeNoun, MatCardModule, RouterModule, PluralizeVerb],
+    providers: [PluralizeNoun, PluralizeVerb]
 })
 export class PendingContributionsHintsComponent implements OnInit, OnDestroy {
     isAdmin = false;

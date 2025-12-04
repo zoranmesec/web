@@ -87,7 +87,7 @@ import { ActivityRowComponent } from './partials/activity-row/activity-row.compo
                 }
             }
         },
-        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        { provide: MAT_DATE_LOCALE, useValue: 'sl-SI' },
         { provide: GenderizeVerbPipe, useClass: GenderizeVerbPipe }
     ]
 })

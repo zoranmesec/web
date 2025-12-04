@@ -1,29 +1,24 @@
-<mat-dialog-content>
-    @if (data.newStatus === 'published') {
-        <p>Si prepričan_a da želiš objaviti prispevek?</p>
-    }
-    @if (data.newStatus === 'in_review') {
-        <p>Si prepričan_a da želiš uredništvu predlagati objavo prispevka?</p>
-    }
+<div class="p-16">
+    <h2 mat-dialog-title>Predlog uredništvu</h2>
+</div>
+<mat-dialog-content [formGroup]="publishForm" class="flex flex-column">
+    <span>{{ data.message }}</span>
     @if (data.newStatus === 'draft') {
-        <p>Si prepričan_a da želiš zavrniti predlog za objavo prispevka?</p>
-    }
-    @if (data.newStatus === 'draft') {
-        <div class="mt-16">
-            <mat-form-field class="no-hint">
-                <mat-label>Razlog za zavrnitev prispevka</mat-label>
+        <div class="m-t-16 flex flex-column">
+            <mat-label>Razlog za zavrnitev prispevka</mat-label>
+            <mat-form-field class="no-hint p-t-8">
                 <textarea matInput formControlName="rejectionMessage" required></textarea>
             </mat-form-field>
-            <p class="footnote">
-                Razlog za zavrnitev prispevka bo posredovan uporabniku_ci, ki je predlagal_a objavo. Na podlagi tvojega sporočila bo lahko
-                uredil_a prispevek tako, da bo primeren za objavo.
-            </p>
+            <div>
+                Razlog za zavrnitev prispevka bo posredovan osebi, ki je predlagala objavo. Na podlagi tega sporočila bo lahko uredila
+                prispevek tako, da bo primeren za objavo.
+            </div>
         </div>
     }
 
     <p class="mt-16">
         @if (data.cascadeMessage) {
-            <mat-checkbox formControlName="cascade" [disabled]="data.forceCascade">{{ data.cascadeMessage }}</mat-checkbox>
+            <mat-checkbox formControlName="cascade">{{ data.cascadeMessage }}</mat-checkbox>
         }
     </p>
 </mat-dialog-content>
@@ -38,6 +33,6 @@
         }"
         [disabled]="data.newStatus === 'draft' && !publishForm.value.rejectionMessage"
     >
-        Potrdi
+        {{ data.actionLabel }}
     </button>
 </mat-dialog-actions>

@@ -123,38 +123,6 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         }
     }
 
-    button.border {
-        border: 3px solid #ffffff;
-        border-radius: 8px;
-    }
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-        button {
-            padding: 0 !important;
-        }
-    }
-
-    button.border:hover {
-        border: 3px solid #aaccf0;
-        border-radius: 8px;
-    }
-
-    button {
-        border: 3px solid #ffffff;
-        border-radius: 8px;
-    }
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-        button {
-            padding: 0 !important;
-        }
-    }
-
-    button:hover {
-        border: 3px solid #aaccf0;
-        border-radius: 8px;
-    }
-
     mat-accordion {
         ::ng-deep {
             .mat-expansion-panel {

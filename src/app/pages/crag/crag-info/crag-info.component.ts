@@ -51,7 +51,7 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
 
     attendanceDistribution: IDistribution[] = [];
 
-    crags$ = new BehaviorSubject<any>([]);
+    crags$ = new BehaviorSubject<Crag[]>([]);
     user: User;
     subscriptions = [];
 

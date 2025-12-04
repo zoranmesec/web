@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChil
 import { DistributionChartComponent, IDistribution } from 'src/app/common/distribution-chart/distribution-chart.component';
 import { PublishStatusHintComponent } from 'src/app/shared/components/publish-status-hint/publish-status-hint.component';
 import { GradeDistributionService } from 'src/app/shared/services/grade-distribution.service';
-import { RouteCommentsGQL, RouteCommentsQuery, RouteDifficultyVotesGQL, RouteDifficultyVotesQuery } from 'src/generated/graphql';
+import { Comment, RouteCommentsGQL, RouteCommentsQuery, RouteDifficultyVotesGQL, RouteDifficultyVotesQuery } from 'src/generated/graphql';
 
 import { RouteCommentsComponent } from '../../route/route-comments/route-comments.component';
 
@@ -15,7 +15,7 @@ import { RouteCommentsComponent } from '../../route/route-comments/route-comment
 export class CragRoutePreviewComponent implements OnChanges {
     gradeDistribution: IDistribution[] = [];
     gradeDistributionLoading: boolean;
-    routeComments: Record<string, string | any>[];
+    routeComments: Comment[];
     routeCommentsLoading: boolean;
 
     childViewsInitialized = {};
@@ -83,7 +83,7 @@ export class CragRoutePreviewComponent implements OnChanges {
     }
 
     routeCommentsQuerySuccess(queryData: RouteCommentsQuery): void {
-        this.routeComments = queryData.route.comments;
+        this.routeComments = queryData.route.comments as Comment[];
 
         if (this.routeComments.length) {
             this.routeCommentsInitialized = false;
@@ -103,7 +103,6 @@ export class CragRoutePreviewComponent implements OnChanges {
     get routeCommentsInitialized() {
         return this._routeCommentsInitialized;
     }
-
 
     set routeCommentsInitialized(value: boolean | null) {
         this._routeCommentsInitialized = value;

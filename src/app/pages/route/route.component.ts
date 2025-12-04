@@ -7,7 +7,17 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { CommentFormComponent } from 'src/app/shared/components/comment-form/comment-form.component';
 import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
-import { Comment, DifficultyVote, Route, RouteBySlugGQL, RouteBySlugQuery, StarRatingVote, User } from 'src/generated/graphql';
+import {
+    Comment,
+    DifficultyVote,
+    Exact,
+    Route,
+    RouteBySlugGQL,
+    RouteBySlugQuery,
+    Scalars,
+    StarRatingVote,
+    User
+} from 'src/generated/graphql';
 import { LayoutService } from '../../services/layout.service';
 import { DataError } from '../../types/data-error';
 
@@ -68,12 +78,18 @@ export class RouteComponent implements OnInit, OnDestroy {
     action$ = new Subject<string>();
     actionSubscription: Subscription;
     routeQuerySubscription: Subscription;
-    routeQuery: QueryRef<any, any>;
 
     user: User;
     userSubscription: Subscription;
     grades: DifficultyVote[] = [];
     votes: StarRatingVote[] = [];
+    routeQuery: QueryRef<
+        RouteBySlugQuery,
+        Exact<{
+            cragSlug: Scalars['String']['input'];
+            routeSlug: Scalars['String']['input'];
+        }>
+    >;
 
     constructor(
         private readonly router: Router,
@@ -105,7 +121,7 @@ export class RouteComponent implements OnInit, OnDestroy {
                 next: (result) => {
                     if (result.data !== undefined) {
                         this.loading = false;
-                        this.querySuccess(result.data);
+                        this.querySuccess(result.data as RouteBySlugQuery);
                         this.cdr.markForCheck();
                     }
                 },

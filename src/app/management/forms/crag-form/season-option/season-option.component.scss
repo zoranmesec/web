@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @use './../../../../../m3-theme.scss' as m3-theme;
 $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
-$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
+
 :host {
     .season-option {
         height: 80px;
@@ -10,7 +10,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
         cursor: pointer;
     }
     .season-option:hover {
-        border: 1px solid $grey;
+        border: 1px solid var(--mat-sys-on-surface-variant);
         border-radius: 8px;
         color: var(--mat-sys-secondary);
     }
@@ -20,13 +20,19 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30);
         height: 80px;
 
         opacity: 0.5;
-        border: 1px solid $grey;
+        border: 1px solid var(--mat-sys-primary);
         border-radius: 8px;
     }
 
     .season-option.selected {
-        border: 1px solid $grey;
+        border: 1px solid var(--mat-sys-on-surface-variant);
         border-radius: 8px;
         color: var(--mat-sys-secondary);
+    }
+
+    .season-option-disabled-not-selected {
+        border: none !important;
+        border-radius: 8px;
+        background-color: $light-grey;
     }
 }

@@ -18,17 +18,6 @@
     text-decoration: none;
 }
 
-.publish-status-actions {
-    text-align: right;
-    white-space: nowrap;
-    button {
-        text-transform: uppercase;
-        &:not(:first-child) {
-            margin-left: 8px;
-        }
-    }
-}
-
 .delete button {
     text-transform: uppercase;
 }

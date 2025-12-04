@@ -6,7 +6,7 @@ import { MyActivityRoutesGQL, MyActivityRoutesQuery, Route, RouteActivitiesGQL, 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { DataError } from 'src/app/types/data-error';
@@ -72,7 +72,7 @@ export class RouteAscentsComponent implements OnDestroy, OnChanges {
         this.subscriptions.forEach((s) => s.unsubscribe());
     }
 
-    protected paginate(event: any) {
+    protected paginate(event: PageEvent) {
         this.loading = true;
         if (this.showOnlyUserAscents()) {
             this.myActivityRoutesGQL

@@ -45,6 +45,7 @@ query ManagementGetSector($id: String!) {
             isProject
             position
             created
+            description
             sector {
                 id
                 publishStatus

@@ -1,17 +1,19 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 import { User } from '@sentry/angular';
+import { FlexLayoutModule } from 'ng-flex-layout';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Contribution } from 'src/generated/graphql';
 import { ContributionService } from './contribution.service';
-import { RouterLink } from '@angular/router';
-import { MatCard } from '@angular/material/card';
 
 @Component({
     selector: 'app-contribution',
     templateUrl: './contribution.component.html',
     styleUrls: ['./contribution.component.scss'],
-    imports: [RouterLink, MatCard]
+    imports: [RouterModule, MatCardModule, FlexLayoutModule, MatButtonModule]
 })
 export class ContributionComponent implements OnInit, OnDestroy {
     @Input() contribution: Contribution;

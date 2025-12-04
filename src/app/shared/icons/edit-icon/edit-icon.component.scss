@@ -2,4 +2,8 @@
     display: block;
     width: 24px;
     height: 24px;
+
+    svg.disabled path {
+        fill: var(--mat-sys-on-surface-variant);
+    }
 }

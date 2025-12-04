@@ -11,7 +11,7 @@ import { ScrollService } from 'src/app/services/scroll.service';
 import { CommentFormComponent } from 'src/app/shared/components/comment-form/comment-form.component';
 import { ImageUploadComponent } from 'src/app/shared/components/image-upload/image-upload.component';
 import { DataError } from 'src/app/types/data-error';
-import { Comment, Crag, CragBySlugGQL, CragBySlugQuery } from 'src/generated/graphql';
+import { Comment, Crag, CragBySlugGQL, CragBySlugQuery, Exact, Scalars } from 'src/generated/graphql';
 import { Tab } from '../../types/tab';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -44,7 +44,8 @@ import { CragRoutesComponent } from './crag-routes/crag-routes.component';
         IconsModule,
         LoaderComponent,
         DataErrorComponent,
-        TitleComponent
+        TitleComponent,
+        DataErrorComponent
     ]
 })
 export class CragComponent implements OnInit, OnDestroy {
@@ -54,8 +55,6 @@ export class CragComponent implements OnInit, OnDestroy {
     crag: CragBySlugQuery['cragBySlug'];
 
     warnings: CragBySlugQuery['cragBySlug']['comments'];
-
-    map: any;
 
     action$ = new Subject<string>();
 
@@ -88,7 +87,7 @@ export class CragComponent implements OnInit, OnDestroy {
     activeTab = 'smeri';
     section: string;
 
-    cragQuery: QueryRef<any, any>;
+    cragQuery: QueryRef<CragBySlugQuery, Exact<{ crag: Scalars['String']['input'] }>>;
     cragSub: Subscription;
     subscriptions: Subscription[] = [];
 
@@ -144,7 +143,7 @@ export class CragComponent implements OnInit, OnDestroy {
                     if (result.data === undefined) return;
 
                     this.loading = false;
-                    this.querySuccess(result.data.cragBySlug);
+                    this.querySuccess(result.data.cragBySlug as CragBySlugQuery['cragBySlug']);
 
                     if (params.tab === 'smeri' && !this.breakpointObserver.isMatched([Breakpoints.Small, Breakpoints.XSmall])) {
                         this.setActiveTab(this.tabs[0]);

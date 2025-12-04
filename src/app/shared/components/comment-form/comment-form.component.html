@@ -1,9 +1,9 @@
 @if (commentForm) {
     <form [formGroup]="commentForm">
         <div class="flex flex-column">
-            <div>
-                <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>{{ this.comment ? 'Uredi' : 'Vnesi' }} komentar ali opozorilo.</mat-label>
+            <div class="flex flex-column">
+                <mat-label>{{ this.comment ? 'Uredi' : 'Vnesi' }} komentar ali opozorilo.</mat-label>
+                <mat-form-field class="w-100 m-t-8">
                     <textarea
                         matInput
                         formControlName="content"

@@ -1,0 +1,9 @@
+:host {
+    display: block;
+    height: 24px;
+    width: 24px;
+
+    svg.disabled path {
+        fill: var(--mat-sys-on-surface-variant);
+    }
+}

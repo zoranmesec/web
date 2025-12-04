@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
@@ -16,7 +16,7 @@ SwiperCore.use([Pagination, Autoplay]);
     styleUrls: ['./exposed-warnings.component.scss'],
     imports: [CommonModule]
 })
-export class ExposedWarningsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ExposedWarningsComponent implements OnInit {
     @Output() errorEvent = new EventEmitter<DataError>();
 
     subscription: Subscription;
@@ -32,25 +32,25 @@ export class ExposedWarningsComponent implements OnInit, AfterViewInit, OnDestro
         private authService: AuthService
     ) {}
 
-    ngAfterViewInit(): void {
-        // add observer so that the slider is stopped when out of view (to prevent flickering of content)
-        this.swiperObserver = new IntersectionObserver(
-            (entries) => {
-                const [entry] = entries;
-                if (entry.isIntersecting) {
-                    this.swiper.swiperRef.autoplay.start();
-                } else {
-                    this.swiper.swiperRef.autoplay.stop();
-                }
-            },
-            {
-                root: null,
-                threshold: 1
-            }
-        );
-        const swiperEl = document.querySelector('swiper');
-        this.swiperObserver.observe(swiperEl);
-    }
+    // ngAfterViewInit(): void {
+    //     // add observer so that the slider is stopped when out of view (to prevent flickering of content)
+    //     this.swiperObserver = new IntersectionObserver(
+    //         (entries) => {
+    //             const [entry] = entries;
+    //             if (entry.isIntersecting) {
+    //                 this.swiper.swiperRef.autoplay.start();
+    //             } else {
+    //                 this.swiper.swiperRef.autoplay.stop();
+    //             }
+    //         },
+    //         {
+    //             root: null,
+    //             threshold: 1
+    //         }
+    //     );
+    //     const swiperEl = document.querySelector('swiper');
+    //     this.swiperObserver.observe(swiperEl);
+    // }
 
     ngOnInit(): void {
         this.subscription = this.authService.currentUser
@@ -78,7 +78,7 @@ export class ExposedWarningsComponent implements OnInit, AfterViewInit, OnDestro
         });
     }
 
-    ngOnDestroy(): void {
-        this.swiperObserver.disconnect();
-    }
+    // ngOnDestroy(): void {
+    //     // this.swiperObserver.disconnect();
+    // }
 }

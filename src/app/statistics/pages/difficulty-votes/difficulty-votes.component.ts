@@ -5,7 +5,7 @@ import { FilteredTable } from 'src/app/common/filtered-table';
 import { LayoutService } from 'src/app/services/layout.service';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { DataError } from 'src/app/types/data-error';
-import { DifficultyVote, DifficultyVotesGQL, LatestDifficultyVotesInput } from 'src/generated/graphql';
+import { DifficultyVote, DifficultyVotesGQL, LatestDifficultyVotesInput, PaginationMeta } from 'src/generated/graphql';
 
 @Component({
     selector: 'app-difficulty-votes',
@@ -20,7 +20,7 @@ export class DifficultyVotesComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
 
     difficultyVotes: DifficultyVote[];
-    pagination: any;
+    pagination: PaginationMeta;
 
     filteredTable = new FilteredTable([], []);
 
@@ -63,7 +63,7 @@ export class DifficultyVotesComponent implements OnInit, OnDestroy {
                 next: (result) => {
                     this.loading = false;
                     ft.navigating = false;
-                    this.pagination = result.data.latestDifficultyVotes.meta;
+                    this.pagination = result.data.latestDifficultyVotes.meta as PaginationMeta;
                     this.difficultyVotes = result.data.latestDifficultyVotes.items as DifficultyVote[];
                     this.error = null;
                 },

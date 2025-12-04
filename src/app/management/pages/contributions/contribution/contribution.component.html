@@ -51,7 +51,7 @@
         <div class="actions">
             @for (nextStatus of contributionService.nextPossiblePublishStatuses(contribution[contribution.entity]); track $index) {
                 <button
-                    mat-stroked-button
+                    mat-flat-button
                     [disabled]="!nextStatus.enabled"
                     (click)="contributionService.updatePublishStatus(contribution[contribution.entity], nextStatus.status)"
                     class="mt-8"

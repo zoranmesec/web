@@ -1,4 +1,4 @@
-import { CommonModule, KeyValue } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, effect, ElementRef, Input, OnDestroy, OnInit, Signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -570,12 +570,6 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
         this.expandedRowHeight = height;
         this.changeDetection.detectChanges();
     }
-
-    // Preserve original property order, when using keyvalue pipe in template
-
-    originalOrder = (_a: KeyValue<any, any>, _b: KeyValue<any, any>): number => {
-        return 0;
-    };
 
     onSelectedColumnsChange(columns: Record<string, ColumnType>): void {
         this.shownColumns = [];

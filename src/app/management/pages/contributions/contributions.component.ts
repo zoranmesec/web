@@ -1,7 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { FlexLayoutModule } from 'ng-flex-layout';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/services/layout.service';
+import { TitleComponent } from 'src/app/shared/components/title/title.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { Contribution, ManagementContributionsGQL } from 'src/generated/graphql';
+import { ContributionComponent } from './contribution/contribution.component';
 
 export interface ContributionNode extends Contribution {
     parent: Contribution;
@@ -17,7 +22,8 @@ export interface ContributionsTree {
     selector: 'app-contributions',
     templateUrl: './contributions.component.html',
     styleUrls: ['./contributions.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [RouterModule, ContributionComponent, FlexLayoutModule, TitleComponent, IconsModule]
 })
 export class ContributionsComponent implements OnInit, OnDestroy {
     loading = true;

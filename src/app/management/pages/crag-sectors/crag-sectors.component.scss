@@ -2,20 +2,8 @@
 @use './../../../../m3-theme.scss' as m3-theme;
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+$light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 :host {
-    .sector {
-        background-color: var(--mat-sys-surface);
-        padding: 4px 12px;
-        min-height: 52px;
-        cursor: move;
-
-        .name {
-            font-weight: 500;
-            font-size: 16px;
-            padding: 12px 0;
-        }
-    }
-
     section#tabs {
         height: 42px;
         padding: 0;
@@ -99,28 +87,36 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         .tools > div:last-child {
             border-right: none;
         }
-    }
 
-    .cdk-drag-preview {
-        border: none;
-        box-sizing: border-box;
-        border-radius: 4px;
-        box-shadow:
-            0 5px 5px -3px rgba(0, 0, 0, 0.2),
-            0 8px 10px 1px rgba(0, 0, 0, 0.14),
-            0 3px 14px 2px rgba(0, 0, 0, 0.12);
-    }
-    .cdk-drag-placeholder {
-        opacity: 0;
-    }
-    .cdk-drag-animating {
-        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-    }
-    .example-box:last-child {
-        border: none;
-    }
-    .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+        .add-sector-button {
+            border-radius: 8px;
+            border: 1px dashed var(--mat-sys-outline-variant);
+            height: 72px;
+            padding-right: 16px;
+            padding-left: 16px;
+            color: $light-grey;
+        }
+
+        .add-sector-button:hover {
+            border: 1px dashed var(--mat-sys-outline);
+        }
+
+        .sector {
+            background-color: var(--mat-sys-surface);
+            padding: 4px 12px;
+            min-height: 52px;
+            cursor: move;
+
+            .name {
+                font-weight: 500;
+                font-size: 16px;
+                padding: 12px 0;
+            }
+        }
+
+        .sector-in_review {
+            cursor: auto;
+        }
     }
 }
 
@@ -156,4 +152,17 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
             margin-left: 8px;
         }
     }
+}
+
+.cdk-drag-preview {
+    border: 1px solid $grey;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: $grey;
+}
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

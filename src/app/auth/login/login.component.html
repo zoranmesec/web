@@ -3,30 +3,30 @@
         {{ data.message }}
     </p>
     <form [formGroup]="loginForm" (submit)="login()">
-        <p>
+        <div class="flex flex-column">
+            <mat-label>E-naslov</mat-label>
             <mat-form-field class="no-hint" appearance="outline">
-                <mat-label>E-naslov</mat-label>
                 <input matInput type="email" [formControl]="loginForm.controls.email" />
             </mat-form-field>
-        </p>
-        <p>
+        </div>
+        <div class="flex flex-column">
+            <mat-label>Geslo</mat-label>
             <mat-form-field appearance="outline">
-                <mat-label>Geslo</mat-label>
                 <input matInput type="password" [formControl]="loginForm.controls.password" />
                 <mat-hint align="end"><a href="#" (click)="passwordRecovery()">Pozabljeno geslo?</a></mat-hint>
             </mat-form-field>
-        </p>
+        </div>
 
-        <p fxLayout="row" fxLayoutAlign="center center" class="login-button">
+        <div class="m-t-8">
             @if (!loading) {
-                <button mat-flat-button color="primary" [disabled]="!loginForm.valid">PRIJAVA</button>
+                <button mat-flat-button [disabled]="!loginForm.valid">PRIJAVA</button>
             }
             @if (loading) {
                 <span class="loading">
                     <mat-spinner diameter="30"></mat-spinner>
                 </span>
             }
-        </p>
+        </div>
     </form>
 
     Še nimaš uporabniškega računa?<br />

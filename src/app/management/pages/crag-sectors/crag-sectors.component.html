@@ -11,116 +11,128 @@
             <div>&nbsp;</div>
             <div [class.disabled]="crag === undefined" class="tab active">
                 <app-routes-icon [active]="true"></app-routes-icon>
-                @if (!breakpointService.ltMd) {
-                    <span> Sektorji in smeri </span>
-                }
+                <span [class.hidden]="breakpointService.ltMd"> Sektorji in smeri </span>
             </div>
             <div>&nbsp;</div>
         </div>
         <div>&nbsp;</div>
     </section>
     <section id="sectors" class="p-16">
-        <div class="p-t-8 p-b-8">
-            <label class="checkbox-container">
-                <input type="checkbox" formControlName="isHidden" />
-                <span class="checkmark"></span>
-                <span class="checkmark-label"> Plezališče ima več sektorjev </span>
-            </label>
+        <div class="flex flex-row flex-justify-space-between">
+            <div class="p-t-8 p-b-8" [formGroup]="sectorSettingsForm">
+                <mat-checkbox formControlName="isAddingSectors">Plezališče ima več sektorjev</mat-checkbox>
+            </div>
+            @if (!hasSectors || sectors.length === 0) {
+                <button mat-stroked-button type="button" class="border">
+                    <a [routerLink]="['../../../uredi-sektor', crag?.sectors[0].id]" class="button-link flex flex-row flex-align-center">
+                        <app-routes-icon></app-routes-icon>
+                        <span class="p-l-8 p-t-2"> Uredi smeri </span>
+                    </a>
+                </button>
+            }
         </div>
+        @if (hasSectors) {
+            <div class="add-sector-button flex flex-justify-end text-right cursor-pointer m-t-16" (click)="add()">
+                <div class="flex flex-row flex-align-center">
+                    <span class="p-r-4 p-t-4"> dodaj sektor na začetek </span>
+                    <app-plus-icon [disabled]="true"></app-plus-icon>
+                </div>
+            </div>
 
-        <div cdkDropList (cdkDropListDropped)="drop($event)" [class.saving]="savingPositions">
-            @for (sector of sectors; track $index; let i = $index) {
-                <article
-                    cdkDrag
-                    [cdkDragDisabled]="!canEdit(sector)"
-                    class="sector mt-8 flex flex-row flex-align-center flex-justify-space-between"
-                    [ngClass]="{
-                        warn: sector.publishStatus === 'draft',
-                        notice: sector.publishStatus === 'in_review',
-                        disabled: !canEdit(sector)
-                    }"
-                >
-                    <div class="flex flex-row">
-                        <div class="p-4 p-b-8">
-                            <app-drag-icon></app-drag-icon>
-                        </div>
-                        <div>
-                            <h4>{{ sector.label }} {{ sector.name }}</h4>
-                        </div>
-                    </div>
-                    <div class="flex flex-row tools">
-                        <div class="sortable" matTooltip="Uredi smeri">
-                            <app-routes-icon></app-routes-icon>
-                        </div>
+            <div cdkDropList (cdkDropListDropped)="drop($event)" [class.saving]="savingPositions">
+                @for (sector of sectors; track $index; let i = $index) {
+                    <article
+                        cdkDrag
+                        [cdkDragDisabled]="!canEdit(sector)"
+                        class="sector mt-8 flex flex-column flex-align-center flex-justify-space-between"
+                        [class.status-draft]="sector.publishStatus === 'draft'"
+                        [class.status-in_review]="sector.publishStatus === 'in_review'"
+                        [class.status-published]="sector.publishStatus === 'published'"
+                        [class.sector-in_review]="sector.publishStatus === 'in_review'"
+                    >
+                        <div class="flex flex-row flex-justify-space-between flex-align-center w-100">
+                            <div class="flex flex-row">
+                                <div class="p-4 p-b-8">
+                                    <app-drag-icon></app-drag-icon>
+                                </div>
+                                <div>
+                                    <h4>{{ sector.label }} {{ sector.name }}</h4>
+                                </div>
+                            </div>
+                            <div class="flex flex-row tools">
+                                <div class="sortable" matTooltip="Uredi smeri">
+                                    <a [routerLink]="['../../../uredi-sektor', sector.id]">
+                                        <app-routes-icon></app-routes-icon>
+                                    </a>
+                                </div>
 
-                        @if (canEdit(sector)) {
-                            <div
-                                class="sortable"
-                                [matMenuTriggerFor]="optionsMenu"
-                                [matMenuTriggerData]="{ sector: sector }"
-                                matTooltip="Orodja"
-                            >
-                                <app-more-icon></app-more-icon>
-                            </div>
-                            <div class="sortable" (click)="edit(sector)" matTooltip="Uredi">
-                                <app-edit-icon></app-edit-icon>
-                            </div>
-                            <div class="sortable" (click)="remove(sector)" matTooltip="Odstrani">
-                                <app-delete-icon></app-delete-icon>
-                            </div>
-                            <div class="sortable" (click)="add()" matTooltip="Dodaj nov sektor">
-                                <app-plus-icon></app-plus-icon>
-                            </div>
-                            <!-- <div class="flex flex-row">
-                                @if (user.roles.includes('admin')) {
-                                    <button
-                                        mat-icon-button
-                                        matTooltip="Orodja"
+                                @if (canEdit(sector)) {
+                                    <div
+                                        class="sortable"
                                         [matMenuTriggerFor]="optionsMenu"
                                         [matMenuTriggerData]="{ sector: sector }"
+                                        matTooltip="Orodja"
                                     >
-                                        <mat-icon>more_vert</mat-icon>
-                                    </button>
+                                        <app-more-icon></app-more-icon>
+                                    </div>
+                                    <div class="sortable" (click)="edit(sector)" matTooltip="Uredi">
+                                        <app-edit-icon></app-edit-icon>
+                                    </div>
+                                    <div class="sortable" (click)="remove(sector)" matTooltip="Odstrani">
+                                        <app-delete-icon></app-delete-icon>
+                                    </div>
+                                } @else {
+                                    <div>
+                                        <app-more-icon [disabled]="true"></app-more-icon>
+                                    </div>
+                                    <div>
+                                        <app-edit-icon [disabled]="true"></app-edit-icon>
+                                    </div>
+                                    <div>
+                                        <app-delete-icon [disabled]="true"></app-delete-icon>
+                                    </div>
                                 }
-                                <button mat-icon-button (click)="edit(sector)" matTooltip="Uredi">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                                <button mat-icon-button matTooltip="Spremeni vrstni red" cdkDragHandle>
-                                    <mat-icon>sort</mat-icon>
-                                </button>
-                                <button mat-icon-button (click)="remove(sector)" matTooltip="Odstrani">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </div> -->
-                        }
-                        <!-- If a sector is not published, show possible publishStatus change buttons -->
-                        @if (canEdit(sector)) {
-                            @for (
-                                nextStatus of contributionService.nextPossiblePublishStatuses(sector);
-                                track contributionService.statusButtonsTrackBy($index, nextStatus)
-                            ) {
-                                <div class="flex flex-row publish-status-actions">
-                                    <button
-                                        mat-stroked-button
-                                        [disabled]="!nextStatus.enabled"
-                                        (click)="contributionService.updatePublishStatus(sector, nextStatus.status)"
-                                    >
-                                        {{ contributionService.publishStatuses[nextStatus.status].actionLabel }}
-                                    </button>
+                                <div class="sortable" (click)="add()" matTooltip="Dodaj nov sektor">
+                                    <app-plus-icon></app-plus-icon>
                                 </div>
-                            }
+                                <!-- If a sector is not published, show possible publishStatus change buttons -->
+                            </div>
+                        </div>
+                        @if (sector.publishStatus === 'draft') {
+                            <div class="w-100">
+                                <mat-divider></mat-divider>
+                                @for (
+                                    nextStatus of contributionService.nextPossiblePublishStatuses(sector);
+                                    track contributionService.statusButtonsTrackBy($index, nextStatus)
+                                ) {
+                                    <div class="flex flex-row">
+                                        <div class="flex flex-row flex-justify-space-between w-100 p-8">
+                                            <div class="publish-status-actions">
+                                                @if (sector.user.id === user.id) {
+                                                    Tvoj prispevek
+                                                } @else {
+                                                    {{ user.firstname }} {{ user.lastname }}
+                                                }
+                                            </div>
+                                            <div
+                                                class="flex flex-row flex-align-center sortable"
+                                                (click)="contributionService.updatePublishStatus(sector, 'in_review')"
+                                            >
+                                                <app-publish-icon></app-publish-icon> <span>Objavi</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         }
-                    </div>
-                </article>
-            }
-            <div class="buttons mt-16">
-                <button mat-button color="primary" (click)="add()">Dodaj sektor</button>
+                    </article>
+                }
+                <mat-menu #optionsMenu="matMenu">
+                    <ng-template matMenuContent let-sector="sector">
+                        <button mat-menu-item (click)="moveToCrag(sector)">Premakni v drugo plezališče</button>
+                    </ng-template>
+                </mat-menu>
             </div>
-            <mat-menu #optionsMenu="matMenu">
-                <ng-template matMenuContent let-sector="sector">
-                    <button mat-menu-item (click)="moveToCrag(sector)">Premakni v drugo plezališče</button>
-                </ng-template>
-            </mat-menu>
-        </div>
+        }
     </section>
 }

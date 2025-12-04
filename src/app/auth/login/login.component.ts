@@ -1,16 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-    Validators
-} from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { LoginGQL, LoginResponse } from '../../../generated/graphql';
 import { AuthService } from '../auth.service';
 import { PasswordRecoveryComponent } from '../password-recovery/password-recovery.component';
@@ -22,17 +15,7 @@ import { MatInputModule } from '@angular/material/input';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    imports: [
-        MatLabel,
-        MatFormField,
-        MatHint,
-        MatDialogContent,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterLink,
-        MatButtonModule,
-        MatInputModule
-    ]
+    imports: [MatFormFieldModule, MatDialogModule, FormsModule, ReactiveFormsModule, RouterModule, MatButtonModule, MatInputModule]
 })
 export class LoginComponent implements OnInit {
     loading = false;
@@ -84,7 +67,6 @@ export class LoginComponent implements OnInit {
                 this.dialogRef.close(true);
             },
             error: () => {
-
                 this.loading = false;
                 this.snackbar.open('Prijava ni uspela.', null, {
                     panelClass: 'error',

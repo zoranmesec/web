@@ -38,11 +38,7 @@ import {
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 import { ActivityRouteRowComponent } from '../../partials/activity-route-row/activity-route-row.component';
 import { ActivityInputComponent } from '../activity-input/activity-input.component';
-
-export interface RowAction {
-    item: Activity | ActivityRoute;
-    action: string;
-}
+import { RowAction } from '../activity-routes/activity-routes.component';
 
 @Component({
     selector: 'app-activity-log',
@@ -81,7 +77,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
 
     protected dateObject = new Date();
 
-    protected days: any[] = Array(35);
+    protected days = Array(35);
     protected today = new Date();
     protected readonly formBuilder = inject(FormBuilder);
     protected readonly form = this.formBuilder.group({

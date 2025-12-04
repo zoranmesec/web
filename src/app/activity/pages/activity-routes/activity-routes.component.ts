@@ -11,6 +11,7 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 import { GenderizeVerbPipe } from 'src/app/shared/pipes/genderize-verb.pipe';
 import { DataError } from 'src/app/types/data-error';
 import {
+    Activity,
     ActivityFiltersCragGQL,
     ActivityFiltersCragQuery,
     ActivityFiltersRouteGQL,
@@ -51,7 +52,7 @@ import { AscentTypeOptionComponent } from '../../forms/activity-form/activity-fo
 import { ActivityHeaderComponent } from '../../partials/activity-header/activity-header.component';
 import { ActivityRouteRowComponent } from '../../partials/activity-route-row/activity-route-row.component';
 export interface RowAction {
-    item: ActivityRoute;
+    item: Activity | ActivityRoute | Route;
     action: string;
 }
 
@@ -247,8 +248,6 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         const routeParamsSub = this.activatedRoute.params
             .pipe(
                 switchMap((params) => {
-                    console.log('Route params changed:', params);
-
                     try {
                         this.filteredTable.setRouteParams(params);
                     } catch (error) {
@@ -321,22 +320,23 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
         this.subscriptions.push(topRopeSub);
 
         const rowActionsSub = this.rowAction$.subscribe((action) => {
+            const activityRoute = action.item as ActivityRoute;
             switch (action.action) {
                 case 'filterByCrag':
-                    this.forCrag = action.item.route.crag;
+                    this.forCrag = activityRoute.route.crag;
                     this.filters.patchValue({
                         routeId: null,
-                        cragId: action.item.route.crag.id
+                        cragId: activityRoute.route.crag.id
                     });
                     break;
                 case 'filterByRoute':
                     this.filters.patchValue({
-                        cragId: action.item.route.crag.id,
-                        routeId: action.item.route.id
+                        cragId: activityRoute.route.crag.id,
+                        routeId: activityRoute.route.id
                     });
                     break;
                 case 'delete':
-                    this.deleteActivityRoute(action.item);
+                    this.deleteActivityRoute(activityRoute);
                     break;
             }
         });

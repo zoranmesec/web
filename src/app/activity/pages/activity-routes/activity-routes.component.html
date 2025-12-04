@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div class="close-icon" (click)="closeFilters()">
-                        <mat-icon class="map-icon">close</mat-icon>
+                        <app-close-icon></app-close-icon>
                     </div>
                 </div>
 
@@ -87,13 +87,13 @@
                                 <mat-panel-title> Glede na datum </mat-panel-title>
                             </mat-expansion-panel-header>
 
+                            <mat-label>Od datuma</mat-label>
                             <mat-form-field class="no-hint" appearance="outline">
-                                <mat-label>Od datuma</mat-label>
                                 <input matInput formControlName="dateFrom" [matDatepicker]="pickerFrom" />
                                 <div matSuffix class="flex flex-row flex-align-center">
                                     @if (filters.value.dateFrom !== null) {
                                         <button mat-button (click)="filters.patchValue({ dateFrom: null })">
-                                            <mat-icon class="map-icon">close</mat-icon>
+                                            <app-close-icon></app-close-icon>
                                         </button>
                                     }
                                     <mat-datepicker-toggle [for]="pickerFrom"></mat-datepicker-toggle>
@@ -104,13 +104,13 @@
                                 }
                             </mat-form-field>
 
+                            <mat-label>Do datuma</mat-label>
                             <mat-form-field class="no-hint" appearance="outline">
-                                <mat-label>Do datuma</mat-label>
                                 <input matInput formControlName="dateTo" [matDatepicker]="picker" />
                                 <div matSuffix class="flex flex-row flex-align-center">
                                     @if (filters.value.dateTo !== null) {
                                         <button mat-button (click)="filters.patchValue({ dateTo: null })">
-                                            <mat-icon class="map-icon">close</mat-icon>
+                                            <app-close-icon></app-close-icon>
                                         </button>
                                     }
                                     <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>

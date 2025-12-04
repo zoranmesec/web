@@ -1,58 +1,113 @@
 <header>
-    <div class="container p-16" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between">
-        <div class="logo-and-burger" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="p-16 flex flex-row flex-justify-space-between flex-align-center">
+        <div class="logo-and-burger">
             <a class="logo-link" [routerLink]="['/']">
                 <img src="/assets/logo.gif" width="212" height="30" />
             </a>
 
-            <button mat-icon-button fxHide.gt-sm (click)="toggleNavi()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <!-- <button mat-icon-button (click)="toggleNavi()">
+                <app-search-icon></app-search-icon>
+            </button> -->
         </div>
 
-        <nav
-            fxLayout="column"
-            fxLayoutAlign="start end"
-            fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="center center"
-            [fxHide]="naviOpen"
-            fxHide.lt-lg
-        >
-            <a [routerLink]="['/']"><mat-icon matPrefix class="my-icon">search</mat-icon></a>
-            @if (currentUrl.startsWith('/plezalisca')) {
-                <div class="active">Plezališča</div>
-            } @else {
-                <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
-            }
-            @if (currentUrl.startsWith('/alpinizem')) {
-                <a class="active" [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
-            } @else {
-                <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
-            }
-            @if (currentUrl.startsWith('/plezalni-dnevnik')) {
-                <div class="active">Plezalni dnevnik</div>
-            } @else {
-                <a [routerLink]="['/plezalni-dnevnik/vzponi']">Plezalni dnevnik</a>
-            }
-            @if (!(user !== null)) {
-                <a (click)="login()">Prijava</a>
-            }
-            @if (user !== null) {
-                <a fxHide fxShow.gt-sm [matMenuTriggerFor]="authMenu">
-                    {{ user?.fullName }}
-                </a>
-            }
-            @if (user !== null) {
-                <a mat-button fxHide.gt-sm [routerLink]="['/moj-profil']">Moj profil</a>
-            }
-            @if (user?.roles.includes('admin')) {
-                <a mat-button fxHide.gt-sm [matMenuTriggerFor]="managementMenu">Administracija</a>
-            }
-            @if (user !== null) {
-                <a mat-button fxHide.gt-sm (click)="logout()">Odjava</a>
-            }
+        <nav>
+            <ul>
+                <li [class.hidden]="breakpointService.ltMd">
+                    <a [routerLink]="['/']"><app-search-icon></app-search-icon></a>
+                </li>
+
+                <li [class.hidden]="breakpointService.ltLg">
+                    @if (currentUrl.startsWith('/plezalisca')) {
+                        <div class="active">Plezališča</div>
+                    } @else {
+                        <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
+                    }
+                </li>
+                <li [class.hidden]="breakpointService.ltLg">
+                    @if (currentUrl.startsWith('/alpinizem')) {
+                        <a class="active" [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+                    } @else {
+                        <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+                    }
+                </li>
+                <li [class.hidden]="breakpointService.ltLg">
+                    @if (currentUrl.startsWith('/plezalni-dnevnik')) {
+                        <div class="active">Plezalni dnevnik</div>
+                    } @else {
+                        <a [routerLink]="['/plezalni-dnevnik/vzponi']">Plezalni dnevnik</a>
+                    }
+                </li>
+                <li [class.hidden]="breakpointService.ltLg">
+                    @if (!(user !== null)) {
+                        <a (click)="login()">Prijava</a>
+                    }
+                    @if (user !== null) {
+                        <a [matMenuTriggerFor]="authMenu">
+                            {{ user?.fullName }}
+                        </a>
+                    }
+                    <!-- @if (user !== null) {
+                            <a mat-button [routerLink]="['/moj-profil']">Moj profil</a>
+                            }
+                            @if (user?.roles.includes('admin')) {
+                                <a mat-button [matMenuTriggerFor]="managementMenu">Administracija</a>
+                                }
+                                @if (user !== null) {
+                                    <a mat-button (click)="logout()">Odjava</a>
+                                    } -->
+                </li>
+                <li [matMenuTriggerFor]="authMenu" [class.hidden]="breakpointService.gtMd" class="p-t-4">
+                    {{ user?.firstname[0] }}{{ user?.lastname[0] }}
+                </li>
+                <li [class.hidden]="breakpointService.gtMd" class="p-l-0">
+                    <!--Toggle naviOpen on click-->
+                    <button matFab (click)="toggleNavi()">
+                        @if (naviOpen) {
+                            <app-close-icon></app-close-icon>
+                        } @else {
+                            <app-menu-icon></app-menu-icon>
+                        }
+                    </button>
+                </li>
+            </ul>
         </nav>
     </div>
+    @if (naviOpen) {
+        <nav [class.hidden]="breakpointService.gtMd" class="flex flex-column gap-8 p-r-16 p-b-16 flex-align-end">
+            <ul class="vertical gap-8">
+                <li [class.hidden]="breakpointService.gtSm">
+                    <a [routerLink]="['/']"><app-search-icon></app-search-icon></a>
+                </li>
+                @if (!(user !== null)) {
+                    <li>
+                        <a (click)="login()">Prijava</a>
+                    </li>
+                }
+
+                <li>
+                    @if (currentUrl.startsWith('/plezalisca')) {
+                        <div class="active">Plezališča</div>
+                    } @else {
+                        <a [routerLink]="['/plezalisca/slovenija']">Plezališča</a>
+                    }
+                </li>
+                <li>
+                    @if (currentUrl.startsWith('/alpinizem')) {
+                        <a class="active" [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+                    } @else {
+                        <a [matMenuTriggerFor]="alpinismMenu">Alpinizem</a>
+                    }
+                </li>
+                <li>
+                    @if (currentUrl.startsWith('/plezalni-dnevnik')) {
+                        <div class="active">Plezalni dnevnik</div>
+                    } @else {
+                        <a [routerLink]="['/plezalni-dnevnik/vzponi']">Plezalni dnevnik</a>
+                    }
+                </li>
+            </ul>
+        </nav>
+    }
 </header>
 
 <mat-menu #alpinismMenu="matMenu">

@@ -51,8 +51,4 @@ export class CragCommentsComponent implements OnInit, OnChanges {
             this.action.next('commentAdded');
         }
     }
-
-    protected onCommentSaved(_$event: any): void {
-        this.comments = [...this.crag.comments];
-    }
 }

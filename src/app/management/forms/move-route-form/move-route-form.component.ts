@@ -1,15 +1,20 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Subscription, switchMap } from 'rxjs';
+import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { Crag, ManagementMoveRouteGetRouteGQL, ManagementMoveRouteToSectorGQL, Route, Sector } from 'src/generated/graphql';
 
 export interface MoveRouteFormComponentData {
     route: Route;
     crag: Crag;
+    sector: Sector;
     withinSector?: Sector;
 }
 
@@ -17,13 +22,22 @@ export interface MoveRouteFormComponentData {
     selector: 'app-move-route-form',
     templateUrl: './move-route-form.component.html',
     styleUrls: ['./move-route-form.component.scss'],
-    imports: [MatDialogActions, FormsModule, ReactiveFormsModule]
+    imports: [
+        MatDialogActions,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatRadioModule,
+        GradeComponent
+    ]
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
-    form = new UntypedFormGroup({
-        targetSector: new UntypedFormControl(null, Validators.required),
-        targetRoute: new UntypedFormControl(null),
-        primarySelection: new UntypedFormControl(null)
+    form = new FormGroup({
+        targetSector: new FormControl(null, Validators.required),
+        targetRoute: new FormControl(null),
+        primarySelection: new FormControl(null)
     });
     crag: Crag;
     saving = false;
@@ -37,7 +51,6 @@ export class MoveRouteFormComponent implements OnInit, OnDestroy {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: MoveRouteFormComponentData,
         private apollo: Apollo,
-        private router: Router,
         private snackBar: MatSnackBar,
         private dialogRef: MatDialogRef<MoveRouteFormComponent>,
         private managementMoveRouteGetRouteGQL: ManagementMoveRouteGetRouteGQL,
@@ -45,9 +58,10 @@ export class MoveRouteFormComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        console.log('MoveRouteFormComponent initialized with data:', this.data);
         this.crag = this.data.crag;
         this.targetSectors = this.data.crag.sectors
-            .filter(({ id }) => id !== this.data.route.sector.id)
+            .filter(({ id }) => id !== this.data.sector.id)
             .map((sector) => ({
                 ...sector,
                 routes: sector.routes.filter(({ publishStatus, pitches }) => publishStatus === 'published' && pitches.length === 0)
@@ -88,12 +102,12 @@ export class MoveRouteFormComponent implements OnInit, OnDestroy {
                         ? this.managementMoveRouteGetRouteGQL.fetch({
                               variables: { id: route.id }
                           })
-                        : Promise.resolve(null)
+                        : Promise.resolve(undefined)
                 )
             )
             .subscribe((result) => {
                 this.targetRoute = null;
-                if (result !== null) {
+                if (result !== undefined) {
                     this.targetRoute = result.data.route as Route;
 
                     this.form.controls.primarySelection.setValue(this.targetRoute.created > this.sourceRoute.created ? 'source' : 'target');

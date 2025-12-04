@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, map, ReplaySubject, Subject, Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Club, ClubBySlugGQL, ClubMember } from 'src/generated/graphql';
+import { Club, ClubBySlugGQL, ClubBySlugQuery, ClubMember, Exact, Scalars } from 'src/generated/graphql';
 
 @Injectable()
 export class ClubService implements OnDestroy {
@@ -13,11 +13,11 @@ export class ClubService implements OnDestroy {
     amClubAdmin = new BehaviorSubject<boolean>(false);
     amClubAdmin$ = this.amClubAdmin.asObservable();
 
-    clubQuery: QueryRef<any, any>;
     clubQuerySubscription: Subscription;
 
     private error = new Subject<Error>();
     error$ = this.error.asObservable();
+    clubQuery: QueryRef<ClubBySlugQuery, Exact<{ clubSlug: Scalars['String']['input'] }>>;
 
     constructor(
         private clubBySlugGQL: ClubBySlugGQL,
@@ -39,7 +39,7 @@ export class ClubService implements OnDestroy {
                         const club = data.data.clubBySlug;
                         const amClubAdmin = club.members.some((member: ClubMember) => member.user.id === user.id && member.admin);
                         this.amClubAdmin.next(amClubAdmin);
-                        this.club.next(club);
+                        this.club.next(club as Club);
                     }
                 },
                 error: (error) => {

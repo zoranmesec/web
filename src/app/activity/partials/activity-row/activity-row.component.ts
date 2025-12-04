@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { ACTIVITY_TYPES } from '../../../common/activity.constants';
-import { RowAction } from '../../pages/activity-log/activity-log.component';
+import { RowAction } from '../../pages/activity-routes/activity-routes.component';
 
 @Component({
     selector: '[app-activity-row]',
@@ -25,8 +25,6 @@ export class ActivityRowComponent implements OnInit {
     highestLeadClimbedDifficulty: number;
     highestLeadClimbedGradingSystemId: string;
     totalLength: number;
-
-    
 
     ngOnInit(): void {
         this.type = ACTIVITY_TYPES.find((a) => a.value === this.activity.type).label || 'Ostalo';

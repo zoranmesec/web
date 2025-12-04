@@ -6,16 +6,19 @@ import {
     ManagementDeleteSectorGQL,
     ManagementGetCragSectorsGQL,
     ManagementSaveSectorPositionGQL,
-    Sector
+    Sector,
+    User
 } from 'src/generated/graphql';
 
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '@sentry/angular';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { AuthService } from 'src/app/auth/auth.service';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
@@ -33,7 +36,21 @@ import { ContributionService } from '../contributions/contribution/contribution.
     templateUrl: './crag-sectors.component.html',
     styleUrls: ['./crag-sectors.component.scss'],
     standalone: true,
-    imports: [MatButtonModule, MatMenuModule, TitleComponent, IconsModule, CdkDropList, CdkDrag, MatTooltipModule]
+    imports: [
+        MatButtonModule,
+        MatMenuModule,
+        TitleComponent,
+        IconsModule,
+        CdkDropList,
+        CdkDrag,
+        MatTooltipModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDividerModule
+    ]
 })
 export class CragSectorsComponent implements OnInit, OnDestroy {
     loading = true;
@@ -46,6 +63,10 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
 
     user: User;
+    protected isAddingSectors = false;
+    protected sectorSettingsForm = this.formBuilder.group({
+        isAddingSectors: [false]
+    });
 
     constructor(
         private authService: AuthService,
@@ -59,7 +80,8 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
         private apollo: Apollo,
         public contributionService: ContributionService,
         protected readonly breakpointService: BreakpointService,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly formBuilder: FormBuilder
     ) {}
 
     ngOnInit(): void {
@@ -86,10 +108,24 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
                 this.layoutService.$breadcrumbs.next(new CragAdminBreadcrumbs(this.crag).build());
 
                 this.sectors = [...(result.data.crag.sectors as Sector[])];
+
+                this.sectorSettingsForm.patchValue({
+                    isAddingSectors: this.hasSectors
+                });
             }
         });
 
         this.subscriptions.push(sub);
+
+        const settingsSub = this.sectorSettingsForm.valueChanges.subscribe((value) => {
+            this.isAddingSectors = value.isAddingSectors;
+            if (this.sectors.length > 1 && !this.sectorSettingsForm.controls['isAddingSectors'].disabled) {
+                console.log('disabling');
+                //disable isAddingSectors if there are multiple sectors
+                this.sectorSettingsForm.controls['isAddingSectors'].disable();
+            }
+        });
+        this.subscriptions.push(settingsSub);
     }
 
     ngOnDestroy(): void {
@@ -161,7 +197,7 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
             .afterClosed()
             .pipe(
                 take(1),
-                filter((value) => value !== null),
+                filter((value) => value !== undefined && value !== null),
                 switchMap(() => this.deleteSectorGQL.mutate({ variables: { id: sector.id } }))
             )
             .subscribe({
@@ -185,5 +221,15 @@ export class CragSectorsComponent implements OnInit, OnDestroy {
 
     protected goToCrag(): void {
         this.router.navigate(['/urejanje/uredi-plezalisce', this.crag.id]);
+    }
+
+    get hasSectors(): boolean {
+        // find sector with empty label
+        const defaultSector = this.sectors?.find((sector) => sector.position === 0);
+        if (defaultSector && this.sectors.length === 1 && this.sectorSettingsForm.get('isAddingSectors').value === false) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { IceFall } from 'src/generated/graphql';
 
 @Component({
     selector: 'app-ice-fall-info',
@@ -6,8 +7,6 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./ice-fall-info.component.scss'],
     standalone: false
 })
-export class IceFallInfoComponent{
-    @Input() iceFall: any;
-
-
+export class IceFallInfoComponent {
+    @Input() iceFall: IceFall;
 }

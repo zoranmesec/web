@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { FlexLayoutModule, FlexModule } from 'ng-flex-layout';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from '../../../generated/graphql';
 
 import { MatButtonModule } from '@angular/material/button';
+import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    imports: [MatMenu, MatIcon, RouterLink, MatMenuModule, FlexModule, FlexLayoutModule, MatButtonModule, MatIconModule]
+    imports: [MatMenuModule, RouterLink, MatButtonModule, IconsModule]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     public naviOpen = false;
@@ -24,7 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private authService: AuthService,
-        private snackbar: MatSnackBar
+        private snackbar: MatSnackBar,
+        protected readonly breakpointService: BreakpointService
     ) {}
 
     ngOnInit(): void {

@@ -1,7 +1,7 @@
 import { Platform } from '@angular/cdk/platform';
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -11,6 +11,7 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Apollo } from 'apollo-angular';
 import dayjs from 'dayjs';
 import { concatMap, EMPTY, map, Observer, of, Subscription, switchMap } from 'rxjs';
 import { CustomDateAdapter } from 'src/app/app.component';
@@ -24,6 +25,7 @@ import {
     ActivityEntryGQL,
     Crag,
     CreateActivityGQL,
+    CreateActivityMutation,
     DryRunCreateActivityGQL,
     DryRunUpdateActivityGQL,
     IceFall,
@@ -33,7 +35,9 @@ import {
     Route,
     RoutesTouchesGQL,
     StarRatingVotesGQL,
-    UpdateActivityGQL
+    UpdateActivityGQL,
+    UpdateActivityMutation,
+    UpdateActivityRouteInput
 } from 'src/generated/graphql';
 import { ActivityFormRouteComponent } from './activity-form-route/activity-form-route.component';
 import { ActivityFormService } from './activity-form.service';
@@ -102,11 +106,10 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     loading = false;
     loadingActivity = false;
 
-    routes = new FormArray([]);
-
     typeOptions = ACTIVITY_TYPES.filter((a) => a.value !== 'peak' && a.value !== 'iceFall');
 
     fb: FormBuilder = inject(FormBuilder);
+    routes = new FormArray<FormGroup>([]);
 
     activityForm = this.fb.group({
         type: this.fb.control(null, Validators.required),
@@ -393,7 +396,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
     save(): void {
         const data = this.activityForm.getRawValue();
         this.activityForm.disable({ emitEvent: false });
-        const routes = this.routes.value.map((route: any, i: number) => {
+        const routes = this.routes.value.map((route, i: number) => {
             if (this.activity !== undefined && route.activityId !== null) {
                 return {
                     id: route.activityId,
@@ -420,7 +423,7 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
                     position: i // position of the route within the same activity of ones log
                 };
             }
-        });
+        }) as UpdateActivityRouteInput[];
 
         const activityInput = {
             date: dayjs(data.date).format('YYYY-MM-DD'), // TODO backend make sure that this did not change in case it has logged routes
@@ -599,7 +602,9 @@ export class ActivityFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getActivityMutationObserver(): Observer<any> {
+    private getActivityMutationObserver(): Observer<
+        Apollo.MutateResult<UpdateActivityMutation> | Apollo.MutateResult<CreateActivityMutation>
+    > {
         return {
             next: () => {
                 if (this.crag !== undefined) {

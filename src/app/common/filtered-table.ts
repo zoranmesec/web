@@ -17,7 +17,7 @@ export interface FilterDefinition {
 }
 
 export class FilteredTable {
-    navigate$ = new Subject<any>();
+    navigate$ = new Subject<Params>();
     navigating = false;
 
     initialized = false;
@@ -25,9 +25,9 @@ export class FilteredTable {
     columns: ColumnDefinition[];
     filters: FilterDefinition[];
 
-    queryParams: any = {};
-    routeParams: any = {};
-    filterParams: any = {};
+    queryParams: Params = {};
+    routeParams: Params = {};
+    filterParams: Params = {};
 
     sortColumn: string;
     sortDirection: string;
@@ -53,8 +53,8 @@ export class FilteredTable {
     }
 
     setRouteParams(values: Params) {
-        const qp: any = {};
-        const fp: any = {};
+        const qp: Params = {};
+        const fp: Params = {};
 
         this.routeParams = { ...values };
 
@@ -115,9 +115,9 @@ export class FilteredTable {
         this.queryParams = qp;
     }
 
-    setFilterParams(values: any, navigate = true) {
-        const rp: any = {};
-        const fp: any = {};
+    setFilterParams(values: Params, navigate = true) {
+        const rp: Params = {};
+        const fp: Params = {};
 
         this.filters.forEach((filter) => {
             if (filter.type === 'date' && values[filter.name] !== null) {
@@ -190,7 +190,7 @@ export class FilteredTable {
         this.navigate(this.routeParams);
     }
 
-    navigate(routeParams: any) {
+    navigate(routeParams: Params) {
         this.navigating = true;
         this.navigate$.next(routeParams);
     }

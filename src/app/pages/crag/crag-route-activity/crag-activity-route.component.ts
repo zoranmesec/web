@@ -4,7 +4,14 @@ import { QueryRef } from 'apollo-angular';
 import { Subscription, take } from 'rxjs';
 import { ASCENT_TYPES, PUBLISH_OPTIONS } from 'src/app/common/activity.constants';
 import { DataError } from 'src/app/types/data-error';
-import { FindActivityRoutesInput, MyActivityRoutesGQL, MyActivityRoutesQuery } from 'src/generated/graphql';
+import {
+    Exact,
+    FindActivityRoutesInput,
+    InputMaybe,
+    MyActivityRoutesGQL,
+    MyActivityRoutesQuery,
+    PaginatedActivityRoutes
+} from 'src/generated/graphql';
 import { FilteredTable } from '../../../common/filtered-table';
 export interface DialogData {
     routeId: string;
@@ -58,7 +65,7 @@ export class CragActivityRouteComponent implements OnInit, OnDestroy {
     publishOptions = PUBLISH_OPTIONS;
     noTopropeOnPage = false;
 
-    activityRouteQuery: QueryRef<any>;
+    activityRouteQuery: QueryRef<MyActivityRoutesQuery, Exact<{ input?: InputMaybe<FindActivityRoutesInput> }>>;
     activityRouteSub: Subscription;
 
     constructor(
@@ -84,7 +91,7 @@ export class CragActivityRouteComponent implements OnInit, OnDestroy {
                 .subscribe((result) => {
                     this.loading = false;
                     ft.navigating = false;
-                    this.querySuccess(result.data.myActivityRoutes);
+                    this.querySuccess(result.data.myActivityRoutes as PaginatedActivityRoutes);
                 });
         });
 
@@ -106,7 +113,7 @@ export class CragActivityRouteComponent implements OnInit, OnDestroy {
             next: (result) => {
                 this.loading = false;
                 ft.navigating = false;
-                this.querySuccess(result.data.myActivityRoutes);
+                this.querySuccess(result.data.myActivityRoutes as PaginatedActivityRoutes);
             },
             error: () => {
                 this.loading = false;
@@ -125,7 +132,7 @@ export class CragActivityRouteComponent implements OnInit, OnDestroy {
         };
     }
 
-    querySuccess(data: MyActivityRoutesQuery['myActivityRoutes']): void {
+    querySuccess(data: PaginatedActivityRoutes): void {
         this.routes = data.items;
         this.pagination = data.meta;
         this.noTopropeOnPage = !this.routes.some((route) => this.ascentTypes.find((at) => at.value === route.ascentType).topRope);

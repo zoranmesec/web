@@ -1,3 +1,69 @@
+@if (crag?.publishStatus === 'draft') {
+    <div class="flex flex-column status-draft p-16 gap-8 m-t-32">
+        <div class="p-8">
+            Plezališče je v statusu <b>osnutek</b>.
+            @if (isAdmin) {
+                Ko zaključiš z urejanjem sektorjev in smeri, ga objavi.
+            } @else {
+                Ko zaključiš z urejanjem sektorjev in smeri, ga pošlji uredništvu v pregled in objavo.
+            }
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex flex-row flex-justify-space-between p-8">
+            <div class="publish-status-actions">
+                @if (crag.user.id === user.id) {
+                    Tvoj prispevek
+                } @else {
+                    {{ user.firstname }} {{ user.lastname }}
+                }
+            </div>
+            <div class="flex flex-row flex-align-center sortable" (click)="contributionService.updatePublishStatus(crag, 'in_review')">
+                @if (isAdmin) {
+                    <app-publish-icon></app-publish-icon> <span>Objavi</span>
+                } @else {
+                    <app-publish-icon></app-publish-icon> <span>Predlagaj objavo</span>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (crag?.publishStatus === 'in_review') {
+    <div class="flex flex-column status-in_review p-16 gap-8 m-t-32">
+        <div class="p-8">
+            Plezališče je v statusu <b>v pregledu</b>.
+            @if (isAdmin) {
+                Ko zaključiš s pregledom, potrdi ali zavrni objavi.
+            } @else {
+                Prispevek bo objavljen, ko ga uredništvo<br />
+                pregleda in potrdi.
+            }
+        </div>
+        <mat-divider></mat-divider>
+        <div class="flex flex-row flex-justify-space-between p-8">
+            <div class="publish-status-actions">
+                @if (crag.user.id === user.id) {
+                    Tvoj prispevek
+                } @else {
+                    {{ user.firstname }} {{ user.lastname }}
+                }
+            </div>
+            @if (isAdmin) {
+                <div class="flex flex-row">
+                    <div
+                        class="flex flex-row flex-align-center sortable"
+                        (click)="contributionService.updatePublishStatus(crag, 'published')"
+                    >
+                        <app-check-icon></app-check-icon><span>Potrdi objavo</span>
+                    </div>
+                    <div class="flex flex-row flex-align-center sortable" (click)="contributionService.updatePublishStatus(crag, 'draft')">
+                        <app-close-icon></app-close-icon><span>Zavrni objavo</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
 <form [formGroup]="cragForm" (submit)="save()" class="card padding no-border m-t-32" [class]="crag?.publishStatus">
     <div class="flex flex-row p-b-8 w-100">
         <div class="w-100 flex flex-column">
@@ -25,7 +91,7 @@
                 <mat-label>Področje</mat-label>
                 <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
                     <mat-select formControlName="areaId">
-                        @for (area of areas; track area) {
+                        @for (area of areas; track $index) {
                             <mat-option [value]="area.id">{{ area.name }} </mat-option>
                         }
                     </mat-select>
@@ -39,7 +105,7 @@
             <mat-label>Vrsta plezanja</mat-label>
             <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
                 <mat-select formControlName="type">
-                    @for (type of types; track type) {
+                    @for (type of types; track $index) {
                         <mat-option [value]="type.value">{{ type.label }} </mat-option>
                     }
                 </mat-select>
@@ -50,7 +116,7 @@
             <mat-label>Privzeti sistem ocenjevanja</mat-label>
             <mat-form-field appearance="outline" class="m-t-8">
                 <mat-select formControlName="defaultGradingSystemId">
-                    @for (option of gradingSystems; track option) {
+                    @for (option of gradingSystems; track $index) {
                         <mat-option [value]="option.id">{{ option.name }}</mat-option>
                     }
                 </mat-select>
@@ -92,6 +158,7 @@
                 <app-wall-angle-option
                     [wallAngleData]="wallAngle"
                     [wallAngleFormControl]="cragForm.controls.wallAngles"
+                    [disabled]="cragForm.controls.wallAngles.disabled"
                 ></app-wall-angle-option>
             }
         </div>
@@ -116,7 +183,7 @@
             <mat-label>Usmerjenost</mat-label>
             <mat-form-field appearance="outline" class="no-hint m-t-8">
                 <mat-select formControlName="orientations" multiple>
-                    @for (orientation of orientations; track orientation) {
+                    @for (orientation of orientations; track $index) {
                         <mat-option [value]="orientation.value">{{ orientation.label }} </mat-option>
                     }
                 </mat-select>
@@ -128,20 +195,24 @@
         <div>Sezona</div>
         <div class="flex flex-row flex-justify-center gap-16">
             @for (season of seasons; track $index) {
-                <app-season-option [seasonData]="season" [seasonFormControl]="cragForm.controls.seasons"></app-season-option>
+                <app-season-option
+                    [seasonData]="season"
+                    [seasonFormControl]="cragForm.controls.seasons"
+                    [disabled]="cragForm.controls.seasons.disabled"
+                ></app-season-option>
             }
         </div>
     </div>
 
     <mat-divider class="m-t-32"></mat-divider>
     <div class="flex flex-row gap-16 p-b-16 m-t-32" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
-        <div class="flex flex-column">
+        <!-- <div class="flex flex-column">
             <mat-label>Koordinate parkirišča</mat-label>
             <mat-form-field appearance="outline" class="m-t-8">
-                <input matInput type="number" formControlName="parking_lat" />
+                <input matInput type="number" formControlName="parkingLat" />
                 <mat-hint>Google koordinata, npr.: 45,96882</mat-hint>
             </mat-form-field>
-        </div>
+        </div> -->
         <div class="flex flex-column">
             <mat-label>Dostop</mat-label>
             <mat-form-field appearance="outline" class="m-t-8">
@@ -179,12 +250,13 @@
         <div class="flex flex-row flex-justify-space-between flex-align-center gap-8 w-100">
             @if (!loading) {
                 @if (canDelete()) {
-                    <div class="flex flex-row flex-align-center sortable" (click)="deleteCrag()">
-                        <div>
+                    <button type="button" mat-stroked-button class="border flex flex-row flex-align-center sortable" (click)="deleteCrag()">
+                        <div class="flex flex-row">
                             <app-delete-icon></app-delete-icon>
+
+                            <span class="p-l-8 p-t-2">Izbriši</span>
                         </div>
-                        <div>Izbriši</div>
-                    </div>
+                    </button>
                 }
                 <div>
                     <button mat-flat-button [disabled]="!cragForm.valid || cragForm.pristine">Shrani</button>
@@ -194,23 +266,6 @@
                 <span class="loading">
                     <mat-spinner diameter="30"></mat-spinner>
                 </span>
-            }
-            @if (contributionService.nextPossiblePublishStatuses(crag)) {
-                <div class="publish-status-actions">
-                    @for (
-                        nextStatus of contributionService.nextPossiblePublishStatuses(crag);
-                        track contributionService.statusButtonsTrackBy($index, nextStatus)
-                    ) {
-                        <button
-                            type="button"
-                            mat-flat-button
-                            [disabled]="!nextStatus.enabled || !cragForm.pristine"
-                            (click)="contributionService.updatePublishStatus(crag, nextStatus.status)"
-                        >
-                            {{ contributionService.publishStatuses[nextStatus.status].actionLabel }}
-                        </button>
-                    }
-                </div>
             }
         </div>
     </div>

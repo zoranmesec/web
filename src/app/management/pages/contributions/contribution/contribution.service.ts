@@ -4,7 +4,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@sentry/angular';
 import { concatMap, of, Subject } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Crag, ManagementUpdateCragGQL, ManagementUpdateRouteGQL, ManagementUpdateSectorGQL, Route, Sector } from 'src/generated/graphql';
+import {
+    Crag,
+    ManagementUpdateCragGQL,
+    ManagementUpdateRouteGQL,
+    ManagementUpdateSectorGQL,
+    namedOperations,
+    Route,
+    Sector
+} from 'src/generated/graphql';
 import { PublishStatusChangeDialogComponent } from '../publish-status-change-dialog/publish-status-change-dialog.component';
 
 @Injectable({
@@ -14,7 +22,7 @@ export class ContributionService {
     publishStatuses = {
         draft: {
             statusLabel: 'osnutek',
-            actionLabel: 'Zavrni',
+            actionLabel: 'Zavrni objavo',
             successMessage: 'Predlog je bil zavrnjen.'
         },
         in_review: {
@@ -122,7 +130,7 @@ export class ContributionService {
                     enabled = ['published', 'in_review'].includes(contributionEntity.crag.publishStatus);
                     break;
                 case 'Crag':
-                    enabled = true;
+                    enabled = ['published', 'in_review'].includes(contributionEntity.status);
                     break;
             }
             return [{ status: 'in_review', enabled }];
@@ -143,33 +151,57 @@ export class ContributionService {
     updatePublishStatus(contributionEntity: Route | Sector | Crag, newStatus: string) {
         let updateEntityGQL = null;
         let cascadeMessage = null;
+        let message = null;
+        let title = null;
         let forceCascade = false;
+        const actionLabel = this.publishStatuses[newStatus].actionLabel;
 
         switch (contributionEntity.__typename) {
             case 'Route':
                 updateEntityGQL = this.managementUpdateRouteGQL;
+
+                if (newStatus === 'in_review') {
+                    title = 'Predlog uredništvu';
+                    message = `Ali res želiš uredništvu predlagati objavo smeri ${contributionEntity.name}?`;
+                }
+                if (newStatus === 'published') {
+                    title = 'Objava smeri';
+                    message = `Ali res želiš objaviti smer ${contributionEntity.name}?`;
+                }
+                if (newStatus === 'draft') {
+                    title = 'Zavrnitev objave';
+                    message = `Ali res želiš zavrniti objavo smeri ${contributionEntity.name}?`;
+                }
                 break;
             case 'Sector':
                 updateEntityGQL = this.managementUpdateSectorGQL;
 
                 // As soon as an unpublished entity has children we can infer that they are all unpublished as well (because a child cannot be published before it's parent)
-                if (newStatus === 'in_review' && contributionEntity.routes.length) {
+                if (newStatus === 'in_review') {
+                    title = 'Predlog uredništvu';
+                    message = `Ali res želiš uredništvu predlagati objavo sektorja ${contributionEntity.name}?`;
                     cascadeMessage = 'Predlagaj tudi objavo vseh smeri v tem sektorju.';
                 }
-                if (newStatus === 'published' && contributionEntity.routes.length) {
+                if (newStatus === 'published') {
+                    title = 'Objava sektorja';
+                    message = `Ali res želiš objaviti sektor ${contributionEntity.name}?`;
                     cascadeMessage = 'Objavi tudi vse smeri v tem sektorju.';
                 }
                 // If a contribution is being rejected and has children, cascading status change should be forced (this can only be editor's actiom)
-                if (newStatus === 'draft' && contributionEntity.routes.length) {
+                if (newStatus === 'draft') {
+                    title = 'Zavrnitev objave';
+                    message = `Ali res želiš zavrniti objavo sektorja ${contributionEntity.name}?`;
                     cascadeMessage = 'Zavrni tudi vse smeri v tem sektorju.';
+
                     forceCascade = true;
                 }
                 break;
 
             case 'Crag':
                 updateEntityGQL = this.managementUpdateCragGQL;
-
-                if (newStatus === 'in_review' && contributionEntity.sectors.length) {
+                if (newStatus === 'in_review') {
+                    title = 'Predlog uredništvu';
+                    message = `Ali res želiš uredništvu predlagati objavo plezališča ${contributionEntity.name}?`;
                     cascadeMessage = 'Predlagaj tudi objavo vseh sektorjev v tem plezališču.';
 
                     if (contributionEntity.sectors.some((sector) => sector.routes.length)) {
@@ -177,14 +209,18 @@ export class ContributionService {
                     }
                 }
 
-                if (newStatus === 'published' && contributionEntity.sectors.length) {
-                    cascadeMessage = 'Objavi tudi vse sektorje v tem plezališču.';
+                if (newStatus === 'published') {
+                    title = 'Objava plezališča';
+                    message = `Ali res želiš objaviti plezališče ${contributionEntity.name}?`;
+                    cascadeMessage = 'Objavi tudi vse sektorje in vse smeri v tem plezališču.';
                     if (contributionEntity.sectors.some((sector) => sector.routes.length)) {
                         cascadeMessage = 'Objavi tudi vse sektorje in vse smeri v tem plezališču.';
                     }
                 }
 
-                if (newStatus === 'draft' && contributionEntity.sectors.length) {
+                if (newStatus === 'draft') {
+                    title = 'Zavrnitev objave';
+                    message = `Ali res želiš zavrniti objavo plezališča ${contributionEntity.name}?`;
                     cascadeMessage = 'Zavrni tudi vse sektorje v tem plezališču.';
                     if (contributionEntity.sectors.some((sector) => sector.routes.length)) {
                         cascadeMessage = 'Zavrni tudi vse sektorje in vse smeri v tem plezališču.';
@@ -198,8 +234,9 @@ export class ContributionService {
             // Open dialog, make user confirm status change, let user choose cascade if applicable, let admin add rejection explanation if applicable
             this.dialog
                 .open(PublishStatusChangeDialogComponent, {
-                    data: { cascadeMessage, newStatus, forceCascade },
-                    width: '400px',
+                    data: { title, message, cascadeMessage, newStatus, forceCascade, actionLabel },
+                    width: '600px',
+                    height: newStatus === 'draft' ? '500px' : '280px',
                     maxWidth: '90vw',
                     maxHeight: '90vh'
                 })
@@ -215,16 +252,24 @@ export class ContributionService {
                         const rejectionMessage = dialogData.rejectionMessage;
 
                         return updateEntityGQL.mutate({
-                            input: {
-                                ...{
-                                    id: contributionEntity.id,
-                                    publishStatus: newStatus,
-                                    rejectionMessage
-                                },
-                                ...(contributionEntity.__typename !== 'Route' && {
-                                    cascadePublishStatus: cascade
-                                })
-                            }
+                            variables: {
+                                input: {
+                                    ...{
+                                        id: contributionEntity.id,
+                                        publishStatus: newStatus,
+                                        rejectionMessage
+                                    },
+                                    ...(contributionEntity.__typename !== 'Route' && {
+                                        cascadePublishStatus: cascade
+                                    })
+                                }
+                            },
+                            refetchQueries: [
+                                namedOperations.Query.ManagementGetCrag,
+                                namedOperations.Query.ManagementContributions,
+                                namedOperations.Query.PendingContributions,
+                                namedOperations.Query.ManagementGetSector
+                            ]
                         });
                     })
                 )

@@ -35,7 +35,7 @@ export class RouteCommentsComponent implements AfterViewInit, OnChanges {
         this.viewInit.emit();
     }
 
-    protected onCommentSaved(_$event: any): void {
+    protected onCommentSaved(): void {
         this.comments = [...this.route.comments];
     }
 }

@@ -1,121 +1,158 @@
+<app-title [title]="heading"></app-title>
 @if (!loading) {
-    <div>
-        <div class="white-back mt-16">
-            <div class="container py-8" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.lt-sm="column">
-                <div>
-                    @if (crag) {
-                        <div class="subheading">Urejanje smeri v sektorju</div>
-                    }
-                    <h1>{{ heading }}</h1>
-                </div>
-                @if (crag) {
-                    <a mat-button color="primary" [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']">Vsi sektorji</a>
-                }
-            </div>
-        </div>
-        <div class="container p15 mt-16">
-            @if (routes.length) {
-                <div fxLayout="row" fxLayoutAlign="start center" fxLayout.lt-sm="column" class="route ghost mt-8">
-                    <div fxFlex class="tools" fxLayout="row" fxLayoutAlign="end center">
-                        <i>Dodaj smer na začetek</i>
-                        <button mat-icon-button (click)="add({ position: routes[0].position })" matTooltip="Dodaj na začetek">
-                            <mat-icon>add</mat-icon>
+    <form [formGroup]="routesForm">
+        <section id="options">
+            <div class="flex flex-row flex-justify-space-between w-100">
+                <div class="options flex flex-row text-center">
+                    <div>
+                        @if (routesForm) {
+                            <button class="border" mat-stroked-button type="button">
+                                <mat-checkbox formControlName="selectAll">Označi vse</mat-checkbox>
+                            </button>
+                        }
+                    </div>
+
+                    <div>
+                        <button
+                            class="border"
+                            mat-stroked-button
+                            [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                            type="button"
+                        >
+                            <div class="flex flex-row flex-align-center">
+                                <app-move-routes-icon
+                                    [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                                ></app-move-routes-icon>
+                                <span>Premakni </span>
+                            </div>
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            class="border"
+                            mat-stroked-button
+                            (click)="moveSelectedToSector()"
+                            [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                            type="button"
+                        >
+                            <div class="flex flex-row flex-align-center">
+                                <app-switch-sector-icon
+                                    [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                                ></app-switch-sector-icon>
+                                <span>Premakni v drug sektor</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            class="border"
+                            mat-stroked-button
+                            [disabled]="routesForm.controls.selectedRouteIds.value.length !== 2"
+                            (click)="mergeRoutes()"
+                            type="button"
+                        >
+                            <div class="flex flex-row flex-align-center">
+                                <app-merge-routes-icon
+                                    [disabled]="routesForm.controls.selectedRouteIds.value.length !== 2"
+                                ></app-merge-routes-icon>
+                                <span>Združi</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                            class="border"
+                            mat-stroked-button
+                            type="button"
+                            (click)="deleteSelectedRoutes()"
+                        >
+                            <div class="flex flex-row flex-align-center">
+                                <app-delete-icon [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"></app-delete-icon>
+                                <div class="m-l-8">Izbriši</div>
+                            </div>
                         </button>
                     </div>
                 </div>
-            }
-            <div cdkDropList (cdkDropListDropped)="drop($event)" [class.saving]="savingPositions">
-                @for (route of routes; track route; let i = $index) {
-                    <div cdkDrag [cdkDragDisabled]="!canEdit(route)">
-                        <div
-                            fxLayout="row"
-                            fxLayoutAlign="start center"
-                            fxLayout.lt-sm="column"
-                            class="route mt-8"
-                            [ngClass]="{
-                                warn: route.publishStatus === 'draft',
-                                notice: route.publishStatus === 'in_review',
-                                disabled: !canEdit(route)
-                            }"
+                <div class="p-t-16 p-r-16">
+                    <button class="border" mat-stroked-button type="button">
+                        <a class="flex flex-row flex-align-center" [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']">
+                            <app-return-icon></app-return-icon>
+                            <div class="m-l-8">Nazaj na sektorje</div></a
                         >
-                            <div fxFlex class="name" fxFlex="100">
-                                {{ route.name }}
-                            </div>
-                            <div fxFlex>
-                                @if (route.difficulty !== null) {
-                                    <button mat-button>
-                                        <app-grade
-                                            [difficulty]="route.difficulty"
-                                            [gradingSystemId]="route.defaultGradingSystem?.id"
-                                            [showModifier]="true"
-                                            [disabled]="!canEdit(route)"
-                                        ></app-grade>
-                                    </button>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="routes" class="p-16">
+            <div
+                class="add-route-button flex flex-justify-end text-right cursor-pointer m-t-16"
+                (click)="add({ position: routes[0] ? routes[0].position : 1 })"
+            >
+                <div class="flex flex-row flex-align-center">
+                    <span class="p-r-4 p-t-4">
+                        @if (routes.length > 0) {
+                            dodaj smer na začetek
+                        } @else {
+                            dodaj prvo smer
+                        }
+                    </span>
+                    <app-plus-icon [disabled]="true"></app-plus-icon>
+                </div>
+            </div>
+            <div cdkDropList (cdkDropListDropped)="drop($event)" [class.saving]="savingPositions">
+                @for (route of routes; track $index; let i = $index) {
+                    @if (routesForm.controls.selectedRouteIds) {
+                        <app-route-container
+                            [route]="route"
+                            [routeFormControl]="routesForm.controls.selectedRouteIds"
+                            cdkDrag
+                            [cdkDragDisabled]="route.publishStatus === 'in_review'"
+                        >
+                            <div class="flex flex-row tools">
+                                @if (route.publishStatus === 'draft') {
+                                    <div>
+                                        <app-publish-icon
+                                            class="sortable"
+                                            matTooltip="Objavi smer"
+                                            (click)="contributionService.updatePublishStatus(route, 'in_review')"
+                                        ></app-publish-icon>
+                                    </div>
                                 }
-                                @if (route.isProject) {
-                                    <button mat-button>Projekt</button>
-                                }
-                            </div>
-                            <div fxFlex class="tools" fxLayout="row" fxLayoutAlign="start center">
                                 @if (canEdit(route)) {
-                                    <button mat-icon-button (click)="edit(route)">
-                                        <mat-icon>edit</mat-icon>
-                                    </button>
-                                    @if (user.roles.includes('admin')) {
-                                        <button
-                                            mat-icon-button
-                                            matTooltip="Orodja"
-                                            [matMenuTriggerFor]="optionsMenu"
-                                            [matMenuTriggerData]="{ route: route }"
-                                        >
-                                            <mat-icon>more_vert</mat-icon>
-                                        </button>
-                                    }
-                                    <button mat-icon-button matTooltip="Spremeni vrstni red" cdkDragHandle>
-                                        <mat-icon>sort</mat-icon>
-                                    </button>
-                                    <button mat-icon-button (click)="remove(route)">
-                                        <mat-icon>delete</mat-icon>
-                                    </button>
+                                    <div class="sortable" (click)="edit(route)" matTooltip="Uredi">
+                                        <app-edit-icon></app-edit-icon>
+                                    </div>
+                                    <div class="sortable" (click)="remove(route)" matTooltip="Odstrani">
+                                        <app-delete-icon></app-delete-icon>
+                                    </div>
+                                } @else {
+                                    <div>
+                                        <app-edit-icon [disabled]="true"></app-edit-icon>
+                                    </div>
+                                    <div>
+                                        <app-delete-icon [disabled]="true"></app-delete-icon>
+                                    </div>
                                 }
-                                <button mat-icon-button (click)="add({ position: route.position + 1 })" matTooltip="Dodaj kot naslednjo">
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </div>
-                            <!-- If a route is not published, show possible publishStatus change buttons -->
-                            @if (canEdit(route)) {
-                                <div fxFlex ngClass.lt-sm="mb-8" class="publish-status-actions">
-                                    @for (
-                                        nextStatus of contributionService.nextPossiblePublishStatuses(route);
-                                        track contributionService.statusButtonsTrackBy($index, nextStatus)
-                                    ) {
-                                        <button
-                                            mat-stroked-button
-                                            [disabled]="!nextStatus.enabled"
-                                            (click)="contributionService.updatePublishStatus(route, nextStatus.status)"
-                                        >
-                                            {{ contributionService.publishStatuses[nextStatus.status].actionLabel }}
-                                        </button>
-                                    }
+                                <div class="sortable" (click)="add({ position: route.position + 1 })" matTooltip="Dodaj kot naslednjo">
+                                    <app-plus-icon></app-plus-icon>
                                 </div>
-                            }
-                        </div>
-                    </div>
+                            </div>
+                        </app-route-container>
+                    }
                 }
             </div>
-            @if (routes.length === 0) {
-                <div class="buttons mt-16">
-                    <button mat-button color="primary" (click)="add()">Dodaj prvo smer</button>
+            <div class="flex flex-row">
+                <div class="p-8 flex flex-align-center">
+                    <span class="dot extra-large warn" [style.backgroundColor]="'red'"></span>
+                    <span class="p-l-8"> osnutek </span>
                 </div>
-            }
-            <mat-menu #optionsMenu="matMenu">
-                <ng-template matMenuContent let-route="route">
-                    <button mat-menu-item (click)="moveToSector(route)">Premakni v drug sektor</button>
-                    @if (route.publishStatus === 'published' && route.pitches.length === 0) {
-                        <button mat-menu-item (click)="mergeWithRoute(route)">Združi s smerjo</button>
-                    }
-                </ng-template>
-            </mat-menu>
-        </div>
-    </div>
+                <div class="p-8 flex flex-align-center">
+                    <span class="dot extra-large notice" [style.backgroundColor]="'red'"></span>
+                    <span class="p-l-8"> v pregledu pri uredništvu </span>
+                </div>
+            </div>
+        </section>
+    </form>
 }

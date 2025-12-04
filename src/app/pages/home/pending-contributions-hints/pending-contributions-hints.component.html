@@ -11,8 +11,7 @@
             }
         </mat-card>
     }
-
-    @if (pendingInReviews?.length && isAdmin) {
+    @if (pendingInReviews?.length) {
         <mat-card class="mt-16 notice">
             {{ pendingInReviews.length | pluralizeNoun: 'uporabniški prispevek' }}
             {{ pendingInReviews.length | pluralizeVerb: 'čakati' }}
