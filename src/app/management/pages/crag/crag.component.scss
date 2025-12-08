@@ -1,8 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../m3-theme.scss' as m3-theme;
 
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
-
 :host {
     section#title {
         height: 100px;
@@ -25,7 +23,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
         div:last-child,
         div:first-child {
-            border-bottom: $grey 1px solid !important;
+            border-bottom: var(--mat-sys-outline) 1px solid !important;
             height: 42px;
             width: 100%;
         }
@@ -37,7 +35,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         .tabs > div:nth-child(2n) {
             background-color: var(--mat-sys-surface);
             height: 42px;
-            border-bottom: $grey 1px solid !important;
+            border-bottom: var(--mat-sys-outline) 1px solid !important;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -49,13 +47,13 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
             width: 16px;
             background-color: var(--mat-sys-surface);
             height: 42px;
-            border-bottom: $grey 1px solid !important;
+            border-bottom: var(--mat-sys-outline) 1px solid !important;
         }
 
         .tabs > div.active {
             background-color: var(--mat-sys-surface-bright);
             height: 42px;
-            border: 1px solid $grey;
+            border: 1px solid var(--mat-sys-outline);
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             background-color: white;

@@ -13,7 +13,8 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    imports: [MatMenuModule, RouterLink, MatButtonModule, IconsModule]
+    imports: [MatMenuModule, RouterLink, MatButtonModule, IconsModule],
+    host: { style: 'background-color: var(--mat-sys-surface-container-lowest)' }
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     public naviOpen = false;
