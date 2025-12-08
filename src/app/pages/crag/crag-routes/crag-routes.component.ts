@@ -456,10 +456,10 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
                             data: {
                                 crag: this.crag
                             },
-                            minWidth: this.breakpointService.ltMd ? '95vw' : '80vw',
-                            minHeight: this.breakpointService.ltMd ? '95vh' : '80vh',
-                            width: this.breakpointService.ltMd ? '95vw' : '80vw',
-                            height: this.breakpointService.ltMd ? '95vh' : '80vh'
+                            minWidth: this.breakpointService.sgLtMd() ? '95vw' : '80vw',
+                            minHeight: this.breakpointService.sgLtMd() ? '95vh' : '80vh',
+                            width: this.breakpointService.sgLtMd() ? '95vw' : '80vw',
+                            height: this.breakpointService.sgLtMd() ? '95vh' : '80vh'
                         })
                         .afterClosed()
                         .subscribe((result) => {

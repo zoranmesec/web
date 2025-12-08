@@ -34,7 +34,7 @@ export class AuthService {
         this.currentUser.next(null); // only after cache is finished clearing can we emmit new user (because it might trigger some refetches)
     }
 
-    async login(loginResponse: LoginResponse): Promise<any> {
+    async login(loginResponse: LoginResponse): Promise<void> {
         await this.apollo.client.clearStore();
         this.localStorageService.setItem('auth', loginResponse, dayjs().add(1, 'year').toISOString());
 
@@ -51,14 +51,15 @@ export class AuthService {
         return null;
     }
 
-    async guardedAction(options: GuardedActionOptions): Promise<any> {
+    async guardedAction(options: GuardedActionOptions): Promise<boolean> {
+        console.log('AuthService: guardedAction called with options:', options);
         return new Promise((resolve, _reject) => {
             if (this.currentUser.value !== null) {
                 resolve(true);
                 return;
             }
 
-            const success = new Subject<any>();
+            const success = new Subject<boolean>();
 
             this.openLogin$.next({
                 success: success,
@@ -66,7 +67,7 @@ export class AuthService {
             });
 
             success.subscribe((data) => {
-                resolve(data);
+                resolve(data ? true : false);
             });
         });
     }

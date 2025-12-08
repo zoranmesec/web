@@ -15,7 +15,7 @@
             <div>&nbsp;</div>
             <div [class.disabled]="crag === undefined" class="tab" (click)="goToSectors()">
                 <app-routes-icon [active]="false"></app-routes-icon>
-                @if (!breakpointService.ltMd) {
+                @if (!breakpointService.sgLtMd()) {
                     <span> Sektorji in smeri </span>
                 }
             </div>

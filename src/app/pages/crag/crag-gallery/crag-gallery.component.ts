@@ -43,16 +43,16 @@ export class CragGalleryComponent implements OnInit, OnChanges {
     }
 
     private calcNrColumns(): void {
-        if (this.breakpointService.ltSm) {
+        if (this.breakpointService.sgLtSm()) {
             this.nrColumns = 2;
         }
-        if (this.breakpointService.gtSm) {
+        if (this.breakpointService.sgGtSm()) {
             this.nrColumns = 3;
         }
-        if (this.breakpointService.gtMd) {
+        if (this.breakpointService.sgGtMd()) {
             this.nrColumns = 4;
         }
-        if (this.breakpointService.gtXl) {
+        if (this.breakpointService.sgGtXl()) {
             this.nrColumns = 5;
         }
     }

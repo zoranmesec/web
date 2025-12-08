@@ -61,7 +61,7 @@
             </div>
         </section>
     }
-    <section id="description" class="flex" [class.flex-column]="breakpointService.ltLg" [class.flex-row]="breakpointService.gtMd">
+    <section id="description" class="flex" [class.flex-column]="breakpointService.sgLtLg()" [class.flex-row]="breakpointService.sgGtMd()">
         @if (crag().images && crag().images.length > 0) {
             <app-crag-image [crag]="crag()"></app-crag-image>
         } @else {
@@ -113,7 +113,12 @@
             <app-distribution-chart [distribution]="attendanceDistribution"></app-distribution-chart>
         </div>
     </section>
-    <section id="approach" class="w-100 flex m-t-16" [class.flex-row]="breakpointService.gtMd" [class.flex-column]="breakpointService.ltLg">
+    <section
+        id="approach"
+        class="w-100 flex m-t-16"
+        [class.flex-row]="breakpointService.sgGtMd()"
+        [class.flex-column]="breakpointService.sgLtLg()"
+    >
         <div class="access">
             <h2>Dostop</h2>
             <div>

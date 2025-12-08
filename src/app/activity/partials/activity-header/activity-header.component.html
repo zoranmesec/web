@@ -9,7 +9,7 @@
             } @else if (tab.icon === 'statistics') {
                 <app-statistics-icon [active]="tab.slug === active()"></app-statistics-icon>
             }
-            @if (breakpointService.gtSm) {
+            @if (breakpointService.sgGtSm()) {
                 <span>
                     {{ tab.label }}
                 </span>

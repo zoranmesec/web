@@ -1,4 +1,4 @@
-@if (breakpointService.gtMd) {
+@if (breakpointService.sgGtMd()) {
     @if (columns().date && displayType() !== 'activity' && displayType() !== 'activityForm') {
         <div>
             {{ route().date | date: 'd. M. yyyy' }}
@@ -110,7 +110,7 @@
             </mat-menu>
         </div>
     }
-} @else if (breakpointService.ltLg) {
+} @else if (breakpointService.sgLtLg()) {
     <div>
         <div class="w-100 flex flex-column">
             @if (columns().date && rowAction()) {

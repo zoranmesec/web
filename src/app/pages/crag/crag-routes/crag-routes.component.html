@@ -8,7 +8,7 @@
                 >
                     <button type="button" class="border" mat-stroked-button (click)="toggleFilterSelection()">
                         <mat-icon>tune</mat-icon>
-                        <span [class.hidden]="breakpointService.ltLg" class="p-l-8">
+                        <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">
                             @if (showFilters) {
                                 Skrij filtre
                             } @else {
@@ -24,7 +24,7 @@
                     <button type="button" mat-stroked-button class="border" (click)="toggleColumnSelection()">
                         <div class="flex flex-row">
                             <app-columns-icon></app-columns-icon>
-                            <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Izberi stolpce</span>
+                            <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Izberi stolpce</span>
                         </div>
                     </button>
                 </div>
@@ -48,14 +48,14 @@
                         <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag.id]">Uredi plezališče</a>
                     </mat-menu>
                 </div>
-                <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.gtSm">
+                <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.sgGtSm()">
                     <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
                         <mat-icon class="filter-icon">search</mat-icon>
-                        <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Išči</span>
+                        <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Išči</span>
                     </button>
                 </div>
             </div>
-            <div [class.hidden]="breakpointService.ltSm">
+            <div [class.hidden]="breakpointService.sgLtSm()">
                 <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
                     <mat-label>
                         <mat-icon class="search-icon">search</mat-icon>
@@ -66,7 +66,7 @@
             </div>
         </section>
         @if (searchFieldVisible) {
-            <div [class.hidden]="breakpointService.gtSm" class="w-100 flex flex-row flex-align-center flex-center">
+            <div [class.hidden]="breakpointService.sgGtSm()" class="w-100 flex flex-row flex-align-center flex-center">
                 <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
                     <mat-label>
                         <mat-icon class="search-icon">search</mat-icon>
@@ -118,7 +118,7 @@
                                 <div class="card">
                                     <!-- Table view -->
                                     <table class="shadow w-100">
-                                        <thead [class.hidden]="breakpointService.ltLg">
+                                        <thead [class.hidden]="breakpointService.sgLtLg()">
                                             <tr class="table-header">
                                                 <th class="checkbox">
                                                     <app-sortable-header-field
@@ -284,7 +284,7 @@
                                             @for (route of sector.routes; track route) {
                                                 @if (route.show) {
                                                     <tr
-                                                        [class.hidden]="breakpointService.ltLg"
+                                                        [class.hidden]="breakpointService.sgLtLg()"
                                                         class="table-row"
                                                         (click)="expandRow(route.id)"
                                                         [ngClass]="{ selected: route.id === expandedRowId }"
@@ -389,7 +389,7 @@
                                                         }
                                                     </tr>
                                                     <!-- Less than large -->
-                                                    <tr [class.hidden]="breakpointService.gtMd" class="table-row">
+                                                    <tr [class.hidden]="breakpointService.sgGtMd()" class="table-row">
                                                         <td class="checkbox" (click)="onCheckBoxClick($event)">
                                                             <label class="checkbox-container">
                                                                 <input
@@ -428,10 +428,10 @@
                                                                 </div>
                                                             </div>
                                                             <div
-                                                                [class.hidden]="breakpointService.gtMd"
+                                                                [class.hidden]="breakpointService.sgGtMd()"
                                                                 class="w-100 flex flex-justify-space-between"
                                                             >
-                                                                <div>
+                                                                <div class="w-100 flex">
                                                                     @if (route.isProject) {
                                                                         <span>P</span>
                                                                     }
@@ -462,7 +462,7 @@
                                                                     }
                                                                 </div>
                                                             </div>
-                                                            <div [class.hidden]="breakpointService.gtMd" class="w-100 route-info">
+                                                            <div [class.hidden]="breakpointService.sgGtMd()" class="w-100 route-info">
                                                                 {{ route.nrTicks }} uspešnih vzponov, {{ route.nrClimbers }} plezalcev,
                                                                 {{ route.nrTries }} poskusov
                                                             </div>

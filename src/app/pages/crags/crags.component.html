@@ -22,7 +22,7 @@
                         <div class="border-right flex flex-row flex-align-center flex-center" #map>
                             <button type="button" mat-stroked-button (click)="showMap = !showMap">
                                 <mat-icon class="filter-icon">map</mat-icon>
-                                <span [class.hidden]="breakpointService.ltLg" class="p-l-8">
+                                <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">
                                     @if (showMap) {
                                         Skrij zemljevid
                                     } @else {
@@ -38,7 +38,7 @@
                     >
                         <button type="button" mat-stroked-button (click)="showFilters = !showFilters">
                             <mat-icon class="filter-icon">tune</mat-icon>
-                            <span [class.hidden]="breakpointService.ltLg" class="p-l-8">
+                            <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">
                                 @if (showFilters) {
                                     Skrij filtre
                                 } @else {
@@ -46,7 +46,7 @@
                                 }
                             </span>
                             @if (nrOfFiltersApplied > 0) {
-                                <span [class.hidden]="breakpointService.gtMd"> {{ nrOfFiltersApplied }}</span>
+                                <span [class.hidden]="breakpointService.sgGtMd()"> {{ nrOfFiltersApplied }}</span>
                             }
                         </button>
                     </div>
@@ -62,10 +62,10 @@
                 <span fxHide.lt-lg class="p-l-8">Uredi</span>
               </button>
             </div> -->
-                    <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.gtSm">
+                    <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.sgGtSm()">
                         <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
                             <mat-icon class="filter-icon">search</mat-icon>
-                            <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Išči</span>
+                            <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Išči</span>
                         </button>
                     </div>
                     <div>
@@ -80,7 +80,7 @@
                         </mat-menu>
                     </div>
                 </div>
-                <div [class.hidden]="breakpointService.ltSm">
+                <div [class.hidden]="breakpointService.sgLtSm()">
                     <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
                         <mat-label>
                             <mat-icon class="search-icon">search</mat-icon>
@@ -91,7 +91,7 @@
                 </div>
             </section>
             @if (searchFieldVisible) {
-                <div [class.hidden]="breakpointService.gtSm" class="w-100 flex flex-row flex-align-center flex-center">
+                <div [class.hidden]="breakpointService.sgGtSm()" class="w-100 flex flex-row flex-align-center flex-center">
                     <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
                         <mat-label>
                             <mat-icon class="search-icon">search</mat-icon>
@@ -102,12 +102,12 @@
                 </div>
             }
             <main class="mt-8 flex flex-row">
-                <section [class.hidden]="breakpointService.ltMd" class="m-t-4">
+                <section [class.hidden]="breakpointService.sgLtMd()" class="m-t-4">
                     @if (showFilters && country) {
                         <app-crags-toc [country]="country" (closePanel)="showFilters = !showFilters"></app-crags-toc>
                     }
                 </section>
-                <section [class.hidden]="breakpointService.gtSm" class="m-t-4">
+                <section [class.hidden]="breakpointService.sgGtSm()" class="m-t-4">
                     @if (!showFilters && country) {
                         <app-crags-toc [country]="country" (closePanel)="showFilters = !showFilters"></app-crags-toc>
                     }
@@ -117,7 +117,7 @@
                         <app-loader class="m-32"></app-loader>
                     }
                     @if (!cragsLoading) {
-                        <div [class.hidden]="breakpointService.ltLg" class="flex flex-row flex-align-start flex-center">
+                        <div [class.hidden]="breakpointService.sgLtLg()" class="flex flex-row flex-align-start flex-center">
                             @if (selectedAreas.length > 0) {
                                 <div class="filter-chip flex" (click)="removeAreaFilter()">
                                     Območje:
@@ -164,24 +164,24 @@
                     }
                     @if (!cragsLoading) {
                         <div>
-                            <div class="row crag-row header flex" [class.hidden]="breakpointService.ltLg">
+                            <div class="row crag-row header flex" [class.hidden]="breakpointService.sgLtLg()">
                                 <div>Ime</div>
                                 <div>Število smeri</div>
-                                <div [class.hidden]="breakpointService.ltXl">Orientacija</div>
+                                <div [class.hidden]="breakpointService.sgLtXl()">Orientacija</div>
                                 <div>Težavnost</div>
                             </div>
                             @for (crag of filteredCrags; track $index) {
                                 <div class="row flex flex-row crag-row">
-                                    <div [class.flex]="breakpointService.ltMd" [class.hidden]="breakpointService.ltLg">
+                                    <div [class.flex]="breakpointService.sgLtMd()" [class.hidden]="breakpointService.sgLtLg()">
                                         <a [routerLink]="['/plezalisce/', crag.slug]">{{ crag.name }}</a>
                                     </div>
-                                    <div [class.flex]="breakpointService.ltMd" [class.hidden]="breakpointService.ltLg">
+                                    <div [class.flex]="breakpointService.sgLtMd()" [class.hidden]="breakpointService.sgLtLg()">
                                         {{ crag.nrRoutes }}
                                     </div>
-                                    <div [class.hidden]="breakpointService.ltXl">
+                                    <div [class.hidden]="breakpointService.sgLtXl()">
                                         {{ crag.orientation | orientation: 'short' }}
                                     </div>
-                                    <div [class.hidden]="breakpointService.ltLg" class="routes flex flex-row">
+                                    <div [class.hidden]="breakpointService.sgLtLg()" class="routes flex flex-row">
                                         @if (crag.nrRoutes > 0) {
                                             <div class="p-r-4">
                                                 {{ crag.minDifficulty !== null && crag.maxDifficulty !== null ? 'od ' : '' }}
@@ -200,7 +200,7 @@
                                         }
                                     </div>
                                     <!-- Less than large -->
-                                    <div class="flex flex-column flex-justify-start w-100" [class.hidden]="breakpointService.gtMd">
+                                    <div class="flex flex-column flex-justify-start w-100" [class.hidden]="breakpointService.sgGtMd()">
                                         <div class="w-100 flex flex-wrap flex-justify-space-between">
                                             <div>
                                                 <a [routerLink]="['/plezalisce/', crag.slug]" class="crag-link">{{ crag.name }}</a>
@@ -213,7 +213,7 @@
                                                 </div>
                                             }
                                         </div>
-                                        <div [class.hidden]="breakpointService.gtMd" class="flex flex-row gap-4 w-100">
+                                        <div [class.hidden]="breakpointService.sgGtMd()" class="flex flex-row gap-4 w-100">
                                             <span>{{ crag.nrRoutes }} smeri od </span>
                                             @if (crag.nrRoutes > 0) {
                                                 <app-grade

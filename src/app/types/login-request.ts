@@ -2,6 +2,6 @@ import { Subject } from 'rxjs';
 
 export interface LoginRequest {
     returnUrl?: string;
-    success?: Subject<any>;
+    success?: Subject<boolean>;
     message?: string;
 }

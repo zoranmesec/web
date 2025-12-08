@@ -1,56 +1,153 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { CUSTOM_BREAKPOINTS } from '../shared/custom-breakpoints';
 
 @Injectable({
     providedIn: 'root'
 })
-export class BreakpointService {
+export class BreakpointService implements OnDestroy {
     private breakpoints = CUSTOM_BREAKPOINTS;
-    constructor(private breakpointObserver: BreakpointObserver) {}
+    destroyed = new Subject<void>();
+    currentScreenSize: string;
 
-    get gtSm() {
-        const breakpoint = this.getBreakpoint('gt-sm');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    private _ltLg = signal(false);
+    private _gtSm = signal(false);
+    private _gtMd = signal(false);
+    private _gtLg = signal(false);
+    private _gtXl = signal(false);
+    private _gt2Xl = signal(false);
+    private _ltXl = signal(false);
+    private _ltMd = signal(false);
+    private _ltSm = signal(false);
+
+    constructor(private breakpointObserver: BreakpointObserver) {
+        const ltLgQuery = this.getBreakpoint('lt-lg')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(ltLgQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`lt-lg breakpoint matched: ${result.matches}`);
+                this._ltLg.set(result.matches);
+            });
+
+        const gtSmQuery = this.getBreakpoint('gt-sm')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(gtSmQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`gt-sm breakpoint matched: ${result.matches}`);
+                this._gtSm.set(result.matches);
+            });
+
+        const gtMdQuery = this.getBreakpoint('gt-md')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(gtMdQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`gt-md breakpoint matched: ${result.matches}`);
+                this._gtMd.set(result.matches);
+            });
+        const gtLgQuery = this.getBreakpoint('gt-lg')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(gtLgQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`gt-lg breakpoint matched: ${result.matches}`);
+                this._gtLg.set(result.matches);
+            });
+
+        const gtXlQuery = this.getBreakpoint('gt-xl')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(gtXlQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`gt-xl breakpoint matched: ${result.matches}`);
+                this._gtXl.set(result.matches);
+            });
+
+        const gt2XlQuery = this.getBreakpoint('gt-2xl')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(gt2XlQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`gt-2xl breakpoint matched: ${result.matches}`);
+                this._gt2Xl.set(result.matches);
+            });
+
+        const ltXlQuery = this.getBreakpoint('lt-xl')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(ltXlQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`lt-xl breakpoint matched: ${result.matches}`);
+                this._ltXl.set(result.matches);
+            });
+
+        const ltMdQuery = this.getBreakpoint('lt-md')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(ltMdQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`lt-md breakpoint matched: ${result.matches}`);
+                this._ltMd.set(result.matches);
+            });
+
+        const ltSmQuery = this.getBreakpoint('lt-sm')?.mediaQuery || '';
+        this.breakpointObserver
+            .observe(ltSmQuery)
+            .pipe(takeUntil(this.destroyed))
+            .subscribe((result) => {
+                console.log(`lt-sm breakpoint matched: ${result.matches}`);
+                this._ltSm.set(result.matches);
+            });
+
+        // this.observe()
+        //     .pipe(takeUntil(this.destroyed))
+        //     .subscribe((result) => {
+        //         console.log('Breakpoint changes detected:', result);
+        //         for (const query of Object.keys(result.breakpoints)) {
+        //             if (result.breakpoints[query]) {
+        //                 console.log(`Matched breakpoint: ${query}`);
+        //             }
+        //         }
+        //     });
     }
 
-    get gtMd() {
-        const breakpoint = this.getBreakpoint('gt-md');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgLtLg() {
+        return this._ltLg.asReadonly();
     }
 
-    get gtLg() {
-        const breakpoint = this.getBreakpoint('gt-lg');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgGtSm() {
+        return this._gtSm.asReadonly();
     }
 
-    get gtXl() {
-        const breakpoint = this.getBreakpoint('gt-xl');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgGtMd() {
+        return this._gtMd.asReadonly();
     }
 
-    get gt2Xl() {
-        const breakpoint = this.getBreakpoint('gt-2xl');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgGtLg() {
+        return this._gtLg.asReadonly();
     }
 
-    get ltXl() {
-        const breakpoint = this.getBreakpoint('lt-xl');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgGtXl() {
+        return this._gtXl.asReadonly();
     }
 
-    get ltLg() {
-        const breakpoint = this.getBreakpoint('lt-lg');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
-    }
-    get ltMd() {
-        const breakpoint = this.getBreakpoint('lt-md');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgGt2Xl() {
+        return this._gt2Xl.asReadonly();
     }
 
-    get ltSm() {
-        const breakpoint = this.getBreakpoint('lt-sm');
-        return this.breakpointObserver.isMatched(breakpoint.mediaQuery);
+    get sgLtXl() {
+        return this._ltXl.asReadonly();
+    }
+
+    get sgLtMd() {
+        return this._ltMd.asReadonly();
+    }
+
+    get sgLtSm() {
+        return this._ltSm.asReadonly();
     }
 
     private getBreakpoint(alias: string) {
@@ -60,5 +157,10 @@ export class BreakpointService {
     public observe() {
         const queries = this.breakpoints.map((bp) => bp.mediaQuery);
         return this.breakpointObserver.observe(queries);
+    }
+
+    ngOnDestroy() {
+        this.destroyed.next();
+        this.destroyed.complete();
     }
 }

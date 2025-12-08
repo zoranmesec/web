@@ -93,7 +93,12 @@
                 </div>
             }
         </section>
-        <section id="ascents" class="flex w-100" [class.flex-column]="breakpointService.ltLg" [class.flex-row]="breakpointService.gtMd">
+        <section
+            id="ascents"
+            class="flex w-100"
+            [class.flex-column]="breakpointService.sgLtLg()"
+            [class.flex-row]="breakpointService.sgGtMd()"
+        >
             <div class="w-100">
                 <app-route-ascents [route]="route" [showOnlyUserAscents]="false"></app-route-ascents>
             </div>
@@ -103,7 +108,12 @@
                 </div>
             }
         </section>
-        <section id="grades" class="flex w-100" [class.flex-column]="breakpointService.ltLg" [class.flex-row]="breakpointService.gtMd">
+        <section
+            id="grades"
+            class="flex w-100"
+            [class.flex-column]="breakpointService.sgLtLg()"
+            [class.flex-row]="breakpointService.sgGtMd()"
+        >
             <div>
                 <app-route-grades
                     [grades]="grades"

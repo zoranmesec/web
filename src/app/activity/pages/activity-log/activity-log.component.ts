@@ -306,8 +306,8 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
         this.dialog
             .open(ActivityInputComponent, {
                 data: { activity: activity, crag: activity.crag },
-                minWidth: this.breakpointService.ltMd ? '95vw' : '80vw',
-                minHeight: this.breakpointService.ltMd ? '95vh' : '80vh'
+                minWidth: this.breakpointService.sgLtMd() ? '95vw' : '80vw',
+                minHeight: this.breakpointService.sgLtMd() ? '95vh' : '80vh'
             })
             .afterClosed()
             .subscribe(() => {
@@ -381,7 +381,7 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
     }
 
     get months(): string[] {
-        if (this.breakpointService.ltMd) {
+        if (this.breakpointService.sgLtMd()) {
             return ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'];
         } else {
             return [
@@ -421,10 +421,10 @@ export class ActivityLogComponent implements OnInit, OnDestroy {
         this.dialog
             .open(ActivityInputComponent, {
                 data: {},
-                minWidth: this.breakpointService.ltMd ? '95vw' : '80vw',
-                minHeight: this.breakpointService.ltMd ? '95vh' : '80vh',
-                width: this.breakpointService.ltMd ? '95vw' : '80vw',
-                height: this.breakpointService.ltMd ? '95vh' : '80vh'
+                minWidth: this.breakpointService.sgLtMd() ? '95vw' : '80vw',
+                minHeight: this.breakpointService.sgLtMd() ? '95vh' : '80vh',
+                width: this.breakpointService.sgLtMd() ? '95vw' : '80vw',
+                height: this.breakpointService.sgLtMd() ? '95vh' : '80vh'
             })
             .afterClosed()
             .subscribe((_result) => {

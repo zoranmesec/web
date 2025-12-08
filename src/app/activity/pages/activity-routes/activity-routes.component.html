@@ -13,7 +13,7 @@
             >
                 <button type="button" mat-stroked-button (click)="toggleFilterSelection()" class="border">
                     <mat-icon>tune</mat-icon>
-                    <span [class.hidden]="breakpointService.ltMd" class="p-l-8">
+                    <span [class.hidden]="breakpointService.sgLtMd()" class="p-l-8">
                         @if (showFilters) {
                             Skrij filtre
                         } @else {
@@ -29,19 +29,19 @@
                 <button type="button" mat-stroked-button (click)="toggleColumnSelection()" class="border">
                     <div class="flex flex-row">
                         <app-columns-icon></app-columns-icon>
-                        <span [class.hidden]="breakpointService.ltMd" class="p-l-8">Izberi stolpce</span>
+                        <span [class.hidden]="breakpointService.sgLtMd()" class="p-l-8">Izberi stolpce</span>
                     </div>
                 </button>
             </div>
 
-            <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.gtSm">
+            <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.sgGtSm()">
                 <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
                     <mat-icon class="filter-icon">search</mat-icon>
-                    <span [class.hidden]="breakpointService.ltLg" class="p-l-8">Išči</span>
+                    <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Išči</span>
                 </button>
             </div>
         </div>
-        <div [class.hidden]="breakpointService.ltMd">
+        <div [class.hidden]="breakpointService.sgLtMd()">
             <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
                 <mat-label>
                     <mat-icon class="search-icon">search</mat-icon>
@@ -52,7 +52,7 @@
         </div>
     </section>
     @if (searchFieldVisible) {
-        <div [class.hidden]="breakpointService.gtSm" class="w-100 flex flex-row flex-align-center flex-center">
+        <div [class.hidden]="breakpointService.sgGtSm()" class="w-100 flex flex-row flex-align-center flex-center">
             <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
                 <mat-label>
                     <mat-icon class="search-icon">search</mat-icon>
@@ -348,7 +348,7 @@
                         </div>
                     }
 
-                    <div class="row header flex flex-row activity-route-row" [class.hidden]="breakpointService.ltLg">
+                    <div class="row header flex flex-row activity-route-row" [class.hidden]="breakpointService.sgLtLg()">
                         @for (column of filteredTable.columns; track $index) {
                             @if (columnForm.value[column.name]) {
                                 <div>

@@ -87,11 +87,11 @@ export class AppComponent implements OnInit, OnDestroy {
                     })
                 )
                 .subscribe((data) => {
-                    if (req.returnUrl !== null) {
+                    if (req.returnUrl !== undefined && req.returnUrl !== null) {
                         this.router.navigateByUrl(req.returnUrl);
                     }
 
-                    if (req.success !== null) {
+                    if (req.success !== undefined && req.success !== null) {
                         req.success.next(data);
                     }
                 });

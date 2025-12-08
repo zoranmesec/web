@@ -8,8 +8,8 @@
         <div class="m-r-16 p-t-8">
             <app-minus-icon
                 (click)="decrementGrade()"
-                [disabled]="control.disabled || !canDecrement()"
-                [class.enabled]="!control.disabled && canDecrement()"
+                [disabled]="control.disabled || !canDecrement"
+                [class.enabled]="!control.disabled && canDecrement"
             ></app-minus-icon>
         </div>
         <div class="flex flex-column">
@@ -34,8 +34,8 @@
         <div class="m-l-16 p-t-8">
             <app-plus-icon
                 (click)="incrementGrade()"
-                [disabled]="control.disabled || !canIncrement()"
-                [class.enabled]="!control.disabled && canIncrement()"
+                [disabled]="control.disabled || !canIncrement"
+                [class.enabled]="!control.disabled && canIncrement"
             ></app-plus-icon>
         </div>
     </div>

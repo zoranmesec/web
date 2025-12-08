@@ -231,7 +231,7 @@ export class ActivityRoutesComponent implements OnInit, OnDestroy {
             }
         ]);
 
-        if (this.breakpointService.ltMd) {
+        if (this.breakpointService.sgLtMd()) {
             this.showFilters = false;
         }
         this.publishOptions.forEach((option) => {

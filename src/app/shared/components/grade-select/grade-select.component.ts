@@ -117,13 +117,13 @@ export class GradeSelectComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    protected canDecrement(): boolean {
+    get canDecrement(): boolean {
         const currentDifficulty = this.control.value;
         const currentIndex = this.allGrades.findIndex((grade) => grade.difficulty === currentDifficulty);
         return currentIndex > 0;
     }
 
-    protected canIncrement(): boolean {
+    get canIncrement(): boolean {
         const currentDifficulty = this.control.value;
         const currentIndex = this.allGrades.findIndex((grade) => grade.difficulty === currentDifficulty);
         return currentIndex < this.allGrades.length - 1;

@@ -19,7 +19,7 @@
                 } @else if (tab.icon === 'info') {
                     <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
                 } @else if (tab.icon === 'comment') {
-                    <app-comment-icon [active]="tab.slug === activeTab"></app-comment-icon>
+                    <app-comment-icon [sgActive]="tab.slug === activeTab"></app-comment-icon>
                 }
 
                 <span fxHide.lt-md>
@@ -30,7 +30,7 @@
         }
         <div>&nbsp;</div>
     </section>
-    <section [class.m-16]="breakpointService.gtMd && activeTab !== 'galerija'">
+    <section [class.m-16]="breakpointService.sgGtMd() && activeTab !== 'galerija'">
         @if (activeTab === 'info') {
             <app-crag-info [crag]="crag"></app-crag-info>
         }

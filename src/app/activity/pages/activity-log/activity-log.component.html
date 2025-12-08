@@ -35,7 +35,7 @@
                             </div>
                             <div class="flex flex-row m-4 sortable" (click)="goToToday()">
                                 <app-today-icon></app-today-icon>
-                                @if (this.breakpointService.gtSm) {
+                                @if (this.breakpointService.sgGtSm()) {
                                     <span class="m-l-4 p-t-2">Danes</span>
                                 }
                             </div>
@@ -62,13 +62,21 @@
                                 <div class="p-b-8">
                                     {{ day.day | date: 'd' : undefined : CmsLocale }}
                                 </div>
-                                <div class="flex" [class.flex-row]="breakpointService.ltMd" [class.flex-column]="breakpointService.gtSm">
+                                <div
+                                    class="flex"
+                                    [class.flex-row]="breakpointService.sgLtMd()"
+                                    [class.flex-column]="breakpointService.sgGtSm()"
+                                >
                                     @for (activity of day.activities; track $index) {
-                                        <div class="flex flex-row sortable" (click)="openDay(day)" [class.p-t-8]="breakpointService.gtSm">
+                                        <div
+                                            class="flex flex-row sortable"
+                                            (click)="openDay(day)"
+                                            [class.p-t-8]="breakpointService.sgGtSm()"
+                                        >
                                             <div class="p-r-8">
                                                 <span class="dot" [style.backgroundColor]="activity | activityColor"></span>
                                             </div>
-                                            @if (breakpointService.gtSm) {
+                                            @if (breakpointService.sgGtSm()) {
                                                 <div class="activity-summary">
                                                     <span>{{ activity | activityLabel }}</span
                                                     ><br />
@@ -115,7 +123,7 @@
                         </div>
                         <div class="flex flex-row m-4 sortable" (click)="goToToday()">
                             <app-today-icon></app-today-icon>
-                            @if (this.breakpointService.gtSm) {
+                            @if (this.breakpointService.sgGtSm()) {
                                 <span class="m-l-4 p-t-2">Danes</span>
                             }
                         </div>
@@ -171,8 +179,8 @@
 
                                 <div
                                     class="w-100 flex activity-row"
-                                    [class.flex-row]="breakpointService.gtSm"
-                                    [class.flex-column]="breakpointService.ltMd"
+                                    [class.flex-row]="breakpointService.sgGtSm()"
+                                    [class.flex-column]="breakpointService.sgLtMd()"
                                 >
                                     <div>Vzponi</div>
                                     <div class="w-100 flex flex-column">

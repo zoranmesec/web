@@ -71,7 +71,12 @@ module.exports = defineConfig([
             '@angular-eslint/template/mouse-events-have-key-events': 'off',
             '@angular-eslint/template/no-any': 'error',
             '@angular-eslint/template/no-autofocus': 'error',
-            '@angular-eslint/template/no-call-expression': 'off',
+            '@angular-eslint/template/no-call-expression': [
+                'warn',
+                {
+                    allowPrefix: 'sg'
+                }
+            ],
             '@angular-eslint/template/no-distracting-elements': 'error',
             '@angular-eslint/template/no-duplicate-attributes': 'off',
             '@angular-eslint/template/no-negated-async': 'error',

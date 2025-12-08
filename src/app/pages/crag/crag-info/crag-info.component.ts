@@ -313,7 +313,7 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     get needsCompactSlots(): boolean {
-        return this.breakpointService.ltLg;
+        return this.breakpointService.sgLtLg();
     }
 
     get routeHeight(): { minHeight: number; maxHeight: number } {

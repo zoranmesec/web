@@ -26,7 +26,7 @@ header {
 
     nav > ul.vertical {
         flex-direction: column !important;
-        align-items: flex-end !important;
+        align-items: flex-start !important;
     }
 
     nav > ul > li:not(:first-child) {

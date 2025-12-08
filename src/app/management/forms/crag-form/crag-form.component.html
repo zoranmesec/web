@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="flex gap-16 p-b-8" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+    <div class="flex gap-16 p-b-8" [class.flex-row]="!breakpointService.sgLtMd()" [class.flex-column]="breakpointService.sgLtMd()">
         <div class="flex flex-column">
             <mat-label>Država</mat-label>
             <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
@@ -100,7 +100,7 @@
         }
     </div>
 
-    <div class="flex flex-row gap-16 p-b-8" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+    <div class="flex flex-row gap-16 p-b-8" [class.flex-row]="!breakpointService.sgLtMd()" [class.flex-column]="breakpointService.sgLtMd()">
         <div class="flex flex-column">
             <mat-label>Vrsta plezanja</mat-label>
             <mat-form-field class="no-hint" appearance="outline" class="m-t-8">
@@ -123,7 +123,7 @@
             </mat-form-field>
         </div>
     </div>
-    <div class="flex flex-row gap-16 p-b-8" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+    <div class="flex flex-row gap-16 p-b-8" [class.flex-row]="!breakpointService.sgLtMd()" [class.flex-column]="breakpointService.sgLtMd()">
         <div class="flex flex-column">
             <mat-label>Zemljepisna širina</mat-label>
             <mat-form-field appearance="outline" class="m-t-8">
@@ -205,7 +205,11 @@
     </div>
 
     <mat-divider class="m-t-32"></mat-divider>
-    <div class="flex flex-row gap-16 p-b-16 m-t-32" [class.flex-row]="!breakpointService.ltMd" [class.flex-column]="breakpointService.ltMd">
+    <div
+        class="flex flex-row gap-16 p-b-16 m-t-32"
+        [class.flex-row]="!breakpointService.sgLtMd()"
+        [class.flex-column]="breakpointService.sgLtMd()"
+    >
         <!-- <div class="flex flex-column">
             <mat-label>Koordinate parkirišča</mat-label>
             <mat-form-field appearance="outline" class="m-t-8">
