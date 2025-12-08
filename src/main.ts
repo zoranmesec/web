@@ -1,4 +1,4 @@
-import { ApplicationConfig, enableProdMode, inject } from '@angular/core';
+import { ApplicationConfig, enableProdMode, inject, provideZoneChangeDetection } from '@angular/core';
 import { environment } from './environments/environment';
 
 import { HTTP_INTERCEPTORS, withInterceptorsFromDi } from '@angular/common/http';
@@ -60,8 +60,9 @@ export const appConfig: ApplicationConfig = {
             provide: DateAdapter,
             useClass: CustomDateAdapter,
             deps: [MAT_DATE_LOCALE, Platform]
-        }
+        },
+        provideZoneChangeDetection()
     ]
 };
 
-bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
+bootstrapApplication(AppComponent, { ...appConfig, providers: [...appConfig.providers] }).catch((err) => console.error(err));

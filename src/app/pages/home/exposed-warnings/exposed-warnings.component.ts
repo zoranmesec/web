@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -14,7 +14,7 @@ SwiperCore.use([Pagination, Autoplay]);
     selector: 'app-exposed-warnings',
     templateUrl: './exposed-warnings.component.html',
     styleUrls: ['./exposed-warnings.component.scss'],
-    imports: [CommonModule]
+    imports: []
 })
 export class ExposedWarningsComponent implements OnInit {
     @Output() errorEvent = new EventEmitter<DataError>();

@@ -1,4 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/prefer-control-flow -->
 @if (breakpointService.gtMd) {
     @if (columns().date && displayType() !== 'activity' && displayType() !== 'activityForm') {
         <div>
@@ -134,24 +133,31 @@
                 </div>
                 <div class="flex flex-row">
                     <div>
-                        <span *ngIf="route().pitch; else notPitchOnly">
-                            <span *ngIf="route().pitch.isProject">P</span>
-                            <app-grade
-                                *ngIf="!route().pitch.isProject"
-                                [difficulty]="route().pitch.difficulty"
-                                [gradingSystemId]="route().route.defaultGradingSystem.id"
-                                [showModifier]="true"
-                            ></app-grade>
-                        </span>
-                        <ng-template #notPitchOnly>
-                            <span *ngIf="route().route.isProject">P</span>
-                            <app-grade
-                                *ngIf="!route().route.isProject"
-                                [difficulty]="route().route.difficulty"
-                                [gradingSystemId]="route().route.defaultGradingSystem.id"
-                                [showModifier]="true"
-                            ></app-grade>
-                        </ng-template>
+                        @if (route().pitch) {
+                            <span>
+                                @if (route().pitch.isProject) {
+                                    <span>P</span>
+                                }
+                                @if (!route().pitch.isProject) {
+                                    <app-grade
+                                        [difficulty]="route().pitch.difficulty"
+                                        [gradingSystemId]="route().route.defaultGradingSystem.id"
+                                        [showModifier]="true"
+                                    ></app-grade>
+                                }
+                            </span>
+                        } @else {
+                            @if (route().route.isProject) {
+                                <span>P</span>
+                            }
+                            @if (!route().route.isProject) {
+                                <app-grade
+                                    [difficulty]="route().route.difficulty"
+                                    [gradingSystemId]="route().route.defaultGradingSystem.id"
+                                    [showModifier]="true"
+                                ></app-grade>
+                            }
+                        }
                     </div>
                     <div class="m-l-8 p-t-2 m-r-8 p-r-2">
                         <app-ascent-type
