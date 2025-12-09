@@ -2,7 +2,6 @@ import { Platform } from '@angular/cdk/platform';
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -58,7 +57,6 @@ import { DryRunActivityDialogComponent } from './dry-run-activity-dialog/dry-run
         MatSelectModule,
         MatInputModule,
         ActivityFormRouteComponent,
-        MatButtonModule,
         MatDialogModule,
         MatExpansionModule,
         IconsModule,

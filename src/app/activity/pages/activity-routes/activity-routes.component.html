@@ -7,12 +7,9 @@
 <main class="m-t-16 p-l-8 p-r-8 flex flex-column">
     <section id="options">
         <div class="flex flex-row">
-            <div
-                class="border-right flex flex-row flex-align-center flex-center"
-                ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
-            >
-                <button type="button" mat-stroked-button (click)="toggleFilterSelection()" class="border">
-                    <mat-icon>tune</mat-icon>
+            <div class="border-right flex flex-row flex-align-center flex-center">
+                <button type="button" class="quaternary-button" (click)="toggleFilterSelection()">
+                    <app-filter-icon></app-filter-icon>
                     <span [class.hidden]="breakpointService.sgLtMd()" class="p-l-8">
                         @if (showFilters) {
                             Skrij filtre
@@ -26,7 +23,7 @@
                 </button>
             </div>
             <div class="border-right flex flex-row flex-align-center flex-center">
-                <button type="button" mat-stroked-button (click)="toggleColumnSelection()" class="border">
+                <button type="button" class="quaternary-button" (click)="toggleColumnSelection()">
                     <div class="flex flex-row">
                         <app-columns-icon></app-columns-icon>
                         <span [class.hidden]="breakpointService.sgLtMd()" class="p-l-8">Izberi stolpce</span>

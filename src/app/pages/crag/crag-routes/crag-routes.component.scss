@@ -48,27 +48,10 @@
             place-content: center space-around;
         }
 
-        .mat-mdc-outlined-button {
-            padding-left: 16px !important;
-        }
-
         .border-right {
             border-right: 1px solid var(--mat-sys-outline-variant) !important;
             padding: 0 4px 0 4px;
             height: 40px !important;
-        }
-
-        button {
-            padding-right: 8px !important;
-            @media only screen and (max-width: global.$breakpoint-lg) {
-                mat-icon {
-                    margin-left: 8px !important;
-                }
-            }
-        }
-
-        mat-icon[svgIcon] {
-            margin-top: -6px;
         }
 
         @media only screen and (max-width: global.$breakpoint-lg) {
@@ -137,25 +120,6 @@
                 padding: 0 !important;
             }
         }
-    }
-
-    button {
-        border: 3px solid #ffffff;
-        border-radius: 8px;
-    }
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-        button {
-            padding: 0 !important;
-        }
-    }
-
-    button:hover {
-        border: 3px solid #aaccf0;
-        border-radius: 8px;
-    }
-    button.dots {
-        padding: 0px !important;
     }
 
     .search-icon {

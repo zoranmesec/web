@@ -11,7 +11,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     .wall-angle-option:hover {
         border: 1px solid var(--mat-sys-on-surface-variant);
         border-radius: 8px;
-        color: var(--mat-sys-secondary);
+        color: var(--mat-sys-primary);
     }
 
     .wall-angle-option-disabled {
@@ -26,7 +26,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     .wall-angle-option.selected {
         border: 1px solid var(--mat-sys-on-surface-variant);
         border-radius: 8px;
-        color: var(--mat-sys-secondary);
+        color: var(--mat-sys-primary);
     }
 
     .wall-angle-option-disabled-not-selected {

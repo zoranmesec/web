@@ -56,15 +56,6 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
             height: 40px !important;
         }
 
-        button {
-            padding-right: 8px !important;
-            @media only screen and (max-width: global.$breakpoint-lg) {
-                mat-icon {
-                    margin-left: 8px !important;
-                }
-            }
-        }
-
         mat-icon[svgIcon] {
             margin-top: -6px;
         }

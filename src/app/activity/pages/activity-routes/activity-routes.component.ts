@@ -29,7 +29,6 @@ import {
 import { ColumnDefinition, FilteredTable } from '../../../common/filtered-table';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -66,7 +65,6 @@ const MAX_GRADE = 2100;
     standalone: true,
     imports: [
         IconsModule,
-        MatButtonModule,
         ActivityHeaderComponent,
         DataErrorComponent,
         MatFormFieldModule,

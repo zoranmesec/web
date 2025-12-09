@@ -2,12 +2,9 @@
     <div class="container flex flex-column mt-16">
         <section id="options">
             <div class="flex flex-row">
-                <div
-                    class="border-right flex flex-row flex-align-center flex-center"
-                    ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
-                >
-                    <button type="button" class="border" mat-stroked-button (click)="toggleFilterSelection()">
-                        <mat-icon>tune</mat-icon>
+                <div class="border-right flex flex-row flex-align-center flex-center">
+                    <button type="button" class="quaternary-button" (click)="toggleFilterSelection()">
+                        <app-filter-icon></app-filter-icon>
                         <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">
                             @if (showFilters) {
                                 Skrij filtre
@@ -21,15 +18,15 @@
                     </button>
                 </div>
                 <div class="border-right flex flex-row flex-align-center flex-center">
-                    <button type="button" mat-stroked-button class="border" (click)="toggleColumnSelection()">
+                    <button type="button" class="quaternary-button" (click)="toggleColumnSelection()">
                         <div class="flex flex-row">
                             <app-columns-icon></app-columns-icon>
-                            <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Izberi stolpce</span>
+                            <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8 p-t-2">Izberi stolpce</span>
                         </div>
                     </button>
                 </div>
-                <div class="m-l-8">
-                    <button mat-stroked-button [matMenuTriggerFor]="menu">
+                <div class="m-l-4">
+                    <button class="quaternary-button" [matMenuTriggerFor]="menu">
                         <app-more-icon class=""></app-more-icon>
                     </button>
                     <mat-menu #menu="matMenu">

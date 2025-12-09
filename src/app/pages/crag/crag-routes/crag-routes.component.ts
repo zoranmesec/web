@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, effect, ElementRef, Input, OnDestroy, OnInit, Signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -72,7 +71,6 @@ export interface ActivitySelectionData {
         GradeComponent,
         MatMenuModule,
         RouterModule,
-        MatButtonModule,
         MatExpansionModule,
         CragRoutesFiltersComponent,
         CragRoutesColumnsComponent,
@@ -463,7 +461,7 @@ export class CragRoutesComponent implements OnInit, OnDestroy {
                         })
                         .afterClosed()
                         .subscribe((result) => {
-                            if (result !== null) {
+                            if (result !== undefined && result !== '') {
                                 this.snackBar
                                     .open('Vnos je bil shranjen v plezalni dnevnik', 'Odpri dnevnik', {
                                         duration: 3000

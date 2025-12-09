@@ -115,7 +115,7 @@
             @if (!saving) {
                 <button mat-button [mat-dialog-close]="null">Prekliči</button>
                 @if (!saving) {
-                    <button type="submit" mat-button color="primary" [disabled]="!form.valid || form.pristine">Shrani</button>
+                    <button type="submit" class="primary-button" [disabled]="!form.valid || form.pristine">Shrani</button>
                 }
             }
             @if (saving) {

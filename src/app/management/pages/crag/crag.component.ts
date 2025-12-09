@@ -68,7 +68,6 @@ export class CragComponent implements OnInit, OnDestroy {
             )
             .subscribe({
                 next: (result) => {
-                    console.log('CRAG RESULT', result);
                     if (result === undefined) {
                         this.layoutService.$breadcrumbs.next([
                             {

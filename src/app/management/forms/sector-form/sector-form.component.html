@@ -20,9 +20,7 @@
                     <button mat-flat-button [mat-dialog-close]="null">Prekliči</button>
                 }
                 @if (!saving) {
-                    <button type="submit" mat-flat-button color="primary" (click)="save()" [disabled]="!form.valid || form.pristine">
-                        Shrani
-                    </button>
+                    <button type="submit" class="primary-button" (click)="save()" [disabled]="!form.valid || form.pristine">Shrani</button>
                 }
                 @if (saving) {
                     <span class="loading">

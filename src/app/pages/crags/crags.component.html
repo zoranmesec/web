@@ -17,11 +17,11 @@
     @if (!loading) {
         <div class="container flex flex-column mt-16 p-r-16 p-l-16">
             <section id="options">
-                <div class="flex flex-row">
+                <div class="flex flex-row gap-8">
                     @if (country && country.code === 'SI') {
                         <div class="border-right flex flex-row flex-align-center flex-center" #map>
-                            <button type="button" mat-stroked-button (click)="showMap = !showMap">
-                                <mat-icon class="filter-icon">map</mat-icon>
+                            <button type="button" class="quaternary-button" (click)="showMap = !showMap">
+                                <app-map-icon></app-map-icon>
                                 <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">
                                     @if (showMap) {
                                         Skrij zemljevid
@@ -32,12 +32,9 @@
                             </button>
                         </div>
                     }
-                    <div
-                        class="border-right flex flex-row flex-align-center flex-center"
-                        ngStyle.lt-lg="padding: 0 !important;width: 50px !important;"
-                    >
-                        <button type="button" mat-stroked-button (click)="showFilters = !showFilters">
-                            <mat-icon class="filter-icon">tune</mat-icon>
+                    <div class="border-right flex flex-row flex-align-center flex-center">
+                        <button type="button" class="quaternary-button" (click)="showFilters = !showFilters">
+                            <app-filter-icon></app-filter-icon>
                             <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">
                                 @if (showFilters) {
                                     Skrij filtre
@@ -50,18 +47,6 @@
                             }
                         </button>
                     </div>
-                    <!-- <div class="border-right flex flex-row flex-align-center flex-center">
-                <button type="button" mat-stroked-button>
-                  <mat-icon class="map-icon">add_column_right</mat-icon>
-                  <span class="p-l-8">Izberi stolpce</span>
-                </button>
-              </div> -->
-                    <!-- <div class="border-right flex flex-row flex-align-center flex-center">
-              <button type="button" mat-stroked-button>
-                <mat-icon class="filter-icon">sort</mat-icon>
-                <span fxHide.lt-lg class="p-l-8">Uredi</span>
-              </button>
-            </div> -->
                     <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.sgGtSm()">
                         <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
                             <mat-icon class="filter-icon">search</mat-icon>
@@ -69,8 +54,8 @@
                         </button>
                     </div>
                     <div>
-                        <button mat-icon-button [matMenuTriggerFor]="menu" class="dots">
-                            <mat-icon color="primary">more_vert</mat-icon>
+                        <button class="quaternary-button" [matMenuTriggerFor]="menu">
+                            <app-more-icon></app-more-icon>
                         </button>
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item [routerLink]="['/urejanje/dodaj-plezalisce', { country: country?.id }]">

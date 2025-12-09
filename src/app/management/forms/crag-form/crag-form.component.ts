@@ -33,7 +33,6 @@ import {
 import { GradingSystemsService } from '../../../shared/services/grading-systems.service';
 import { ContributionService } from '../../pages/contributions/contribution/contribution.service';
 
-import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { Season as FormattedSeason } from 'src/app/types/season';
@@ -68,7 +67,6 @@ export interface WallAngleData {
         WallAngleOptionComponent,
         SeasonOptionComponent,
         MatRadioModule,
-        MatButtonModule,
         MatDividerModule
     ]
 })

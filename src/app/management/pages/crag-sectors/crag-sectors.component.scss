@@ -53,7 +53,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
             background-color: white;
             border-bottom: none !important;
             padding: 0 8px 0 8px;
-            color: var(--mat-sys-secondary);
+            color: var(--mat-sys-primary);
         }
 
         .tab {

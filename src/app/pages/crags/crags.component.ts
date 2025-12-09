@@ -11,7 +11,6 @@ import { SearchService } from 'src/app/shared/services/search.service';
 import { CragsGQL, CragsQuery } from '../../../generated/graphql';
 import { DataError } from '../../types/data-error';
 
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +22,7 @@ import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { TitleComponent } from 'src/app/shared/components/title/title.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 import { RouteTypePipe } from 'src/app/shared/pipes/route-type.pipe';
 import { CragsFiltersService } from './crags-filters.service';
@@ -35,7 +35,6 @@ import { CragsTocComponent } from './crags-toc/crags-toc.component';
     imports: [
         MatMenuModule,
         OrientationPipe,
-        MatButtonModule,
         MatIconModule,
         MapComponent,
         GradeComponent,
@@ -48,7 +47,8 @@ import { CragsTocComponent } from './crags-toc/crags-toc.component';
         ReactiveFormsModule,
         RouteTypePipe,
         LoaderComponent,
-        TitleComponent
+        TitleComponent,
+        IconsModule
     ]
 })
 export class CragsComponent implements OnInit {

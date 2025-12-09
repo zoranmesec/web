@@ -1,7 +1,12 @@
 :host {
     a {
         text-decoration: none;
-        color: var(--mat-sys-secondary);
+        color: var(--mat-sys-primary);
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: var(--mat-sys-primary) !important;
     }
 
     mat-icon {

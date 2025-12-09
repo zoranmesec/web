@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
+import { IconsModule } from '../icons/icons.module';
 
 export interface SnackBarData {
     buttons: { label: string }[];
@@ -12,7 +12,7 @@ export interface SnackBarData {
     selector: 'app-snack-bar-buttons',
     templateUrl: './snack-bar-buttons.component.html',
     styleUrls: ['./snack-bar-buttons.component.scss'],
-    imports: [MatButtonModule, MatIconModule]
+    imports: [IconsModule, MatIconModule]
 })
 export class SnackBarButtonsComponent {
     constructor(

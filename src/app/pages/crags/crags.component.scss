@@ -75,15 +75,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
             height: 40px !important;
         }
 
-        button {
-            padding-right: 8px !important;
-            @media only screen and (max-width: global.$breakpoint-lg) {
-                mat-icon {
-                    margin-left: 8px !important;
-                }
-            }
-        }
-
         @media only screen and (max-width: global.$breakpoint-lg) {
             .border-right {
                 padding: 0 !important;
@@ -99,25 +90,6 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
                 }
             }
         }
-    }
-
-    button {
-        border: 3px solid #ffffff;
-        border-radius: 8px;
-    }
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-        button {
-            padding: 0 !important;
-        }
-    }
-
-    button:hover {
-        border: 3px solid #aaccf0;
-        border-radius: 8px;
-    }
-    button.dots {
-        padding: 0px !important;
     }
 
     .search-icon {

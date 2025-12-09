@@ -19,9 +19,11 @@ import { CommentIconComponent } from './comment-icon/comment-icon.component';
 import { DeleteIconComponent } from './delete-icon/delete-icon.component';
 import { DragIconComponent } from './drag-icon/drag-icon.component';
 import { EditIconComponent } from './edit-icon/edit-icon.component';
+import { FilterIconComponent } from './filter-icon/filter-icon.component';
 import { GalleryIconComponent } from './gallery-icon/gallery-icon.component';
 import { HeightIconComponent } from './height-icon/height-icon.component';
 import { InfoIconComponent } from './info-icon/info-icon.component';
+import { MapIconComponent } from './map-icon/map-icon.component';
 import { MenuIconComponent } from './menu-icon/menu-icon.component';
 import { MergeIconComponent } from './merge-icon/merge-icon.component';
 import { MergeRoutesIconComponent } from './merge-routes-icon/merge-routes-icon.component';
@@ -34,6 +36,7 @@ import { PublishIconComponent } from './publish-icon/publish-icon.component';
 import { QuestionIconComponent } from './question-icon/question-icon.component';
 import { RainproofIconComponent } from './rainproof-icon/rainproof-icon.component';
 import { RefreshIconComponent } from './refresh-icon/refresh-icon.component';
+import { ResetIconComponent } from './reset-icon/reset-icon.component';
 import { ReturnIconComponent } from './return-icon/return-icon.component';
 import { RoutesIconComponent } from './routes-icon/routes-icon.component';
 import { SearchIconComponent } from './search-icon/search-icon.component';
@@ -88,7 +91,10 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         CheckIconComponent,
         MoveRoutesIconComponent,
         MergeRoutesIconComponent,
-        SwitchSectorIconComponent
+        SwitchSectorIconComponent,
+        FilterIconComponent,
+        MapIconComponent,
+        ResetIconComponent
     ],
     imports: [SignalPipe, CommonModule],
     exports: [
@@ -133,7 +139,10 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         CheckIconComponent,
         MoveRoutesIconComponent,
         MergeRoutesIconComponent,
-        SwitchSectorIconComponent
+        SwitchSectorIconComponent,
+        FilterIconComponent,
+        MapIconComponent,
+        ResetIconComponent
     ]
 })
 export class IconsModule {}

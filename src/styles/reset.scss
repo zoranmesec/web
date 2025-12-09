@@ -11,29 +11,29 @@ html {
     --mat-sys-on-error-container: #93000a;
     --mat-sys-on-primary: #ffffff;
     --mat-sys-on-primary-container: #00458f;
-    --mat-sys-on-primary-fixed: #001b3f;
-    --mat-sys-on-primary-fixed-variant: #00458f;
-    --mat-sys-on-secondary: #ffffff;
+    --mat-sys-on-primary-fixed: #1e5998;
+    --mat-sys-on-primary-fixed-variant: #aaccf0;
+    --mat-sys-on-secondary: #171717;
     --mat-sys-on-secondary-container: #3e4759;
     --mat-sys-on-secondary-fixed: #131c2b;
     --mat-sys-on-secondary-fixed-variant: #3e4759;
     --mat-sys-on-surface: #171717;
     --mat-sys-on-surface-variant: #44474e;
-    --mat-sys-on-tertiary: #ffffff;
+    --mat-sys-on-tertiary: #2b7fd9;
     --mat-sys-on-tertiary-container: #0000ef;
     --mat-sys-on-tertiary-fixed: #00006e;
     --mat-sys-on-tertiary-fixed-variant: #0000ef;
     --mat-sys-outline: #e5e5e5;
     --mat-sys-outline-variant: #d4d4d4;
-    --mat-sys-primary: #171717;
-    --mat-sys-primary-container: #d7e3ff;
-    --mat-sys-primary-fixed: #d7e3ff;
-    --mat-sys-primary-fixed-dim: #abc7ff;
+    --mat-sys-primary: #2b7fd9;
+    --mat-sys-primary-container: #aaccf0;
+    --mat-sys-primary-fixed: #256cb8;
+    --mat-sys-primary-fixed-dim: #1e5998;
     --mat-sys-scrim: #000000;
-    --mat-sys-secondary: #2b7fd9;
+    --mat-sys-secondary: #e5e5e5;
     --mat-sys-secondary-container: #dae2f9;
-    --mat-sys-secondary-fixed: #dae2f9;
-    --mat-sys-secondary-fixed-dim: #bec6dc;
+    --mat-sys-secondary-fixed: #d4d4d4;
+    --mat-sys-secondary-fixed-dim: #a3a3a3;
     --mat-sys-shadow: #000000;
     --mat-sys-surface: #f5f5f5;
     --mat-sys-surface-bright: #faf9fd;
@@ -45,7 +45,7 @@ html {
     --mat-sys-surface-dim: #dbd9dd;
     --mat-sys-surface-tint: #005cbb;
     --mat-sys-surface-variant: #e0e2ec;
-    --mat-sys-tertiary: #343dff;
+    --mat-sys-tertiary: #ffffff;
     --mat-sys-tertiary-container: #e0e0ff;
     --mat-sys-tertiary-fixed: #e0e0ff;
     --mat-sys-tertiary-fixed-dim: #bec2ff;
@@ -63,7 +63,7 @@ html {
     --mat-sys-body-large-size: 1rem;
     --mat-sys-body-large-tracking: 0.031rem;
     --mat-sys-body-large-weight: 400;
-    --mat-sys-body-medium: 400 0.875rem / 1.25rem Poppins;
+    --mat-sys-body-medium: 400 1rem Poppins;
     --mat-sys-body-medium-font: Poppins;
     --mat-sys-body-medium-line-height: 1.25rem;
     --mat-sys-body-medium-size: 0.875rem;
@@ -118,7 +118,7 @@ html {
     --mat-sys-label-large-tracking: 0.006rem;
     --mat-sys-label-large-weight: 500;
     --mat-sys-label-large-weight-prominent: 700;
-    --mat-sys-label-medium: 500 0.75rem / 1rem Poppins;
+    --mat-sys-label-medium: 500 1rem Poppins;
     --mat-sys-label-medium-font: Poppins;
     --mat-sys-label-medium-line-height: 1rem;
     --mat-sys-label-medium-size: 0.75rem;
@@ -168,8 +168,9 @@ html {
 }
 
 html {
-    --mat-sys-on-surface: initial;
+    --mat-sys-on-surface: #171717;
 }
+
 .mat-app-background {
     background-color: var(--mat-app-background-color, var(--mat-sys-background, transparent));
     color: var(--mat-app-text-color, var(--mat-sys-on-background, inherit));
@@ -587,7 +588,7 @@ html {
     --mat-tooltip-supporting-text-line-height: 16px;
 }
 html {
-    --mat-tooltip-container-color: #424242;
+    --mat-tooltip-container-color: var(--mat-sys-surface);
     --mat-tooltip-supporting-text-color: white;
 }
 html {
@@ -1942,9 +1943,9 @@ html {
     --mat-snack-bar-container-shape: 4px;
 }
 html {
-    --mat-snack-bar-container-color: #424242;
+    --mat-snack-bar-container-color: #f5f5f5;
     --mat-snack-bar-supporting-text-color: white;
-    --mat-snack-bar-button-color: #7986cb;
+    --mat-snack-bar-button-color: #f5f5f5;
 }
 html {
     --mat-snack-bar-supporting-text-font: Poppins, sans-serif;

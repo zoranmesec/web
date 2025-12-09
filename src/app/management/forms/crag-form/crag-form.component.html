@@ -247,14 +247,14 @@
     <div class="flex flex-row m-t-32">
         @if (crag?.user?.id === user.id && ['user', 'proposal'].includes(crag.status)) {
             <div>
-                <button mat-flat-button type="button" (click)="deleteCrag()">Izbriši plezališče</button>
+                <button class="secondary-button" type="button" (click)="deleteCrag()">Izbriši plezališče</button>
             </div>
         }
 
         <div class="flex flex-row flex-justify-space-between flex-align-center gap-8 w-100">
             @if (!loading) {
                 @if (canDelete()) {
-                    <button type="button" mat-stroked-button class="border flex flex-row flex-align-center sortable" (click)="deleteCrag()">
+                    <button type="button" class="secondary-button flex flex-row flex-align-center" (click)="deleteCrag()">
                         <div class="flex flex-row">
                             <app-delete-icon></app-delete-icon>
 
@@ -263,7 +263,13 @@
                     </button>
                 }
                 <div>
-                    <button mat-flat-button [disabled]="!cragForm.valid || cragForm.pristine">Shrani</button>
+                    <button
+                        class="primary-button"
+                        [disabled]="!cragForm.valid || cragForm.pristine"
+                        [class.disabled]="!cragForm.valid || cragForm.pristine"
+                    >
+                        Shrani
+                    </button>
                 </div>
             }
             @if (loading) {
