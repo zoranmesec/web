@@ -4,7 +4,7 @@
     width="24"
     height="24"
     className="fill-current"
-    [class.disabled]="disabled()"
+    [class.disabled]="disabled | signalPipe"
 >
     <path d="M200-440v-80h560v80H200Z" />
 </svg>

@@ -4,6 +4,7 @@
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
+
 :host {
     section#filter {
         border-radius: 8px;
@@ -40,19 +41,26 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
         padding-top: 8px;
     }
 
+    .reset-button {
+        margin-left: -6px;
+    }
+
     a.row {
         text-decoration: none;
         color: #000;
+
         &:hover {
             background: #f6f9ff;
         }
+
         &.active {
             cursor: default;
             background: #f6f9ff;
         }
     }
+
     .show-all {
-        color: var(--mat-sys-secondary);
+        color: var(--mat-sys-primary);
         font-weight: var(--mat-sys-display-medium-weight);
         text-align: center;
         cursor: pointer;
@@ -65,11 +73,13 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
     }
 
     .active-country {
-        color: var(--mat-sys-secondary);
+        color: var(--mat-sys-primary);
     }
+
     .mat-form-field {
         width: 100%;
     }
+
     .mat-form-field-infix {
         width: auto;
     }

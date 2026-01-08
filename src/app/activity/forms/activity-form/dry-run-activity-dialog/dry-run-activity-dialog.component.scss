@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
 @use './../../../../../m3-theme.scss' as m3-theme;
 @use './../../../../../styles/global.scss' as global;
-$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
-$border-color: rgba(0, 0, 0, 0.08); // very light gray
+$grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
+$border-color: rgb(0 0 0 / 8%); // very light gray
 $table-header-text-color: #0000008a; // light gray
 
 :host {
@@ -33,6 +33,7 @@ table {
         &:hover {
             background: #f6f9ff;
         }
+
         td,
         th {
             text-align: left;
@@ -41,7 +42,6 @@ table {
             padding: 1px 16px;
             border-bottom: 1px solid $border-color;
             border-top: 1px solid $border-color;
-
             vertical-align: middle;
 
             &:last-child {

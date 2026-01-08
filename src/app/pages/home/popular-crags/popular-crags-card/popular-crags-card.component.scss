@@ -1,10 +1,11 @@
-$border-color: rgba(0, 0, 0, 0.08); // very light gray
+$border-color: rgb(0 0 0 / 8%); // very light gray
 $table-header-text-color: #0000008a; // light gray
 
 div.table-wrapper {
     &.scrollable {
         max-height: 650px;
     }
+
     width: 100%;
     overflow-y: auto;
 
@@ -26,7 +27,6 @@ div.table-wrapper {
                 font-size: 0.875rem;
                 line-height: 1.25rem;
                 padding: 1px 16px;
-
                 vertical-align: middle;
 
                 &:last-child {
@@ -40,11 +40,9 @@ div.table-wrapper {
 
             th {
                 height: 56px;
-
                 text-align: left;
                 position: sticky;
-                top: 0px;
-
+                top: 0;
                 font-weight: 400;
                 color: $table-header-text-color;
                 background-color: #fff;

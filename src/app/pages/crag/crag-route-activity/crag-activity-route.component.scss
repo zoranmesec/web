@@ -1,10 +1,11 @@
-$border-color: rgba(0, 0, 0, 0.08); // very light gray
+$border-color: rgb(0 0 0 / 8%); // very light gray
 $table-header-text-color: #0000008a; // light gray
 
 div.table-wrapper {
     &.scrollable {
         max-height: 650px;
     }
+
     width: 100%;
     overflow-y: auto;
 
@@ -14,6 +15,7 @@ div.table-wrapper {
 
     table.stats-card-table {
         width: 100%;
+
         // border-collapse: separate;
         // border-spacing: 0;
 
@@ -36,7 +38,7 @@ div.table-wrapper {
             th {
                 text-align: left;
                 position: sticky;
-                top: 0px;
+                top: 0;
 
                 &:last-child {
                     width: 110px;

@@ -1,8 +1,10 @@
 .row {
     cursor: pointer;
+
     .lastColumn {
         text-align: right;
     }
+
     &.header {
         cursor: default;
     }

@@ -57,8 +57,8 @@
                 }
             </ul>
             @if (!showAllCountries) {
-                <div (click)="showAllCountries = true" class="show-all" fxLayout="row wrap" fxLayoutAlign="left flex-justify-start">
-                    Prikaži vse
+                <div class="reset-button">
+                    <button type="button" (click)="showAllCountries = true" class="tertiary-button">Prikaži vse</button>
                 </div>
             }
         </mat-expansion-panel>
@@ -134,7 +134,6 @@
             med
             <app-grade-select
                 [control]="cragForm.controls['minGrade']"
-                label="Izberi oceno"
                 emptyText="Brez"
                 gradingSystemId="french"
                 [noHint]="true"
@@ -144,21 +143,91 @@
             <app-grade-select
                 [control]="cragForm.controls['maxGrade']"
                 emptyText="Brez"
-                label="Izberi oceno"
                 gradingSystemId="french"
                 [noHint]="true"
                 [focusDifficulty]="null"
             ></app-grade-select>
         </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="activatedOrientations.length > 0">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Sezona</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                @for (season of seasons; track $index) {
+                    <li>
+                        <label class="checkbox-container">
+                            <input
+                                type="checkbox"
+                                [checked]="cragForm.controls[season.season].value"
+                                [formControlName]="season.season"
+                                (change)="changeSeason(season.season)"
+                            />
+                            <span class="checkmark"></span>
+                            <span class="checkmark-label">{{ season.formattedSeason }}</span>
+                        </label>
+                    </li>
+                }
+            </ul>
+        </mat-expansion-panel>
     </mat-accordion>
-    <div class="flex flex-justify-space-between bottom show-all" (click)="removeAllFilters()">
-        <div class="flex flex-row flex-align-center">
-            <div class="close-icon">
+    <div class="p-l-16 p-r-16" [formGroup]="cragForm">
+        <label class="checkbox-container">
+            <input
+                type="checkbox"
+                [checked]="cragForm.controls.rainproof.value"
+                [formControlName]="'rainproof'"
+                (change)="changeRainProof()"
+            />
+            <span class="checkmark m-t-4"></span>
+            <span class="checkmark-label">Možno plezanje v dežju</span>
+        </label>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-accordion multi="true" displayMode="flat" [formGroup]="cragForm">
+        <mat-expansion-panel [expanded]="activatedWallAngles.length > 0">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Naklon stene</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                @for (angle of wallAngles; track $index) {
+                    <li>
+                        <label class="checkbox-container">
+                            <input
+                                type="checkbox"
+                                [checked]="cragForm.controls[angle.wallAngle].value"
+                                [formControlName]="angle.wallAngle"
+                                (change)="changeWallAngle(angle.wallAngle)"
+                            />
+                            <span class="checkmark"></span>
+                            <span class="checkmark-label">{{ angle.formattedWallAngle }}</span>
+                        </label>
+                    </li>
+                }
+            </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel expanded="">
+            <mat-expansion-panel-header>
+                <mat-panel-title> Čas dostopa </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-slider [min]="0" [max]="120" step="5" thumbLabel tickInterval="10">
+                <input formControlName="minApproachTime" matSliderStartThumb (dragEnd)="approachTimeChanged()" />
+                <input formControlName="maxApproachTime" matSliderEndThumb (dragEnd)="approachTimeChanged()" />
+            </mat-slider>
+            <div class="flex flex-row flex-justify-space-between">
+                <span>{{ cragForm.controls.minApproachTime.value }} min</span>
+                <span>{{ cragForm.controls.maxApproachTime.value }} min</span>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="flex flex-justify-space-between m-l-8" (click)="removeAllFilters()">
+        <button type="button" (click)="removeAllFilters()" class="tertiary-button flex flex-align-center">
+            <div>
                 <app-refresh-icon></app-refresh-icon>
             </div>
-            <div>
-                <span class="p-l-4">Ponastavi vse</span>
+            <div class="p-l-4">
+                <span>Ponastavi vse</span>
             </div>
-        </div>
+        </button>
     </div>
 </section>

@@ -9,9 +9,8 @@ import { Orientation } from 'src/generated/graphql';
     host: { style: 'display:flex' },
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrientationIconComponent  {
-    orientations = input.required<Orientation[]>();
+export class OrientationIconComponent {
+    sgOrientations = input.required<Orientation[]>();
 
     protected Orientation = Orientation;
-    
 }

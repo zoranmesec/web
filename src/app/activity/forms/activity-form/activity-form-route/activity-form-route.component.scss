@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @use './../../../../../m3-theme.scss' as m3-theme;
 @use './../../../../../styles/global.scss' as global;
+
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
@@ -9,6 +10,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
             color: $grey
         )
     );
+
     section {
         padding: 16px;
     }
@@ -88,6 +90,7 @@ mat-option {
         position: absolute;
         bottom: 3px;
     }
+
     span.icon-text {
         margin-left: 20px;
     }

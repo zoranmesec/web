@@ -15,8 +15,7 @@
             border-top: 0;
 
             td {
-                border-top: 0px solid white;
-
+                border-top: 0 solid white;
                 padding: 0;
 
                 div {
@@ -24,7 +23,6 @@
                     min-height: 0;
                     opacity: 0;
                     padding: 0 12px;
-
                     overflow: hidden;
                     display: flex;
                     align-items: center;
@@ -62,6 +60,7 @@
         &:first-child {
             border-top: none;
         }
+
         padding: 8px 0 8px 8px;
     }
 
@@ -75,6 +74,7 @@
         div {
             height: 20px;
         }
+
         &:hover {
             cursor: pointer;
         }

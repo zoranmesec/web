@@ -8,9 +8,11 @@ h2 {
     padding: 0;
     box-shadow: none;
 }
+
 .grade {
     white-space: nowrap;
 }
+
 .direction .mat-icon {
     font-size: 18px;
     width: 18px;
@@ -21,6 +23,7 @@ h2 {
 .row {
     padding-top: 8px;
     padding-bottom: 8px;
+
     &:first-child {
         border-top: none;
     }
@@ -28,6 +31,7 @@ h2 {
 
 .mat-card {
     border-radius: 0;
+
     .mat-card-content {
         margin-bottom: 0;
     }

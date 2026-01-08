@@ -16,7 +16,7 @@
 // Note: Color palettes are generated from primary: #2B7FD9, secondary: #E5E5E5, tertiary: #F0B3AA, neutral: #E5E5E5, neutral variant: #E5E5E5, error: #D9422B
 $_palettes: (
     primary: (
-        0: #000000,
+        0: #000,
         10: #001c3a,
         20: #00315e,
         25: #003c71,
@@ -31,10 +31,10 @@ $_palettes: (
         95: #ebf1ff,
         98: #f9f9ff,
         99: #fdfcff,
-        100: #ffffff
+        100: #fff
     ),
     secondary: (
-        0: #000000,
+        0: #000,
         10: #1a1c1c,
         20: #2f3131,
         25: #3a3c3c,
@@ -49,10 +49,10 @@ $_palettes: (
         95: #f1f1f1,
         98: #f9f9f9,
         99: #fcfcfc,
-        100: #ffffff
+        100: #fff
     ),
     tertiary: (
-        0: #000000,
+        0: #000,
         10: #33110d,
         20: #4c2520,
         25: #59302a,
@@ -67,10 +67,10 @@ $_palettes: (
         95: #ffedea,
         98: #fff8f7,
         99: #fffbff,
-        100: #ffffff
+        100: #fff
     ),
     neutral: (
-        0: #000000,
+        0: #000,
         10: #1a1c1c,
         20: #2f3131,
         25: #3a3c3c,
@@ -85,7 +85,7 @@ $_palettes: (
         95: #f1f1f1,
         98: #f9f9f9,
         99: #fcfcfc,
-        100: #ffffff,
+        100: #fff,
         4: #0d0f0f,
         6: #121414,
         12: #1e2020,
@@ -94,11 +94,11 @@ $_palettes: (
         24: #38393a,
         87: #dadada,
         92: #e8e8e8,
-        94: #eeeeee,
+        94: #eee,
         96: #f4f3f3
     ),
     neutral-variant: (
-        0: #000000,
+        0: #000,
         10: #1a1c1c,
         20: #2f3131,
         25: #3a3c3c,
@@ -113,10 +113,10 @@ $_palettes: (
         95: #f1f1f1,
         98: #f9f9f9,
         99: #fcfcfc,
-        100: #ffffff
+        100: #fff
     ),
     error: (
-        0: #000000,
+        0: #000,
         10: #3f0300,
         20: #660700,
         25: #7b0a00,
@@ -131,16 +131,14 @@ $_palettes: (
         95: #ffede9,
         98: #fff8f6,
         99: #fffbff,
-        100: #ffffff
+        100: #fff
     )
 );
-
 $_rest: (
     secondary: map.get($_palettes, secondary),
     neutral: map.get($_palettes, neutral),
     neutral-variant: map.get($_palettes, neutral-variant),
     error: map.get($_palettes, error)
 );
-
 $primary-palette: map.merge(map.get($_palettes, primary), $_rest);
 $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);

@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../m3-theme.scss' as m3-theme;
+
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
@@ -9,6 +10,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     .fieldset {
         column-gap: 16px;
         flex-wrap: wrap;
+
         mat-form-field {
             flex-basis: calc(50% - 32px);
         }
@@ -59,9 +61,10 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 }
 
 .route {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgb(0 0 0 / 12%);
     padding-bottom: 16px;
     margin-bottom: 8px;
+
     &:nth-last-child(2) {
         border-bottom: none;
     }

@@ -10,16 +10,17 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
         margin-bottom: 8px !important;
         background: none !important;
     }
+
     mat-expansion-panel:hover {
         background: none !important;
     }
+
     mat-expansion-panel-header {
         border-bottom: 1px solid $grey;
     }
 
     .grade {
         text-align: right;
-
         width: 56px;
     }
 

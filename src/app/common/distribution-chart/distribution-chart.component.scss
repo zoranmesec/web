@@ -2,8 +2,7 @@
     .distribution-container-horizontal {
         display: grid;
         grid-template-columns: auto 1fr;
-        grid-gap: 0 8px;
-
+        gap: 0 8px;
         align-items: center;
 
         .distribution-bar-label {
@@ -46,7 +45,8 @@
             text-align: center;
             width: 40px;
             margin-top: 8px;
-            @media (max-width: 960px) {
+
+            @media (width <= 960px) {
                 width: 20px !important;
             }
         }
@@ -76,7 +76,8 @@
             background-color: transparent;
             margin-bottom: 8px;
             text-align: center;
-            @media (max-width: 960px) {
+
+            @media (width <= 960px) {
                 width: 20px !important;
             }
         }

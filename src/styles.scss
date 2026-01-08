@@ -1,25 +1,16 @@
 @use '@angular/material' as mat;
+
 // @use './m3-theme' as m3-theme;
 @use 'sass:string';
 @use './styles/global' as global;
 @use './styles/reset' as reset;
-// Plus imports for other components in your app.
+@use './styles/button' as button;
+@use './styles/checkbox' as checkbox;
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-/* stylelint-disable-next-line scss/at-mixin-argumentless-call-parentheses */
-@include mat.elevation-classes();
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
+// Plus imports for other components in your app.
+@import 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap';
 
 body {
-    // @include mat.all-component-themes(m3-theme.$light-theme);
-    // @include mat.system-level-colors(m3-theme.$light-theme);
-    // @include mat.system-level-typography(m3-theme.$light-theme);
-
-    // @debug mat.get-theme-color(m3-theme.$light-theme, neutral, 50);
     @include mat.form-field-overrides(
         (
             container-vertical-padding: 8px,
@@ -30,15 +21,12 @@ body {
             outlined-label-text-color: var(--mat-sys-primary)
         )
     );
-
     @include mat.dialog-overrides(
         (
             headline-padding: 0
         )
     );
-
     @include mat.select-overrides(());
-
     @include mat.button-overrides(
         (
             outlined-label-text-size: 16px,
@@ -47,7 +35,6 @@ body {
             outlined-horizontal-padding: 4px
         )
     );
-
     @include mat.fab-overrides(
         (
             container-color: white,
@@ -62,18 +49,16 @@ body {
             pressed-container-elevation-shadow: none
         )
     );
-
     @include mat.expansion-overrides(
         (
             container-shape: 0,
             header-indicator-color: var(--mat-sys-on-surface)
         )
     );
-
     @include mat.checkbox-overrides(
         (
             selected-icon-color: var(--mat-sys-secondary),
-            unselected-icon-color: var(--mat-sys-on-surface-variant),
+            unselected-icon-color: red,
             unselected-hover-icon-color: var(--mat-sys-outline),
             unselected-pressed-state-layer-opacity: 0,
             unselected-hover-state-layer-opacity: 0,
@@ -83,10 +68,10 @@ body {
             selected-pressed-state-layer-opacity: 0,
             selected-focus-icon-color: var(--mat-sys-secondary),
             selected-hover-icon-color: var(--mat-sys-secondary),
+            selected-checkmark-color: pink,
             state-layer-size: 20px
         )
     );
-
     @include mat.radio-overrides(
         (
             selected-icon-color: var(--mat-sys-secondary),
@@ -99,23 +84,12 @@ body {
         )
     );
 
-    @include mat.slider-overrides(
-        (
-            // inactive-track-color: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 30),
-            handle-color: var(--mat-sys-secondary),
-            active-track-color: var(--mat-sys-secondary),
-            label-container-color: var(--mat-sys-secondary),
-            label-label-text-color: white
-        )
-    );
-
     @include mat.dialog-overrides(
         (
             container-shape: 8px,
             container-color: var(--mat-sys-surface-container-lowest)
         )
     );
-
     @include mat.menu-overrides(
         (
             container-elevation-shadow: none,
@@ -132,16 +106,13 @@ body {
         margin-top: 8px !important;
         border-radius: 8px !important;
         scrollbar-color: var(--mat-sys-primary) transparent !important ;
-
         box-shadow: none !important;
         border-width: 1px !important;
         overflow-y: auto !important;
     }
 
     .mat-mdc-menu-panel {
-        box-shadow: 0px 10px 15px -3px var(--mat-sys-on-surface-variant);
-
-        box-shadow: 0px 4px 6px -4px var(--mat-sys-on-surface-variant);
+        box-shadow: 0 4px 6px -4px var(--mat-sys-on-surface-variant);
         border: 1px solid var(--mat-sys-on-surface-variant);
     }
 
@@ -182,6 +153,7 @@ body {
         --mat-paginator-container-background-color: var(--mat-sys-on-secondary) !important;
         --mat-sys-body-large-line-height: 24px !important;
         --mat-dialog-supporting-text-color: var(--mat-sys-primary) !important;
+
         line-height: var(--mat-sys-body-large-line-height) !important;
     }
 
@@ -192,89 +164,11 @@ body {
     }
 }
 
-/* The container */
-.checkbox-container {
-    display: flex;
-
-    cursor: pointer;
-
-    @media only screen and (max-width: global.$breakpoint-lg) {
-        padding-left: 0px;
-    }
-}
-
-/* Hide the browser's default checkbox */
-.checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-    position: inherit;
-    height: 16px;
-    width: 16px;
-    border: 1px solid var(--mat-sys-on-surface-variant);
-    background-color: #ffffff;
-    border-radius: 6px;
-    display: block;
-    margin-top: 2px;
-}
-
-.checkmark-label {
-    margin-left: 8px;
-}
-
-/* On mouse-over, add a grey background color */
-.checkbox-container:hover input ~ .checkmark {
-    background-color: #ffffff;
-
-    // border: 1px solid mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
-}
-
-.checkbox-container input:focus ~ .checkmark {
-    // border: 1px solid mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
-}
-
-/* When the checkbox is checked, add a blue background */
-.checkbox-container input:checked ~ .checkmark {
-    // background-color: mat.get-theme-color(m3-theme.$light-theme, secondary, 50);
-    border: 1px solid rgb(0, 0, 0, 0%);
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: '';
-    position: inherit;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-.checkbox-container input:checked ~ .checkmark:after {
-    display: block;
-}
-
-/* Style the checkmark/indicator */
-.checkbox-container .checkmark:after {
-    margin-left: 6px;
-    margin-top: 2px;
-    width: 3px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
 a {
     color: var(--mat-sys-on-surface);
-
     text-decoration: none;
     cursor: pointer;
+
     &.secondary {
         color: var(--mat-sys-secondary);
     }
@@ -283,6 +177,7 @@ a {
 a:hover {
     color: var(--mat-sys-on-surface) !important;
     text-decoration: underline !important;
+
     &.secondary {
         color: var(--mat-sys-secondary) !important;
     }
@@ -291,6 +186,7 @@ a:hover {
 a:active {
     // color: mat.get-theme-color(m3-theme.$light-theme, primary, 50) !important;
     text-decoration: underline;
+
     &.secondary {
         // color: mat.get-theme-color(m3-theme.$light-theme, secondary, 60) !important;
     }
@@ -350,42 +246,55 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 .flex {
     display: flex;
 }
+
 .flex-justify-start {
     justify-content: flex-start;
 }
+
 .flex-justify-end {
     justify-content: flex-end;
 }
+
 .flex-justify-space-between {
     justify-content: space-between;
 }
+
 .flex-justify-space-around {
     justify-content: space-around;
 }
+
 .flex-justify-center {
     justify-content: center;
 }
+
 .flex-row {
     flex-direction: row;
 }
+
 .flex-column {
     flex-direction: column;
 }
+
 .flex-align-start {
     align-items: flex-start;
 }
+
 .flex-align-end {
     align-items: flex-end;
 }
+
 .flex-align-center {
     align-items: center;
 }
+
 .flex-wrap {
     flex-wrap: wrap;
 }
+
 .flex-nowrap {
     flex-wrap: nowrap;
 }
+
 // var(--mat-sys-outline): mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 // $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
 .row {
@@ -402,7 +311,7 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 
 .header {
     border-top: none !important;
-    // color: $header-grey !important;
+    color: var(--mat-sys-tertiary-fixed-dim);
 }
 
 .table-row > td {
@@ -422,9 +331,11 @@ $sides: (top, bottom, left, right); // Leave this variable alone
 .table-header > th {
     padding: 8px;
     border-top: none !important;
+
     // color: $header-grey !important;
     text-align: left !important;
     font-weight: var(--mat-sys-body-large-weight) !important;
+
     > div.expander {
         width: 100%;
     }
@@ -463,140 +374,17 @@ $sides: (top, bottom, left, right); // Leave this variable alone
     font-weight: var(--mat-sys-title-medium-weight) !important;
 }
 
-.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,
-.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
-    color: black !important;
-}
+// .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,
+// .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
+//     color: black !important;
+// }
+
 // mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
 //   background-color: white !important;
 // }
 // mat-pseudo-checkbox.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after {
 //   background-color: var(--mat-sys-secondary) !important;
 // }
-
-button {
-    font: var(--mat-sys-body-medium) !important;
-    border-radius: 8px !important;
-    border: 3px solid transparent !important;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-button.primary-button {
-    background: var(--mat-sys-primary) !important;
-    cursor: pointer;
-    font: var(--mat-sys-label-medium) !important;
-    color: var(--mat-sys-on-primary) !important;
-
-    min-width: 110px;
-    min-height: 40px;
-}
-
-button.primary-button:hover {
-    background: var(--mat-sys-primary-fixed) !important;
-}
-
-button.primary-button:hover svg path {
-    fill: var(---mat-sys-primary-fixed);
-}
-
-button.primary-button:active {
-    background: var(--mat-sys-on-primary-fixed) !important;
-}
-
-button.primary-button:focus {
-    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
-}
-
-button.primary-button.disabled {
-    background: var(--mat-sys-primary-container) !important;
-    cursor: not-allowed !important;
-}
-
-button.secondary-button {
-    background: var(--mat-sys-secondary) !important;
-    cursor: pointer;
-    font: var(--mat-sys-label-medium) !important;
-    color: var(--mat-sys-on-surface) !important;
-
-    min-width: 110px;
-    min-height: 40px;
-}
-
-button.secondary-button:hover {
-    background: var(--mat-sys-secondary-fixed) !important;
-}
-
-button.secondary-button:active {
-    background: var(--mat-sys-secondary-fixed-dim) !important;
-}
-
-button.secondary-button:focus {
-    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
-}
-
-button.secondary-button.disabled {
-    color: var(--mat-sys-secondary-fixed-dim) !important;
-    background: var(--mat-sys-surface) !important;
-    cursor: not-allowed !important;
-}
-
-button.secondary-button.disabled svg path {
-    fill: var(--mat-sys-secondary-fixed-dim) !important;
-}
-
-button.tertiary-button {
-    background: none;
-    color: var(--mat-sys-primary) !important;
-}
-
-button.tertiary-button:hover {
-    color: var(--mat-sys-primary-fixed) !important;
-}
-
-button.tertiary-button:hover svg path {
-    fill: var(--mat-sys-primary-fixed);
-}
-
-button.tertiary-button:active {
-    color: var(--mat-sys-primary-fixed-dim) !important;
-}
-
-button.tertiary-button:active svg path {
-    fill: var(--mat-sys-primary-fixed-dim);
-}
-
-button.tertiary-button:focus {
-    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
-}
-
-button.quaternary-button {
-    background: none;
-    color: var(--mat-sys-on-surface) !important;
-}
-
-button.quaternary-button:hover {
-    color: var(--mat-sys-primary) !important;
-}
-
-button.quaternary-button:hover svg path {
-    fill: var(--mat-sys-primary);
-}
-
-button.quaternary-button:active {
-    color: var(--mat-sys-on-primary-fixed) !important;
-}
-
-button.quaternary-button:active svg path {
-    fill: var(--mat-sys-on-primary-fixed);
-}
-
-button.quaternary-button:focus {
-    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
-}
 
 .mat-mdc-menu-item {
     border-left: 4px solid white !important;
@@ -626,7 +414,6 @@ a.mat-mdc-menu-item:hover {
 .status-draft,
 .warn {
     background-color: #fbecea !important;
-
     border-radius: 8px;
 }
 
@@ -651,6 +438,7 @@ a.mat-mdc-menu-item:hover {
     height: 14px !important;
     width: 14px !important;
 }
+
 .dot.extra-large {
     height: 18px !important;
     width: 18px !important;

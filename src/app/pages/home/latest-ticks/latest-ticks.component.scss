@@ -1,4 +1,4 @@
-$border-color: rgba(0, 0, 0, 0.08); // very light gray
+$border-color: rgb(0 0 0 / 8%); // very light gray
 $table-header-text-color: #0000008a; // light gray
 
 h2 {
@@ -34,7 +34,6 @@ div.table-wrapper {
                 font-size: 0.875rem;
                 line-height: 1.25rem;
                 padding: 8px 16px;
-
                 vertical-align: middle;
             }
 

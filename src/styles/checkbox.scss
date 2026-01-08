@@ -1,0 +1,108 @@
+@use './global' as global;
+
+/* The container */
+.checkbox-container {
+    display: flex;
+    cursor: pointer;
+
+    @media only screen and (max-width: global.$breakpoint-lg) {
+        padding-left: 0;
+    }
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: inherit;
+    height: 16px;
+    width: 16px;
+    border: 1px solid var(--mat-sys-secondary-fixed-dim);
+    background-color: #fff;
+    border-radius: 6px;
+    display: flex;
+    margin-top: 2px;
+    margin-left: 3px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.checkmark-label {
+    margin-left: 8px;
+    padding-top: 2px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+    background-color: var(--mat-sys-background);
+
+    border: 1px solid var(--mat-sys-tertiary-fixed-dim);
+}
+
+.checkbox-container:active input ~ .checkmark {
+    background-color: var(--mat-sys-background);
+
+    border: 1px solid #525252;
+}
+
+.checkbox-container input:focus ~ .checkmark {
+    border: 1px solid var(--mat-sys-on-primary-fixed-variant);
+    box-shadow:
+        -2px -2px var(--mat-sys-on-primary-fixed-variant),
+        2px 2px var(--mat-sys-on-primary-fixed-variant),
+        2px -2px var(--mat-sys-on-primary-fixed-variant),
+        -2px 2px var(--mat-sys-on-primary-fixed-variant);
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--mat-sys-primary);
+    border: 1px solid #fff;
+}
+
+.checkbox-container input:checked:hover ~ .checkmark {
+    background-color: var(--mat-sys-primary-fixed);
+}
+
+.checkbox-container input:checked:active ~ .checkmark {
+    background-color: var(--mat-sys-primary-fixed-dim);
+}
+
+.checkbox-container input:checked:focus ~ .checkmark {
+    border: 1px solid var(--mat-sys-on-primary-fixed-variant);
+    box-shadow:
+        -2px -2px var(--mat-sys-on-primary-fixed-variant),
+        2px 2px var(--mat-sys-on-primary-fixed-variant),
+        2px -2px var(--mat-sys-on-primary-fixed-variant),
+        -2px 2px var(--mat-sys-on-primary-fixed-variant);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark::after {
+    content: '';
+    position: inherit;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark::after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark::after {
+    margin-left: 6px;
+    margin-top: 2px;
+    width: 3px;
+    height: 8px;
+    border: solid var(--mat-sys-background);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}

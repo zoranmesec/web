@@ -8,15 +8,18 @@ a.row {
 
     &.disabled {
         color: #0000008a;
+
         &:hover {
             color: #0000008a;
             background: none;
         }
     }
 }
+
 .mat-form-field {
     width: 100%;
 }
+
 .mat-form-field-infix {
     width: auto;
 }

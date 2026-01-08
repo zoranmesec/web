@@ -3,18 +3,23 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
-import { CountriesTocGQL, CountriesTocQuery, Country } from '../../../../generated/graphql';
+import { CountriesTocGQL, CountriesTocQuery, Country, Season, WallAngle } from '../../../../generated/graphql';
 
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { Subscription } from 'rxjs';
 import { ORIENTATIONS } from 'src/app/common/orientation.constants';
+import { SeasonData, WallAngleData } from 'src/app/management/forms/crag-form/crag-form.component';
 import { GradeSelectComponent } from 'src/app/shared/components/grade-select/grade-select.component';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { Season as FormattedSeason } from 'src/app/types/season';
+import { WallAngle as FormattedWallAngle } from 'src/app/types/wall-angle';
 @Component({
     selector: 'app-crags-toc',
     templateUrl: './crags-toc.component.html',
@@ -30,7 +35,9 @@ import { IconsModule } from 'src/app/shared/icons/icons.module';
         FlexLayoutModule,
         MatInputModule,
         GradeSelectComponent,
-        IconsModule
+        IconsModule,
+        MatDividerModule,
+        MatSliderModule
     ]
 })
 export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
@@ -43,6 +50,8 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     subscriptions: Subscription[] = [];
     activatedMinGrade: string | null = null;
     activatedMaxGrade: string | null = null;
+    activatedMinApproachTime: number | null = null;
+    activatedMaxApproachTime: number | null = null;
 
     ngOnDestroy(): void {
         Object.entries(this.cragForm.controls).forEach(([_key, control]) => {
@@ -54,9 +63,31 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
 
     routeTypes = ROUTE_TYPES;
     orientations = ORIENTATIONS;
+    seasons: SeasonData[] = [
+        { season: Season.Spring, formattedSeason: FormattedSeason.spring },
+        { season: Season.Summer, formattedSeason: FormattedSeason.summer },
+        { season: Season.Autumn, formattedSeason: FormattedSeason.autumn },
+        { season: Season.Winter, formattedSeason: FormattedSeason.winter }
+    ];
+    wallAngles: WallAngleData[] = [
+        { wallAngle: WallAngle.Slab, formattedWallAngle: FormattedWallAngle.slab },
+        {
+            wallAngle: WallAngle.Vertical,
+            formattedWallAngle: FormattedWallAngle.vertical
+        },
+        {
+            wallAngle: WallAngle.Overhang,
+            formattedWallAngle: FormattedWallAngle.overhang
+        },
+        { wallAngle: WallAngle.Roof, formattedWallAngle: FormattedWallAngle.roof }
+    ];
+
     activatedRouteTypes: string[] = [];
     activatedAreas: string[] = [];
     activatedOrientations: string[] = [];
+    activatedWallAngles: string[] = [];
+    activatedSeasons: string[] = [];
+    activatedRainProof: boolean | null = null;
     constructor(
         private router: Router,
         private readonly fb: FormBuilder,
@@ -77,11 +108,22 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
                 nonNullable: true
             }),
             minGrade: new FormControl(null, { validators: [] }),
-            maxGrade: new FormControl(null, { validators: [] })
+            maxGrade: new FormControl(null, { validators: [] }),
+            rainproof: new FormControl(false),
+            minApproachTime: fb.control(0),
+            maxApproachTime: fb.control(120)
         });
 
         this.orientations.forEach((orientation) => {
             this.cragForm.addControl(orientation.value, new FormControl(false));
+        });
+
+        this.seasons.forEach((season) => {
+            this.cragForm.addControl(season.season, new FormControl(false));
+        });
+
+        this.wallAngles.forEach((wallAngle) => {
+            this.cragForm.addControl(wallAngle.wallAngle, new FormControl(false));
         });
     }
 
@@ -93,6 +135,16 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         return this.orientations
             .filter((orientation) => this.cragForm.controls[orientation.value].value)
             .map((orientation) => orientation.value);
+    }
+
+    get selectedSeasons(): string[] {
+        return this.seasons.filter((season) => this.cragForm.controls[season.season].value).map((season) => season.season);
+    }
+
+    get selectedWallAngles(): string[] {
+        return this.wallAngles
+            .filter((wallAngle) => this.cragForm.controls[wallAngle.wallAngle].value)
+            .map((wallAngle) => wallAngle.wallAngle);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -115,22 +167,54 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
             this.activatedRouteTypes = [];
         }
 
+        if (this.activatedRoute.snapshot.paramMap.get('sezona')) {
+            this.activatedSeasons = JSON.parse(this.activatedRoute.snapshot.paramMap.get('sezona'));
+        } else {
+            this.activatedSeasons = [];
+        }
+
         if (this.activatedRoute.snapshot.paramMap.get('orientacija')) {
             this.activatedOrientations = JSON.parse(this.activatedRoute.snapshot.paramMap.get('orientacija'));
         } else {
             this.activatedOrientations = [];
         }
 
+        if (this.activatedRoute.snapshot.paramMap.get('naklon')) {
+            this.activatedWallAngles = JSON.parse(this.activatedRoute.snapshot.paramMap.get('naklon'));
+        } else {
+            this.activatedWallAngles = [];
+        }
+
+        if (this.activatedRoute.snapshot.paramMap.get('dez')) {
+            this.activatedRainProof = JSON.parse(this.activatedRoute.snapshot.paramMap.get('dez'));
+        } else {
+            this.activatedRainProof = null;
+        }
+
         if (this.activatedRoute.snapshot.paramMap.get('minGrade')) {
             this.activatedMinGrade = this.activatedRoute.snapshot.paramMap.get('minGrade');
+            this.cragForm.controls['minGrade'].setValue(Number(this.activatedMinGrade));
         } else {
             this.activatedMinGrade = null;
         }
 
         if (this.activatedRoute.snapshot.paramMap.get('maxGrade')) {
             this.activatedMaxGrade = this.activatedRoute.snapshot.paramMap.get('maxGrade');
+            this.cragForm.controls['maxGrade'].setValue(Number(this.activatedMaxGrade));
         } else {
             this.activatedMaxGrade = null;
+        }
+
+        if (this.activatedRoute.snapshot.paramMap.get('minPristopniCas')) {
+            this.activatedMinApproachTime = Number(this.activatedRoute.snapshot.paramMap.get('minPristopniCas'));
+        } else {
+            this.activatedMinApproachTime = 0;
+        }
+
+        if (this.activatedRoute.snapshot.paramMap.get('maxPristopniCas')) {
+            this.activatedMaxApproachTime = Number(this.activatedRoute.snapshot.paramMap.get('maxPristopniCas'));
+        } else {
+            this.activatedMaxApproachTime = 120;
         }
 
         this.routeTypes.forEach((routeType) => {
@@ -140,6 +224,16 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         this.orientations.forEach((orientation) => {
             this.cragForm.controls[orientation.value].setValue(this.activatedOrientations.includes(orientation.value));
         });
+
+        this.wallAngles.forEach((wallAngle) => {
+            this.cragForm.controls[wallAngle.wallAngle].setValue(this.activatedWallAngles.includes(wallAngle.wallAngle));
+        });
+
+        if (this.activatedRainProof !== null) {
+            this.cragForm.controls['rainproof'].setValue(this.activatedRainProof);
+        } else {
+            this.cragForm.controls['rainproof'].setValue(false);
+        }
 
         this.currentCountrySlug = this.country.slug;
         this.initAreas(this.activatedAreas);
@@ -154,29 +248,13 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
 
         this.cragForm.controls['minGrade'].valueChanges.subscribe((value) => {
             if (value) {
-                this.router.navigate(
-                    this.makeRoute(this.country.slug, {
-                        tip: JSON.stringify(this.selectedRouteTypes),
-                        obmocje: JSON.stringify(this.activatedAreas),
-                        orientacija: JSON.stringify(this.selectedOrientations),
-                        minGrade: value,
-                        maxGrade: this.cragForm.controls['maxGrade'].value
-                    })
-                );
+                this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
             }
         });
 
         this.cragForm.controls['maxGrade'].valueChanges.subscribe((value) => {
             if (value) {
-                this.router.navigate(
-                    this.makeRoute(this.country.slug, {
-                        tip: JSON.stringify(this.selectedRouteTypes),
-                        obmocje: JSON.stringify(this.activatedAreas),
-                        orientacija: JSON.stringify(this.selectedOrientations),
-                        minGrade: this.cragForm.controls['minGrade'].value,
-                        maxGrade: value
-                    })
-                );
+                this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
             }
         });
     }
@@ -191,35 +269,28 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         } else {
             this.activatedAreas.push(slug);
         }
-        this.router.navigate(
-            this.makeRoute(this.country.slug, {
-                tip: JSON.stringify(this.selectedRouteTypes),
-                obmocje: JSON.stringify(this.activatedAreas),
-                orientacija: JSON.stringify(this.selectedOrientations)
-            })
-        );
+        this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
     }
 
     async changeType(_slug: string) {
-        await this.router.navigate(
-            this.makeRoute(this.country.slug, {
-                tip: JSON.stringify(this.selectedRouteTypes),
-                obmocje: JSON.stringify(this.activatedAreas),
-                orientacija: JSON.stringify(this.selectedOrientations)
-            }),
-            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
-        );
+        await this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()), {
+            relativeTo: this.activatedRoute,
+            onSameUrlNavigation: 'ignore'
+        });
     }
 
     async changeOrientation(_slug: string) {
-        await this.router.navigate(
-            this.makeRoute(this.country.slug, {
-                tip: JSON.stringify(this.selectedRouteTypes),
-                obmocje: JSON.stringify(this.activatedAreas),
-                orientacija: JSON.stringify(this.selectedOrientations)
-            }),
-            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
-        );
+        await this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()), {
+            relativeTo: this.activatedRoute,
+            onSameUrlNavigation: 'ignore'
+        });
+    }
+
+    async changeSeason(_slug: string) {
+        await this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()), {
+            relativeTo: this.activatedRoute,
+            onSameUrlNavigation: 'ignore'
+        });
     }
 
     makeRoute(country: string, params: Record<string, string | null> = {}) {
@@ -241,6 +312,21 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         );
     }
 
+    changeRainProof() {
+        this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
+    }
+
+    changeWallAngle(_slug: string) {
+        this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()), {
+            relativeTo: this.activatedRoute,
+            onSameUrlNavigation: 'ignore'
+        });
+    }
+
+    approachTimeChanged() {
+        this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
+    }
+
     routeParams(params: Record<string, string | null>): Record<string, string> {
         params = { ...params };
 
@@ -251,6 +337,27 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         });
 
         return params;
+    }
+
+    private makeFilterParams(): Record<string, string> {
+        const values = {
+            obmocje: JSON.stringify(this.activatedAreas),
+            tip: JSON.stringify(this.selectedRouteTypes),
+            orientacija: JSON.stringify(this.selectedOrientations),
+            sezona: JSON.stringify(this.selectedSeasons),
+            dez: this.cragForm.controls['rainproof'].value ? '1' : '0',
+            naklon: JSON.stringify(this.selectedWallAngles),
+            minGrade: this.cragForm.controls['minGrade'].value,
+            maxGrade: this.cragForm.controls['maxGrade'].value,
+            minPristopniCas: this.cragForm.controls['minApproachTime'].value,
+            maxPristopniCas: this.cragForm.controls['maxApproachTime'].value
+        };
+        console.log(this.activatedRainProof, this.cragForm.controls['rainproof'].value);
+
+        if (this.activatedRainProof === null && !this.cragForm.controls['rainproof'].value) {
+            delete values.dez;
+        }
+        return values;
     }
 
     private initAreas(areas: string[]) {

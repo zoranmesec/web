@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" className="fill-current">
     <g class="orientation-marker">
-        @if (orientations().includes(Orientation.North)) {
+        @if (sgOrientations() | includes: Orientation.North) {
             <path
                 d="M 20 20 
                   l -9.89949493661166 -9.89949493661166
@@ -8,7 +8,7 @@
                   z"
             />
         }
-        @if (orientations().includes(Orientation.Northeast)) {
+        @if (sgOrientations() | includes: Orientation.Northeast) {
             <path
                 d="M 20 20 
                   l 0 -14
@@ -16,7 +16,7 @@
                   z"
             />
         }
-        @if (orientations().includes(Orientation.East)) {
+        @if (sgOrientations() | includes: Orientation.East) {
             <path
                 d="M 20 20 
                   l 9.89949493661166 -9.89949493661166
@@ -24,7 +24,7 @@
                   z"
             />
         }
-        @if (orientations().includes(Orientation.Southeast)) {
+        @if (sgOrientations() | includes: Orientation.Southeast) {
             <path
                 d="M 20 20 
                   l 14 0
@@ -32,7 +32,7 @@
                   z"
             />
         }
-        @if (orientations().includes(Orientation.South)) {
+        @if (sgOrientations() | includes: Orientation.South) {
             <path
                 d="M 20 20 
                   l 9.89949493661166 9.89949493661166
@@ -40,7 +40,7 @@
                   z"
             />
         }
-        @if (orientations().includes(Orientation.Southwest)) {
+        @if (sgOrientations() | includes: Orientation.Southwest) {
             <path
                 d="M 20 20 
                   l 0 14
@@ -48,7 +48,7 @@
                   z"
             />
         }
-        @if (orientations().includes(Orientation.West)) {
+        @if (sgOrientations() | includes: Orientation.West) {
             <path
                 d="M 20 20 
                     l -9.8994949366116 9.8994949366116
@@ -56,7 +56,7 @@
                     z"
             />
         }
-        @if (orientations().includes(Orientation.Northwest)) {
+        @if (sgOrientations() | includes: Orientation.Northwest) {
             <path
                 d="M 20 20 
                     l -14 0

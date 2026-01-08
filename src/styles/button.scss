@@ -1,0 +1,121 @@
+button {
+    font: var(--mat-sys-body-medium) !important;
+    border-radius: 8px !important;
+    border: 3px solid transparent !important;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+button.primary-button {
+    background: var(--mat-sys-primary) !important;
+    cursor: pointer;
+    font: var(--mat-sys-label-medium) !important;
+    color: var(--mat-sys-on-primary) !important;
+    min-width: 110px;
+    min-height: 40px;
+}
+
+button.primary-button:hover {
+    background: var(--mat-sys-primary-fixed) !important;
+}
+
+button.primary-button:hover svg path {
+    fill: var(---mat-sys-primary-fixed);
+}
+
+button.primary-button:active {
+    background: var(--mat-sys-on-primary-fixed) !important;
+}
+
+button.primary-button:focus {
+    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
+}
+
+button.primary-button.disabled {
+    background: var(--mat-sys-primary-container) !important;
+    cursor: not-allowed !important;
+}
+
+button.secondary-button {
+    background: var(--mat-sys-secondary) !important;
+    cursor: pointer;
+    font: var(--mat-sys-label-medium) !important;
+    color: var(--mat-sys-on-surface) !important;
+    min-width: 110px;
+    min-height: 40px;
+}
+
+button.secondary-button:hover {
+    background: var(--mat-sys-secondary-fixed) !important;
+}
+
+button.secondary-button:active {
+    background: var(--mat-sys-secondary-fixed-dim) !important;
+}
+
+button.secondary-button:focus {
+    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
+}
+
+button.secondary-button.disabled {
+    color: var(--mat-sys-secondary-fixed-dim) !important;
+    background: var(--mat-sys-surface) !important;
+    cursor: not-allowed !important;
+}
+
+button.secondary-button.disabled svg path {
+    fill: var(--mat-sys-secondary-fixed-dim) !important;
+}
+
+button.tertiary-button {
+    background: none;
+    color: var(--mat-sys-primary) !important;
+}
+
+button.tertiary-button:hover {
+    color: var(--mat-sys-primary-fixed) !important;
+}
+
+button.tertiary-button:hover svg path {
+    fill: var(--mat-sys-primary-fixed);
+}
+
+button.tertiary-button:active {
+    color: var(--mat-sys-primary-fixed-dim) !important;
+}
+
+button.tertiary-button:active svg path {
+    fill: var(--mat-sys-primary-fixed-dim);
+}
+
+button.tertiary-button:focus {
+    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
+}
+
+button.quaternary-button {
+    background: none;
+    color: var(--mat-sys-on-surface) !important;
+}
+
+button.quaternary-button:hover {
+    color: var(--mat-sys-primary) !important;
+}
+
+button.quaternary-button:hover svg path {
+    fill: var(--mat-sys-primary);
+}
+
+button.quaternary-button:active {
+    color: var(--mat-sys-on-primary-fixed) !important;
+}
+
+button.quaternary-button:active svg path {
+    fill: var(--mat-sys-on-primary-fixed);
+}
+
+button.quaternary-button:focus {
+    border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
+}

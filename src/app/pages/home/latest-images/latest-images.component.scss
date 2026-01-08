@@ -8,7 +8,8 @@ h2 {
     padding: 0;
     box-shadow: none;
 }
-//TODO: global?
+
+// TODO: global?
 
 .wrap {
     width: 100%;
@@ -28,6 +29,7 @@ h2 {
         height: 100%;
         width: 100%;
     }
+
     // --> cover
 
     .info {
@@ -44,7 +46,7 @@ h2 {
     }
 
     &:hover .info {
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgb(255 255 255 / 80%);
         opacity: 1;
     }
 }

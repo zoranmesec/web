@@ -56,7 +56,6 @@
                             [min]="allGrades[0]?.difficulty"
                             [max]="allGrades[allGrades.length - 1]?.difficulty"
                             step="50"
-                            discrete
                             [displayWith]="formatLabel.bind(this)"
                         >
                             <input formControlName="minDifficulty" matSliderStartThumb />

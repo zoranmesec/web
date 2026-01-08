@@ -1,5 +1,4 @@
-@if (value()!==null) {
-
+@if ((value | signalPipe) !== null) {
     <div class="flex flex-row">
         @if ((value | signalPipe) === 2) {
             <mat-icon [title]="starRatingEnum.TWO_STARS"> star </mat-icon>
@@ -15,5 +14,4 @@
             <span class="p-l-4">{{ starRatingEnum.ZERO_STARS }}</span>
         }
     </div>
-    
 }

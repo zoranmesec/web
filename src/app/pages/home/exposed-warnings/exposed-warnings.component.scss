@@ -1,5 +1,6 @@
 .mat-card {
     border-radius: 0;
+
     .mat-card-title {
         font-weight: 400;
         font-size: 20px;
@@ -7,6 +8,7 @@
         line-height: 20px;
         margin: 0;
     }
+
     .mat-card-content {
         margin-top: 20px;
         margin-bottom: 0;
@@ -34,9 +36,11 @@ h2 {
 .carousel-outer-wrap {
     margin-left: -8px;
     margin-right: -8px;
+
     .slide {
         cursor: pointer;
     }
+
     .slide-inner-wrap {
         margin-left: 8px;
         margin-right: 8px;

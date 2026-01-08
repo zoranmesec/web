@@ -8,7 +8,6 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         height: 42px;
         padding: 0;
         background-color: var(--mat-sys-surface);
-        align-items: center;
         display: flex;
         text-align: center;
         align-items: stretch;
@@ -28,7 +27,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0 16px 0 16px;
+            padding: 0 16px;
             cursor: pointer;
         }
 
@@ -40,14 +39,13 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         }
 
         div.active {
-            background-color: var(--mat-sys-surface-bright);
             height: 42px;
             border: 1px solid $grey;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             background-color: white;
             border-bottom: none !important;
-            padding: 0 16px 0 16px;
+            padding: 0 16px;
             color: var(--mat-sys-primary);
         }
 

@@ -9,7 +9,7 @@
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    {{ showOnlyUserAscents() ? 'Moji vzponi' : 'Javni vzponi' }}
+                    {{ (showOnlyUserAscents | signalPipe) ? 'Moji vzponi' : 'Javni vzponi' }}
                 </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -19,7 +19,7 @@
             @for (ascent of ascents; track $index) {
                 <div class="flex flex-row flex-start info-row p-t-16">
                     <div class="label w-100">{{ ascent.date | date: 'd. M. y' }}</div>
-                    @if (!showOnlyUserAscents()) {
+                    @if (!(showOnlyUserAscents | signalPipe)) {
                         <div class="w-100">{{ ascent.user.firstname }} {{ ascent.user.lastname }}</div>
                     }
                     <div class="w-100">

@@ -15,10 +15,7 @@
 }
 
 .navi-image-caption-row {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0%;
-
+    flex: 1 1 0%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -56,11 +53,8 @@
 // }
 
 .caption-wrap {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 64px;
+    flex: 1 1 64px;
     text-align: center;
-
     padding-top: 4px;
 
     // background-color: lightsalmon;

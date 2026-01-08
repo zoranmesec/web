@@ -4,6 +4,7 @@
 
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
+
 :host {
     section#columns {
         border-radius: 8px;
@@ -11,6 +12,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
         background-color: var(--mat-sys-surface);
         width: 344px !important;
         padding: 8px;
+
         div.top {
             padding: 12px 16px;
             border-bottom: 1px solid $grey;
@@ -41,9 +43,11 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
     a.row {
         text-decoration: none;
         color: #000;
+
         &:hover {
             background: #f6f9ff;
         }
+
         &.active {
             cursor: default;
             background: #f6f9ff;
@@ -53,9 +57,11 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 35);
     .active-country {
         color: var(--mat-sys-secondary);
     }
+
     .mat-form-field {
         width: 100%;
     }
+
     .mat-form-field-infix {
         width: auto;
     }

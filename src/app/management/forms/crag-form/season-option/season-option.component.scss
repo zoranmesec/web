@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../../m3-theme.scss' as m3-theme;
+
 $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
@@ -9,6 +10,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         border-radius: 8px;
         cursor: pointer;
     }
+
     .season-option:hover {
         border: 1px solid var(--mat-sys-on-surface-variant);
         border-radius: 8px;
@@ -18,7 +20,6 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     .season-option-disabled {
         background-color: $light-grey;
         height: 80px;
-
         opacity: 0.5;
         border: 1px solid var(--mat-sys-primary);
         border-radius: 8px;

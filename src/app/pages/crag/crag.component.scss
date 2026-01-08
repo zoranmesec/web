@@ -6,17 +6,17 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 :host {
     section#title {
         height: 100px;
-        padding: 0 16px 16px 16px;
+        padding: 0 16px 16px;
         background-color: var(--mat-sys-surface);
         align-items: center;
         display: flex;
         text-align: center;
     }
+
     section#tabs {
         height: 42px;
         padding: 0;
         background-color: var(--mat-sys-surface);
-        align-items: center;
         display: flex;
         text-align: center;
         align-items: stretch;
@@ -36,7 +36,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0 16px 0 16px;
+            padding: 0 16px;
             cursor: pointer;
         }
 
@@ -48,14 +48,13 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         }
 
         div.active {
-            background-color: var(--mat-sys-surface-bright);
             height: 42px;
             border: 1px solid $grey;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             background-color: white;
             border-bottom: none !important;
-            padding: 0 16px 0 16px;
+            padding: 0 16px;
             color: var(--mat-sys-primary);
         }
 
@@ -74,14 +73,16 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 .mat-tab-link {
     width: 100%;
 }
+
 .mat-tab-label.mat-tab-disabled,
 .mat-tab-link.mat-tab-disabled {
-    color: rgba(0, 0, 0, 0.87);
+    color: rgb(0 0 0 / 87%);
 }
+
 .tab-button {
     height: 48px;
     padding: 0 24px;
     opacity: 0.6;
-    color: rgba(0, 0, 0, 0.87);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    color: rgb(0 0 0 / 87%);
+    border-bottom: 1px solid rgb(0 0 0 / 12%);
 }

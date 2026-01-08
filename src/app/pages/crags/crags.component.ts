@@ -25,6 +25,8 @@ import { TitleComponent } from 'src/app/shared/components/title/title.component'
 import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 import { RouteTypePipe } from 'src/app/shared/pipes/route-type.pipe';
+import { SeasonPipe } from 'src/app/shared/pipes/season.pipe';
+import { WallAnglePipe } from 'src/app/shared/pipes/wall-angle.pipe';
 import { CragsFiltersService } from './crags-filters.service';
 import { CragsTocComponent } from './crags-toc/crags-toc.component';
 
@@ -48,7 +50,9 @@ import { CragsTocComponent } from './crags-toc/crags-toc.component';
         RouteTypePipe,
         LoaderComponent,
         TitleComponent,
-        IconsModule
+        IconsModule,
+        SeasonPipe,
+        WallAnglePipe
     ]
 })
 export class CragsComponent implements OnInit {
@@ -82,8 +86,13 @@ export class CragsComponent implements OnInit {
     });
     protected selectedAreas: string[] = [];
     protected selectedOrientations: string[] = [];
+    protected selectedSeasons: string[] = [];
     protected selectedMinGrade: number | null = null;
     protected selectedMaxGrade: number | null = null;
+    protected selectedWallAngles: string[] = [];
+    protected selectedRainproof: boolean | null = null;
+    protected selectedMinApproachTime: number | null = null;
+    protected selectedMaxApproachTime: number | null = null;
     protected searchFieldVisible = true;
     constructor(
         private authService: AuthService,
@@ -134,6 +143,11 @@ export class CragsComponent implements OnInit {
                 this.selectedOrientations = JSON.parse(params['orientacija']);
             }
 
+            this.selectedSeasons = [];
+            if (params['sezona']) {
+                this.selectedSeasons = JSON.parse(params['sezona']);
+            }
+
             this.selectedMinGrade = null;
             if (params['minGrade']) {
                 this.selectedMinGrade = Number(params['minGrade']);
@@ -142,6 +156,26 @@ export class CragsComponent implements OnInit {
             this.selectedMaxGrade = null;
             if (params['maxGrade']) {
                 this.selectedMaxGrade = Number(params['maxGrade']);
+            }
+
+            this.selectedRainproof = null;
+            if (params['dez']) {
+                this.selectedRainproof = params['dez'] === '1';
+            }
+
+            this.selectedWallAngles = [];
+            if (params['naklon']) {
+                this.selectedWallAngles = JSON.parse(params['naklon']);
+            }
+
+            this.selectedMinApproachTime = null;
+            if (params['minPristopniCas']) {
+                this.selectedMinApproachTime = Number(params['minPristopniCas']);
+            }
+
+            this.selectedMaxApproachTime = null;
+            if (params['maxPristopniCas']) {
+                this.selectedMaxApproachTime = Number(params['maxPristopniCas']);
             }
 
             this.cragSub = this.cragsGQL
@@ -155,6 +189,11 @@ export class CragsComponent implements OnInit {
                             orientations: this.selectedOrientations,
                             minGrade: this.selectedMinGrade,
                             maxGrade: this.selectedMaxGrade,
+                            seasons: this.selectedSeasons,
+                            wallAngles: this.selectedWallAngles,
+                            rainproof: this.selectedRainproof,
+                            minApproachTime: this.selectedMinApproachTime,
+                            maxApproachTime: this.selectedMaxApproachTime,
                             allowEmpty: true
                         }
                     },
@@ -195,10 +234,42 @@ export class CragsComponent implements OnInit {
     get nrOfFiltersApplied(): number {
         let nr = 0;
         if (this.typeParamValues.length > 0) {
-            nr += this.typeParamValues.length;
+            nr++;
         }
         if (this.selectedAreas.length > 0) {
-            nr += this.selectedAreas.length;
+            nr++;
+        }
+
+        if (this.selectedOrientations.length > 0) {
+            nr++;
+        }
+
+        if (this.selectedSeasons.length > 0) {
+            nr++;
+        }
+
+        if (this.selectedMinGrade !== null) {
+            nr++;
+        }
+
+        if (this.selectedMaxGrade !== null) {
+            nr++;
+        }
+
+        if (this.selectedWallAngles.length > 0) {
+            nr++;
+        }
+
+        if (this.selectedRainproof !== null) {
+            nr++;
+        }
+
+        if (this.selectedMinApproachTime !== null || this.selectedMaxApproachTime !== null) {
+            nr++;
+        }
+
+        if (this.selectedMinGrade !== null || this.selectedMaxGrade !== null) {
+            nr++;
         }
         return nr;
     }
@@ -267,7 +338,14 @@ export class CragsComponent implements OnInit {
         await this.router.navigate(
             this.makeRoute(this.country.slug, {
                 tip: this.activatedRoute.snapshot.params['tip'] || null,
-                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
             }),
             { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
         );
@@ -278,7 +356,14 @@ export class CragsComponent implements OnInit {
         await this.router.navigate(
             this.makeRoute(this.country.slug, {
                 tip: this.activatedRoute.snapshot.params['tip'] || null,
-                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null
+                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
             }),
             { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
         );
@@ -289,7 +374,104 @@ export class CragsComponent implements OnInit {
         await this.router.navigate(
             this.makeRoute(this.country.slug, {
                 obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
-                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
+            }),
+            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+        );
+    }
+
+    protected async removeSeasonFilter() {
+        this.typeParamValues = [];
+        await this.router.navigate(
+            this.makeRoute(this.country.slug, {
+                tip: this.activatedRoute.snapshot.params['tip'] || null,
+                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
+            }),
+            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+        );
+    }
+
+    protected async removeRainProofFilter() {
+        this.selectedRainproof = null;
+        await this.router.navigate(
+            this.makeRoute(this.country.slug, {
+                tip: this.activatedRoute.snapshot.params['tip'] || null,
+                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
+            }),
+            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+        );
+    }
+
+    protected async removeWallAngleFilter() {
+        this.selectedWallAngles = [];
+        await this.router.navigate(
+            this.makeRoute(this.country.slug, {
+                tip: this.activatedRoute.snapshot.params['tip'] || null,
+                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
+            }),
+            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+        );
+    }
+
+    protected async removeGradeFilter() {
+        this.selectedMinGrade = null;
+        this.selectedMaxGrade = null;
+        await this.router.navigate(
+            this.makeRoute(this.country.slug, {
+                tip: this.activatedRoute.snapshot.params['tip'] || null,
+                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                minPristopniCas: this.activatedRoute.snapshot.params['minPristopniCas'] || null,
+                maxPristopniCas: this.activatedRoute.snapshot.params['maxPristopniCas'] || null
+            }),
+            { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
+        );
+    }
+
+    protected async removeApproachTimeFilter() {
+        this.selectedMinApproachTime = null;
+        this.selectedMaxApproachTime = null;
+        await this.router.navigate(
+            this.makeRoute(this.country.slug, {
+                tip: this.activatedRoute.snapshot.params['tip'] || null,
+                obmocje: this.activatedRoute.snapshot.params['obmocje'] || null,
+                orientacija: this.activatedRoute.snapshot.params['orientacija'] || null,
+                sezona: this.activatedRoute.snapshot.params['sezona'] || null,
+                dez: this.activatedRoute.snapshot.params['dez'] || null,
+                naklon: this.activatedRoute.snapshot.params['naklon'] || null,
+                minGrade: this.activatedRoute.snapshot.params['minGrade'] || null,
+                maxGrade: this.activatedRoute.snapshot.params['maxGrade'] || null
             }),
             { relativeTo: this.activatedRoute, onSameUrlNavigation: 'ignore' }
         );

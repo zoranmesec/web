@@ -35,6 +35,7 @@ import { ContributionService } from '../../pages/contributions/contribution/cont
 
 import { MatRadioModule } from '@angular/material/radio';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
+import { IncludesPipe } from 'src/app/shared/pipes/includes.pipe';
 import { Season as FormattedSeason } from 'src/app/types/season';
 import { WallAngle as FormattedWallAngle } from 'src/app/types/wall-angle';
 import { SeasonOptionComponent } from './season-option/season-option.component';
@@ -67,7 +68,8 @@ export interface WallAngleData {
         WallAngleOptionComponent,
         SeasonOptionComponent,
         MatRadioModule,
-        MatDividerModule
+        MatDividerModule,
+        IncludesPipe
     ]
 })
 export class CragFormComponent implements OnChanges, OnDestroy {
@@ -157,6 +159,13 @@ export class CragFormComponent implements OnChanges, OnDestroy {
 
     get isAdmin() {
         return this.user?.roles.includes('admin');
+    }
+
+    /**
+     * A crag can be deleted if it is still a draft. An editor can also delete a crag but not one that was pushed to review.
+     */
+    get canDelete() {
+        return this.crag?.publishStatus === 'draft' || (this.user.roles.includes('admin') && this.crag?.publishStatus === 'published');
     }
 
     ngOnChanges(): void {
@@ -327,12 +336,5 @@ export class CragFormComponent implements OnChanges, OnDestroy {
                     this.loading = false;
                 }
             });
-    }
-
-    /**
-     * A crag can be deleted if it is still a draft. An editor can also delete a crag but not one that was pushed to review.
-     */
-    canDelete() {
-        return this.crag?.publishStatus === 'draft' || (this.user.roles.includes('admin') && this.crag?.publishStatus === 'published');
     }
 }

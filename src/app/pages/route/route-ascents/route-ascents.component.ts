@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AscentTypeComponent } from 'src/app/shared/components/ascent-type/ascent-type.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { SignalPipe } from 'src/app/shared/pipes/signal.pipe';
 import { DataError } from 'src/app/types/data-error';
 
 @Component({
@@ -16,7 +17,7 @@ import { DataError } from 'src/app/types/data-error';
     templateUrl: './route-ascents.component.html',
     styleUrls: ['./route-ascents.component.scss'],
     standalone: true,
-    imports: [CommonModule, MatExpansionModule, MatIconModule, AscentTypeComponent, MatPaginatorModule, LoaderComponent],
+    imports: [CommonModule, MatExpansionModule, MatIconModule, AscentTypeComponent, MatPaginatorModule, LoaderComponent, SignalPipe],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RouteAscentsComponent implements OnDestroy, OnChanges {

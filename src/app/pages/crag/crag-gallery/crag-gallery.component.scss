@@ -39,14 +39,17 @@
         }
 
         & {
-            padding: 16px 0 0 0;
+            padding: 16px 0 0;
         }
+
         app-responsive-image {
             cursor: pointer;
         }
+
         .title {
             padding-top: 4px;
         }
+
         .author {
             font-size: 13px;
             display: flex;

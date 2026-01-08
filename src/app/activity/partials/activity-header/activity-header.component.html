@@ -1,13 +1,13 @@
 <section id="tabs">
     <div>&nbsp;</div>
     @for (tab of tabs; track $index) {
-        <div [class.active]="tab.slug === active()" (click)="setActiveTab(tab)">
+        <div [class.active]="tab.slug === (active | signalPipe)" (click)="setActiveTab(tab)">
             @if (tab.icon === 'calendar') {
-                <app-calendar-icon [active]="tab.slug === active()"></app-calendar-icon>
+                <app-calendar-icon [active]="tab.slug === (active | signalPipe)"></app-calendar-icon>
             } @else if (tab.icon === 'ascents') {
-                <app-ascents-icon [active]="tab.slug === active()"></app-ascents-icon>
+                <app-ascents-icon [active]="tab.slug === (active | signalPipe)"></app-ascents-icon>
             } @else if (tab.icon === 'statistics') {
-                <app-statistics-icon [active]="tab.slug === active()"></app-statistics-icon>
+                <app-statistics-icon [active]="tab.slug === (active | signalPipe)"></app-statistics-icon>
             }
             @if (breakpointService.sgGtSm()) {
                 <span>

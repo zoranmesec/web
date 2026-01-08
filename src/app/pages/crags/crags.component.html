@@ -43,7 +43,7 @@
                                 }
                             </span>
                             @if (nrOfFiltersApplied > 0) {
-                                <span [class.hidden]="breakpointService.sgGtMd()"> {{ nrOfFiltersApplied }}</span>
+                                <span [class.hidden]="breakpointService.sgGtMd()"> ({{ nrOfFiltersApplied }})</span>
                             }
                         </button>
                     </div>
@@ -66,12 +66,15 @@
                     </div>
                 </div>
                 <div [class.hidden]="breakpointService.sgLtSm()">
-                    <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
-                        <mat-label>
-                            <mat-icon class="search-icon">search</mat-icon>
-                            <span>Poišči po imenu</span></mat-label
-                        >
-                        <input matInput [formControl]="search" autocomplete="off" (keydown)="searchKeyDown($event)" />
+                    <mat-form-field class="custom-height" subscriptSizing="fixed">
+                        <mat-icon matPrefix class="search-icon">search</mat-icon>
+                        <input
+                            matInput
+                            [formControl]="search"
+                            placeholder="Poišči po imenu"
+                            autocomplete="off"
+                            (keydown)="searchKeyDown($event)"
+                        />
                     </mat-form-field>
                 </div>
             </section>
@@ -142,8 +145,72 @@
                                     <mat-icon>close</mat-icon>
                                 </div>
                             }
-                            @if (typeParamValues.length > 0 || selectedAreas.length > 0 || selectedOrientations.length > 0) {
-                                <div class="remove-all p-t-4" (click)="removeAllFilters()">Odstrani vse filtre</div>
+
+                            @if (selectedSeasons.length > 0) {
+                                <div class="filter-chip flex" (click)="removeSeasonFilter()">
+                                    Sezona:
+                                    @for (season of selectedSeasons; track $index; let last = $last) {
+                                        @if (last) {
+                                            <span class="p-l-4">{{ season | season }}</span>
+                                        } @else {
+                                            <span class="p-l-4">{{ season | season }},</span>
+                                        }
+                                    }
+                                    <mat-icon>close</mat-icon>
+                                </div>
+                            }
+
+                            @if (selectedWallAngles.length > 0) {
+                                <div class="filter-chip flex" (click)="removeWallAngleFilter()">
+                                    Naklon:
+                                    @for (angle of selectedWallAngles; track $index; let last = $last) {
+                                        @if (last) {
+                                            <span class="p-l-4">{{ angle | wallAngle }}</span>
+                                        } @else {
+                                            <span class="p-l-4">{{ angle | wallAngle }},</span>
+                                        }
+                                    }
+                                    <mat-icon>close</mat-icon>
+                                </div>
+                            }
+
+                            @if (selectedRainproof === true) {
+                                <div class="filter-chip flex" (click)="removeRainProofFilter()">
+                                    Plezanje v dežju: Da
+
+                                    <mat-icon>close</mat-icon>
+                                </div>
+                            }
+
+                            @if (selectedMinGrade !== null || selectedMaxGrade !== null) {
+                                <div class="filter-chip flex" (click)="removeGradeFilter()">
+                                    Težavnost:
+
+                                    <span class="p-l-4 flex flex-row gap-2">
+                                        <span>od</span>
+                                        <app-grade [difficulty]="selectedMinGrade" gradingSystemId="french"></app-grade>
+                                        <span>do</span>
+                                        <app-grade [difficulty]="selectedMaxGrade" gradingSystemId="french"></app-grade
+                                    ></span>
+
+                                    <mat-icon>close</mat-icon>
+                                </div>
+                            }
+
+                            @if (selectedMinApproachTime !== null || selectedMaxApproachTime !== null) {
+                                <div class="filter-chip flex" (click)="removeApproachTimeFilter()">
+                                    Čas dostopa:
+
+                                    <span class="p-l-4">{{ selectedMinApproachTime }} - {{ selectedMaxApproachTime }} min</span>
+
+                                    <mat-icon>close</mat-icon>
+                                </div>
+                            }
+
+                            @if (nrOfFiltersApplied > 0) {
+                                <button type="button" class="tertiary-button p-t-4" (click)="removeAllFilters()">
+                                    Odstrani vse filtre
+                                </button>
                             }
                         </div>
                     }

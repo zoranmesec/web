@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-
 @use './../../../../styles/global.scss' as global;
 
 :host {
@@ -22,6 +21,7 @@
             .mdc-text-field {
                 height: 40px;
             }
+
             .mat-mdc-form-field-subscript-wrapper {
                 display: none !important;
             }
@@ -50,7 +50,7 @@
 
         .border-right {
             border-right: 1px solid var(--mat-sys-outline-variant) !important;
-            padding: 0 4px 0 4px;
+            padding: 0 4px;
             height: 40px !important;
         }
 
@@ -65,8 +65,9 @@
         h3.sector-title {
             color: var();
         }
+
         border-radius: 8px;
-        margin: 0 0 24px 0;
+        margin: 0 0 24px;
         width: 100% !important;
 
         div.top {

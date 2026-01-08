@@ -20,7 +20,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
-        padding: 0 6px 0 6px;
+        padding: 0 6px;
 
         mat-icon {
             height: 40px !important;
@@ -46,7 +46,7 @@
     }
 
     section#description > app-crag-image {
-        @media (min-width: 960px) {
+        @media (width >= 960px) {
             min-width: 40%;
             max-width: 40%;
         }
@@ -56,11 +56,13 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        padding: 0 6px 0 6px;
+        padding: 0 6px;
+
         div:first-child {
             flex-basis: calc(50vw - 32px);
             flex-grow: 1;
         }
+
         div:nth-child(2) {
             flex-basis: calc(50vw - 32px);
             flex-grow: 1;
@@ -78,13 +80,13 @@
             width: 100%;
         }
 
-        @media (max-width: 960px) {
+        @media (width <= 960px) {
             div.access {
                 width: 100%;
             }
         }
 
-        @media (min-width: 960px) {
+        @media (width >= 960px) {
             div.access {
                 flex-shrink: 1;
                 min-width: 40%;
@@ -105,6 +107,7 @@
 .row {
     font-weight: 500;
 }
+
 .content {
     font-weight: normal;
     padding: 10px 0;

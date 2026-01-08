@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../m3-theme.scss' as m3-theme;
+
 $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
@@ -8,7 +9,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 :host {
     section#title {
         height: 100px;
-        padding: 0 16px 16px 16px;
+        padding: 0 16px 16px;
         background-color: var(--mat-sys-surface);
         align-items: center;
         display: flex;
@@ -30,15 +31,15 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
         .calendar-grid {
             display: grid;
-            margin-top: 0px;
-            gap: 0px;
+            margin-top: 0;
+            gap: 0;
             grid-template-columns: repeat(7, 1fr);
         }
 
         .day {
             padding: 8px;
             border: 1px solid #e5e5e5;
-            border-radius: 0px;
+            border-radius: 0;
             text-align: center;
             min-height: 200px;
 
@@ -48,7 +49,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
         }
 
         .day-tag {
-            color: #737373;
+            color: var(--mat-sys-surface-container-lowest);
             text-align: center;
             margin-bottom: 4px;
         }
@@ -81,7 +82,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
         }
 
         button {
-            border: 3px solid #ffffff;
+            border: 3px solid #fff;
             border-radius: 8px;
         }
 
@@ -117,6 +118,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
                 flex-basis: 190px;
                 margin-right: 16px;
             }
+
             .activity-route-row > div:nth-child(2) {
                 flex-basis: 80px;
             }
@@ -129,6 +131,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
                 flex-basis: 80%;
                 padding-left: 8px;
             }
+
             .activity-route-row > div:nth-child(5) {
                 text-align: right !important;
                 flex-basis: 150px;

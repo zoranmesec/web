@@ -9,12 +9,15 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         margin-bottom: 8px !important;
         background: none !important;
     }
+
     mat-expansion-panel:hover {
         background: none !important;
     }
+
     mat-expansion-panel-header {
         border-bottom: 1px solid $grey;
     }
+
     main {
         display: flex;
         flex-direction: column;
@@ -31,5 +34,6 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     &:last-child {
         border-bottom: none;
     }
-    padding: 16px 0 16px 0;
+
+    padding: 16px 0;
 }

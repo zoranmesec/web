@@ -2,11 +2,11 @@
     <section id="info">
         @if (crag().orientations && crag().orientations.length > 0) {
             <div class="flex flex-align-center">
-                <app-orientation-icon [orientations]="crag().orientations" matTooltip="Usmerjenost"></app-orientation-icon>
+                <app-orientation-icon [sgOrientations]="crag().orientations" matTooltip="Usmerjenost"></app-orientation-icon>
             </div>
         } @else if (crag().orientation) {
             <div>
-                <app-orientation-icon [orientations]="crag().orientation"></app-orientation-icon>
+                <app-orientation-icon [sgOrientations]="crag().orientation"></app-orientation-icon>
             </div>
         }
         @if (crag().approachTime) {

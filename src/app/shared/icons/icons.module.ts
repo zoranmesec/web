@@ -9,6 +9,7 @@ import { ArrowUpIconComponent } from './arrow-up-icon/arrow-up-icon.component';
 import { AscentTypeIconComponent } from './ascent-type-icon/ascent-type.component';
 import { AscentsIconComponent } from './ascents-icon/ascents-icon.component';
 
+import { IncludesPipe } from '../pipes/includes.pipe';
 import { SignalPipe } from '../pipes/signal.pipe';
 import { ApproachIconComponent } from './approach-icon/approach-icon.component';
 import { CalendarIconComponent } from './calendar-icon/calendar-icon.component';
@@ -96,7 +97,7 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         MapIconComponent,
         ResetIconComponent
     ],
-    imports: [SignalPipe, CommonModule],
+    imports: [SignalPipe, CommonModule, IncludesPipe],
     exports: [
         AddIconComponent,
         ArrowIconComponent,
