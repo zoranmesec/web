@@ -8,7 +8,7 @@ import { ROUTE_TYPES } from 'src/app/common/route-types.constants';
 import { LayoutService } from 'src/app/services/layout.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { SearchService } from 'src/app/shared/services/search.service';
-import { CragsGQL, CragsQuery } from '../../../generated/graphql';
+import { CragsGQL, CragsQuery, Season, WallAngle } from '../../../generated/graphql';
 import { DataError } from '../../types/data-error';
 
 import { MatCardModule } from '@angular/material/card';
@@ -18,11 +18,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { ErrorLike } from '@apollo/client';
 import { MapComponent } from 'src/app/common/map/map.component';
+import { SortableHeaderFieldComponent } from 'src/app/common/sortable-header-field/sortable-header-field.component';
 import { BreakpointService } from 'src/app/services/breakpoint.service';
 import { GradeComponent } from 'src/app/shared/components/grade/grade.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { TitleComponent } from 'src/app/shared/components/title/title.component';
+import { IconSize } from 'src/app/shared/icons/icon-size.enum';
 import { IconsModule } from 'src/app/shared/icons/icons.module';
+import { CragTypePipe } from 'src/app/shared/pipes/crag-type.pipe';
+import { IncludesPipe } from 'src/app/shared/pipes/includes.pipe';
 import { OrientationPipe } from 'src/app/shared/pipes/orientation.pipe';
 import { RouteTypePipe } from 'src/app/shared/pipes/route-type.pipe';
 import { SeasonPipe } from 'src/app/shared/pipes/season.pipe';
@@ -52,7 +56,10 @@ import { CragsTocComponent } from './crags-toc/crags-toc.component';
         TitleComponent,
         IconsModule,
         SeasonPipe,
-        WallAnglePipe
+        WallAnglePipe,
+        IncludesPipe,
+        CragTypePipe,
+        SortableHeaderFieldComponent
     ]
 })
 export class CragsComponent implements OnInit {
@@ -80,6 +87,9 @@ export class CragsComponent implements OnInit {
 
     private destroyRef = inject(DestroyRef);
     protected typeParamValues: string[] = [];
+    protected iconSize = IconSize;
+    protected seasons: Season[] = [Season.Autumn, Season.Summer, Season.Spring, Season.Winter];
+    protected wallAngles: WallAngle[] = [WallAngle.Slab, WallAngle.Vertical, WallAngle.Overhang, WallAngle.Roof];
 
     protected myRouteTypes = computed(() => {
         return this.cragsFiltersService.allRouteTypes();
@@ -93,7 +103,9 @@ export class CragsComponent implements OnInit {
     protected selectedRainproof: boolean | null = null;
     protected selectedMinApproachTime: number | null = null;
     protected selectedMaxApproachTime: number | null = null;
+    protected selectedAllowEmpty: boolean | null = null;
     protected searchFieldVisible = true;
+
     constructor(
         private authService: AuthService,
         private layoutService: LayoutService,
@@ -160,7 +172,7 @@ export class CragsComponent implements OnInit {
 
             this.selectedRainproof = null;
             if (params['dez']) {
-                this.selectedRainproof = params['dez'] === '1';
+                this.selectedRainproof = params['dez'] === '1' ? true : null;
             }
 
             this.selectedWallAngles = [];
@@ -176,6 +188,11 @@ export class CragsComponent implements OnInit {
             this.selectedMaxApproachTime = null;
             if (params['maxPristopniCas']) {
                 this.selectedMaxApproachTime = Number(params['maxPristopniCas']);
+            }
+
+            this.selectedAllowEmpty = null;
+            if (params['brezPodatkov']) {
+                this.selectedAllowEmpty = params['brezPodatkov'] === '1' ? true : null;
             }
 
             this.cragSub = this.cragsGQL
@@ -194,7 +211,7 @@ export class CragsComponent implements OnInit {
                             rainproof: this.selectedRainproof,
                             minApproachTime: this.selectedMinApproachTime,
                             maxApproachTime: this.selectedMaxApproachTime,
-                            allowEmpty: true
+                            allowEmpty: this.selectedAllowEmpty
                         }
                     },
                     fetchPolicy: 'no-cache'
@@ -269,6 +286,10 @@ export class CragsComponent implements OnInit {
         }
 
         if (this.selectedMinGrade !== null || this.selectedMaxGrade !== null) {
+            nr++;
+        }
+
+        if (this.selectedAllowEmpty !== null) {
             nr++;
         }
         return nr;
@@ -495,5 +516,9 @@ export class CragsComponent implements OnInit {
 
     protected removeAllFilters() {
         this.router.navigate(['/plezalisca']);
+    }
+
+    protected onSortableHeaderClick() {
+        console.log('sortable header clicked');
     }
 }

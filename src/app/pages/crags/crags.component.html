@@ -17,7 +17,7 @@
     @if (!loading) {
         <div class="container flex flex-column mt-16 p-r-16 p-l-16">
             <section id="options">
-                <div class="flex flex-row gap-8">
+                <div class="flex flex-row">
                     @if (country && country.code === 'SI') {
                         <div class="border-right flex flex-row flex-align-center flex-center" #map>
                             <button type="button" class="quaternary-button" (click)="showMap = !showMap">
@@ -48,12 +48,12 @@
                         </button>
                     </div>
                     <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.sgGtSm()">
-                        <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
-                            <mat-icon class="filter-icon">search</mat-icon>
+                        <button type="button" class="tertiary-button" (click)="searchFieldVisible = !searchFieldVisible">
+                            <app-search-icon></app-search-icon>
                             <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Išči</span>
                         </button>
                     </div>
-                    <div>
+                    <div class="p-l-4">
                         <button class="quaternary-button" [matMenuTriggerFor]="menu">
                             <app-more-icon></app-more-icon>
                         </button>
@@ -81,11 +81,14 @@
             @if (searchFieldVisible) {
                 <div [class.hidden]="breakpointService.sgGtSm()" class="w-100 flex flex-row flex-align-center flex-center">
                     <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
-                        <mat-label>
-                            <mat-icon class="search-icon">search</mat-icon>
-                            <span>Poišči po imenu</span></mat-label
-                        >
-                        <input matInput [formControl]="search" autocomplete="off" (keydown)="searchKeyDown($event)" />
+                        <mat-icon matPrefix class="search-icon">search</mat-icon>
+                        <input
+                            matInput
+                            [formControl]="search"
+                            placeholder="Poišči po imenu"
+                            autocomplete="off"
+                            (keydown)="searchKeyDown($event)"
+                        />
                     </mat-form-field>
                 </div>
             }
@@ -217,7 +220,17 @@
                     @if (!cragsLoading) {
                         <div>
                             <div class="row crag-row header flex" [class.hidden]="breakpointService.sgLtLg()">
-                                <div>Ime</div>
+                                <div>
+                                    <app-sortable-header-field
+                                        field="name"
+                                        label="Ime"
+                                        currentlySortedField="name"
+                                        sortIndication="arrows"
+                                        [currentSortDirection]="-1"
+                                        [centered]="false"
+                                        (click)="onSortableHeaderClick('name')"
+                                    ></app-sortable-header-field>
+                                </div>
                                 <div>Število smeri</div>
                                 <div [class.hidden]="breakpointService.sgLtXl()">Orientacija</div>
                                 <div>Težavnost</div>
@@ -253,20 +266,45 @@
                                     </div>
                                     <!-- Less than large -->
                                     <div class="flex flex-column flex-justify-start w-100" [class.hidden]="breakpointService.sgGtMd()">
-                                        <div class="w-100 flex flex-wrap flex-justify-space-between">
+                                        <div class="w-100 flex flex-justify-space-between">
                                             <div>
                                                 <a [routerLink]="['/plezalisce/', crag.slug]" class="crag-link">{{ crag.name }}</a>
                                             </div>
                                             @if (crag.orientation !== null && crag.orientation !== 'none') {
-                                                <div class="flex flex-row flex-justify-start">
+                                                <div class="flex flex-row flex-align-center flex-justify-start">
+                                                    <app-orientation-icon
+                                                        [sgOrientations]="[]"
+                                                        [size]="iconSize.small"
+                                                    ></app-orientation-icon>
                                                     <div>
                                                         <span>{{ crag.orientation | orientation: 'short' }}</span>
                                                     </div>
                                                 </div>
                                             }
+                                            @if (crag.orientations !== null) {
+                                                <div class="flex flex-row flex-align-center flex-justify-start">
+                                                    <app-orientation-icon
+                                                        [sgOrientations]="[]"
+                                                        [size]="iconSize.small"
+                                                    ></app-orientation-icon>
+                                                    <div>
+                                                        @for (orientation of crag.orientations; track orientation; let last = $last) {
+                                                            <span>{{ orientation | orientation: 'short' }}{{ last ? '' : ', ' }} </span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
-                                        <div [class.hidden]="breakpointService.sgGtMd()" class="flex flex-row gap-4 w-100">
-                                            <span>{{ crag.nrRoutes }} smeri od </span>
+
+                                        <div [class.hidden]="breakpointService.sgGtMd()" class="flex flex-row gap-4 w-100 crag-info-text">
+                                            <span>{{ crag.area ? `${crag.area.name}, ` : '' }}{{ crag.country.name }} </span>
+                                        </div>
+
+                                        <div
+                                            [class.hidden]="breakpointService.sgGtMd()"
+                                            class="flex flex-row gap-4 w-100 crag-routes-text p-t-4"
+                                        >
+                                            <span>{{ crag.type | cragType }}, {{ crag.nrRoutes }} smeri od </span>
                                             @if (crag.nrRoutes > 0) {
                                                 <app-grade
                                                     [difficulty]="crag.minDifficulty"
@@ -279,6 +317,57 @@
                                                 ></app-grade>
                                             }
                                         </div>
+
+                                        @if (
+                                            crag.approachTime ||
+                                            (crag.wallAngles && crag.wallAngles.length > 0) ||
+                                            (crag.seasons && crag.seasons.length > 0) ||
+                                            crag.rainproof
+                                        ) {
+                                            <div
+                                                [class.hidden]="breakpointService.sgGtMd()"
+                                                class="flex flex-row gap-4 w-100 crag-info-container m-t-4"
+                                            >
+                                                @if (crag.approachTime) {
+                                                    <div class="flex flex-row flex-align-end crag-routes-text">
+                                                        <app-approach-icon [size]="iconSize.small"></app-approach-icon>
+                                                        <span class="value">{{ crag.approachTime }} min</span>
+                                                    </div>
+                                                }
+                                                @if (crag.wallAngles && crag.wallAngles.length > 0) {
+                                                    <div class="flex flex-row gap-8">
+                                                        @for (angle of wallAngles; track angle) {
+                                                            <app-wall-angle-icon
+                                                                [wallAngle]="angle"
+                                                                [matTooltip]="angle | wallAngle"
+                                                                [size]="iconSize.small"
+                                                                [disabled]="!(crag.wallAngles | includes: angle)"
+                                                            ></app-wall-angle-icon>
+                                                        }
+                                                    </div>
+                                                }
+                                                @if (crag.seasons && crag.seasons.length > 0) {
+                                                    <div class="flex flex-row gap-8">
+                                                        @for (season of seasons; track season) {
+                                                            <app-season-icon
+                                                                [season]="season"
+                                                                [matTooltip]="season | season"
+                                                                [size]="iconSize.small"
+                                                                [disabled]="!(crag.seasons | includes: season)"
+                                                            ></app-season-icon>
+                                                        }
+                                                    </div>
+                                                }
+                                                @if (crag.rainproof) {
+                                                    <div>
+                                                        <app-rainproof-icon
+                                                            matTooltip="Plezanje v dežju je možno"
+                                                            [size]="iconSize.small"
+                                                        ></app-rainproof-icon>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             }

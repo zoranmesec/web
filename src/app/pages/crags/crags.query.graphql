@@ -8,14 +8,32 @@ query Crags($country: String!, $input: FindCragsInput) {
             id
             slug
             name
+            type
             nrRoutes
             orientation
+            orientation
+            orientations
+            wallAngles
+            seasons
+            approachTime
+            rainproof
             lon
             lat
             minDifficulty
             maxDifficulty
             defaultGradingSystem {
                 id
+            }
+            area {
+                id
+                name
+                slug
+            }
+            country {
+                id
+                name
+                slug
+                code
             }
         }
         areas(hasCrags: true) {

@@ -70,7 +70,7 @@ html {
     --mat-sys-body-medium-size: 0.875rem;
     --mat-sys-body-medium-tracking: 0.016rem;
     --mat-sys-body-medium-weight: 400;
-    --mat-sys-body-small: 400 0.75rem / 1rem Poppins;
+    --mat-sys-body-small: 400 0.8125rem / 1rem Poppins;
     --mat-sys-body-small-font: Poppins;
     --mat-sys-body-small-line-height: 1rem;
     --mat-sys-body-small-size: 0.75rem;
@@ -482,7 +482,7 @@ html {
 }
 
 html {
-    --mat-option-selected-state-label-text-color: #3f51b5;
+    --mat-option-selected-state-label-text-color: var(--mat-sys-primary);
     --mat-option-label-text-color: rgb(0 0 0 / 87%);
     --mat-option-hover-state-layer-color: color-mix(in srgb, rgb(0 0 0 / 87%) 4%, transparent);
     --mat-option-focus-state-layer-color: color-mix(in srgb, rgb(0 0 0 / 87%) 12%, transparent);
@@ -521,13 +521,13 @@ html {
 }
 
 .mat-primary {
-    --mat-pseudo-checkbox-full-selected-icon-color: #3f51b5;
+    --mat-pseudo-checkbox-full-selected-icon-color: var(--mat-sys-primary);
     --mat-pseudo-checkbox-full-selected-checkmark-color: #fafafa;
     --mat-pseudo-checkbox-full-unselected-icon-color: rgb(0 0 0 / 54%);
     --mat-pseudo-checkbox-full-disabled-selected-checkmark-color: #fafafa;
     --mat-pseudo-checkbox-full-disabled-unselected-icon-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-pseudo-checkbox-full-disabled-selected-icon-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
-    --mat-pseudo-checkbox-minimal-selected-checkmark-color: #3f51b5;
+    --mat-pseudo-checkbox-minimal-selected-checkmark-color: var(--mat-sys-primary);
     --mat-pseudo-checkbox-minimal-disabled-selected-checkmark-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
 }
 
@@ -610,7 +610,7 @@ html {
 }
 
 .mat-mdc-progress-bar {
-    --mat-progress-bar-active-indicator-color: #3f51b5;
+    --mat-progress-bar-active-indicator-color: var(--mat-sys-primary);
     --mat-progress-bar-track-color: rgb(63 81 181 / 25%);
 }
 
@@ -651,13 +651,13 @@ html {
 }
 
 html {
-    --mat-form-field-focus-select-arrow-color: color-mix(in srgb, #3f51b5 87%, transparent);
-    --mat-form-field-filled-caret-color: #3f51b5;
-    --mat-form-field-filled-focus-active-indicator-color: #3f51b5;
-    --mat-form-field-filled-focus-label-text-color: color-mix(in srgb, #3f51b5 87%, transparent);
-    --mat-form-field-outlined-caret-color: #3f51b5;
+    --mat-form-field-focus-select-arrow-color: color-mix(in srgb, var(--mat-sys-primary) 87%, transparent);
+    --mat-form-field-filled-caret-color: var(--mat-sys-primary);
+    --mat-form-field-filled-focus-active-indicator-color: var(--mat-sys-primary);
+    --mat-form-field-filled-focus-label-text-color: color-mix(in srgb, var(--mat-sys-primary) 87%, transparent);
+    --mat-form-field-outlined-caret-color: var(--mat-sys-primary);
     --mat-form-field-outlined-focus-outline-color: var(--mat-sys-secondary-fixed-dim);
-    --mat-form-field-outlined-focus-label-text-color: color-mix(in srgb, #3f51b5 87%, transparent);
+    --mat-form-field-outlined-focus-label-text-color: color-mix(in srgb, var(--mat-sys-primary) 87%, transparent);
     --mat-form-field-disabled-input-text-placeholder-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-form-field-state-layer-color: rgb(0 0 0 / 87%);
     --mat-form-field-error-text-color: #f44336;
@@ -772,7 +772,7 @@ html {
     --mat-select-placeholder-text-color: rgb(0 0 0 / 54%);
     --mat-select-enabled-arrow-color: rgb(0 0 0 / 54%);
     --mat-select-disabled-arrow-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
-    --mat-select-focused-arrow-color: #3f51b5;
+    --mat-select-focused-arrow-color: var(--mat-sys-primary);
     --mat-select-invalid-arrow-color: #f44336;
 }
 
@@ -903,10 +903,10 @@ html {
 .mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary,
 .mat-mdc-standard-chip.mat-mdc-chip-highlighted.mat-primary {
     --mat-chip-disabled-label-text-color: white;
-    --mat-chip-elevated-container-color: #3f51b5;
-    --mat-chip-elevated-disabled-container-color: #3f51b5;
-    --mat-chip-elevated-selected-container-color: #3f51b5;
-    --mat-chip-flat-disabled-selected-container-color: #3f51b5;
+    --mat-chip-elevated-container-color: var(--mat-sys-primary);
+    --mat-chip-elevated-disabled-container-color: var(--mat-sys-primary);
+    --mat-chip-elevated-selected-container-color: var(--mat-sys-primary);
+    --mat-chip-flat-disabled-selected-container-color: var(--mat-sys-primary);
     --mat-chip-focus-state-layer-color: rgb(0 0 0 / 87%);
     --mat-chip-focus-state-layer-opacity: 0.12;
     --mat-chip-hover-state-layer-color: rgb(0 0 0 / 87%);
@@ -1031,13 +1031,13 @@ html {
 html {
     --mat-slide-toggle-selected-icon-color: white;
     --mat-slide-toggle-disabled-selected-icon-color: white;
-    --mat-slide-toggle-selected-focus-state-layer-color: #3f51b5;
-    --mat-slide-toggle-selected-handle-color: #3f51b5;
-    --mat-slide-toggle-selected-hover-state-layer-color: #3f51b5;
-    --mat-slide-toggle-selected-pressed-state-layer-color: #3f51b5;
-    --mat-slide-toggle-selected-focus-handle-color: #3f51b5;
-    --mat-slide-toggle-selected-hover-handle-color: #3f51b5;
-    --mat-slide-toggle-selected-pressed-handle-color: #3f51b5;
+    --mat-slide-toggle-selected-focus-state-layer-color: var(--mat-sys-primary);
+    --mat-slide-toggle-selected-handle-color: var(--mat-sys-primary);
+    --mat-slide-toggle-selected-hover-state-layer-color: var(--mat-sys-primary);
+    --mat-slide-toggle-selected-pressed-state-layer-color: var(--mat-sys-primary);
+    --mat-slide-toggle-selected-focus-handle-color: var(--mat-sys-primary);
+    --mat-slide-toggle-selected-hover-handle-color: var(--mat-sys-primary);
+    --mat-slide-toggle-selected-pressed-handle-color: var(--mat-sys-primary);
     --mat-slide-toggle-selected-focus-track-color: #7986cb;
     --mat-slide-toggle-selected-hover-track-color: #7986cb;
     --mat-slide-toggle-selected-pressed-track-color: #7986cb;
@@ -1129,16 +1129,16 @@ html {
 }
 
 .mat-mdc-radio-button.mat-primary {
-    --mat-radio-checked-ripple-color: #3f51b5;
+    --mat-radio-checked-ripple-color: var(--mat-sys-primary);
     --mat-radio-disabled-label-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-radio-disabled-selected-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-disabled-unselected-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-label-text-color: rgb(0 0 0 / 87%);
     --mat-radio-ripple-color: rgb(0 0 0 / 87%);
-    --mat-radio-selected-focus-icon-color: #3f51b5;
-    --mat-radio-selected-hover-icon-color: #3f51b5;
-    --mat-radio-selected-icon-color: #3f51b5;
-    --mat-radio-selected-pressed-icon-color: #3f51b5;
+    --mat-radio-selected-focus-icon-color: var(--mat-sys-primary);
+    --mat-radio-selected-hover-icon-color: var(--mat-sys-primary);
+    --mat-radio-selected-icon-color: var(--mat-sys-primary);
+    --mat-radio-selected-pressed-icon-color: var(--mat-sys-primary);
     --mat-radio-unselected-focus-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-unselected-hover-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-unselected-icon-color: rgb(0 0 0 / 54%);
@@ -1223,10 +1223,10 @@ html {
     --mat-slider-hover-handle-color: var(--mat-sys-primary);
     --mat-slider-focus-state-layer-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
     --mat-slider-hover-state-layer-color: color-mix(in srgb, var(--mat-sys-primary) 4%, transparent);
-    --mat-slider-inactive-track-color: #3f51b5;
-    --mat-slider-ripple-color: #3f51b5;
+    --mat-slider-inactive-track-color: var(--mat-sys-primary);
+    --mat-slider-ripple-color: var(--mat-sys-primary);
     --mat-slider-with-tick-marks-active-container-color: white;
-    --mat-slider-with-tick-marks-inactive-container-color: #3f51b5;
+    --mat-slider-with-tick-marks-inactive-container-color: var(--mat-sys-primary);
     --mat-slider-disabled-active-track-color: rgb(0 0 0 / 87%);
     --mat-slider-disabled-handle-color: rgb(0 0 0 / 87%);
     --mat-slider-disabled-inactive-track-color: rgb(0 0 0 / 87%);
@@ -1342,16 +1342,16 @@ html {
 
 .mdc-list-item__start,
 .mdc-list-item__end {
-    --mat-radio-checked-ripple-color: #3f51b5;
+    --mat-radio-checked-ripple-color: var(--mat-sys-primary);
     --mat-radio-disabled-label-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-radio-disabled-selected-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-disabled-unselected-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-label-text-color: rgb(0 0 0 / 87%);
     --mat-radio-ripple-color: rgb(0 0 0 / 87%);
-    --mat-radio-selected-focus-icon-color: #3f51b5;
-    --mat-radio-selected-hover-icon-color: #3f51b5;
-    --mat-radio-selected-icon-color: #3f51b5;
-    --mat-radio-selected-pressed-icon-color: #3f51b5;
+    --mat-radio-selected-focus-icon-color: var(--mat-sys-primary);
+    --mat-radio-selected-hover-icon-color: var(--mat-sys-primary);
+    --mat-radio-selected-icon-color: var(--mat-sys-primary);
+    --mat-radio-selected-pressed-icon-color: var(--mat-sys-primary);
     --mat-radio-unselected-focus-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-unselected-hover-icon-color: rgb(0 0 0 / 87%);
     --mat-radio-unselected-icon-color: rgb(0 0 0 / 54%);
@@ -1400,16 +1400,16 @@ html {
     --mat-checkbox-disabled-selected-icon-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-checkbox-disabled-unselected-icon-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-checkbox-selected-checkmark-color: white;
-    --mat-checkbox-selected-focus-icon-color: #3f51b5;
-    --mat-checkbox-selected-hover-icon-color: #3f51b5;
-    --mat-checkbox-selected-icon-color: #3f51b5;
-    --mat-checkbox-selected-pressed-icon-color: #3f51b5;
+    --mat-checkbox-selected-focus-icon-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-hover-icon-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-icon-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-pressed-icon-color: var(--mat-sys-primary);
     --mat-checkbox-unselected-focus-icon-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-hover-icon-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-icon-color: var(--mat-sys-secondary);
-    --mat-checkbox-selected-focus-state-layer-color: #3f51b5;
-    --mat-checkbox-selected-hover-state-layer-color: #3f51b5;
-    --mat-checkbox-selected-pressed-state-layer-color: #3f51b5;
+    --mat-checkbox-selected-focus-state-layer-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-hover-state-layer-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-pressed-state-layer-color: var(--mat-sys-primary);
     --mat-checkbox-unselected-focus-state-layer-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-hover-state-layer-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-pressed-state-layer-color: rgb(0 0 0 / 87%);
@@ -1461,7 +1461,7 @@ html {
 .mat-mdc-list-base.mat-mdc-list-base .mdc-list-item--selected .mdc-list-item__start,
 .mat-mdc-list-base.mat-mdc-list-base .mdc-list-item--activated .mdc-list-item__primary-text,
 .mat-mdc-list-base.mat-mdc-list-base .mdc-list-item--activated .mdc-list-item__start {
-    color: #3f51b5;
+    color: var(--mat-sys-primary);
 }
 
 .mat-mdc-list-base .mdc-list-item--disabled .mdc-list-item__start,
@@ -1562,16 +1562,16 @@ html {
     --mat-tab-disabled-ripple-color: rgb(0 0 0 / 54%);
     --mat-tab-pagination-icon-color: rgb(0 0 0 / 87%);
     --mat-tab-inactive-label-text-color: rgb(0 0 0 / 54%);
-    --mat-tab-active-label-text-color: #3f51b5;
-    --mat-tab-active-ripple-color: #3f51b5;
-    --mat-tab-inactive-ripple-color: #3f51b5;
+    --mat-tab-active-label-text-color: var(--mat-sys-primary);
+    --mat-tab-active-ripple-color: var(--mat-sys-primary);
+    --mat-tab-inactive-ripple-color: var(--mat-sys-primary);
     --mat-tab-inactive-focus-label-text-color: rgb(0 0 0 / 54%);
     --mat-tab-inactive-hover-label-text-color: rgb(0 0 0 / 54%);
-    --mat-tab-active-focus-label-text-color: #3f51b5;
-    --mat-tab-active-hover-label-text-color: #3f51b5;
-    --mat-tab-active-focus-indicator-color: #3f51b5;
-    --mat-tab-active-hover-indicator-color: #3f51b5;
-    --mat-tab-active-indicator-color: #3f51b5;
+    --mat-tab-active-focus-label-text-color: var(--mat-sys-primary);
+    --mat-tab-active-hover-label-text-color: var(--mat-sys-primary);
+    --mat-tab-active-focus-indicator-color: var(--mat-sys-primary);
+    --mat-tab-active-hover-indicator-color: var(--mat-sys-primary);
+    --mat-tab-active-indicator-color: var(--mat-sys-primary);
 }
 
 .mat-mdc-tab-group.mat-accent,
@@ -1610,7 +1610,7 @@ html {
 
 .mat-mdc-tab-group.mat-background-primary,
 .mat-mdc-tab-nav-bar.mat-background-primary {
-    --mat-tab-background-color: #3f51b5;
+    --mat-tab-background-color: var(--mat-sys-primary);
     --mat-tab-foreground-color: white;
 }
 
@@ -1674,16 +1674,16 @@ html {
     --mat-checkbox-disabled-selected-icon-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-checkbox-disabled-unselected-icon-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
     --mat-checkbox-selected-checkmark-color: white;
-    --mat-checkbox-selected-focus-icon-color: #3f51b5;
-    --mat-checkbox-selected-hover-icon-color: #3f51b5;
-    --mat-checkbox-selected-icon-color: #3f51b5;
-    --mat-checkbox-selected-pressed-icon-color: #3f51b5;
+    --mat-checkbox-selected-focus-icon-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-hover-icon-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-icon-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-pressed-icon-color: var(--mat-sys-primary);
     --mat-checkbox-unselected-focus-icon-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-hover-icon-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-icon-color: rgb(0 0 0 / 54%);
-    --mat-checkbox-selected-focus-state-layer-color: #3f51b5;
-    --mat-checkbox-selected-hover-state-layer-color: #3f51b5;
-    --mat-checkbox-selected-pressed-state-layer-color: #3f51b5;
+    --mat-checkbox-selected-focus-state-layer-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-hover-state-layer-color: var(--mat-sys-primary);
+    --mat-checkbox-selected-pressed-state-layer-color: var(--mat-sys-primary);
     --mat-checkbox-unselected-focus-state-layer-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-hover-state-layer-color: rgb(0 0 0 / 87%);
     --mat-checkbox-unselected-pressed-state-layer-color: rgb(0 0 0 / 87%);
@@ -1818,22 +1818,22 @@ html {
 .mat-mdc-raised-button.mat-primary,
 .mat-mdc-outlined-button.mat-primary,
 .mat-tonal-button.mat-primary {
-    --mat-button-filled-container-color: #3f51b5;
+    --mat-button-filled-container-color: var(--mat-sys-primary);
     --mat-button-filled-label-text-color: white;
     --mat-button-filled-ripple-color: color-mix(in srgb, white 12%, transparent);
     --mat-button-filled-state-layer-color: white;
-    --mat-button-outlined-label-text-color: #3f51b5;
+    --mat-button-outlined-label-text-color: var(--mat-sys-primary);
     --mat-button-outlined-outline-color: rgb(0 0 0 / 12%);
-    --mat-button-outlined-ripple-color: color-mix(in srgb, #3f51b5 12%, transparent);
-    --mat-button-outlined-state-layer-color: #3f51b5;
-    --mat-button-protected-container-color: #3f51b5;
+    --mat-button-outlined-ripple-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    --mat-button-outlined-state-layer-color: var(--mat-sys-primary);
+    --mat-button-protected-container-color: var(--mat-sys-primary);
     --mat-button-protected-label-text-color: white;
     --mat-button-protected-ripple-color: color-mix(in srgb, white 12%, transparent);
     --mat-button-protected-state-layer-color: white;
-    --mat-button-text-label-text-color: #3f51b5;
-    --mat-button-text-ripple-color: color-mix(in srgb, #3f51b5 12%, transparent);
-    --mat-button-text-state-layer-color: #3f51b5;
-    --mat-button-tonal-container-color: #3f51b5;
+    --mat-button-text-label-text-color: var(--mat-sys-primary);
+    --mat-button-text-ripple-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    --mat-button-text-state-layer-color: var(--mat-sys-primary);
+    --mat-button-tonal-container-color: var(--mat-sys-primary);
     --mat-button-tonal-label-text-color: white;
     --mat-button-tonal-ripple-color: color-mix(in srgb, white 12%, transparent);
     --mat-button-tonal-state-layer-color: white;
@@ -1950,9 +1950,9 @@ html {
 }
 
 .mat-mdc-icon-button.mat-primary {
-    --mat-icon-button-icon-color: #3f51b5;
-    --mat-icon-button-state-layer-color: #3f51b5;
-    --mat-icon-button-ripple-color: color-mix(in srgb, #3f51b5 12%, transparent);
+    --mat-icon-button-icon-color: var(--mat-sys-primary);
+    --mat-icon-button-state-layer-color: var(--mat-sys-primary);
+    --mat-icon-button-ripple-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
 }
 
 .mat-mdc-icon-button.mat-accent {
@@ -2038,10 +2038,10 @@ html {
 
 .mat-mdc-fab.mat-primary,
 .mat-mdc-mini-fab.mat-primary {
-    --mat-fab-container-color: #3f51b5;
+    --mat-fab-container-color: var(--mat-sys-primary);
     --mat-fab-foreground-color: white;
-    --mat-fab-ripple-color: color-mix(in srgb, #3f51b5 12%, transparent);
-    --mat-fab-small-container-color: #3f51b5;
+    --mat-fab-ripple-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    --mat-fab-small-container-color: var(--mat-sys-primary);
     --mat-fab-small-foreground-color: white;
     --mat-fab-small-ripple-color: color-mix(in srgb, white 12%, transparent);
     --mat-fab-small-state-layer-color: white;
@@ -2142,7 +2142,7 @@ html {
 }
 
 html {
-    --mat-progress-spinner-active-indicator-color: #3f51b5;
+    --mat-progress-spinner-active-indicator-color: var(--mat-sys-primary);
 }
 
 .mat-accent {
@@ -2173,7 +2173,7 @@ html {
 }
 
 html {
-    --mat-badge-background-color: #3f51b5;
+    --mat-badge-background-color: var(--mat-sys-primary);
     --mat-badge-text-color: white;
     --mat-badge-disabled-state-background-color: color-mix(in srgb, rgb(0 0 0 / 87%) 12%, transparent);
     --mat-badge-disabled-state-text-color: color-mix(in srgb, rgb(0 0 0 / 87%) 38%, transparent);
@@ -2273,17 +2273,17 @@ html {
 }
 
 html {
-    --mat-datepicker-calendar-date-in-range-state-background-color: color-mix(in srgb, #3f51b5 20%, transparent);
+    --mat-datepicker-calendar-date-in-range-state-background-color: color-mix(in srgb, var(--mat-sys-primary) 20%, transparent);
     --mat-datepicker-calendar-date-in-comparison-range-state-background-color: color-mix(in srgb, #ff4081 20%, transparent);
     --mat-datepicker-calendar-date-in-overlap-range-state-background-color: #a8dab5;
     --mat-datepicker-calendar-date-in-overlap-range-selected-state-background-color: rgb(69.5241935484 163.4758064516 93.9516129032);
     --mat-datepicker-calendar-date-selected-state-text-color: white;
-    --mat-datepicker-calendar-date-selected-state-background-color: #3f51b5;
-    --mat-datepicker-calendar-date-selected-disabled-state-background-color: color-mix(in srgb, #3f51b5 38%, transparent);
+    --mat-datepicker-calendar-date-selected-state-background-color: var(--mat-sys-primary);
+    --mat-datepicker-calendar-date-selected-disabled-state-background-color: color-mix(in srgb, var(--mat-sys-primary) 38%, transparent);
     --mat-datepicker-calendar-date-today-selected-state-outline-color: white;
-    --mat-datepicker-calendar-date-focus-state-background-color: color-mix(in srgb, #3f51b5 12%, transparent);
-    --mat-datepicker-calendar-date-hover-state-background-color: color-mix(in srgb, #3f51b5 4%, transparent);
-    --mat-datepicker-toggle-active-state-icon-color: #3f51b5;
+    --mat-datepicker-calendar-date-focus-state-background-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    --mat-datepicker-calendar-date-hover-state-background-color: color-mix(in srgb, var(--mat-sys-primary) 4%, transparent);
+    --mat-datepicker-toggle-active-state-icon-color: var(--mat-sys-primary);
     --mat-datepicker-toggle-icon-color: rgb(0 0 0 / 54%);
     --mat-datepicker-calendar-body-label-text-color: rgb(0 0 0 / 54%);
     --mat-datepicker-calendar-period-button-text-color: rgb(0 0 0 / 87%);
@@ -2450,7 +2450,7 @@ html {
 }
 
 .mat-icon.mat-primary {
-    --mat-icon-color: #3f51b5;
+    --mat-icon-color: var(--mat-sys-primary);
 }
 
 .mat-icon.mat-accent {
@@ -2484,11 +2484,11 @@ html {
 
 html {
     --mat-stepper-header-icon-foreground-color: white;
-    --mat-stepper-header-selected-state-icon-background-color: #3f51b5;
+    --mat-stepper-header-selected-state-icon-background-color: var(--mat-sys-primary);
     --mat-stepper-header-selected-state-icon-foreground-color: white;
-    --mat-stepper-header-done-state-icon-background-color: #3f51b5;
+    --mat-stepper-header-done-state-icon-background-color: var(--mat-sys-primary);
     --mat-stepper-header-done-state-icon-foreground-color: white;
-    --mat-stepper-header-edit-state-icon-background-color: #3f51b5;
+    --mat-stepper-header-edit-state-icon-background-color: var(--mat-sys-primary);
     --mat-stepper-header-edit-state-icon-foreground-color: white;
     --mat-stepper-container-color: white;
     --mat-stepper-line-color: rgb(0 0 0 / 12%);
@@ -2547,7 +2547,7 @@ html {
 }
 
 .mat-toolbar.mat-primary {
-    --mat-toolbar-container-background-color: #3f51b5;
+    --mat-toolbar-container-background-color: var(--mat-sys-primary);
     --mat-toolbar-container-text-color: white;
 }
 

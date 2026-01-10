@@ -9,9 +9,9 @@
         <mat-icon [svgIcon]="svgIcon"></mat-icon>
     }
     @if (sortIndication === 'arrows') {
-        <mat-icon [class.active]="currentlySortedField === field && currentSortDirection === 1" class="sort-arrow">north</mat-icon>
+        <app-arrow-up-icon [active]="currentlySortedField === field && currentSortDirection === 1"></app-arrow-up-icon>
     }
     @if (sortIndication === 'arrows') {
-        <mat-icon [class.active]="currentlySortedField === field && currentSortDirection === -1" class="sort-arrow">south</mat-icon>
+        <app-arrow-down-icon [active]="currentlySortedField === field && currentSortDirection === -1"></app-arrow-down-icon>
     }
 </div>

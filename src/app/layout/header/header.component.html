@@ -59,7 +59,7 @@
                 </li>
                 <li [class.hidden]="breakpointService.sgGtMd()" class="p-l-0">
                     <!--Toggle naviOpen on click-->
-                    <button matFab (click)="toggleNavi()">
+                    <button type="button" class="tertiary-button" (click)="toggleNavi()">
                         @if (naviOpen) {
                             <app-close-icon></app-close-icon>
                         } @else {

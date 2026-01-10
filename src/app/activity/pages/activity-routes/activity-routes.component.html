@@ -259,15 +259,15 @@
                                 </mat-form-field> -->
                     </mat-accordion>
                 </form>
-                <div class="flex flex-justify-space-between bottom show-all" (click)="removeAllFilters()">
-                    <div class="flex flex-row flex-align-center">
-                        <div class="close-icon">
+                <div class="flex flex-justify-space-between bottom show-all">
+                    <button type="button" (click)="removeAllFilters()" class="tertiary-button flex flex-align-center">
+                        <div>
                             <app-refresh-icon></app-refresh-icon>
                         </div>
-                        <div>
-                            <span class="p-l-4">Ponastavi vse</span>
+                        <div class="p-l-4">
+                            <span>Ponastavi vse</span>
                         </div>
-                    </div>
+                    </button>
                 </div>
             </section>
         }
@@ -324,15 +324,15 @@
                     </div>
                 }
 
-                <div class="flex flex-justify-space-between bottom show-all" (click)="resetColumns()">
-                    <div class="flex flex-row flex-align-center">
-                        <div class="close-icon">
+                <div class="flex flex-justify-space-between bottom show-all">
+                    <button type="button" (click)="resetColumns()" class="tertiary-button flex flex-align-center">
+                        <div>
                             <app-refresh-icon></app-refresh-icon>
                         </div>
-                        <div>
-                            <span class="p-l-4">Ponastavi vse</span>
+                        <div class="p-l-4">
+                            <span>Ponastavi vse</span>
                         </div>
-                    </div>
+                    </button>
                 </div>
             </section>
         }

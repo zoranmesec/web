@@ -47,7 +47,7 @@ interface GradeSlots {
     standalone: true
 })
 export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
-    crag = input.required<Crag>();
+    sgCrag = input.required<Crag>();
 
     attendanceDistribution: IDistribution[] = [];
 
@@ -294,19 +294,19 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
 
     get missingInfo(): string[] {
         const missing: string[] = [];
-        if (!this.crag().approachTime) {
+        if (!this.sgCrag().approachTime) {
             missing.push('času dostopa');
         }
-        if (!this.crag().seasons || this.crag().seasons.length === 0) {
+        if (!this.sgCrag().seasons || this.sgCrag().seasons.length === 0) {
             missing.push('sezoni');
         }
-        if (!this.crag().wallAngles || this.crag().wallAngles.length === 0) {
+        if (!this.sgCrag().wallAngles || this.sgCrag().wallAngles.length === 0) {
             missing.push('naklonu sten');
         }
-        if (!this.crag().rainproof) {
+        if (!this.sgCrag().rainproof) {
             missing.push('primernosti za plezanje v dežju');
         }
-        if (!this.crag().orientation && this.crag().orientations && this.crag().orientations.length === 0) {
+        if (!this.sgCrag().orientation && this.sgCrag().orientations && this.sgCrag().orientations.length === 0) {
             missing.push('usmerjenosti sten');
         }
         return missing;
@@ -319,7 +319,7 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     get routeHeight(): { minHeight: number; maxHeight: number } {
         let minHeight = 9999;
         let maxHeight = 0;
-        this.crag().sectors.forEach((sector) => {
+        this.sgCrag().sectors.forEach((sector) => {
             sector.routes.forEach((route) => {
                 if (route.length) {
                     if (route.length < minHeight) {
@@ -360,9 +360,9 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     async init() {
-        const gradingSystemId = this.crag().defaultGradingSystem?.id || 'french';
+        const gradingSystemId = this.sgCrag().defaultGradingSystem?.id || 'french';
         let routes = [];
-        this.crag().sectors.forEach((sector) => {
+        this.sgCrag().sectors.forEach((sector) => {
             routes = routes.concat(sector.routes);
         });
 
@@ -393,13 +393,13 @@ export class CragInfoComponent implements OnInit, OnChanges, OnDestroy {
         this.gradeSlots = { ...gradeSlots };
 
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'];
-        this.attendanceDistribution = this.crag().activityByMonth.find((a) => a > 1)
-            ? this.crag().activityByMonth.map((value, m) => ({
+        this.attendanceDistribution = this.sgCrag().activityByMonth.find((a) => a > 1)
+            ? this.sgCrag().activityByMonth.map((value, m) => ({
                   label: months[m],
                   value: value
               }))
             : [];
 
-        this.crags$.next([this.crag()]);
+        this.crags$.next([this.sgCrag()]);
     }
 }

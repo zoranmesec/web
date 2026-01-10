@@ -48,10 +48,6 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     showAllCountries = false;
     currentCountrySlug: string | undefined = undefined;
     subscriptions: Subscription[] = [];
-    activatedMinGrade: string | null = null;
-    activatedMaxGrade: string | null = null;
-    activatedMinApproachTime: number | null = null;
-    activatedMaxApproachTime: number | null = null;
 
     ngOnDestroy(): void {
         Object.entries(this.cragForm.controls).forEach(([_key, control]) => {
@@ -88,6 +84,7 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
     activatedWallAngles: string[] = [];
     activatedSeasons: string[] = [];
     activatedRainProof: boolean | null = null;
+    activatedAllowEmpty: boolean | null = null;
     constructor(
         private router: Router,
         private readonly fb: FormBuilder,
@@ -110,8 +107,9 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
             minGrade: new FormControl(null, { validators: [] }),
             maxGrade: new FormControl(null, { validators: [] }),
             rainproof: new FormControl(false),
-            minApproachTime: fb.control(0),
-            maxApproachTime: fb.control(120)
+            minApproachTime: fb.control(null),
+            maxApproachTime: fb.control(null),
+            allowEmpty: fb.control(false)
         });
 
         this.orientations.forEach((orientation) => {
@@ -187,34 +185,42 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.activatedRoute.snapshot.paramMap.get('dez')) {
             this.activatedRainProof = JSON.parse(this.activatedRoute.snapshot.paramMap.get('dez'));
+            this.cragForm.controls['rainproof'].setValue(this.activatedRainProof);
         } else {
             this.activatedRainProof = null;
+            this.cragForm.controls['rainproof'].setValue(false);
+        }
+
+        if (this.activatedRoute.snapshot.paramMap.get('brezPodatkov')) {
+            this.activatedAllowEmpty = JSON.parse(this.activatedRoute.snapshot.paramMap.get('brezPodatkov'));
+            this.cragForm.controls['allowEmpty'].setValue(this.activatedAllowEmpty);
+        } else {
+            this.activatedAllowEmpty = null;
+            this.cragForm.controls['allowEmpty'].setValue(false);
         }
 
         if (this.activatedRoute.snapshot.paramMap.get('minGrade')) {
-            this.activatedMinGrade = this.activatedRoute.snapshot.paramMap.get('minGrade');
-            this.cragForm.controls['minGrade'].setValue(Number(this.activatedMinGrade));
+            this.cragForm.controls['minGrade'].setValue(Number(this.activatedRoute.snapshot.paramMap.get('minGrade')));
         } else {
-            this.activatedMinGrade = null;
+            this.cragForm.controls['minGrade'].setValue(null);
         }
 
         if (this.activatedRoute.snapshot.paramMap.get('maxGrade')) {
-            this.activatedMaxGrade = this.activatedRoute.snapshot.paramMap.get('maxGrade');
-            this.cragForm.controls['maxGrade'].setValue(Number(this.activatedMaxGrade));
+            this.cragForm.controls['maxGrade'].setValue(Number(this.activatedRoute.snapshot.paramMap.get('maxGrade')));
         } else {
-            this.activatedMaxGrade = null;
+            this.cragForm.controls['maxGrade'].setValue(null);
         }
 
         if (this.activatedRoute.snapshot.paramMap.get('minPristopniCas')) {
-            this.activatedMinApproachTime = Number(this.activatedRoute.snapshot.paramMap.get('minPristopniCas'));
+            this.cragForm.controls['minApproachTime'].setValue(Number(this.activatedRoute.snapshot.paramMap.get('minPristopniCas')));
         } else {
-            this.activatedMinApproachTime = 0;
+            this.cragForm.controls['minApproachTime'].setValue(null);
         }
 
         if (this.activatedRoute.snapshot.paramMap.get('maxPristopniCas')) {
-            this.activatedMaxApproachTime = Number(this.activatedRoute.snapshot.paramMap.get('maxPristopniCas'));
+            this.cragForm.controls['maxApproachTime'].setValue(Number(this.activatedRoute.snapshot.paramMap.get('maxPristopniCas')));
         } else {
-            this.activatedMaxApproachTime = 120;
+            this.cragForm.controls['maxApproachTime'].setValue(null);
         }
 
         this.routeTypes.forEach((routeType) => {
@@ -228,12 +234,6 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         this.wallAngles.forEach((wallAngle) => {
             this.cragForm.controls[wallAngle.wallAngle].setValue(this.activatedWallAngles.includes(wallAngle.wallAngle));
         });
-
-        if (this.activatedRainProof !== null) {
-            this.cragForm.controls['rainproof'].setValue(this.activatedRainProof);
-        } else {
-            this.cragForm.controls['rainproof'].setValue(false);
-        }
 
         this.currentCountrySlug = this.country.slug;
         this.initAreas(this.activatedAreas);
@@ -323,6 +323,10 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
         });
     }
 
+    changeAllowEmpty() {
+        this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
+    }
+
     approachTimeChanged() {
         this.router.navigate(this.makeRoute(this.country.slug, this.makeFilterParams()));
     }
@@ -350,12 +354,17 @@ export class CragsTocComponent implements OnInit, OnDestroy, OnChanges {
             minGrade: this.cragForm.controls['minGrade'].value,
             maxGrade: this.cragForm.controls['maxGrade'].value,
             minPristopniCas: this.cragForm.controls['minApproachTime'].value,
-            maxPristopniCas: this.cragForm.controls['maxApproachTime'].value
+            maxPristopniCas: this.cragForm.controls['maxApproachTime'].value,
+            brezPodatkov: this.cragForm.controls['allowEmpty'].value ? '1' : '0'
         };
-        console.log(this.activatedRainProof, this.cragForm.controls['rainproof'].value);
 
+        // Prevents adding default values to the route
         if (this.activatedRainProof === null && !this.cragForm.controls['rainproof'].value) {
             delete values.dez;
+        }
+
+        if (this.activatedAllowEmpty === null && !this.cragForm.controls['allowEmpty'].value) {
+            delete values.brezPodatkov;
         }
         return values;
     }

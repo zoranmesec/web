@@ -1,9 +1,4 @@
 @use '@angular/material' as mat;
-@use './../../../m3-theme.scss' as m3-theme;
-
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
-$light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
-
 @use './../../../styles/global.scss' as global;
 
 :host {
@@ -42,7 +37,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
         align-items: center;
         display: flex;
         text-align: center;
-        border-bottom: 1px solid $grey;
+        border-bottom: 1px solid var(--mat-sys-outline-variant);
     }
 
     section#crag-map-container {
@@ -75,14 +70,14 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
         }
 
         .border-right {
-            border-right: 1px solid $grey !important;
+            border-right: 1px solid var(--mat-sys-outline-variant) !important;
             padding: 0 4px;
             height: 40px !important;
         }
 
         @media only screen and (max-width: global.$breakpoint-lg) {
             .border-right {
-                padding: 0 !important;
+                padding: 0 4px 0 4px !important;
             }
         }
     }
@@ -104,7 +99,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
     .filter-chip {
         align-items: center;
-        background-color: $light-blue;
+        background-color: var(--mat-sys-primary);
         border-radius: 6px;
         padding: 4px 8px;
         cursor: pointer;
@@ -122,7 +117,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
     .no-results {
         text-align: center;
         width: 100%;
-        border-top: 1px solid $grey;
+        border-top: 1px solid var(--mat-sys-outline-variant);
         padding-top: 8px;
 
         a {
@@ -130,5 +125,30 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
             text-decoration: none;
             font-weight: var(--mat-sys-title-medium-weight);
         }
+    }
+
+    .crag-info-container {
+        height: 24px;
+    }
+
+    .crag-info-container > div {
+        border-right: 1px solid var(--mat-sys-outline-variant);
+        padding: 0 4px 0 4px;
+    }
+
+    .crag-info-container > div:last-child {
+        border-right: none;
+    }
+
+    .crag-info-container > div:first-child {
+        padding-left: 0 !important;
+    }
+
+    .crag-info-text {
+        font: var(--mat-sys-body-medium);
+    }
+
+    .crag-routes-text {
+        font: var(--mat-sys-body-small);
     }
 }

@@ -11,6 +11,17 @@ export enum Orientation {
     northwest = 'severozahod'
 }
 
+export enum OrientationShort {
+    north = 'S',
+    northeast = 'SV',
+    east = 'V',
+    southeast = 'JV',
+    south = 'J',
+    southwest = 'JZ',
+    west = 'Z',
+    northwest = 'SZ'
+}
+
 @Pipe({
     name: 'orientation',
     standalone: true
@@ -36,8 +47,10 @@ export class OrientationPipe implements PipeTransform {
             return sides[value[0]][display] + (display === 'full' ? 'o' : '') + sides[value[1]][display];
         }
 
-        if (value.length > 3) {
+        if (value.length > 3 && display === 'full') {
             return Orientation[value as keyof typeof Orientation] || '';
+        } else if (value.length > 3 && display === 'short') {
+            return OrientationShort[value as keyof typeof OrientationShort] || '';
         }
 
         return '';

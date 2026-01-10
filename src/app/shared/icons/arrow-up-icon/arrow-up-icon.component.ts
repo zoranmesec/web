@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
     selector: 'app-arrow-up-icon',
@@ -7,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrl: './arrow-up-icon.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArrowUpIconComponent {}
+export class ArrowUpIconComponent {
+    active = input<boolean>(false);
+}

@@ -128,11 +128,6 @@ body {
         width: 100% !important;
     }
 
-    .mat-mdc-option:hover {
-        // background-color: mat.get-theme-color(m3-theme.$light-theme, secondary, 98) !important;
-        color: var(--mat-sys-secondary) !important;
-    }
-
     .mat-select-search-input {
         background-color: white !important;
         color: var(--mat-sys-on-surface-variant);

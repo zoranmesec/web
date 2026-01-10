@@ -1,39 +1,39 @@
 <main class="w-100 flex flex-column">
     <section id="info">
-        @if (crag().orientations && crag().orientations.length > 0) {
+        @if (sgCrag().orientations && sgCrag().orientations.length > 0) {
             <div class="flex flex-align-center">
-                <app-orientation-icon [sgOrientations]="crag().orientations" matTooltip="Usmerjenost"></app-orientation-icon>
+                <app-orientation-icon [sgOrientations]="sgCrag().orientations" matTooltip="Usmerjenost"></app-orientation-icon>
             </div>
-        } @else if (crag().orientation) {
+        } @else if (sgCrag().orientation) {
             <div>
-                <app-orientation-icon [sgOrientations]="crag().orientation"></app-orientation-icon>
+                <app-orientation-icon [sgOrientations]="sgCrag().orientation"></app-orientation-icon>
             </div>
         }
-        @if (crag().approachTime) {
+        @if (sgCrag().approachTime) {
             <div class="flex flex-row flex-align-end">
                 <app-approach-icon></app-approach-icon>
-                <span class="value">{{ crag().approachTime }} min</span>
+                <span class="value">{{ sgCrag().approachTime }} min</span>
             </div>
         }
         <div class="flex flex-row flex-align-end">
             <app-height-icon></app-height-icon>
             <span class="value">{{ routeHeight.minHeight }} - {{ routeHeight.maxHeight }} m</span>
         </div>
-        @if (crag().wallAngles && crag().wallAngles.length > 0) {
+        @if (sgCrag().wallAngles && sgCrag().wallAngles.length > 0) {
             <div class="flex flex-row gap-16">
-                @for (angle of crag().wallAngles; track angle) {
+                @for (angle of sgCrag().wallAngles; track angle) {
                     <app-wall-angle-icon [wallAngle]="angle" [matTooltip]="angle | wallAngle"></app-wall-angle-icon>
                 }
             </div>
         }
-        @if (crag().seasons && crag().seasons.length > 0) {
+        @if (sgCrag().seasons && sgCrag().seasons.length > 0) {
             <div class="flex flex-row gap-16">
-                @for (season of crag().seasons; track season) {
+                @for (season of sgCrag().seasons; track season) {
                     <app-season-icon [season]="season" [matTooltip]="season | season"></app-season-icon>
                 }
             </div>
         }
-        @if (crag().rainproof) {
+        @if (sgCrag().rainproof) {
             <div>
                 <app-rainproof-icon matTooltip="Plezanje v dežju je možno"></app-rainproof-icon>
             </div>
@@ -57,13 +57,13 @@
                     <span>{{ info }}</span>
                 }
                 .
-                <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag().id]">Dodaj manjkajoče podatke.</a>
+                <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj manjkajoče podatke.</a>
             </div>
         </section>
     }
     <section id="description" class="flex" [class.flex-column]="breakpointService.sgLtLg()" [class.flex-row]="breakpointService.sgGtMd()">
-        @if (crag().images && crag().images.length > 0) {
-            <app-crag-image [crag]="crag()"></app-crag-image>
+        @if (sgCrag().images && sgCrag().images.length > 0) {
+            <app-crag-image [crag]="sgCrag()"></app-crag-image>
         } @else {
             <div id="crag-image" class="w-100 flex flex-row">
                 <div>
@@ -71,14 +71,14 @@
                 </div>
                 <div class="p-l-8">
                     Plezališče je brez naslovne fotografije.
-                    <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag().id]">Dodaj fotografijo.</a>
+                    <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj fotografijo.</a>
                 </div>
             </div>
         }
-        @if (crag().description) {
+        @if (sgCrag().description) {
             <div class="p-8">
                 <h2>Opis plezališča</h2>
-                {{ crag().description }}
+                {{ sgCrag().description }}
             </div>
         } @else {
             <div class="w-100">
@@ -91,7 +91,7 @@
                     </div>
                     <div>
                         Plezališče je brez opisa.
-                        <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag().id]">Dodaj opis.</a>
+                        <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj opis.</a>
                     </div>
                 </div>
             </div>
@@ -122,8 +122,8 @@
         <div class="access">
             <h2>Dostop</h2>
             <div>
-                @if (crag().access) {
-                    {{ crag().access }}
+                @if (sgCrag().access) {
+                    {{ sgCrag().access }}
                 } @else {
                     <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
                         <div>
@@ -131,7 +131,7 @@
                         </div>
                         <div>
                             Plezališče je brez opisa dostopa.
-                            <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag().id]">Dodaj opis dostopa.</a>
+                            <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj opis dostopa.</a>
                         </div>
                     </div>
                 }
@@ -139,27 +139,27 @@
             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" class="m-t-8">
                 <mat-icon svgIcon="wall" matTooltip="Lokacija plezališča"></mat-icon>
                 <div>
-                    @if (!crag().lat || !crag().lon) {
+                    @if (!sgCrag().lat || !sgCrag().lon) {
                         <div fxFlex fxLayout="row nowrap" fxLayoutGap="8px" class="w-100">
                             <div>
                                 <app-question-icon></app-question-icon>
                             </div>
                             <div>
                                 Plezališče je brez koordinat stene.
-                                <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', crag().id]">Dodaj koordinate stene.</a>
+                                <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj koordinate stene.</a>
                             </div>
                         </div>
                     } @else {
-                        {{ crag().lat | number: '1.5-5' }}
-                        {{ crag().lon | number: '1.5-5' }}
+                        {{ sgCrag().lat | number: '1.5-5' }}
+                        {{ sgCrag().lon | number: '1.5-5' }}
                     }
                 </div>
             </div>
         </div>
-        @if (crag().lat && crag().lon) {
+        @if (sgCrag().lat && sgCrag().lon) {
             <div class="crag-map">
                 @defer (on viewport) {
-                    <app-map [height]="260" [crag]="crag()" [crags]="crags$"></app-map>
+                    <app-map [height]="260" [crag]="sgCrag()" [crags]="crags$"></app-map>
                 } @placeholder {
                     <p class="fallback">Zemljevid</p>
                 }

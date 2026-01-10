@@ -32,7 +32,7 @@
     </section>
     <section [class.m-16]="breakpointService.sgGtMd() && activeTab !== 'galerija'">
         @if (activeTab === 'info') {
-            <app-crag-info [crag]="crag"></app-crag-info>
+            <app-crag-info [sgCrag]="crag"></app-crag-info>
         }
         @if (activeTab === 'smeri') {
             <app-crag-routes [crag]="crag"></app-crag-routes>

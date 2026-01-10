@@ -220,6 +220,18 @@
             </div>
         </mat-expansion-panel>
     </mat-accordion>
+    <div class="p-l-16 p-r-16" [formGroup]="cragForm">
+        <label class="checkbox-container">
+            <input
+                type="checkbox"
+                [checked]="cragForm.controls.allowEmpty.value"
+                [formControlName]="'allowEmpty'"
+                (change)="changeAllowEmpty()"
+            />
+            <span class="checkmark m-t-4"></span>
+            <span class="checkmark-label">Prikaži plezališča brez podatkov</span>
+        </label>
+    </div>
     <div class="flex flex-justify-space-between m-l-8" (click)="removeAllFilters()">
         <button type="button" (click)="removeAllFilters()" class="tertiary-button flex flex-align-center">
             <div>

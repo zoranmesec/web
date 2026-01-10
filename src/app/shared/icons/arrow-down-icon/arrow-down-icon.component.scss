@@ -2,4 +2,12 @@
     display: block;
     width: 24px !important;
     height: 24px !important;
+
+    svg path {
+        fill: var(--mat-sys-on-surface-variant);
+    }
+
+    svg.active path {
+        fill: var(--mat-sys-on-surface);
+    }
 }
