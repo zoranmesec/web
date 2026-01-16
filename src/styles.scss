@@ -6,6 +6,7 @@
 @use './styles/reset' as reset;
 @use './styles/button' as button;
 @use './styles/checkbox' as checkbox;
+@use './styles/radio-button' as radio-button;
 
 // Plus imports for other components in your app.
 @import 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap';
@@ -74,12 +75,6 @@ body {
     );
     @include mat.radio-overrides(
         (
-            selected-icon-color: var(--mat-sys-secondary),
-            selected-pressed-icon-color: white,
-            unselected-icon-color: var(--mat-sys-outline-variant),
-            unselected-focus-icon-color: var(--mat-sys-secondary),
-            selected-focus-icon-color: var(--mat-sys-secondary),
-            // selected-hover-icon-color: mat.get-theme-color(m3-theme.$light-theme, secondary, 60),
             label-text-size: 16px
         )
     );
@@ -124,6 +119,15 @@ body {
         padding: 0 !important;
     }
 
+    .mdc-radio__outer-circle {
+        border-width: 1px !important;
+    }
+
+    .mat-mdc-radio-button .mdc-radio__background {
+        height: 16px !important;
+        width: 16px !important;
+    }
+
     mat-slider {
         width: 100% !important;
     }
@@ -137,9 +141,7 @@ body {
         --mat-form-field-filled-container-color: white;
         --mat-form-field-outlined-container-shape: 8px;
         --mat-select-panel-background-color: white;
-        --mat-option-selected-state-label-text-color: var(--mat-sys-secondary);
-        --mat-radio-checked-ripple-color: var(--mat-sys-secondary);
-        --mat-radio-selected-icon-color: var(--mat-sys-secondary);
+        --mat-option-selected-state-label-text-color: var(--mat-sys-primary);
         --mat-snackbar-container-color: var(--mat-sys-surface) !important;
         --mat-button-filled-container-color: var(--mat-sys-secondary) !important;
         --mat-button-filled-container-shape: 8px !important;

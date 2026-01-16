@@ -2,14 +2,14 @@
     <div class="flex flex-justify-space-between top">
         <div class="flex flex-row flex-align-center">
             <div>
-                <mat-icon class="p-t-4">tune</mat-icon>
+                <app-filter-icon></app-filter-icon>
             </div>
             <div>
                 <span class="p-l-4">Filtriraj</span>
             </div>
         </div>
         <div class="close-icon" (click)="closeFilters()">
-            <mat-icon class="map-icon">close</mat-icon>
+            <app-close-icon></app-close-icon>
         </div>
     </div>
     @if (filtersForm) {
@@ -19,13 +19,32 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title> Glede na moje poskuse </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <mat-radio-group class="filter-group" formControlName="myAscents">
-                        <mat-radio-button value="all" color="var(--mat-sys-secondary)">Vse</mat-radio-button>
-                        <mat-radio-button value="climbed" color="var(--mat-sys-secondary)">Preplezane</mat-radio-button>
-                        <mat-radio-button value="attempted" color="var(--mat-sys-secondary)">Poskušane</mat-radio-button>
-                        <mat-radio-button value="notClimbed" color="var(--mat-sys-secondary)">Nepreplezane</mat-radio-button>
-                        <mat-radio-button value="notAttempted" color="var(--mat-sys-secondary)">Neposkušane</mat-radio-button>
-                    </mat-radio-group>
+
+                    <label class="radio-container">
+                        <input type="radio" value="all" formControlName="myAscents" />
+                        <span class="checkdot"></span>
+                        <span class="checkdot-label">Vse</span>
+                    </label>
+                    <label class="radio-container">
+                        <input type="radio" value="climbed" formControlName="myAscents" />
+                        <span class="checkdot"></span>
+                        <span class="checkdot-label">Preplezane</span>
+                    </label>
+                    <label class="radio-container">
+                        <input type="radio" value="attempted" formControlName="myAscents" />
+                        <span class="checkdot"></span>
+                        <span class="checkdot-label">Poskušane</span>
+                    </label>
+                    <label class="radio-container">
+                        <input type="radio" value="notClimbed" formControlName="myAscents" />
+                        <span class="checkdot"></span>
+                        <span class="checkdot-label">Nepreplezane</span>
+                    </label>
+                    <label class="radio-container">
+                        <input type="radio" value="notAttempted" formControlName="myAscents" />
+                        <span class="checkdot"></span>
+                        <span class="checkdot-label">Neposkušane</span>
+                    </label>
                 </mat-expansion-panel>
                 <mat-expansion-panel expanded="" formGroupName="starRating">
                     <mat-expansion-panel-header>
@@ -73,7 +92,7 @@
     <button class="tertiary-button" (click)="removeAllFilters()">
         <div class="flex flex-row flex-align-center">
             <div class="close-icon">
-                <mat-icon class="map-icon">refresh</mat-icon>
+                <app-refresh-icon></app-refresh-icon>
             </div>
             <div>
                 <span class="p-l-4">Ponastavi vse</span>

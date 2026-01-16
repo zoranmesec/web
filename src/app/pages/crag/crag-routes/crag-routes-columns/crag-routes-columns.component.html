@@ -22,16 +22,18 @@
                                 <input type="checkbox" [formControlName]="column.field" />
                                 <span class="checkmark"></span>
                                 @if (column.field === 'starRating') {
-                                    <span class="checkmark-label"><mat-icon>star</mat-icon>{{ column.selectLabel }}</span>
+                                    <span class="checkmark-label flex"
+                                        ><app-star-full-icon></app-star-full-icon>{{ column.selectLabel }}</span
+                                    >
                                 }
                                 @if (column.field === 'multipitch') {
-                                    <span class="checkmark-label"><mat-icon svgIcon="multipitch"></mat-icon>{{ column.selectLabel }}</span>
+                                    <span class="checkmark-label">MP {{ column.selectLabel }}</span>
                                 }
                                 @if (column.field === 'comments') {
-                                    <span class="checkmark-label"><mat-icon>comment</mat-icon>{{ column.selectLabel }}</span>
+                                    <span class="checkmark-label flex"><app-comment-icon></app-comment-icon>{{ column.selectLabel }}</span>
                                 }
                                 @if (column.field === 'myAscents') {
-                                    <span class="checkmark-label"><mat-icon>check</mat-icon>{{ column.selectLabel }}</span>
+                                    <span class="checkmark-label flex"><app-check-icon></app-check-icon>{{ column.selectLabel }}</span>
                                 }
                                 @if (
                                     column.field !== 'starRating' &&
@@ -53,14 +55,14 @@
         </div>
     }
 
-    <div class="flex flex-justify-space-between bottom show-all" (click)="resetColumns()">
-        <div class="flex flex-row flex-align-center reset-all">
+    <button class="tertiary-button" (click)="resetColumns()">
+        <div class="flex flex-row flex-align-center">
             <div class="close-icon">
-                <mat-icon class="map-icon">refresh</mat-icon>
+                <app-refresh-icon></app-refresh-icon>
             </div>
             <div>
                 <span class="p-l-4">Ponastavi vse</span>
             </div>
         </div>
-    </div>
+    </button>
 </section>

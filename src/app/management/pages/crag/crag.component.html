@@ -9,12 +9,12 @@
         <div class="flex flex-row flex-justify-center tabs">
             <div>&nbsp;</div>
             <div [class.active]="true" class="tab">
-                <app-info-icon [active]="true"></app-info-icon>
+                <app-info-icon [sgActive]="true"></app-info-icon>
                 <span> Osnovni podatki </span>
             </div>
             <div>&nbsp;</div>
             <div [class.disabled]="crag === undefined" class="tab" (click)="goToSectors()">
-                <app-routes-icon [active]="false"></app-routes-icon>
+                <app-routes-icon [sgActive]="false"></app-routes-icon>
                 @if (!breakpointService.sgLtMd()) {
                     <span> Sektorji in smeri </span>
                 }

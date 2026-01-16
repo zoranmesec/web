@@ -8,5 +8,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryIconComponent {
-    active = input<boolean>(false);
+    sgActive = input<boolean>(false);
 }

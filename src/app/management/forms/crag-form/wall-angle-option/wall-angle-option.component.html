@@ -7,7 +7,7 @@
     [class.wall-angle-option]="!disabled()"
     (click)="selectWallAngle()"
 >
-    <app-wall-angle-icon [wallAngle]="wallAngleData().wallAngle" [active]="!disabled() && (active || selected)"></app-wall-angle-icon>
+    <app-wall-angle-icon [wallAngle]="wallAngleData().wallAngle" [sgActive]="!disabled() && (active || selected)"></app-wall-angle-icon>
     <span>
         {{ wallAngleData().formattedWallAngle }}
     </span>

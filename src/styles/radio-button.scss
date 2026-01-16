@@ -1,0 +1,80 @@
+@use './global' as global;
+/* The container */
+.radio-container {
+    display: flex;
+    position: relative;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkdot {
+    position: inherit;
+    border-radius: 50%;
+    height: 16px;
+    width: 16px;
+    border: 1px solid var(--mat-sys-secondary-fixed-dim);
+    background-color: #fff;
+
+    display: flex;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.checkdot-label {
+    margin-left: 8px;
+    padding-top: 2px;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:active input ~ .checkdot {
+    border: 1px solid var(--mat-sys-tertiary-fixed-dim);
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-container input:checked ~ .checkdot {
+    background-color: white;
+    border: 1px solid var(--mat-sys-primary);
+}
+
+.radio-container input:checked ~ .checkdot::after {
+    background-color: var(--mat-sys-primary);
+}
+
+.radio-container input:checked:focus ~ .checkdot {
+    box-shadow:
+        -3px -3px var(--mat-sys-on-primary-fixed-variant),
+        3px 3px var(--mat-sys-on-primary-fixed-variant),
+        3px -3px var(--mat-sys-on-primary-fixed-variant),
+        -3px 3px var(--mat-sys-on-primary-fixed-variant);
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkdot:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkdot:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .checkdot:after {
+    display: block;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}

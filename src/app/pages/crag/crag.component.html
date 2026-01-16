@@ -13,11 +13,11 @@
         @for (tab of tabs; track $index) {
             <div [class.active]="tab.slug === activeTab" (click)="setActiveTab(tab)">
                 @if (tab.icon === 'route') {
-                    <app-routes-icon [active]="tab.slug === activeTab"></app-routes-icon>
+                    <app-routes-icon [sgActive]="tab.slug === activeTab"></app-routes-icon>
                 } @else if (tab.icon === 'image') {
-                    <app-gallery-icon [active]="tab.slug === activeTab"></app-gallery-icon>
+                    <app-gallery-icon [sgActive]="tab.slug === activeTab"></app-gallery-icon>
                 } @else if (tab.icon === 'info') {
-                    <app-info-icon [active]="tab.slug === activeTab"></app-info-icon>
+                    <app-info-icon [sgActive]="tab.slug === activeTab"></app-info-icon>
                 } @else if (tab.icon === 'comment') {
                     <app-comment-icon [sgActive]="tab.slug === activeTab"></app-comment-icon>
                 }

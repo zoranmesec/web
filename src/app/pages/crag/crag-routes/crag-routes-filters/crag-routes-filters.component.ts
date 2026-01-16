@@ -1,14 +1,14 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 
-import { MatIconModule } from '@angular/material/icon';
-
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 
+import { MatRippleModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { FlexLayoutModule } from 'ng-flex-layout';
 import { Subscription } from 'rxjs';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { GradingSystemsService } from 'src/app/shared/services/grading-systems.service';
 import { GradingSystemsQuery } from 'src/generated/graphql';
 import { CragRoutesFiltersService } from '../crag-routes-filters.service';
@@ -16,7 +16,16 @@ import { CragRoutesFiltersService } from '../crag-routes-filters.service';
     selector: 'app-crag-routes-filters',
     templateUrl: './crag-routes-filters.component.html',
     styleUrls: ['./crag-routes-filters.component.scss'],
-    imports: [MatIconModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatRadioModule, FlexLayoutModule, MatSliderModule]
+    imports: [
+        MatExpansionModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        FlexLayoutModule,
+        MatRippleModule,
+        MatSliderModule,
+        IconsModule
+    ]
 })
 export class CragRoutesFiltersComponent implements OnDestroy, OnInit {
     @Output() closePanel = new EventEmitter<void>();
@@ -61,6 +70,7 @@ export class CragRoutesFiltersComponent implements OnDestroy, OnInit {
 
         this.subscriptions.push(
             this.filtersForm.controls['myAscents'].valueChanges.subscribe((value) => {
+                console.log('myAscents changed to ', value);
                 cragRoutesFiltersService.setMyAscents(value);
             })
         );

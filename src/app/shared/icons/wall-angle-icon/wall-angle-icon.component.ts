@@ -13,7 +13,7 @@ import { IconSize } from '../icon-size.enum';
 export class WallAngleIconComponent {
     protected wallAngles = FormattedWallAngle;
     wallAngle = input.required<WallAngle>();
-    active = input<boolean>(false);
+    sgActive = input<boolean>(false);
     size = input<IconSize>(IconSize.large);
     disabled = input<boolean>(false);
 

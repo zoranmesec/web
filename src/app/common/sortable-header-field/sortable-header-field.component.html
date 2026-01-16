@@ -3,7 +3,20 @@
         {{ label }}
     }
     @if (icon) {
-        <mat-icon> {{ icon }} </mat-icon>
+        @switch (icon) {
+            @case ('comment') {
+                <app-comment-icon></app-comment-icon>
+            }
+            @case ('check') {
+                <app-check-icon></app-check-icon>
+            }
+            @case ('star') {
+                <app-star-full-icon></app-star-full-icon>
+            }
+            @case ('multipitch') {
+                MP
+            }
+        }
     }
     @if (svgIcon) {
         <mat-icon [svgIcon]="svgIcon"></mat-icon>

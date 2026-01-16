@@ -48,6 +48,7 @@ import { StatisticsIconComponent } from './statistics-icon/statistics-icon.compo
 import { SwitchSectorIconComponent } from './switch-sector-icon/switch-sector-icon.component';
 import { TodayIconComponent } from './today-icon/today-icon.component';
 import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.component';
+import { WallIconComponent } from './wall-icon/wall-icon.component';
 
 @NgModule({
     declarations: [
@@ -95,7 +96,8 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         SwitchSectorIconComponent,
         FilterIconComponent,
         MapIconComponent,
-        ResetIconComponent
+        ResetIconComponent,
+        WallIconComponent
     ],
     imports: [SignalPipe, CommonModule, IncludesPipe],
     exports: [
@@ -143,7 +145,8 @@ import { WallAngleIconComponent } from './wall-angle-icon/wall-angle-icon.compon
         SwitchSectorIconComponent,
         FilterIconComponent,
         MapIconComponent,
-        ResetIconComponent
+        ResetIconComponent,
+        WallIconComponent
     ]
 })
 export class IconsModule {}

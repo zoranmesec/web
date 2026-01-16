@@ -54,22 +54,20 @@
             </div>
             <div [class.hidden]="breakpointService.sgLtSm()">
                 <mat-form-field class="custom-height" appearance="outline" subscriptSizing="fixed">
-                    <mat-label>
-                        <mat-icon class="search-icon">search</mat-icon>
-                        <span>Poišči po imenu</span></mat-label
-                    >
-                    <input matInput [formControl]="search" autocomplete="off" />
+                    <div class="flex">
+                        <app-search-icon class="search-icon"></app-search-icon>
+                        <input matInput [formControl]="search" placeholder="Poišči v seznamu" autocomplete="off" />
+                    </div>
                 </mat-form-field>
             </div>
         </section>
         @if (searchFieldVisible) {
             <div [class.hidden]="breakpointService.sgGtSm()" class="w-100 flex flex-row flex-align-center flex-center">
                 <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
-                    <mat-label>
-                        <mat-icon class="search-icon">search</mat-icon>
-                        <span>Poišči po imenu444</span></mat-label
-                    >
-                    <input matInput [formControl]="search" autocomplete="off" />
+                    <div class="flex">
+                        <app-search-icon class="search-icon"></app-search-icon>
+                        <input matInput placeholder="Poišči v seznamu" [formControl]="search" autocomplete="off" />
+                    </div>
                 </mat-form-field>
             </div>
         }
@@ -228,7 +226,7 @@
                                                     >
                                                         <app-sortable-header-field
                                                             field="multipitch"
-                                                            svgIcon="multipitch"
+                                                            icon="multipitch"
                                                             [currentlySortedField]="sector.sortedField"
                                                             [currentSortDirection]="sector.sortedDirection"
                                                             sortIndication="highlight"
@@ -446,7 +444,7 @@
                                                                         <mat-icon svgIcon="multipitch" title="Večraztežajna"></mat-icon>
                                                                     }
                                                                     @if (route.comments.length > 0) {
-                                                                        <mat-icon title="Ima komentarje">comment</mat-icon>
+                                                                        <app-comment-icon matTooltip="Ima komentarje"></app-comment-icon>
                                                                     }
                                                                     @if (ascents[route.id] !== null) {
                                                                         <app-ascent-type

@@ -5,7 +5,7 @@
         [attr.width]="size | signalPipe"
         [attr.height]="size | signalPipe"
         className="fill-current"
-        [class.active]="active | signalPipe"
+        [class.active]="sgActive()"
         [class.disabled]="disabled | signalPipe"
     >
         <path d="M25 2L15 38H38V2H25Z" />
@@ -20,7 +20,7 @@
         [attr.width]="size | signalPipe"
         [attr.height]="size | signalPipe"
         className="fill-current"
-        [class.active]="active | signalPipe"
+        [class.active]="sgActive()"
         [class.disabled]="disabled | signalPipe"
     >
         <path d="M20 2V38H38V2H20Z" />
@@ -35,7 +35,7 @@
         [attr.width]="size | signalPipe"
         [attr.height]="size | signalPipe"
         className="fill-current"
-        [class.active]="active | signalPipe"
+        [class.active]="sgActive()"
         [class.disabled]="disabled | signalPipe"
     >
         <path d="M15 2L25 38H38V2H15Z" />
@@ -50,7 +50,7 @@
         [attr.width]="size | signalPipe"
         [attr.height]="size | signalPipe"
         className="fill-current"
-        [class.active]="active | signalPipe"
+        [class.active]="sgActive()"
         [class.disabled]="disabled | signalPipe"
     >
         <path d="M2 2V15H16L33 38H38V2H2Z" />

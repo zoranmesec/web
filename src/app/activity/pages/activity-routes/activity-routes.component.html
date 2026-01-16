@@ -51,11 +51,8 @@
     @if (searchFieldVisible) {
         <div [class.hidden]="breakpointService.sgGtSm()" class="w-100 flex flex-row flex-align-center flex-center">
             <mat-form-field class="custom-height" appearance="outline" [subscriptSizing]="fixed">
-                <mat-label>
-                    <mat-icon class="search-icon">search</mat-icon>
-                    <span>Poišči po imenu</span></mat-label
-                >
-                <input matInput [formControl]="search" autocomplete="off" />
+                <mat-label> <mat-icon matPrefix class="search-icon">search</mat-icon></mat-label>
+                <input matInput placeholder="Poišči po imenu" [formControl]="search" autocomplete="off" />
             </mat-form-field>
         </div>
     }

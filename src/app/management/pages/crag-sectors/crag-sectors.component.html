@@ -5,12 +5,12 @@
         <div class="flex flex-row flex-justify-center tabs">
             <div>&nbsp;</div>
             <div class="tab" (click)="goToCrag()">
-                <app-info-icon [active]="false"></app-info-icon>
+                <app-info-icon [sgActive]="false"></app-info-icon>
                 <span> Osnovni podatki </span>
             </div>
             <div>&nbsp;</div>
             <div [class.disabled]="crag === undefined" class="tab active">
-                <app-routes-icon [active]="true"></app-routes-icon>
+                <app-routes-icon [sgActive]="true"></app-routes-icon>
                 <span [class.hidden]="breakpointService.sgLtMd()"> Sektorji in smeri </span>
             </div>
             <div>&nbsp;</div>

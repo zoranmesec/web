@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -35,7 +34,6 @@ interface GradeSlots {
     imports: [
         CommonModule,
         DistributionChartComponent,
-        MatIconModule,
         MatTooltipModule,
         SeasonPipe,
         WallAnglePipe,

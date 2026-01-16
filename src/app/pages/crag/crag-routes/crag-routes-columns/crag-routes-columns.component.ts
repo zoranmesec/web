@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule }
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexLayoutModule } from 'ng-flex-layout';
@@ -85,7 +84,6 @@ export const allColumns: Record<string, ColumnType> = {
     templateUrl: './crag-routes-columns.component.html',
     styleUrls: ['./crag-routes-columns.component.scss'],
     imports: [
-        MatIconModule,
         MatExpansionModule,
         FormsModule,
         ReactiveFormsModule,

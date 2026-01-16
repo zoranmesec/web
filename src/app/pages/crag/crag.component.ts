@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { User } from '@sentry/angular';
@@ -100,7 +100,8 @@ export class CragComponent implements OnInit, OnDestroy {
         private cragBySlugGQL: CragBySlugGQL,
         private breakpointObserver: BreakpointObserver,
         private scrollService: ScrollService,
-        private breakpointService: BreakpointService
+        private breakpointService: BreakpointService,
+        private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -250,6 +251,8 @@ export class CragComponent implements OnInit, OnDestroy {
     }
 
     setActiveTab(tab: Tab) {
+        this.activeTab = tab.slug;
+        this.cdr.detectChanges();
         this.router.navigate([tab.slug === 'smeri' ? {} : { tab: tab.slug }], {
             relativeTo: this.activatedRoute
         });

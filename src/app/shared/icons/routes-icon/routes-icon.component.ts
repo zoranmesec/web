@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoutesIconComponent {
-    active = input<boolean>(false);
+    sgActive = input<boolean>(false);
     disabled = input<boolean>(false);
 }
