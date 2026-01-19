@@ -1,13 +1,11 @@
 @use '@angular/material' as mat;
-@use './../../../../../m3-theme.scss' as m3-theme;
-@use './../../../../../styles/global.scss' as global;
 
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
+@use './../../../../../styles/global.scss' as global;
 
 :host {
     @include mat.divider-overrides(
         (
-            color: $grey
+            color: var(--mat-sys-outline)
         )
     );
 
@@ -22,7 +20,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     }
 
     .border-right {
-        border-right: 1px solid $grey;
+        border-right: 1px solid var(--mat-sys-outline);
     }
 
     @media only screen and (max-width: global.$breakpoint-md) {

@@ -1,19 +1,19 @@
 <div class="full-container">
-    <div class="buttons-row">
+    <div class="buttons-row flex flex-align-right flex-justify-end p-8">
         @if (currentUser && image.user && currentUser.id === image.user.id) {
-            <button mat-icon-button (click)="onDeleteClick()">
-                <mat-icon>delete</mat-icon>
+            <button class="tertiary-button" (click)="onDeleteClick()">
+                <app-delete-icon></app-delete-icon>
             </button>
         }
-        <button mat-icon-button (click)="onCloseClick()">
-            <mat-icon>close</mat-icon>
+        <button class="tertiary-button" (click)="onCloseClick()">
+            <app-close-icon></app-close-icon>
         </button>
     </div>
 
     <div class="navi-image-caption-row">
         <div class="navi-col">
-            <button mat-icon-button (click)="onPreviousImageClick()" [disabled]="currentImageIndex < 1">
-                <mat-icon>navigate_before</mat-icon>
+            <button class="tertiary-button" (click)="onPreviousImageClick()" [disabled]="currentImageIndex < 1">
+                <app-arrow-icon></app-arrow-icon>
             </button>
         </div>
 
@@ -69,8 +69,8 @@
             </div>
         </div>
         <div class="navi-col">
-            <button mat-icon-button (click)="onNextImageClick()" [disabled]="currentImageIndex > images.length - 2">
-                <mat-icon>navigate_next</mat-icon>
+            <button class="tertiary-button" (click)="onNextImageClick()" [disabled]="currentImageIndex > images.length - 2">
+                <app-arrow-icon direction="right"></app-arrow-icon>
             </button>
         </div>
     </div>

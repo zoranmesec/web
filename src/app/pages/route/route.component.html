@@ -11,7 +11,7 @@
         <div class="flex flex-row flex-justify-space-between">
             <div class="flex flex-row">
                 <div class="m-16 p-r-16 border-right">
-                    <button mat-stroked-button type="button">
+                    <button class="quaternary-button" type="button">
                         <div class="flex flex-row">
                             <app-add-icon></app-add-icon>
                             <span class="p-l-4">Zabeleži vzpon</span>
@@ -89,7 +89,7 @@
             }
             @if (route.images.length > 0) {
                 <div>
-                    <app-crag-gallery [images]="[route.images[0]]" onlyPreview="true"></app-crag-gallery>
+                    <app-crag-gallery [sgImages]="[route.images[0]]" onlyPreview="true"></app-crag-gallery>
                 </div>
             }
         </section>
@@ -131,7 +131,7 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title> Galerija </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-crag-gallery [images]="route.images"></app-crag-gallery>
+                    <app-crag-gallery [sgImages]="route.images"></app-crag-gallery>
                 </mat-expansion-panel>
             </mat-accordion>
         </section>

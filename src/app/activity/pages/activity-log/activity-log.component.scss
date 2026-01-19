@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../m3-theme.scss' as m3-theme;
 
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
 
 @use './../../../../styles/global.scss' as global;
@@ -92,7 +91,7 @@ $light-blue: mat.get-theme-color(m3-theme.$light-theme, secondary, 70);
         }
 
         .activity-log-entry {
-            border-top: 1px solid $grey;
+            border-top: 1px solid var(--mat-sys-outline);
         }
 
         .activity-row {

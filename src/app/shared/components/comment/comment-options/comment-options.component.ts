@@ -17,7 +17,7 @@ import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmat
     standalone: true,
     imports: [MatMenuModule, MatButtonModule, MatIconModule]
 })
-export class CommentOptionsComponent{
+export class CommentOptionsComponent {
     @Input() comment: Comment;
     @Output() editComment = new EventEmitter<Comment>();
 
@@ -36,6 +36,7 @@ export class CommentOptionsComponent{
         this.dialog
             .open(ConfirmationDialogComponent, {
                 data: {
+                    title: 'Izbriši komentar',
                     message: 'Pobrišem komentar?'
                 }
             })
@@ -45,11 +46,7 @@ export class CommentOptionsComponent{
                     this.deleteCommentGQL
                         .mutate({
                             variables: { id: this.comment.id },
-                            refetchQueries: [
-                                namedOperations.Query.CragBySlug,
-                                namedOperations.Query.IceFallBySlug,
-                                namedOperations.Query.LatestComments
-                            ]
+                            refetchQueries: [namedOperations.Query.CragBySlug]
                         })
                         .pipe(take(1))
                         .subscribe({

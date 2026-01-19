@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -40,7 +41,8 @@ interface GradeSlots {
         CragImageComponent,
         MapComponent,
         RouterModule,
-        IconsModule
+        IconsModule,
+        MatMenuModule
     ],
     standalone: true
 })

@@ -1,8 +1,4 @@
-@use '@angular/material' as mat;
-@use './../../../m3-theme.scss' as m3-theme;
 @use './../../../styles/global.scss' as global;
-
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 
 :host {
     mat-expansion-panel {
@@ -16,7 +12,7 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
     }
 
     mat-expansion-panel-header {
-        border-bottom: 1px solid $grey;
+        border-bottom: 1px solid var(--mat-sys-outline);
     }
 
     section#title {
@@ -26,30 +22,14 @@ $grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
         align-items: center;
         display: flex;
         text-align: center;
-        border-bottom: 1px solid $grey;
+        border-bottom: 1px solid var(--mat-sys-outline);
     }
 
     section#navigation {
-        border-bottom: 1px solid $grey;
+        border-bottom: 1px solid var(--mat-sys-outline);
 
         .border-right {
-            border-right: 1px solid $grey;
-        }
-
-        button {
-            border: 3px solid #fff;
-            border-radius: 8px;
-        }
-
-        @media only screen and (max-width: global.$breakpoint-lg) {
-            button {
-                padding: 0 !important;
-            }
-        }
-
-        button:hover {
-            border: 3px solid #aaccf0;
-            border-radius: 8px;
+            border-right: 1px solid var(--mat-sys-outline);
         }
     }
 

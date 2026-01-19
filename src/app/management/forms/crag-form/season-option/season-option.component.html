@@ -8,7 +8,7 @@
     [class.season-option]="!disabled()"
     (click)="selectSeason()"
 >
-    <app-season-icon [season]="seasonData().season" [active]="!disabled() && (active || selected)"></app-season-icon>
+    <app-season-icon [season]="seasonData().season" [sgActive]="!disabled() && (active || selected)"></app-season-icon>
     <span>
         {{ seasonData().formattedSeason }}
     </span>

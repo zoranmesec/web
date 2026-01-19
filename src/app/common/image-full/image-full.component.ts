@@ -1,12 +1,13 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ResponsiveImageComponent } from 'src/app/shared/components/responsive-image/responsive-image.component';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { environment } from 'src/environments/environment';
 import { DeleteImageGQL, Image, User } from 'src/generated/graphql';
 
@@ -14,7 +15,7 @@ import { DeleteImageGQL, Image, User } from 'src/generated/graphql';
     selector: 'app-image-full',
     templateUrl: './image-full.component.html',
     styleUrls: ['./image-full.component.scss'],
-    imports: [ResponsiveImageComponent, MatIconModule, MatButtonModule],
+    imports: [ResponsiveImageComponent, MatIconModule, MatButtonModule, IconsModule],
     standalone: true
 })
 export class ImageFullComponent implements OnInit {

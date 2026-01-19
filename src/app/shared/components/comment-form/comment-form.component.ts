@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,6 +30,7 @@ export interface DialogData {
 export class CommentFormComponent implements OnInit {
     @Input() entity: Crag | Route | IceFall | Peak;
     @Input() comment?: Comment;
+    @Output() saveComment = new EventEmitter<boolean>();
     title: string;
 
     loading = false;
@@ -119,6 +120,7 @@ export class CommentFormComponent implements OnInit {
         } else {
             this.createComment();
         }
+        this.saveComment.emit(true);
     }
 
     createComment() {
@@ -138,12 +140,7 @@ export class CommentFormComponent implements OnInit {
         this.createCommentGQL
             .mutate({
                 variables: { input: value },
-                refetchQueries: [
-                    //TODO: some of these queries might not be active and trying to refetch them causes apollo warnings
-                    namedOperations.Query.CragBySlug,
-                    namedOperations.Query.IceFallBySlug,
-                    namedOperations.Query.RouteBySlug
-                ]
+                refetchQueries: [namedOperations.Query.CragBySlug]
             })
             .subscribe({
                 next: () => {
@@ -175,7 +172,7 @@ export class CommentFormComponent implements OnInit {
         this.updateCommentGQL
             .mutate({
                 variables: { input: value },
-                refetchQueries: [namedOperations.Query.CragBySlug, namedOperations.Query.IceFallBySlug]
+                refetchQueries: [namedOperations.Query.CragBySlug]
             })
             .subscribe({
                 next: () => {

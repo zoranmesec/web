@@ -22,11 +22,7 @@ body {
             outlined-label-text-color: var(--mat-sys-primary)
         )
     );
-    @include mat.dialog-overrides(
-        (
-            headline-padding: 0
-        )
-    );
+
     @include mat.select-overrides(());
     @include mat.button-overrides(
         (
@@ -79,12 +75,6 @@ body {
         )
     );
 
-    @include mat.dialog-overrides(
-        (
-            container-shape: 8px,
-            container-color: var(--mat-sys-surface-container-lowest)
-        )
-    );
     @include mat.menu-overrides(
         (
             container-elevation-shadow: none,
@@ -149,7 +139,6 @@ body {
         --mat-button-text-container-shape: 8px !important;
         --mat-paginator-container-background-color: var(--mat-sys-on-secondary) !important;
         --mat-sys-body-large-line-height: 24px !important;
-        --mat-dialog-supporting-text-color: var(--mat-sys-primary) !important;
 
         line-height: var(--mat-sys-body-large-line-height) !important;
     }

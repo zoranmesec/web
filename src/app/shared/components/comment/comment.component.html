@@ -34,7 +34,7 @@
         @if (this.mode === 'view') {
             <div [innerHTML]="comment.content"></div>
         } @else {
-            <app-comment-form [entity]="entity" [comment]="comment"></app-comment-form>
+            <app-comment-form [entity]="entity" [comment]="comment" (saveComment)="mode = 'view'"></app-comment-form>
         }
         <div class="author p-b-16 p-t-16" [class.actions]="isAuthor">
             {{ comment.user?.fullName }}

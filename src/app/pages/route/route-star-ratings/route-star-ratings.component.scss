@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../m3-theme.scss' as m3-theme;
 
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
 :host {
@@ -16,7 +15,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
     }
 
     mat-expansion-panel-header {
-        border-bottom: 1px solid $grey;
+        border-bottom: 1px solid var(--mat-sys-outline);
     }
 
     .grade {

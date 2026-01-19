@@ -4,7 +4,7 @@
     </section>
 }
 <section id="images">
-    @if (images().length === 0) {
+    @if (sgImages().length === 0) {
         <div>
             <app-question-icon></app-question-icon>
         </div>
@@ -13,9 +13,9 @@
             <a>Dodaj fotografijo.</a>
         </div>
     } @else {
-        @for (_ of getColumnsArray; track $index) {
+        @for (_ of getColumnsArray; track $index; let idx = $index) {
             <div class="column">
-                @for (image of images() | imageArrayTransform: nrColumns : $index; track $index) {
+                @for (image of sgImages() | imageArrayTransform: nrColumns : idx; track image.id; let index = $index) {
                     <div class="card">
                         <app-responsive-image
                             [imageWidths]="[300, 600]"
@@ -29,7 +29,7 @@
                             [maxIntrinsicWidth]="image.maxIntrinsicWidth"
                             [fallbackWidth]="600"
                             [imageAlt]="image.title"
-                            (click)="onImageClick($index)"
+                            (click)="onImageClick(index * nrColumns + idx)"
                         ></app-responsive-image>
 
                         <div class="title">{{ image.title }}</div>

@@ -30,7 +30,7 @@
         }
         <div>&nbsp;</div>
     </section>
-    <section [class.m-16]="breakpointService.sgGtMd() && activeTab !== 'galerija'">
+    <section [class.m-16]="activeTab !== 'galerija'">
         @if (activeTab === 'info') {
             <app-crag-info [sgCrag]="crag"></app-crag-info>
         }
@@ -43,7 +43,7 @@
         }
 
         @if (activeTab === 'galerija') {
-            <app-crag-gallery [crag]="crag" [images]="crag.images"></app-crag-gallery>
+            <app-crag-gallery [crag]="crag" [sgImages]="crag.images"></app-crag-gallery>
         }
     </section>
 }

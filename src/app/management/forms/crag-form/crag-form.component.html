@@ -167,12 +167,16 @@
     <div class="flex flex-column m-t-16">
         <div>Plezanje v dežju</div>
         <div class="m-t-8">
-            <mat-radio-group class="filter-group" formControlName="rainproof">
-                <mat-radio-button [value]="true" color="var(--mat-sys-secondary)"
-                    ><div class="flex flex-row flex-align-center">Je možno</div>
-                </mat-radio-button>
-                <mat-radio-button [value]="false" color="var(--mat-sys-secondary)">Ni možno</mat-radio-button>
-            </mat-radio-group>
+            <label class="radio-container">
+                <input type="radio" [value]="true" formControlName="rainproof" />
+                <span class="checkdot"></span>
+                <span class="checkdot-label">Je možno</span>
+            </label>
+            <label class="radio-container">
+                <input type="radio" [value]="false" formControlName="rainproof" />
+                <span class="checkdot"></span>
+                <span class="checkdot-label">Ni možno</span>
+            </label>
         </div>
     </div>
 

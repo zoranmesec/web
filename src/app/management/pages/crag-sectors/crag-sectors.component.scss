@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use './../../../../m3-theme.scss' as m3-theme;
 
-$grey: mat.get-theme-color(m3-theme.$light-theme, primary, 60);
 $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
 :host {
@@ -17,7 +16,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
         div:last-child,
         div:first-child {
-            border-bottom: $grey 1px solid !important;
+            border-bottom: var(--mat-sys-outline) 1px solid !important;
             height: 42px;
             width: 100%;
         }
@@ -29,7 +28,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
         .tabs > div:nth-child(2n) {
             background-color: var(--mat-sys-surface);
             height: 42px;
-            border-bottom: $grey 1px solid !important;
+            border-bottom: var(--mat-sys-outline) 1px solid !important;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -41,12 +40,12 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
             width: 16px;
             background-color: var(--mat-sys-surface);
             height: 42px;
-            border-bottom: $grey 1px solid !important;
+            border-bottom: var(--mat-sys-outline) 1px solid !important;
         }
 
         .tabs > div.active {
             height: 42px;
-            border: 1px solid $grey;
+            border: 1px solid var(--mat-sys-outline);
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             background-color: white;
@@ -64,12 +63,6 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
             cursor: auto !important;
         }
 
-        .mat-icon {
-            vertical-align: middle;
-            height: 18px !important;
-            width: 18px !important;
-        }
-
         span {
             padding-left: 8px;
         }
@@ -77,7 +70,7 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 
     section#sectors {
         .tools > div {
-            border-right: 1px solid $grey;
+            border-right: 1px solid var(--mat-sys-outline);
             padding: 16px;
             margin-top: 8px;
             margin-bottom: 8px;
@@ -157,10 +150,10 @@ $light-grey: mat.get-theme-color(m3-theme.$light-theme, neutral-variant, 60);
 }
 
 .cdk-drag-preview {
-    border: 1px solid $grey;
+    border: 1px solid var(--mat-sys-outline);
     box-sizing: border-box;
     border-radius: 4px;
-    background-color: $grey;
+    background-color: var(--mat-sys-outline);
 }
 
 .cdk-drag-placeholder {

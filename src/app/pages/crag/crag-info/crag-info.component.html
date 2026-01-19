@@ -38,6 +38,27 @@
                 <app-rainproof-icon matTooltip="Plezanje v dežju je možno"></app-rainproof-icon>
             </div>
         }
+
+        <div class="m-l-4">
+            <button class="quaternary-button flex-align-center flex p-t-8" [matMenuTriggerFor]="menu">
+                <app-more-icon class=""></app-more-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <!-- <button mat-menu-item (click)="addImage()">
+                    <span>Dodaj fotografijo</span>
+                </button>
+                <button mat-menu-item (click)="addComment('comment')">
+                    <span>Dodaj komentar</span>
+                </button>
+                <button mat-menu-item (click)="addComment('condition')">
+                    <span>Dodaj informacijo o razmerah</span>
+                </button>
+                <button mat-menu-item (click)="addComment('warning')">
+                    <span>Dodaj opozorilo</span>
+                </button> -->
+                <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Uredi plezališče</a>
+            </mat-menu>
+        </div>
     </section>
 
     @if (missingInfo.length > 0) {
@@ -57,7 +78,7 @@
                     <span>{{ info }}</span>
                 }
                 .
-                <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj manjkajoče podatke.</a>
+                <a [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj manjkajoče podatke.</a>
             </div>
         </section>
     }
@@ -85,7 +106,7 @@
                 <div>
                     <h2>Opis plezališča</h2>
                 </div>
-                <div class="w-100 flex">
+                <div class="w-100 flex gap-8">
                     <div>
                         <app-question-icon></app-question-icon>
                     </div>
@@ -125,18 +146,18 @@
                 @if (sgCrag().access) {
                     {{ sgCrag().access }}
                 } @else {
-                    <div class="w-100 flex">
+                    <div class="w-100 flex gap-8">
                         <div>
                             <app-question-icon></app-question-icon>
                         </div>
                         <div>
                             Plezališče je brez opisa dostopa.
-                            <a mat-menu-item [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj opis dostopa.</a>
+                            <a [routerLink]="['/urejanje/uredi-plezalisce', sgCrag().id]">Dodaj opis dostopa.</a>
                         </div>
                     </div>
                 }
             </div>
-            <div class="flex">
+            <div class="flex gap-8 p-t-8 p-b-8">
                 @if (!sgCrag().lat || !sgCrag().lon) {
                     <div class="w-100 flex">
                         <app-question-icon></app-question-icon>

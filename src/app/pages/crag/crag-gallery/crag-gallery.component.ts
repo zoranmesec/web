@@ -18,7 +18,7 @@ import { ImageArrayTransformPipe } from './image-array-transform/image-array-tra
     imports: [ResponsiveImageComponent, ImageArrayTransformPipe, RouterModule, MatIconModule, MatButtonModule, IconsModule]
 })
 export class CragGalleryComponent implements OnInit, OnChanges {
-    images = input.required<Image[]>();
+    sgImages = input.required<Image[]>();
     onlyPreview = input<boolean>(false);
 
     protected screenWidth: number;
@@ -61,13 +61,18 @@ export class CragGalleryComponent implements OnInit, OnChanges {
         return new Array(this.nrColumns);
     }
 
+    get nrImagesPerColumn(): number {
+        return Math.ceil(this.sgImages().length / this.nrColumns);
+    }
+
     onImageClick(index: number): void {
+        console.log('Opening image index:', index);
         this.dialog.open(ImageFullComponent, {
             width: '100vw',
             height: '100vh',
             maxWidth: '100vw',
             maxHeight: '100vh',
-            data: { images: this.images(), currentImageIndex: index },
+            data: { images: this.sgImages(), currentImageIndex: index },
             autoFocus: false
         });
     }

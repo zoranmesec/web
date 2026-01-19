@@ -9,24 +9,11 @@
         color: var(--mat-sys-primary) !important;
     }
 
-    mat-icon {
-        height: 20px !important;
-        width: 20px !important;
-        vertical-align: top;
-        padding-top: 2px;
-    }
-
     section#info {
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
         padding: 0 6px;
-
-        mat-icon {
-            height: 40px !important;
-            width: 40px !important;
-            margin: 4px;
-        }
 
         div:not(:first-child) {
             border-left: 1px solid var(--mat-sys-on-surface-variant);

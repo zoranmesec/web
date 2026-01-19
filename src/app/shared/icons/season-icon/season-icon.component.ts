@@ -13,7 +13,7 @@ import { IconSize } from '../icon-size.enum';
 export class SeasonIconComponent {
     protected seasons = FormattedSeason;
     season = input.required<Season>();
-    active = input<boolean>(false);
+    sgActive = input<boolean>(false);
     size = input<IconSize>(IconSize.large);
     disabled = input<boolean>(false);
 

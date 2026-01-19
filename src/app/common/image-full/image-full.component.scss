@@ -1,17 +1,19 @@
-.full-container {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+:host {
+    .full-container {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
 
-    // background-color: antiquewhite;
-}
+        // background-color: antiquewhite;
+    }
 
-.buttons-row {
-    height: 40px;
-    text-align: right;
+    .buttons-row {
+        height: 40px;
+        text-align: right;
 
-    // background-color: cornflowerblue;
+        // background-color: cornflowerblue;
+    }
 }
 
 .navi-image-caption-row {
@@ -35,22 +37,6 @@
 
     // background-color: aquamarine;
 }
-
-// ::ng-deep img {
-//   margin: auto;
-//   display: block;
-
-//   /* flex-grow: 0; not needed anymore --> keep until tested in all browsers.
-//   flex-shrink: 0;
-//   flex-basis: auto;
-//   background-color: pink; */
-
-//   /* max-width: 100%; not needed anymore?? */
-//   /* deduct top and bottom padding of overlay and what is reserved for the caption> 60 + 30 + 30 */
-//   /* max-height: calc(100vh - 160px); not needed anymore??*/
-
-//   /* object-fit: scale-down;  not needed anymore ??? --> keep in comment, test with some strange browsers, then remove */
-// }
 
 .caption-wrap {
     flex: 1 1 64px;
