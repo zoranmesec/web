@@ -1,5 +1,5 @@
-<div class="p-l-16 p-b-8">
-    <h2 mat-dialog-title>{{ data.title }}</h2>
+<div class="p-16">
+    <h2>{{ data.title }}</h2>
 </div>
 <mat-dialog-content>
     {{ data.message }}
@@ -7,7 +7,7 @@
         <div class="fine-print" [innerHtml]="data.finePrint"></div>
     }
 </mat-dialog-content>
-<mat-dialog-actions align="end" class="p-t-32 gap-8 flex">
+<mat-dialog-actions align="end" class="p-t-16 gap-16 flex">
     <button type="button" class="secondary-button" [mat-dialog-close]="null">Prekliči</button>
     <button class="primary-button" cdkFocusInitial [mat-dialog-close]="true">Potrdi</button>
 </mat-dialog-actions>

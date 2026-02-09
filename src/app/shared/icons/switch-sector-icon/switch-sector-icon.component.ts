@@ -8,5 +8,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SwitchSectorIconComponent {
-    disabled = input<boolean>(false);
+    sgDisabled = input<boolean>(false);
 }

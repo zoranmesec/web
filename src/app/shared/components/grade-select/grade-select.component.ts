@@ -100,6 +100,7 @@ export class GradeSelectComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     protected decrementGrade() {
+        if (this.control.disabled) return;
         const currentDifficulty = this.control.value;
         const currentIndex = this.allGrades.findIndex((grade) => grade.difficulty === currentDifficulty);
         if (currentIndex > 0) {
@@ -109,6 +110,7 @@ export class GradeSelectComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     protected incrementGrade() {
+        if (this.control.disabled) return;
         const currentDifficulty = this.control.value;
         const currentIndex = this.allGrades.findIndex((grade) => grade.difficulty === currentDifficulty);
         if (currentIndex < this.allGrades.length - 1) {

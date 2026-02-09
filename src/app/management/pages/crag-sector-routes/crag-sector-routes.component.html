@@ -6,22 +6,25 @@
                 <div class="options flex flex-row text-center">
                     <div>
                         @if (routesForm) {
-                            <button class="border" mat-stroked-button type="button">
-                                <mat-checkbox formControlName="selectAll">Označi vse</mat-checkbox>
+                            <button class="quaternary-button" type="button">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" formControlName="selectAll" />
+                                    <span class="checkmark"></span>
+                                    <span class="checkmark-label"> Označi vse </span>
+                                </label>
                             </button>
                         }
                     </div>
 
                     <div>
                         <button
-                            class="border"
-                            mat-stroked-button
+                            class="quaternary-button"
                             [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
                             type="button"
                         >
                             <div class="flex flex-row flex-align-center">
                                 <app-move-routes-icon
-                                    [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                                    [sgDisabled]="routesForm.controls.selectedRouteIds.value.length === 0"
                                 ></app-move-routes-icon>
                                 <span>Premakni </span>
                             </div>
@@ -29,15 +32,14 @@
                     </div>
                     <div>
                         <button
-                            class="border"
-                            mat-stroked-button
+                            class="quaternary-button"
                             (click)="moveSelectedToSector()"
                             [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
                             type="button"
                         >
                             <div class="flex flex-row flex-align-center">
                                 <app-switch-sector-icon
-                                    [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
+                                    [sgDisabled]="routesForm.controls.selectedRouteIds.value.length === 0"
                                 ></app-switch-sector-icon>
                                 <span>Premakni v drug sektor</span>
                             </div>
@@ -45,8 +47,7 @@
                     </div>
                     <div>
                         <button
-                            class="border"
-                            mat-stroked-button
+                            class="quaternary-button"
                             [disabled]="routesForm.controls.selectedRouteIds.value.length !== 2"
                             (click)="mergeRoutes()"
                             type="button"
@@ -62,24 +63,21 @@
                     <div>
                         <button
                             [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"
-                            class="border"
-                            mat-stroked-button
+                            class="quaternary-button"
                             type="button"
                             (click)="deleteSelectedRoutes()"
                         >
                             <div class="flex flex-row flex-align-center">
-                                <app-delete-icon [disabled]="routesForm.controls.selectedRouteIds.value.length === 0"></app-delete-icon>
+                                <app-delete-icon [sgDisabled]="routesForm.controls.selectedRouteIds.value.length === 0"></app-delete-icon>
                                 <div class="m-l-8">Izbriši</div>
                             </div>
                         </button>
                     </div>
                 </div>
                 <div class="p-t-16 p-r-16">
-                    <button class="border" mat-stroked-button type="button">
-                        <a class="flex flex-row flex-align-center" [routerLink]="['/urejanje/uredi-plezalisce/' + crag.id + '/sektorji']">
-                            <app-return-icon></app-return-icon>
-                            <div class="m-l-8">Nazaj na sektorje</div></a
-                        >
+                    <button class="quaternary-button" (click)="goToSectors()" type="button">
+                        <app-return-icon></app-return-icon>
+                        <div class="m-l-8">Nazaj na sektorje</div>
                     </button>
                 </div>
             </div>
@@ -98,14 +96,14 @@
                             dodaj prvo smer
                         }
                     </span>
-                    <app-plus-icon [disabled]="true"></app-plus-icon>
+                    <app-plus-icon [sgDisabled]="true"></app-plus-icon>
                 </div>
             </div>
             <div cdkDropList (cdkDropListDropped)="drop($event)" [class.saving]="savingPositions">
                 @for (route of routes; track $index; let i = $index) {
                     @if (routesForm.controls.selectedRouteIds) {
                         <app-route-container
-                            [route]="route"
+                            [sgRoute]="route"
                             [routeFormControl]="routesForm.controls.selectedRouteIds"
                             cdkDrag
                             [cdkDragDisabled]="route.publishStatus === 'in_review'"

@@ -1,5 +1,5 @@
 <div class="p-16">
-    <h2 mat-dialog-title>Združevanje dveh smeri</h2>
+    <h2>Združevanje dveh smeri</h2>
 </div>
 <form class="form no-hints" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (submit)="save()">
     <mat-dialog-content>
@@ -48,19 +48,17 @@
             </div>
         </div>
     </mat-dialog-content>
-    <mat-dialog-actions>
-        <div>
+    <mat-dialog-actions class="gap-16">
+        @if (!saving) {
+            <button class="secondary-button" [mat-dialog-close]="null">Prekliči</button>
             @if (!saving) {
-                <button mat-button [mat-dialog-close]="null">Prekliči</button>
-                @if (!saving) {
-                    <button type="submit" class="primary-button" [disabled]="!form.valid || form.pristine">Shrani</button>
-                }
+                <button type="submit" class="primary-button" [disabled]="!form.valid || form.pristine">Shrani</button>
             }
-            @if (saving) {
-                <span class="loading">
-                    <mat-spinner diameter="30"></mat-spinner>
-                </span>
-            }
-        </div>
+        }
+        @if (saving) {
+            <span class="loading">
+                <mat-spinner diameter="30"></mat-spinner>
+            </span>
+        }
     </mat-dialog-actions>
 </form>

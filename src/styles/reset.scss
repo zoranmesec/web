@@ -827,10 +827,10 @@ html {
     --mat-dialog-container-max-width: 80vw;
     --mat-dialog-container-small-max-width: 80vw;
     --mat-dialog-container-min-width: 0;
-    --mat-dialog-actions-alignment: start;
+    --mat-dialog-actions-alignment: flex-end;
     --mat-dialog-actions-padding: 8px;
     --mat-dialog-content-padding: 20px 24px;
-    --mat-dialog-with-actions-content-padding: 20px 24px;
+    --mat-dialog-with-actions-content-padding: 16px 16px;
     --mat-dialog-headline-padding: 0 24px 9px;
 }
 
@@ -2618,6 +2618,7 @@ html {
     font: var(--mat-sys-headline-small) !important;
     line-height: 28px !important;
     padding: 0 !important;
+    margin: 0 0 16px !important;
 }
 
 .mat-h3,

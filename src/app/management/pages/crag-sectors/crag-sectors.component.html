@@ -20,7 +20,11 @@
     <section id="sectors" class="p-16">
         <div class="flex flex-row flex-justify-space-between">
             <div class="p-t-8 p-b-8" [formGroup]="sectorSettingsForm">
-                <mat-checkbox formControlName="isAddingSectors">Plezališče ima več sektorjev</mat-checkbox>
+                <label class="checkbox-container">
+                    <input type="checkbox" formControlName="isAddingSectors" />
+                    <span class="checkmark" [disabled]="sectorSettingsForm.controls['isAddingSectors'].disabled"></span>
+                    <span class="checkmark-label"> Plezališče ima več sektorjev </span>
+                </label>
             </div>
             @if (!hasSectors || sectors.length === 0) {
                 <button mat-stroked-button type="button" class="border">
@@ -35,7 +39,7 @@
             <div class="add-sector-button flex flex-justify-end text-right cursor-pointer m-t-16" (click)="add()">
                 <div class="flex flex-row flex-align-center">
                     <span class="p-r-4 p-t-4"> dodaj sektor na začetek </span>
-                    <app-plus-icon [disabled]="true"></app-plus-icon>
+                    <app-plus-icon [sgDisabled]="true"></app-plus-icon>
                 </div>
             </div>
 

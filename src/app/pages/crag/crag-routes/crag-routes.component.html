@@ -47,7 +47,7 @@
                 </div>
                 <div class="border-right flex flex-row flex-align-center flex-center" [class.hidden]="breakpointService.sgGtSm()">
                     <button type="button" mat-stroked-button (click)="searchFieldVisible = !searchFieldVisible">
-                        <mat-icon class="filter-icon">search</mat-icon>
+                        <app-multipitch-icon></app-multipitch-icon>
                         <span [class.hidden]="breakpointService.sgLtLg()" class="p-l-8">Išči</span>
                     </button>
                 </div>
@@ -358,7 +358,9 @@
                                                         @if (shownColumns.includes('multipitch')) {
                                                             <td class="icon">
                                                                 @if (route.pitches.length > 0) {
-                                                                    <mat-icon svgIcon="multipitch" title="Večraztežajna"></mat-icon>
+                                                                    <app-multipitch-icon
+                                                                        matTooltip="Večraztežajna smer"
+                                                                    ></app-multipitch-icon>
                                                                 }
                                                             </td>
                                                         }
@@ -441,7 +443,9 @@
                                                                 </div>
                                                                 <div class="flex flex-row flex-align-center">
                                                                     @if (route.pitches.length > 0) {
-                                                                        <mat-icon svgIcon="multipitch" title="Večraztežajna"></mat-icon>
+                                                                        <app-multipitch-icon
+                                                                            matTooltip="Večraztežajna smer"
+                                                                        ></app-multipitch-icon>
                                                                     }
                                                                     @if (route.comments.length > 0) {
                                                                         <app-comment-icon matTooltip="Ima komentarje"></app-comment-icon>

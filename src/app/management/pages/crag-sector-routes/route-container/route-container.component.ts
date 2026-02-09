@@ -13,7 +13,7 @@ import { Route } from 'src/generated/graphql';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RouteContainerComponent implements OnInit {
-    route = input.required<Route>();
+    sgRoute = input.required<Route>();
     routeFormControl = input.required<FormControl<string[]>>();
 
     private readonly cdr = inject(ChangeDetectorRef);
@@ -22,7 +22,7 @@ export class RouteContainerComponent implements OnInit {
     ngOnInit() {
         this.routeFormControl().valueChanges.subscribe((value) => {
             if (value) {
-                this.checked = value.includes(this.route().id);
+                this.checked = value.includes(this.sgRoute().id);
             } else {
                 this.checked = false;
             }
@@ -32,12 +32,12 @@ export class RouteContainerComponent implements OnInit {
 
     protected onChange() {
         const selectedRouteIds: string[] = this.routeFormControl().value || [];
-        if (selectedRouteIds.includes(this.route().id)) {
+        if (selectedRouteIds.includes(this.sgRoute().id)) {
             // Remove route id
-            this.routeFormControl().setValue(selectedRouteIds.filter((id) => id !== this.route().id));
+            this.routeFormControl().setValue(selectedRouteIds.filter((id) => id !== this.sgRoute().id));
         } else {
             // Add route id
-            this.routeFormControl().setValue([...selectedRouteIds, this.route().id]);
+            this.routeFormControl().setValue([...selectedRouteIds, this.sgRoute().id]);
         }
 
         console.log('Selected route IDs:', this.routeFormControl().value);
@@ -48,6 +48,6 @@ export class RouteContainerComponent implements OnInit {
     }
 
     get isDisabled(): boolean {
-        return this.route().publishStatus === 'in_review';
+        return this.sgRoute().publishStatus === 'in_review';
     }
 }

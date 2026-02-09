@@ -8,7 +8,7 @@
         <div class="m-r-16 p-t-8">
             <app-minus-icon
                 (click)="decrementGrade()"
-                [disabled]="control.disabled || !canDecrement"
+                [sgDisabled]="control.disabled || !canDecrement"
                 [class.enabled]="!control.disabled && canDecrement"
             ></app-minus-icon>
         </div>
@@ -34,7 +34,7 @@
         <div class="m-l-16 p-t-8">
             <app-plus-icon
                 (click)="incrementGrade()"
-                [disabled]="control.disabled || !canIncrement"
+                [sgDisabled]="control.disabled || !canIncrement"
                 [class.enabled]="!control.disabled && canIncrement"
             ></app-plus-icon>
         </div>

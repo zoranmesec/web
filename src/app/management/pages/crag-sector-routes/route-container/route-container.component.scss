@@ -11,15 +11,14 @@
             min-width: 100px;
         }
 
-        .route-info > div:nth-child(3) {
-            flex-basis: 300px;
-            min-width: 300px;
-        }
-
-        .route-info > div:first-child,
-        .route-info > div:nth-child(2) {
+        .route-info > div:first-child {
             flex-basis: 20px;
             min-width: 20px;
+        }
+        .route-info > div:nth-child(2),
+        div:nth-child(3) {
+            flex-basis: 300px;
+            min-width: 300px;
         }
 
         .name {

@@ -119,3 +119,8 @@ button.quaternary-button:active svg path {
 button.quaternary-button:focus {
     border: 3px solid var(--mat-sys-on-primary-fixed-variant) !important;
 }
+
+button.quaternary-button:disabled {
+    color: var(--mat-sys-secondary-fixed-dim) !important;
+    cursor: not-allowed !important;
+}

@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { User } from '@sentry/angular';
 import { Apollo } from 'apollo-angular';
 import { combineLatest, filter, Subscription, switchMap, take } from 'rxjs';
@@ -87,7 +87,8 @@ export class CragSectorRoutesComponent implements OnInit, OnDestroy {
         private deleteRouteGQL: ManagementDeleteRouteGQL,
         private deleteRoutesGQL: ManagementDeleteRoutesGQL,
         private apollo: Apollo,
-        public contributionService: ContributionService
+        public contributionService: ContributionService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -320,5 +321,10 @@ export class CragSectorRoutesComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.routesForm.controls.selectedRouteIds.setValue([]);
             });
+    }
+
+    goToSectors(): void {
+        // navigate back to sectors page
+        this.router.navigate(['/urejanje/uredi-plezalisce', this.crag.id, 'sektorji']);
     }
 }

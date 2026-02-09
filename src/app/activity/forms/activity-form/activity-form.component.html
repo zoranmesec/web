@@ -99,7 +99,7 @@
         </mat-accordion>
     }
     @if (!loading) {
-        <mat-dialog-actions>
+        <mat-dialog-actions class="gap-16">
             <button class="secondary-button" [disabled]="activityForm.invalid || activityForm.disabled" mat-dialog-close>Prekliči</button>
             <button class="primary-button" [disabled]="activityForm.invalid || activityForm.disabled" (click)="save()">Shrani</button>
         </mat-dialog-actions>

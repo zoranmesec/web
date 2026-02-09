@@ -1,29 +1,30 @@
 <article
     class="sector mt-8 flex flex-row flex-align-center flex-justify-space-between"
-    [class.notice]="route().publishStatus === 'in_review'"
-    [class.warn]="route().publishStatus === 'draft'"
-    [class.route-in_review]="route().publishStatus === 'in_review'"
+    [class.notice]="sgRoute().publishStatus === 'in_review'"
+    [class.warn]="sgRoute().publishStatus === 'draft'"
+    [class.route-in_review]="sgRoute().publishStatus === 'in_review'"
 >
     <div class="flex flex-row p-4 route-info gap-16">
         <div class="p-l-16">
             <app-drag-icon></app-drag-icon>
         </div>
         <div class="p-t-2">
-            <mat-checkbox [checked]="isChecked" [disabled]="isDisabled" (change)="onChange()"></mat-checkbox>
-        </div>
-        <div class="p-t-2">
-            {{ route().name }}
+            <label class="checkbox-container">
+                <input type="checkbox" [checked]="isChecked" (change)="onChange()" [disabled]="isDisabled" />
+                <span class="checkmark"></span>
+                <span class="checkmark-label"> {{ sgRoute().name }} </span>
+            </label>
         </div>
         <div class="p-t-2">
             <app-grade
-                [difficulty]="route().difficulty"
-                [gradingSystemId]="route().defaultGradingSystem?.id"
+                [difficulty]="sgRoute().difficulty"
+                [gradingSystemId]="sgRoute().defaultGradingSystem?.id"
                 [showModifier]="true"
                 [disabled]="true"
             ></app-grade>
         </div>
-        @if (route.length) {
-            <div class="p-t-2">{{ route.length }}m</div>
+        @if (sgRoute().length) {
+            <div class="p-t-2">{{ sgRoute().length }}m</div>
         }
     </div>
     <ng-content />

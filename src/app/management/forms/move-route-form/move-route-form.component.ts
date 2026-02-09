@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -24,13 +24,15 @@ export interface MoveRouteFormComponentData {
     styleUrls: ['./move-route-form.component.scss'],
     imports: [
         MatDialogActions,
+        MatDialogModule,
         FormsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatButtonModule,
         MatSelectModule,
         MatRadioModule,
-        GradeComponent
+        GradeComponent,
+        MatDialogContent
     ]
 })
 export class MoveRouteFormComponent implements OnInit, OnDestroy {
